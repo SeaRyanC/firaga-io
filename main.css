@@ -1,0 +1,162 @@
+body {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+details {
+    cursor: default;
+}
+
+details summary {
+    font-size: 120%;
+}
+
+div.options-group {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0.6em;
+    border: solid #ddd 1px;
+    height: 8em;
+}
+
+div.options-group span, div.options-group label {
+    display: block;
+}
+
+div.options-group .header {
+    font-size: 110%;
+    width: 100%;
+    text-align: center;
+}
+
+span#legend {
+    display: inline-block;
+    vertical-align: top;
+}
+
+svg {
+    max-height: 600px;
+    max-width: 70%;
+}
+
+body {
+    text-align: center;
+    background: #777;
+}
+
+div.main {
+    background: white;
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    text-align: left;
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+div.main-row {
+    position: relative;
+    min-width: 50vw;
+    border: solid #444 1px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 0.2em;
+}
+
+div.main-row div.header {
+    font-size: 120%;
+    font-weight: bold;
+    margin-left: 1em;
+}
+
+th.top-header {
+    text-align: center;
+}
+
+td.legend-symbol {
+    padding-left: 4px;
+    padding-right: 4px;
+    font-family: 'Lucida Sans', Courier, monospace;
+    font-weight: bold;
+    text-align: center;
+}
+
+td.color-code {
+    font-family: 'Lucida Sans', Courier, monospace;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+td.part-count {
+    font-family: 'Lucida Sans', Courier, monospace;
+    text-align: right;
+}
+
+table.part-list {
+    margin-left: 1em;
+}
+
+table.part-list, td {
+    border: solid #EEE 1px;
+    border-collapse: collapse;
+}
+
+/* Make this fixed-width so it doesn't jostle the display
+ * when the color names change
+ */
+td .colorName {
+    width: 7em;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 4px;
+}
+
+div#gallery {
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    position: absolute;
+    float: right;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 14vw;
+    background: white;
+    border-left: solid black 3px;
+}
+
+@media(max-width: 1199px) {
+    div#gallery {
+        display: none;
+    }
+}
+
+div.gallery-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+div.gallery-entry {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 12px;
+    margin-right: 12px;
+}
+
+div.gallery-entry img {
+    cursor: pointer;
+    image-rendering: pixelated;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    background: grey;
+    border: solid grey 3px;
+    filter: drop-shadow(4px 4px 6px);
+    margin: 0px;
+    padding: 0px;
+}

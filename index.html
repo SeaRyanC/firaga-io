@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Sprit</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+
+<body>
+    <div class="main">
+        <div id="plan-settings-row" class="main-row">
+
+            <details open>
+                <summary>Plan Settings</summary>
+                <div id="plan-settings"></div>
+            </details>
+        </div>
+
+        <div id="plan-row" class="main-row">
+            <details open>
+                <summary>Plan</summary>
+                <div id="plan-display">
+                    <svg id="plan" xmlns="http://www.w3.org/2000/svg">
+                        <style>
+                            line.gridmajor {
+                                stroke-width: 2px;
+                                stroke: rgba(0, 0, 0, 0.5);
+                            }
+
+                            line.gridminor {
+                                stroke-width: 1px;
+                                stroke: rgba(0, 0, 0, 0.2);
+                            }
+
+                            text {
+                                font-family: 'Courier New', Courier, monospace;
+                                font-weight: bold;
+                                font-size: 31px;
+                                fill: black;
+                            }
+
+                            use.dark text,
+                            text.dark {
+                                fill: white;
+                            }
+
+                            use.light text,
+                            text.light {
+                                fill: black;
+                            }
+                        </style>
+                        <defs>
+                            <rect id="melted" width="32" height="32" rx="7" ry="7"></rect>
+                            <rect id="square" width="32" height="32"></rect>
+                            <rect id="circle" width="32" height="32" rx="16" ry="16"></rect>
+                            <pattern id="wood" patternUnits="userSpaceOnUse" width="400" height="400">
+                                <image href="https://upload.wikimedia.org/wikipedia/commons/5/50/Mahag%C3%B3ni_001.jpg"
+                                    x="0" y="0" width="400" height="400" />
+                            </pattern>
+                        </defs>
+                        <rect id="plan-background" width="100%" height="100%" fill="grey" />
+                        <g id="layer-colors"></g>
+                        <g id="layer-grid"></g>
+                        <g id="layer-text"></g>
+                        <g id="layer-refobj"></g>
+                    </svg>
+                    <span id="legend"></span>
+                </div>
+            </details>
+        </div>
+
+        <div id="display-settings-row" class="main-row">
+            <div class="header">Display Settings</div>
+            <div id="display-settings"></div>
+        </div>
+
+        <div id="download-row" class="main-row">
+            <div class="header">Download</div>
+            <div id="download"></div>
+        </div>
+    </div>
+
+    <div id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-list">
+            <div class="gallery-entry"><img src="gallery/mario-cape.png" /></div>
+            <div class="gallery-entry"><img src="gallery/squirtle.png" /></div>
+            <div class="gallery-entry"><img src="gallery/megaman_x.png" /></div>
+            <div class="gallery-entry"><img src="gallery/link.png" /></div>
+            <div class="gallery-entry"><img src="gallery/crono.png" /></div>
+            <div class="gallery-entry"><img src="gallery/ghost.png" /></div>
+            <div class="gallery-entry"><img src="gallery/sonic.png" /></div>
+            <div class="gallery-entry"><img src="gallery/mario-3.png" /></div>
+            <div class="gallery-entry"><img src="gallery/kirby.png" /></div>
+            <div class="gallery-entry"><img src="gallery/ken.png" /></div>
+            <div class="gallery-entry"><img src="gallery/link-nes.png" /></div>
+            <div class="gallery-entry"><img src="gallery/gannon.png" /></div>
+            <div class="gallery-entry"><img src="gallery/mario-1.png" /></div>
+            <div class="gallery-entry"><img src="gallery/mew.png" /></div>
+            <div class="gallery-entry"><img src="gallery/mushroom.png" /></div>
+            <div class="gallery-entry"><img src="gallery/brachiosaur.png" /></div>
+        </div>
+    </div>
+
+    <div style="display: none;" id="gallery-preload">
+        <img id="gallery-0" src="gallery/mario.png" />
+    </div>
+
+    <script src='sprit.js' defer></script>
+</body>
+</html>
