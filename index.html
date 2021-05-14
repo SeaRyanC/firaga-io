@@ -73,42 +73,40 @@
         </div>
 
         <div id="display-settings-row" class="main-row">
-            <div class="header">Display Settings</div>
-            <div id="display-settings"></div>
+            <details open>
+                <summary>Display Settings</summary>
+                <div id="display-settings"></div>
+            </details>
         </div>
 
-        <div id="download-row" class="main-row">
-            <div class="header">Download</div>
-            <div id="download"></div>
+        <div id="print-row" class="main-row">
+            <details open>
+                <summary>Printable Plans</summary>
+                <div id="print-settings"></div>
+            </details>
         </div>
     </div>
 
     <div id="gallery">
+        <h2>Pick Image</h2>
+        <form id="upload-form">
+            <div id="drop-target"> <label for="upload-image-button" style="display: inline"
+                    class="download-button-label">Upload</label>
+                <input style="display: none;" type="file" accept="image/png, image/jpeg" id="upload-image-button"
+                    value="Choose..." onchange="this.form.submit()"></input>, Paste, or Drag & Drop here
+            </div>
+        </form>
+
         <h2>Gallery</h2>
-        <div class="gallery-list">
-            <div class="gallery-entry"><img src="gallery/mario-cape.png" /></div>
-            <div class="gallery-entry"><img src="gallery/squirtle.png" /></div>
-            <div class="gallery-entry"><img src="gallery/megaman_x.png" /></div>
-            <div class="gallery-entry"><img src="gallery/link.png" /></div>
-            <div class="gallery-entry"><img src="gallery/crono.png" /></div>
-            <div class="gallery-entry"><img src="gallery/ghost.png" /></div>
-            <div class="gallery-entry"><img src="gallery/sonic.png" /></div>
-            <div class="gallery-entry"><img src="gallery/mario-3.png" /></div>
-            <div class="gallery-entry"><img src="gallery/kirby.png" /></div>
-            <div class="gallery-entry"><img src="gallery/ken.png" /></div>
-            <div class="gallery-entry"><img src="gallery/link-nes.png" /></div>
-            <div class="gallery-entry"><img src="gallery/gannon.png" /></div>
-            <div class="gallery-entry"><img src="gallery/mario-1.png" /></div>
-            <div class="gallery-entry"><img src="gallery/mew.png" /></div>
-            <div class="gallery-entry"><img src="gallery/mushroom.png" /></div>
-            <div class="gallery-entry"><img src="gallery/brachiosaur.png" /></div>
+        <div id="gallery-list" class="gallery-list-container">
+        </div>
+        <div class="about">
+            <a href="https://github.com/SeaRyanC/sprit"><img
+                    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="40"
+                    height="40"></a>
         </div>
     </div>
-
-    <div style="display: none;" id="gallery-preload">
-        <img id="gallery-0" src="gallery/mario.png" />
-    </div>
-
     <script src='sprit.js' defer></script>
 </body>
+
 </html>

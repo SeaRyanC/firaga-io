@@ -86,16 +86,28 @@ td.color-code {
     padding-right: 4px;
 }
 
+td.stat-label {
+    padding: 3px;
+    font-weight: bold;
+    text-align: right;
+}
+
+td.stat-value {
+    padding: 3px;
+    font-family: 'Lucida Sans', Courier, monospace;
+    font-size: 90%;
+}
+
 td.part-count {
     font-family: 'Lucida Sans', Courier, monospace;
     text-align: right;
 }
 
-table.part-list {
+table {
     margin-left: 1em;
 }
 
-table.part-list, td {
+table, td {
     border: solid #EEE 1px;
     border-collapse: collapse;
 }
@@ -113,32 +125,29 @@ td .colorName {
 }
 
 div#gallery {
+    position: relative;
     height: 100vh;
     text-align: center;
     overflow: hidden;
     position: absolute;
-    float: right;
     top: 0px;
     bottom: 0px;
-    right: 0px;
+    right: leftpx;
     width: 14vw;
     background: white;
     border-left: solid black 3px;
 }
 
-@media(max-width: 1199px) {
-    div#gallery {
-        display: none;
-    }
-}
-
 div.gallery-list {
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
     padding-left: 1em;
     padding-right: 1em;
+    max-height: 70vh;
 }
 
 div.gallery-entry {
@@ -159,4 +168,45 @@ div.gallery-entry img {
     filter: drop-shadow(4px 4px 6px);
     margin: 0px;
     padding: 0px;
+}
+
+div.gallery-delete {
+    opacity: 0;
+}
+
+div.gallery-delete:hover {
+    opacity: 1;
+}
+
+div.about {
+    position: absolute;
+    bottom: 1em;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+}
+
+div#drop-target {
+    display: inline-block;
+    text-align: center;
+    padding-top: 1.5em;
+    width: 80%;
+    height: 6em;
+    background: #CCC;
+    border: dashed 1px black;
+}
+
+label.download-button-label {
+    padding: 3px;
+    margin-left: 5px;
+    border: groove 2px;
+    border-radius: 6px;
+    background: #AAA;
+    white-space: nowrap;
+    filter: drop-shadow(1px 1px 2px);
+}
+
+a.extern:after {
+  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  margin: 0 3px 0 5px;
 }
