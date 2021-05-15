@@ -1,0 +1,300 @@
+{
+  "inputs": {
+    "color-data.ts": {
+      "bytes": 9333,
+      "imports": []
+    },
+    "node_modules/preact/dist/preact.module.js": {
+      "bytes": 10097,
+      "imports": []
+    },
+    "node_modules/color-diff/lib/diff.js": {
+      "bytes": 5330,
+      "imports": []
+    },
+    "node_modules/color-diff/lib/convert.js": {
+      "bytes": 4956,
+      "imports": []
+    },
+    "node_modules/color-diff/lib/palette.js": {
+      "bytes": 5946,
+      "imports": [
+        {
+          "path": "node_modules/color-diff/lib/diff.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/color-diff/lib/convert.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/color-diff/lib/index.js": {
+      "bytes": 1312,
+      "imports": [
+        {
+          "path": "node_modules/color-diff/lib/diff.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/color-diff/lib/convert.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/color-diff/lib/palette.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "utils.tsx": {
+      "bytes": 5307,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/color-diff/lib/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "display-settings.tsx": {
+      "bytes": 2556,
+      "imports": [
+        {
+          "path": "utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "download-bar.tsx": {
+      "bytes": 3168,
+      "imports": [
+        {
+          "path": "utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "gallery.tsx": {
+      "bytes": 1002,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/color-name/index.js": {
+      "bytes": 4617,
+      "imports": []
+    },
+    "node_modules/color-convert/conversions.js": {
+      "bytes": 17040,
+      "imports": [
+        {
+          "path": "node_modules/color-name/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/color-convert/route.js": {
+      "bytes": 2257,
+      "imports": [
+        {
+          "path": "node_modules/color-convert/conversions.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/color-convert/index.js": {
+      "bytes": 1708,
+      "imports": [
+        {
+          "path": "node_modules/color-convert/conversions.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/color-convert/route.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "image-utils.tsx": {
+      "bytes": 4624,
+      "imports": [
+        {
+          "path": "node_modules/color-convert/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "palettizer.ts": {
+      "bytes": 3712,
+      "imports": [
+        {
+          "path": "utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/color-diff/lib/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "pdf-generator.ts": {
+      "bytes": 8957,
+      "imports": [
+        {
+          "path": "utils.tsx",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "plan-settings.tsx": {
+      "bytes": 3254,
+      "imports": [
+        {
+          "path": "utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/file-saver/dist/FileSaver.min.js": {
+      "bytes": 2749,
+      "imports": []
+    },
+    "firaga.tsx": {
+      "bytes": 22905,
+      "imports": [
+        {
+          "path": "color-data.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "display-settings.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "download-bar.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "gallery.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "image-utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "palettizer.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "pdf-generator.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "plan-settings.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/file-saver/dist/FileSaver.min.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "firaga.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "firaga.tsx",
+      "inputs": {
+        "node_modules/preact/dist/preact.module.js": {
+          "bytesInOutput": 10177
+        },
+        "node_modules/color-diff/lib/diff.js": {
+          "bytesInOutput": 1192
+        },
+        "node_modules/color-diff/lib/convert.js": {
+          "bytesInOutput": 968
+        },
+        "node_modules/color-diff/lib/palette.js": {
+          "bytesInOutput": 995
+        },
+        "node_modules/color-diff/lib/index.js": {
+          "bytesInOutput": 776
+        },
+        "node_modules/color-name/index.js": {
+          "bytesInOutput": 3441
+        },
+        "node_modules/color-convert/conversions.js": {
+          "bytesInOutput": 8465
+        },
+        "node_modules/color-convert/route.js": {
+          "bytesInOutput": 753
+        },
+        "node_modules/color-convert/index.js": {
+          "bytesInOutput": 686
+        },
+        "node_modules/file-saver/dist/FileSaver.min.js": {
+          "bytesInOutput": 2698
+        },
+        "color-data.ts": {
+          "bytesInOutput": 9140
+        },
+        "utils.tsx": {
+          "bytesInOutput": 1007
+        },
+        "display-settings.tsx": {
+          "bytesInOutput": 1282
+        },
+        "download-bar.tsx": {
+          "bytesInOutput": 1672
+        },
+        "gallery.tsx": {
+          "bytesInOutput": 441
+        },
+        "image-utils.tsx": {
+          "bytesInOutput": 1625
+        },
+        "palettizer.ts": {
+          "bytesInOutput": 1128
+        },
+        "pdf-generator.ts": {
+          "bytesInOutput": 2945
+        },
+        "plan-settings.tsx": {
+          "bytesInOutput": 1895
+        },
+        "firaga.tsx": {
+          "bytesInOutput": 8815
+        }
+      },
+      "bytes": 61959
+    }
+  }
+}

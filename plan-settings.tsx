@@ -1,4 +1,4 @@
-import React = require('react');
+import preact = require('preact');
 import { radioGroup, RadioSettings } from "./utils";
 
 export interface PlanSettings extends RadioSettings<typeof PlanSettings> {
@@ -60,14 +60,14 @@ export function createPlannerSettingsComponent(firedChanged: () => void) {
 
             <div className="options-group">
                 <span className="header">Adjustments</span>
-                <label><input type="range" onChange={changed} min="-10" max="10" defaultValue="0" step="1" name="brightness" />Brightness</label>
-                <label><input type="range" onChange={changed} min="-10" max="10" defaultValue="0" step="1" name="contrast" />Contrast</label>
-                <label><input type="range" onChange={changed} min="-10" max="10" defaultValue="0" step="1" name="saturation" />Saturation</label>
+                <label><input type="range" onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="brightness" />Brightness</label>
+                <label><input type="range" onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="contrast" />Contrast</label>
+                <label><input type="range" onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="saturation" />Saturation</label>
             </div>
 
             <div className="options-group">
                 <span className="header">Color Matching</span>
-                <label><input type="radio" onChange={changed} name="colormatch" value="CIEDE2000" defaultChecked />CIEDE200</label>
+                <label><input type="radio" onChange={changed} name="colormatch" value="CIEDE2000" defaultChecked={true} />CIEDE200</label>
                 <label><input type="radio" onChange={changed} name="colormatch" value="rgb" />RGB</label>
                 <label><input type="checkbox" onChange={changed} name="nodupes" />No Duplicates</label>
             </div>

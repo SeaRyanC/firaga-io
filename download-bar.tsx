@@ -1,4 +1,4 @@
-import React = require('react');
+import preact = require('preact');
 import { radioGroup, RadioSettings } from './utils';
 
 export interface PrintOptions extends RadioSettings<typeof PrinterSettings> {

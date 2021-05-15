@@ -1,4 +1,4 @@
-import React = require('react');
+import preact = require('preact');
 import { radioGroup, RadioSettings } from "./utils";
 
 const DisplaySettings = {

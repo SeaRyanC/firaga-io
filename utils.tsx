@@ -1,4 +1,4 @@
-import React = require('react');
+import preact = require('preact');
 import diff = require('color-diff');
 import { PalettizedImage, RgbaImage } from './types';
 import { PlanSettings } from './plan-settings';

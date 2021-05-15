@@ -1,4 +1,4 @@
-import React = require('react');
+import preact = require('preact');
 
 type GalleryProps = {
     load: (name: string) => void,

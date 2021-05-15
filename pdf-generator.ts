@@ -3,6 +3,8 @@ import { PlanSettings } from "./plan-settings";
 import { PartListImage } from "./firaga";
 import { carve, colorEntryToHex, getPitch, hx, symbolAlphabet } from "./utils";
 
+declare const jspdf: typeof import("jspdf");
+
 function correctionToNumber(n: PrintOptions["correction"]) {
     switch (n) {
         case "1": return 1;
@@ -12,8 +14,25 @@ function correctionToNumber(n: PrintOptions["correction"]) {
 }
 
 export async function makePdf(image: PartListImage, planSettings: PlanSettings, printOptions: PrintOptions) {
+    const tagName = "pdf-script-tag";
+    // Load PDF.js from CDN if it's not already loaded
+    const scriptEl = document.getElementById(tagName);
+    if (scriptEl === null) {
+        const tag = document.createElement("script");
+        tag.id = tagName;
+        tag.onload = () => {
+            makePdfWorker(image, planSettings, printOptions);
+        };
+        tag.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js";
+        document.head.appendChild(tag);
+    } else {
+        await makePdfWorker(image, planSettings, printOptions);
+    }
+}
+
+function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOptions: PrintOptions) {
     let pitch = getPitch(planSettings.size);
-    // Correction for my shitty printer?
+    // Correction for bad printers
     pitch = pitch * correctionToNumber(printOptions.correction);
     const carveSize = printOptions.carveSize === "none" ? [image.width, image.height] : [50, 50] as const;
 
@@ -69,8 +88,7 @@ export async function makePdf(image: PartListImage, planSettings: PlanSettings, 
     };
 
     // New PDF
-    const jspdfMod = await import("jspdf");
-    const doc = new jspdfMod.jsPDF({
+    const doc = new jspdf.jsPDF({
         unit: "mm",
         format: [pageWidth, pageHeight],
         orientation

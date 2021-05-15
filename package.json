@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx esbuild --bundle firaga.tsx --outfile=firaga.js --external:jspdf"
+    "build-dev": "npx esbuild --bundle firaga.tsx --outfile=firaga.js --external:jspdf --jsx-factory=preact.h --jsx-fragment=preact.Fragment --metafile=meta.json",
+    "build-prod": "npx esbuild --bundle firaga.tsx --outfile=firaga.js --external:jspdf --jsx-factory=preact.h --jsx-fragment=preact.Fragment --minify --metafile=meta.json"
   },
   "author": "",
   "license": "Apache-2.0",
@@ -15,6 +16,7 @@
     "file-saver": "^2.0.5",
     "hsv-rgb": "^1.0.0",
     "jspdf": "^2.3.1",
+    "preact": "^10.5.13",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rgb-hsv": "^1.0.0"

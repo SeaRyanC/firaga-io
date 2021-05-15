@@ -1,6 +1,5 @@
 import saver = require('file-saver');
-import React = require('react');
-import ReactDOM = require('react-dom');
+import preact = require('preact');
 import { rawColorData } from "./color-data";
 import { createDisplaySettingsComponent, DisplaySettings } from "./display-settings";
 import { createDownloadBar, PrintOptions } from './download-bar';
@@ -58,13 +57,13 @@ function app() {
     let last: ReturnType<typeof renderWorker> = null!;
 
     const planSettingsComp = createPlannerSettingsComponent(render);
-    ReactDOM.render(planSettingsComp.component(), document.getElementById("plan-settings") as HTMLDivElement);
+    preact.render(planSettingsComp.component(), document.getElementById("plan-settings") as HTMLDivElement)
 
     const displaySettingsComp = createDisplaySettingsComponent(render);
-    ReactDOM.render(displaySettingsComp.component(), document.getElementById("display-settings") as HTMLDivElement);
+    preact.render(displaySettingsComp.component(), document.getElementById("display-settings") as HTMLDivElement);
 
     const downloadBar = createDownloadBar(download);
-    ReactDOM.render(downloadBar.component(), document.getElementById("print-settings") as HTMLDivElement);
+    preact.render(downloadBar.component(), document.getElementById("print-settings") as HTMLDivElement);
 
     const gallery: string[] = [...predefinedGallery];
     for (let i = 0; i < 100; i++) {
@@ -159,7 +158,7 @@ function app() {
     }
 
     function renderGallery() {
-        ReactDOM.render(<Gallery
+        preact.render(<Gallery
             gallery={gallery}
             load={name => {
                 const gi = gallery.indexOf(name);
@@ -171,7 +170,7 @@ function app() {
                 renderGallery();
                 setTimeout(resaveGallery, 50);
             }}
-        />, document.getElementById("gallery-list"));
+        />, document.getElementById("gallery-list")!);
     }
 
     function resaveGallery() {
@@ -364,7 +363,7 @@ function listenForImagePastes(callback: (src: string) => void) {
 }
 
 function showPartList(partList: PartList, stats: { pitch: number, height: number, width: number }) {
-    ReactDOM.render(<>
+    preact.render(<>
         <table className="part-list">
             <thead>
                 <tr>
