@@ -1,8 +1,6 @@
-import jspdf from "jspdf";
 import { PrintOptions } from "./download-bar";
 import { PlanSettings } from "./plan-settings";
-import { PartListImage } from "./sprit";
-import { PalettizedImage } from "./types";
+import { PartListImage } from "./firaga";
 import { carve, colorEntryToHex, getPitch, hx, symbolAlphabet } from "./utils";
 
 function correctionToNumber(n: PrintOptions["correction"]) {
@@ -13,7 +11,7 @@ function correctionToNumber(n: PrintOptions["correction"]) {
     }
 }
 
-export function makePdf(image: PartListImage, planSettings: PlanSettings, printOptions: PrintOptions) {
+export async function makePdf(image: PartListImage, planSettings: PlanSettings, printOptions: PrintOptions) {
     let pitch = getPitch(planSettings.size);
     // Correction for my shitty printer?
     pitch = pitch * correctionToNumber(printOptions.correction);
@@ -71,7 +69,8 @@ export function makePdf(image: PartListImage, planSettings: PlanSettings, printO
     };
 
     // New PDF
-    const doc = new jspdf({
+    const jspdfMod = await import("jspdf");
+    const doc = new jspdfMod.jsPDF({
         unit: "mm",
         format: [pageWidth, pageHeight],
         orientation

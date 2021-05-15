@@ -129,17 +129,17 @@ function app() {
         const imageData = getImageData(myImg);
 
         const { palette, quantized, rgbaArray } = processImage(imageData, planSettings)
-    
+
         const displaySettings = displaySettingsComp.value();
         const pli = createPartListImage(palette, quantized);
         renderPlan(planSvg, pli, planSettings, displaySettings);
-    
+
         showPartList(pli.partList, {
             pitch: getPitch(planSettings.size),
             width: rgbaArray.width,
             height: rgbaArray.height
         });
-    
+
         return {
             palette,
             quantized,
@@ -384,24 +384,28 @@ function showPartList(partList: PartList, stats: { pitch: number, height: number
             </tbody>
         </table>
         <table className="plan-stats">
-            <tr>
-                <th colSpan={4} className="top-header">Statistics</th>
-            </tr>
-            <tr>
-                <td className="stat-label">Width</td>
-                <td className="stat-value">{stats.width.toLocaleString()}px</td>
-                <td className="stat-value">{fmt(stats.width * stats.pitch)}mm</td>
-                <td className="stat-value">{fmt(stats.width * stats.pitch / 25.4)}"</td>
-            </tr>
-            <tr>
-                <td className="stat-label">Height</td>
-                <td className="stat-value">{stats.height.toLocaleString()}px</td>
-                <td className="stat-value">{fmt(stats.height * stats.pitch)}mm</td>
-                <td className="stat-value">{fmt(stats.height * stats.pitch / 25.4)}"</td>
-            </tr>
-            <tr>
-                <td className="stat-label">Pixels</td><td colSpan={4} className="stat-value">{partList.reduce((a, b) => a + b.count, 0).toLocaleString()}</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th colSpan={4} className="top-header">Statistics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td className="stat-label">Width</td>
+                    <td className="stat-value">{stats.width.toLocaleString()}px</td>
+                    <td className="stat-value">{fmt(stats.width * stats.pitch)}mm</td>
+                    <td className="stat-value">{fmt(stats.width * stats.pitch / 25.4)}"</td>
+                </tr>
+                <tr>
+                    <td className="stat-label">Height</td>
+                    <td className="stat-value">{stats.height.toLocaleString()}px</td>
+                    <td className="stat-value">{fmt(stats.height * stats.pitch)}mm</td>
+                    <td className="stat-value">{fmt(stats.height * stats.pitch / 25.4)}"</td>
+                </tr>
+                <tr>
+                    <td className="stat-label">Pixels</td><td colSpan={4} className="stat-value">{partList.reduce((a, b) => a + b.count, 0).toLocaleString()}</td>
+                </tr>
+            </tbody>
         </table>
     </>, document.getElementById("legend")!);
 
