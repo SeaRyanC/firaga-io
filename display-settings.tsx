@@ -23,12 +23,14 @@ const DisplaySettings = {
         ["transparent", "Transparent"],
         ["url(#wood)", "Wood"]
     ],
+    /*
     shaping: [
         ["melted", "Melted"],
         ["square", "Square"],
         ["circle", "Circle"],
         ["none", "None"]
     ],
+    */
     refobj: [
         ["none", "None"],
         ["quarter", "Quarter"],
@@ -61,11 +63,6 @@ export function createDisplaySettingsComponent(onChange: () => void) {
             <div className="options-group">
                 <span className="header">Legend</span>
                 {radioGroup("planStyle", changed, "symbolspans", DisplaySettings)}
-            </div>
-
-            <div className="options-group">
-                <span className="header">Shape</span>
-                {radioGroup("shaping", changed, "melted", DisplaySettings)}
             </div>
 
             <div className="options-group">

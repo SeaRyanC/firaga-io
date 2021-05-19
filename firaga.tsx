@@ -6,7 +6,7 @@ import { createDownloadBar, PrintOptions } from './download-bar';
 import { Gallery } from "./gallery";
 import { applyImageAdjustments, applyTransparencyAndCrop, getCornerTransparency, getImageData, imageDataToRgbaArray, inferTransparencyValue } from "./image-utils";
 import { makePalette, palettize } from "./palettizer";
-import { makePdf } from './pdf-generator';
+import { makePdf, makeTestSheet } from './pdf-generator';
 import { createPlannerSettingsComponent, PlanSettings } from "./plan-settings";
 import { InputColorsToObjectColors as ColorAssignments, ObjectColor, PalettizedImage } from "./types";
 import { colorEntryToHex, colorEntryToHtml, getPitch, isBright, symbolAlphabet, timer } from "./utils";
@@ -115,8 +115,19 @@ function app() {
         }, false);
     }
 
-    function download(opts: PrintOptions) {
-        makePdf(last.partListImage, last.planSettings, opts);
+    function download(name: string, opts: PrintOptions) {
+        switch(name) {
+            case "calibration":
+                makeTestSheet();
+                break;
+
+            case "pdf":
+                makePdf(last.partListImage, last.planSettings, opts);
+                break;
+
+            default:
+                throw new Error(name);
+        }
     }
 
     function render() {
@@ -434,23 +445,46 @@ function renderPlan(svg: SVGElement, image: PartListImage, planSettings: PlanSet
     const isBackgroundDark = displaySettings.background === "#000" || displaySettings.background === "#555";
 
     // Color Cells
-    if (displaySettings.shaping !== "none") {
+    // Group per color
+    for (let i = 0; i < image.partList.length; i++) {
+        const parts: string[] = [];
         for (let y = 0; y < image.height; y++) {
             for (let x = 0; x < image.width; x++) {
-                const r = document.createElementNS(svgns, "use");
-                r.setAttribute("href", "#" + displaySettings.shaping);
-                r.setAttribute("x", x * 32);
-                r.setAttribute("y", y * 32);
-                const pixel = image.pixels[y][x];
-                if (pixel === undefined) {
-                    r.setAttribute("fill", "transparent");
-                } else {
-                    r.setAttribute("fill", colorEntryToHtml(pixel.target));
+                if (image.pixels[y][x] === image.partList[i]) {
+                    parts.push(`M ${x * 32} ${y * 32} l 32 0 l 0 32 l -32 0 l 0 -32 z`);
                 }
-                colorLayer.appendChild(r);
             }
         }
+        const r = document.createElementNS(svgns, "path");
+        r.setAttribute("d", parts.join(" "));
+        r.setAttribute("fill", colorEntryToHtml(image.partList[i].target));
+        r.setAttribute("stroke-width", "1px");
+        r.addEventListener("mouseenter", () => console.log(image.partList[i].target.name));
+        r.addEventListener("mouseenter", () => {
+            r.setAttribute("stroke", "white");
+        });
+        r.addEventListener("mouseleave", () => {
+            r.setAttribute("stroke", "");
+        });
+        colorLayer.appendChild(r);
     }
+    /** old algorithm
+    for (let y = 0; y < image.height; y++) {
+        for (let x = 0; x < image.width; x++) {
+            const r = document.createElementNS(svgns, "use");
+            r.setAttribute("href", "#" + displaySettings.shaping);
+            r.setAttribute("x", x * 32);
+            r.setAttribute("y", y * 32);
+            const pixel = image.pixels[y][x];
+            if (pixel === undefined) {
+                r.setAttribute("fill", "transparent");
+            } else {
+                r.setAttribute("fill", colorEntryToHtml(pixel.target));
+            }
+            colorLayer.appendChild(r);
+        }
+    }
+    */
 
     // Symbols
     if (displaySettings.planStyle === "symbols") {
@@ -464,14 +498,10 @@ function renderPlan(svg: SVGElement, image: PartListImage, planSettings: PlanSet
                 t.setAttribute("x", (x + 0.5) * 32);
                 t.setAttribute("y", (y + 0.8) * 32);
                 t.setAttribute("text-anchor", "middle");
-                if (displaySettings.shaping === "none") {
-                    t.setAttribute("class", isBackgroundDark ? "dark" : "bright");
+                if (isBright(px.target)) {
+                    t.setAttribute("class", "bright");
                 } else {
-                    if (isBright(px.target)) {
-                        t.setAttribute("class", "bright");
-                    } else {
-                        t.setAttribute("class", "dark");
-                    }
+                    t.setAttribute("class", "dark");
                 }
                 textLayer.appendChild(t);
             }
@@ -524,14 +554,10 @@ function renderPlan(svg: SVGElement, image: PartListImage, planSettings: PlanSet
             t.setAttribute("x", ((endX - runCount / 2) * 32).toString());
             t.setAttribute("y", ((y + 0.8) * 32).toString());
             t.setAttribute("text-anchor", "middle");
-            if (displaySettings.shaping === "none") {
-                t.setAttribute("class", isBackgroundDark ? "dark" : "bright");
+            if (px === undefined ? !isBackgroundDark : isBright(px.target)) {
+                t.setAttribute("class", "bright");
             } else {
-                if (px === undefined || isBright(px.target)) {
-                    t.setAttribute("class", "bright");
-                } else {
-                    t.setAttribute("class", "dark");
-                }
+                t.setAttribute("class", "dark");
             }
             textLayer.appendChild(t);
         }

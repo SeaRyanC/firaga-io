@@ -22,7 +22,7 @@ export const PrinterSettings = {
     ],
     correction: [
         ["1", "None"],
-        ["100/96", "100/96"]
+        ["1.04166667", "104.2%"]
     ],
     carveSize: [
         ["none", "None"],
@@ -30,7 +30,7 @@ export const PrinterSettings = {
     ]
 } as const;
 
-export function createDownloadBar(onRequest: (settings: PrintOptions) => void) {
+export function createDownloadBar(onRequest: (name: string, settings: PrintOptions) => void) {
     return ({
         component
     });
@@ -38,7 +38,7 @@ export function createDownloadBar(onRequest: (settings: PrintOptions) => void) {
     function download(s: string) {
         return function (e: any) {
             e.preventDefault();
-            onRequest(value());
+            onRequest(s, value());
         }
     }
 
@@ -68,7 +68,7 @@ export function createDownloadBar(onRequest: (settings: PrintOptions) => void) {
 
             <div className="options-group">
                 <span className="header">Color</span>
-                {radioGroup("color", changed, "bw-min", PrinterSettings)}
+                {radioGroup("color", changed, "bw-max", PrinterSettings)}
             </div>
 
             <div className="options-group">
@@ -78,18 +78,18 @@ export function createDownloadBar(onRequest: (settings: PrintOptions) => void) {
 
             <div className="options-group">
                 <span className="header">Scale Correction</span>
-                {radioGroup("correction", changed, "100/96", PrinterSettings)}
+                {radioGroup("correction", changed, "1.04166667", PrinterSettings)}
             </div>
 
             <div className="options-group">
-                <span className="header">Carve</span>
+                <span className="header">Segmenting</span>
                 {radioGroup("carveSize", changed, "none", PrinterSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Printable Underlay</span>
-                <label><input type="checkbox" id="dpi-correct" />Correct for 100/96 DPI</label>
                 <label><a href="#" onClick={download("pdf")}>Get PDF</a></label>
+                <label><a href="#" onClick={download("calibration")}>Get Calibration Sheet</a></label>
             </div>
         </form>;
     }

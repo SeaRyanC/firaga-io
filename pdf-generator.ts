@@ -6,14 +6,14 @@ import { carve, colorEntryToHex, getPitch, hx, symbolAlphabet } from "./utils";
 declare const jspdf: typeof import("jspdf");
 
 function correctionToNumber(n: PrintOptions["correction"]) {
-    switch (n) {
-        case "1": return 1;
-        case "100/96": return 100 / 96;
-        default: throw new Error(n);
-    }
+    return +n;
 }
 
 export async function makePdf(image: PartListImage, planSettings: PlanSettings, printOptions: PrintOptions) {
+    loadPdfAnd(() => makePdfWorker(image, planSettings, printOptions));
+}
+
+async function loadPdfAnd(func: () => void) {
     const tagName = "pdf-script-tag";
     // Load PDF.js from CDN if it's not already loaded
     const scriptEl = document.getElementById(tagName);
@@ -21,13 +21,56 @@ export async function makePdf(image: PartListImage, planSettings: PlanSettings, 
         const tag = document.createElement("script");
         tag.id = tagName;
         tag.onload = () => {
-            makePdfWorker(image, planSettings, printOptions);
+            func();
         };
         tag.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js";
         document.head.appendChild(tag);
     } else {
-        await makePdfWorker(image, planSettings, printOptions);
+        func();
     }
+}
+
+export function makeTestSheet() {
+    loadPdfAnd(() => {
+        const marginX = 30;
+        const marginY = 30;
+
+        const doc = new jspdf.jsPDF({
+            unit: "mm",
+            format: [200, 200]
+        });
+        const text =
+            `firaga.io Printer Test Sheet
+
+Print this page at 100% scale and check it with a ruler`;
+        doc.text(text, marginX, marginY, { maxWidth: 200 - marginX * 2 });
+
+        doc.setFontSize(12);
+
+        let y = 20 + marginY;
+
+        calib(0, "Metric")
+        calib(100, "If this line is exactly 100mm, you have correct calibration");
+        calib(100 * 100 / 96, "If this line is exactly 100mm, set your printer scale to 104.2%");
+        calib(96, "If this line is exactly 100mm, set your printer scale to 96%");
+
+        calib(0, "Imperial")
+        calib(25.4 * 5, "If this line is exactly 5 inches, you have correct calibration");
+        calib(25.4 * 5 * 100 / 96, "If this line is exactly 5 inches, set your printer scale to 104.2%");
+        calib(25.4 * 5 * 96 / 100, "If this line is exactly 5 inches, set your printer scale to 96%");
+
+        function calib(length: number, text: string) {
+            doc.setFontSize(length === 0 ? 14 : 12);
+            doc.text(text, marginX, y, { baseline: "top", maxWidth: 200 - marginX * 2 });
+            if (length !== 0) {
+                doc.line(marginX, y + 6, marginX + length, y + 6);
+            }
+
+            y += 14;
+        }
+
+        doc.save("plan.pdf");
+    });
 }
 
 function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOptions: PrintOptions) {
@@ -48,55 +91,59 @@ function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOp
     };
 
     // Space between adjacent grids
-    const gridMargin = 4;
+    const minimumGridMargin = 2;
 
-    const textHeight = 2;
+    const textHeight = 4;
     const gridSize = {
         width: pitch * Math.min(image.width, carveSize[0]),
         height: pitch * Math.min(image.height, carveSize[1])
     };
 
-    // Actual padded size of a cell
+    // Actual size of a cell
     const cellSize = {
-        width: gridSize.width + gridMargin * 2,
-        height: gridSize.height + textHeight + gridMargin * 2
+        width: gridSize.width,
+        height: gridSize.height + textHeight
     };
 
-    // TODO: Refactor this so that cells which would fit better
-    // if the whole thing was rotated cause the page orientation to change
-    let pageWidth: number, pageHeight: number;
-    let orientation: "landscape" | "portrait";
-    if (printOptions.paperSize === "letter") {
-        pageWidth = 8.5 * 25.4;
-        pageHeight = 11 * 25.4;
-        orientation = "portrait";
-    } else if (printOptions.paperSize === "A4") {
-        pageWidth = 210;
-        pageHeight = 297;
-        orientation = "portrait";
-    } else if (printOptions.paperSize === "fit") {
-        pageWidth = cellSize.width;
-        pageHeight = cellSize.height;
+    let orientation: "landscape" | "portrait" = "" as any;
+    let paperWidth: number, paperHeight: number;
+    let rows = 1, cols = 1;
+    if (printOptions.paperSize === "fit") {
+        paperWidth = cellSize.width;
+        paperHeight = cellSize.height;
         orientation = cellSize.width > cellSize.height ? "landscape" : "portrait"
+    } else if (printOptions.paperSize === "letter") {
+        paperWidth = 8.5 * 25.4;
+        paperHeight = 11 * 25.4;
+    } else if (printOptions.paperSize === "A4") {
+        paperWidth = 210;
+        paperHeight = 297;
     } else {
         throw new Error(printOptions.paperSize);
     }
 
     const printableAreaSize = {
-        width: pageWidth - pageMargins.left - pageMargins.right,
-        height: pageHeight - pageMargins.bottom - pageMargins.top
+        width: paperWidth - pageMargins.left - pageMargins.right,
+        height: paperHeight - pageMargins.bottom - pageMargins.top
     };
+
+    if (printOptions.paperSize !== "fit") {
+        const layout = getLayout(printableAreaSize.width, printableAreaSize.height, gridSize.width, gridSize.height, image.partList.length, minimumGridMargin);
+        rows = layout.rows;
+        cols = layout.cols;
+        orientation = layout.orientation;
+    }
+
+    const finalWidth = orientation === "landscape" ? printableAreaSize.height : printableAreaSize.width;
+    const finalHeight = orientation === "landscape" ? printableAreaSize.width : printableAreaSize.height;
 
     // New PDF
     const doc = new jspdf.jsPDF({
         unit: "mm",
-        format: [pageWidth, pageHeight],
+        format: [paperWidth, paperHeight],
         orientation
     });
 
-    // Number of cells we can fit on the same page
-    const cols = Math.floor(printableAreaSize.width / cellSize.width);
-    const rows = Math.floor(printableAreaSize.height / cellSize.height);
     let rowCursor = 0, colCursor = -1;
 
     const slices = carve(image.width, image.height, carveSize[0], carveSize[1]);
@@ -124,6 +171,10 @@ function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOp
 
     const ctx = doc.context2d;
 
+    const horizontalGridMargin = (finalWidth - (cols * cellSize.width)) / (cols + 1);
+    const verticalGridMargin = (finalHeight - (rows * cellSize.height)) / (rows + 1);
+    ctx.translate(horizontalGridMargin, verticalGridMargin);
+
     if (printOptions.style === "stepped") {
         // Print each color in order
         for (let i = 0; i < image.partList.length; i++) {
@@ -145,41 +196,95 @@ function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOp
                 nextCellLocation();
 
                 ctx.save();
+
+                // Print the header
                 ctx.font = "4pt Helvetica";
-                ctx.translate(colCursor * cellSize.width + pageMargins.top, rowCursor * cellSize.height + pageMargins.left);
-                ctx.translate(gridMargin, gridMargin);
-                if (slices.length > 1) {
-                    ctx.fillText(`Cell ${symbolAlphabet[si]}: ${image.partList[i].target.code} (${image.partList[i].target.name}) × ${realCount}`, 0, 0);
-                } else {
-                    ctx.fillText(`${image.partList[i].target.code} (${image.partList[i].target.name}) × ${realCount}`, 0, 0);
-                }
+                ctx.translate(colCursor * (cellSize.width + horizontalGridMargin) + pageMargins.top, rowCursor * (cellSize.height + verticalGridMargin) + pageMargins.left);
+                const text = slices.length === 1 ?
+                    `${image.partList[i].target.code} (${image.partList[i].target.name})` :
+                    `Cell ${symbolAlphabet[si]}: ${image.partList[i].target.code} (${image.partList[i].target.name})`
+                ctx.textBaseline = "top";
+                ctx.fillText(text, 0, 0, cellSize.width);
+
+                // Draw the grid outline
                 ctx.translate(0, textHeight);
                 ctx.lineWidth = 0.01;
+                ctx.strokeStyle = "grey";
+                ctx.strokeRect(0, 0, slice.width * pitch, slice.height * pitch);
+
+                // Fill in the own pixels
                 if (printOptions.color === "color") {
                     ctx.fillStyle = colorEntryToHex(image.partList[i].target);
                 } else {
                     ctx.fillStyle = "black";
                 }
-                ctx.strokeStyle = "grey";
-                ctx.strokeRect(0, 0, slice.width * pitch, slice.height * pitch);
-                ctx.font = `${pitch}mm Helvetica`;
+                ctx.beginPath();
                 for (let y = slice.y; y < slice.y + slice.height; y++) {
                     for (let x = slice.x; x < slice.x + slice.width; x++) {
                         if (image.pixels[y][x] === image.partList[i]) {
-                            if (printOptions.color === "bw-min") {
-                                ctx.strokeRect((x - slice.x) * pitch, (y - slice.y) * pitch, pitch, pitch);
-                            } if (printOptions.color === "bw-max") {
-                                ctx.fillRect((x - slice.x) * pitch, (y - slice.y) * pitch, pitch, pitch);
+                            ctx.arc((x - slice.x + 0.5) * pitch, (y - slice.y + 0.5) * pitch, pitch / 2.5, 0, Math.PI * 2, false);
+                        }
+                    }
+                }
+                if (printOptions.color === "bw-min") {
+                    ctx.stroke();
+                } else {
+                    ctx.fill();
+                }
+                ctx.closePath();
+
+                // Prior-fill outlining
+                ctx.beginPath();
+
+                // Compute matrix of prior-fill
+                const prevFill: boolean[][] = [];
+                for (let y = slice.y; y < slice.y + slice.height; y++) {
+                    const row = [];
+                    for (let x = slice.x; x < slice.x + slice.width; x++) {
+                        let prev = false;
+                        for (let j = 0; j < i; j++) {
+                            if (image.pixels[y][x] === image.partList[j]) {
+                                prev = true;
+                                break;
                             }
-                        } else {
-                            for (let j = 0; j < i; j++) {
-                                if (image.pixels[y][x] === image.partList[j]) {
-                                    ctx.fillRect((x - slice.x + 0.4) * pitch, (y - slice.y + 0.4) * pitch, pitch * 0.2, pitch * 0.2);
-                                }
+                        }
+                        row.push(prev);
+                    }
+                    prevFill.push(row);
+                }
+
+                for (let y = slice.y; y < slice.y + slice.height; y++) {
+                    const py = y - slice.y;
+                    for (let x = slice.x; x < slice.x + slice.width; x++) {
+                        const px = x - slice.x;
+                        if (prevFill[py][px]) {
+                            // Above
+                            if (py !== 0 && !prevFill[y - 1][px]) {
+                                ctx.moveTo((px + 0) * pitch, py * pitch);
+                                ctx.lineTo((px + 1) * pitch, py * pitch);
+                            }
+                            // Below
+                            if (py !== prevFill.length - 1 && !prevFill[y + 1][px]) {
+                                ctx.moveTo((px + 0) * pitch, (py + 1) * pitch);
+                                ctx.lineTo((px + 1) * pitch, (py + 1) * pitch);
+                            }
+                            // Left
+                            if (!prevFill[y][px - 1]) {
+                                ctx.moveTo(px * pitch, (py + 0) * pitch);
+                                ctx.lineTo(px * pitch, (py + 1) * pitch);
+                            }
+                            // Right
+                            if (!prevFill[y][px + 1]) {
+                                ctx.moveTo((px + 1) * pitch, (py + 0) * pitch);
+                                ctx.lineTo((px + 1) * pitch, (py + 1) * pitch);
                             }
                         }
                     }
                 }
+
+                ctx.stroke();
+                ctx.closePath();
+
                 ctx.restore();
             }
         }
@@ -206,7 +311,8 @@ function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOp
             }
         }
     }
-    doc.save("plan.pdf");
+    doc.output("dataurlnewwindow");
+    //doc.save("plan.pdf");
 
     function nextCellLocation() {
         colCursor++
@@ -217,6 +323,60 @@ function makePdfWorker(image: PartListImage, planSettings: PlanSettings, printOp
                 doc.addPage();
                 rowCursor = 0;
             }
+        }
+    }
+}
+
+function getLayout(printableWidth: number, printableHeight: number, cellWidth: number, cellHeight: number, cellCount: number, minumumMargin: number) {
+    // Landscape
+    const landscape = {
+        orientation: "landscape",
+        ...tryLayout(printableHeight, printableWidth)
+    } as const;
+
+    // Portrait
+    const portrait = {
+        orientation: "portrait",
+        ...tryLayout(printableWidth, printableHeight)
+    } as const;
+
+    // TODO: Rework this logic to just always return the fewest-pages most-whitespace solution
+    // If both are suitable to 1-page it, use the one with the fewest cells
+    if (portrait.rows * portrait.cols >= cellCount) {
+        if (landscape.rows * landscape.cols >= cellCount) {
+            return (landscape.rows * landscape.cols) < (portrait.rows * portrait.cols) ? landscape : portrait;
+        }
+        return portrait;
+    } 
+    // Else just use whatever packs more cells in
+    return (landscape.rows * landscape.cols) > (portrait.rows * portrait.cols) ? landscape : portrait;
+
+    function tryLayout(pageWidth: number, pageHeight: number) {
+        let rows = Math.floor((pageHeight + minumumMargin) / (cellHeight + minumumMargin));
+        let cols = Math.floor((pageWidth + minumumMargin) / (cellWidth + minumumMargin));
+
+        while (true) {
+            debugger;
+            if (rows > cols) {
+                if (tryDecr(() => rows--)) continue;
+                if (tryDecr(() => cols--)) continue;
+            } else {
+                if (tryDecr(() => cols--)) continue;
+                if (tryDecr(() => rows--)) continue;
+            }
+            break;
+        }
+        return { rows, cols };
+
+        function tryDecr(f: () => void) {
+            let or = rows, oc = cols;
+            f();
+            if (rows * cols < cellCount) {
+                rows = or;
+                cols = oc;
+                return false;
+            }
+            return true;
         }
     }
 }

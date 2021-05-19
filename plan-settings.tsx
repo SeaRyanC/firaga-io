@@ -51,18 +51,15 @@ export function createPlannerSettingsComponent(firedChanged: () => void) {
     function component() {
         return <form id="plan-settings-form">
             <div className="options-group">
-                <img id="myImg" />
-            </div>
-            <div className="options-group">
                 <span className="header">Transparency</span>
                 {radioGroup("transparency", changed, "auto", PlanSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Adjustments</span>
-                <label><input type="range" onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="brightness" />Brightness</label>
-                <label><input type="range" onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="contrast" />Contrast</label>
-                <label><input type="range" onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="saturation" />Saturation</label>
+                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="brightness" />Brightness</label>
+                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="contrast" />Contrast</label>
+                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="saturation" />Saturation</label>
             </div>
 
             <div className="options-group">
