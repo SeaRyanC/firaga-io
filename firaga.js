@@ -1,7 +1,11 @@
 (() => {
   var __defProp = Object.defineProperty;
-  var __esm = (fn, res) => () => (fn && (res = fn(fn = 0)), res);
-  var __commonJS = (cb, mod) => () => (mod || cb((mod = {exports: {}}).exports, mod), mod.exports);
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[Object.keys(fn)[0]])(fn = 0)), res;
+  };
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[Object.keys(cb)[0]])((mod = {exports: {}}).exports, mod), mod.exports;
+  };
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, {get: all[name], enumerable: true});
@@ -315,1432 +319,1371 @@
     return u2.Provider.__ = u2.Consumer.contextType = u2;
   }
   var n, l, u, i, t, o, r, f, e;
-  var init_preact_module = __esm(() => {
-    r = {};
-    f = [];
-    e = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
-    n = {__e: function(n2, l2) {
-      for (var u2, i2, t2; l2 = l2.__; )
-        if ((u2 = l2.__c) && !u2.__)
-          try {
-            if ((i2 = u2.constructor) && i2.getDerivedStateFromError != null && (u2.setState(i2.getDerivedStateFromError(n2)), t2 = u2.__d), u2.componentDidCatch != null && (u2.componentDidCatch(n2), t2 = u2.__d), t2)
-              return u2.__E = u2;
-          } catch (l3) {
-            n2 = l3;
-          }
-      throw n2;
-    }, __v: 0}, l = function(n2) {
-      return n2 != null && n2.constructor === void 0;
-    }, p.prototype.setState = function(n2, l2) {
-      var u2;
-      u2 = this.__s != null && this.__s !== this.state ? this.__s : this.__s = c({}, this.state), typeof n2 == "function" && (n2 = n2(c({}, u2), this.props)), n2 && c(u2, n2), n2 != null && this.__v && (l2 && this.__h.push(l2), k(this));
-    }, p.prototype.forceUpdate = function(n2) {
-      this.__v && (this.__e = true, n2 && this.__h.push(n2), k(this));
-    }, p.prototype.render = y, u = [], i = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, b.__r = 0, o = 0;
+  var init_preact_module = __esm({
+    "node_modules/preact/dist/preact.module.js"() {
+      r = {};
+      f = [];
+      e = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
+      n = {__e: function(n2, l2) {
+        for (var u2, i2, t2; l2 = l2.__; )
+          if ((u2 = l2.__c) && !u2.__)
+            try {
+              if ((i2 = u2.constructor) && i2.getDerivedStateFromError != null && (u2.setState(i2.getDerivedStateFromError(n2)), t2 = u2.__d), u2.componentDidCatch != null && (u2.componentDidCatch(n2), t2 = u2.__d), t2)
+                return u2.__E = u2;
+            } catch (l3) {
+              n2 = l3;
+            }
+        throw n2;
+      }, __v: 0}, l = function(n2) {
+        return n2 != null && n2.constructor === void 0;
+      }, p.prototype.setState = function(n2, l2) {
+        var u2;
+        u2 = this.__s != null && this.__s !== this.state ? this.__s : this.__s = c({}, this.state), typeof n2 == "function" && (n2 = n2(c({}, u2), this.props)), n2 && c(u2, n2), n2 != null && this.__v && (l2 && this.__h.push(l2), k(this));
+      }, p.prototype.forceUpdate = function(n2) {
+        this.__v && (this.__e = true, n2 && this.__h.push(n2), k(this));
+      }, p.prototype.render = y, u = [], i = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, b.__r = 0, o = 0;
+    }
   });
 
   // node_modules/color-diff/lib/diff.js
-  var require_diff = __commonJS((exports) => {
-    /**
-     * @author Markus Ekholm
-     * @copyright 2012-2016 (c) Markus Ekholm <markus at botten dot org >
-     * @license Copyright (c) 2012-2016, Markus Ekholm
-     * All rights reserved.
-     * Redistribution and use in source and binary forms, with or without
-     * modification, are permitted provided that the following conditions are met:
-     *    * Redistributions of source code must retain the above copyright
-     *      notice, this list of conditions and the following disclaimer.
-     *    * Redistributions in binary form must reproduce the above copyright
-     *      notice, this list of conditions and the following disclaimer in the
-     *      documentation and/or other materials provided with the distribution.
-     *    * Neither the name of the author nor the
-     *      names of its contributors may be used to endorse or promote products
-     *      derived from this software without specific prior written permission.
-     *
-     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-     * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-     * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-     * DISCLAIMED. IN NO EVENT SHALL MARKUS EKHOLM BE LIABLE FOR ANY
-     * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-     * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-     * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-     * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-     * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-     */
-    exports.ciede2000 = ciede2000;
-    var sqrt = Math.sqrt;
-    var pow = Math.pow;
-    var cos = Math.cos;
-    var atan2 = Math.atan2;
-    var sin = Math.sin;
-    var abs = Math.abs;
-    var exp = Math.exp;
-    var PI = Math.PI;
-    function ciede2000(c1, c2) {
-      var L1 = c1.L;
-      var a1 = c1.a;
-      var b1 = c1.b;
-      var L2 = c2.L;
-      var a2 = c2.a;
-      var b2 = c2.b;
-      var kL = 1;
-      var kC = 1;
-      var kH = 1;
-      var C1 = sqrt(pow(a1, 2) + pow(b1, 2));
-      var C2 = sqrt(pow(a2, 2) + pow(b2, 2));
-      var a_C1_C2 = (C1 + C2) / 2;
-      var G = 0.5 * (1 - sqrt(pow(a_C1_C2, 7) / (pow(a_C1_C2, 7) + pow(25, 7))));
-      var a1p = (1 + G) * a1;
-      var a2p = (1 + G) * a2;
-      var C1p = sqrt(pow(a1p, 2) + pow(b1, 2));
-      var C2p = sqrt(pow(a2p, 2) + pow(b2, 2));
-      var h1p = hp_f(b1, a1p);
-      var h2p = hp_f(b2, a2p);
-      var dLp = L2 - L1;
-      var dCp = C2p - C1p;
-      var dhp = dhp_f(C1, C2, h1p, h2p);
-      var dHp = 2 * sqrt(C1p * C2p) * sin(radians(dhp) / 2);
-      var a_L = (L1 + L2) / 2;
-      var a_Cp = (C1p + C2p) / 2;
-      var a_hp = a_hp_f(C1, C2, h1p, h2p);
-      var T2 = 1 - 0.17 * cos(radians(a_hp - 30)) + 0.24 * cos(radians(2 * a_hp)) + 0.32 * cos(radians(3 * a_hp + 6)) - 0.2 * cos(radians(4 * a_hp - 63));
-      var d_ro = 30 * exp(-pow((a_hp - 275) / 25, 2));
-      var RC = sqrt(pow(a_Cp, 7) / (pow(a_Cp, 7) + pow(25, 7)));
-      var SL = 1 + 0.015 * pow(a_L - 50, 2) / sqrt(20 + pow(a_L - 50, 2));
-      var SC = 1 + 0.045 * a_Cp;
-      var SH = 1 + 0.015 * a_Cp * T2;
-      var RT = -2 * RC * sin(radians(2 * d_ro));
-      var dE = sqrt(pow(dLp / (SL * kL), 2) + pow(dCp / (SC * kC), 2) + pow(dHp / (SH * kH), 2) + RT * (dCp / (SC * kC)) * (dHp / (SH * kH)));
-      return dE;
-    }
-    function degrees(n2) {
-      return n2 * (180 / PI);
-    }
-    function radians(n2) {
-      return n2 * (PI / 180);
-    }
-    function hp_f(x2, y2) {
-      if (x2 === 0 && y2 === 0)
-        return 0;
-      else {
-        var tmphp = degrees(atan2(x2, y2));
-        if (tmphp >= 0)
-          return tmphp;
-        else
-          return tmphp + 360;
+  var require_diff = __commonJS({
+    "node_modules/color-diff/lib/diff.js"(exports) {
+      exports.ciede2000 = ciede2000;
+      var sqrt = Math.sqrt;
+      var pow = Math.pow;
+      var cos = Math.cos;
+      var atan2 = Math.atan2;
+      var sin = Math.sin;
+      var abs = Math.abs;
+      var exp = Math.exp;
+      var PI = Math.PI;
+      function ciede2000(c1, c2) {
+        var L1 = c1.L;
+        var a1 = c1.a;
+        var b1 = c1.b;
+        var L2 = c2.L;
+        var a2 = c2.a;
+        var b2 = c2.b;
+        var kL = 1;
+        var kC = 1;
+        var kH = 1;
+        var C1 = sqrt(pow(a1, 2) + pow(b1, 2));
+        var C2 = sqrt(pow(a2, 2) + pow(b2, 2));
+        var a_C1_C2 = (C1 + C2) / 2;
+        var G = 0.5 * (1 - sqrt(pow(a_C1_C2, 7) / (pow(a_C1_C2, 7) + pow(25, 7))));
+        var a1p = (1 + G) * a1;
+        var a2p = (1 + G) * a2;
+        var C1p = sqrt(pow(a1p, 2) + pow(b1, 2));
+        var C2p = sqrt(pow(a2p, 2) + pow(b2, 2));
+        var h1p = hp_f(b1, a1p);
+        var h2p = hp_f(b2, a2p);
+        var dLp = L2 - L1;
+        var dCp = C2p - C1p;
+        var dhp = dhp_f(C1, C2, h1p, h2p);
+        var dHp = 2 * sqrt(C1p * C2p) * sin(radians(dhp) / 2);
+        var a_L = (L1 + L2) / 2;
+        var a_Cp = (C1p + C2p) / 2;
+        var a_hp = a_hp_f(C1, C2, h1p, h2p);
+        var T2 = 1 - 0.17 * cos(radians(a_hp - 30)) + 0.24 * cos(radians(2 * a_hp)) + 0.32 * cos(radians(3 * a_hp + 6)) - 0.2 * cos(radians(4 * a_hp - 63));
+        var d_ro = 30 * exp(-pow((a_hp - 275) / 25, 2));
+        var RC = sqrt(pow(a_Cp, 7) / (pow(a_Cp, 7) + pow(25, 7)));
+        var SL = 1 + 0.015 * pow(a_L - 50, 2) / sqrt(20 + pow(a_L - 50, 2));
+        var SC = 1 + 0.045 * a_Cp;
+        var SH = 1 + 0.015 * a_Cp * T2;
+        var RT = -2 * RC * sin(radians(2 * d_ro));
+        var dE = sqrt(pow(dLp / (SL * kL), 2) + pow(dCp / (SC * kC), 2) + pow(dHp / (SH * kH), 2) + RT * (dCp / (SC * kC)) * (dHp / (SH * kH)));
+        return dE;
       }
-    }
-    function dhp_f(C1, C2, h1p, h2p) {
-      if (C1 * C2 === 0)
-        return 0;
-      else if (abs(h2p - h1p) <= 180)
-        return h2p - h1p;
-      else if (h2p - h1p > 180)
-        return h2p - h1p - 360;
-      else if (h2p - h1p < -180)
-        return h2p - h1p + 360;
-      else
-        throw new Error();
-    }
-    function a_hp_f(C1, C2, h1p, h2p) {
-      if (C1 * C2 === 0)
-        return h1p + h2p;
-      else if (abs(h1p - h2p) <= 180)
-        return (h1p + h2p) / 2;
-      else if (abs(h1p - h2p) > 180 && h1p + h2p < 360)
-        return (h1p + h2p + 360) / 2;
-      else if (abs(h1p - h2p) > 180 && h1p + h2p >= 360)
-        return (h1p + h2p - 360) / 2;
-      else
-        throw new Error();
+      function degrees(n2) {
+        return n2 * (180 / PI);
+      }
+      function radians(n2) {
+        return n2 * (PI / 180);
+      }
+      function hp_f(x2, y2) {
+        if (x2 === 0 && y2 === 0)
+          return 0;
+        else {
+          var tmphp = degrees(atan2(x2, y2));
+          if (tmphp >= 0)
+            return tmphp;
+          else
+            return tmphp + 360;
+        }
+      }
+      function dhp_f(C1, C2, h1p, h2p) {
+        if (C1 * C2 === 0)
+          return 0;
+        else if (abs(h2p - h1p) <= 180)
+          return h2p - h1p;
+        else if (h2p - h1p > 180)
+          return h2p - h1p - 360;
+        else if (h2p - h1p < -180)
+          return h2p - h1p + 360;
+        else
+          throw new Error();
+      }
+      function a_hp_f(C1, C2, h1p, h2p) {
+        if (C1 * C2 === 0)
+          return h1p + h2p;
+        else if (abs(h1p - h2p) <= 180)
+          return (h1p + h2p) / 2;
+        else if (abs(h1p - h2p) > 180 && h1p + h2p < 360)
+          return (h1p + h2p + 360) / 2;
+        else if (abs(h1p - h2p) > 180 && h1p + h2p >= 360)
+          return (h1p + h2p - 360) / 2;
+        else
+          throw new Error();
+      }
     }
   });
 
   // node_modules/color-diff/lib/convert.js
-  var require_convert = __commonJS((exports) => {
-    /**
-     * @author Markus Ekholm
-     * @copyright 2012-2016 (c) Markus Ekholm <markus at botten dot org >
-     * @license Copyright (c) 2012-2016, Markus Ekholm
-     * All rights reserved.
-     * Redistribution and use in source and binary forms, with or without
-     * modification, are permitted provided that the following conditions are met:
-     *    * Redistributions of source code must retain the above copyright
-     *      notice, this list of conditions and the following disclaimer.
-     *    * Redistributions in binary form must reproduce the above copyright
-     *      notice, this list of conditions and the following disclaimer in the
-     *      documentation and/or other materials provided with the distribution.
-     *    * Neither the name of the author nor the
-     *      names of its contributors may be used to endorse or promote products
-     *      derived from this software without specific prior written permission.
-     *
-     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-     * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-     * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-     * DISCLAIMED. IN NO EVENT SHALL MARKUS EKHOLM BE LIABLE FOR ANY
-     * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-     * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-     * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-     * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-     * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-     */
-    exports.rgb_to_lab = rgb_to_lab;
-    exports.rgba_to_lab = rgba_to_lab;
-    exports.normalize_rgb = normalize_rgb;
-    var pow = Math.pow;
-    function rgba_to_lab(c2, bc) {
-      c2 = normalize_rgb(c2);
-      var bc = typeof bc !== "undefined" ? normalize_rgb(bc) : {R: 255, G: 255, B: 255};
-      var new_c = {
-        R: bc.R + (c2.R - bc.R) * c2.A,
-        G: bc.G + (c2.G - bc.G) * c2.A,
-        B: bc.B + (c2.B - bc.B) * c2.A
-      };
-      return rgb_to_lab(new_c);
-    }
-    function rgb_to_lab(c2) {
-      return xyz_to_lab(rgb_to_xyz(c2));
-    }
-    function rgb_to_xyz(c2) {
-      c2 = normalize_rgb(c2);
-      var R = c2.R / 255;
-      var G = c2.G / 255;
-      var B = c2.B / 255;
-      if (R > 0.04045)
-        R = pow((R + 0.055) / 1.055, 2.4);
-      else
-        R = R / 12.92;
-      if (G > 0.04045)
-        G = pow((G + 0.055) / 1.055, 2.4);
-      else
-        G = G / 12.92;
-      if (B > 0.04045)
-        B = pow((B + 0.055) / 1.055, 2.4);
-      else
-        B = B / 12.92;
-      R *= 100;
-      G *= 100;
-      B *= 100;
-      var X = R * 0.4124 + G * 0.3576 + B * 0.1805;
-      var Y = R * 0.2126 + G * 0.7152 + B * 0.0722;
-      var Z = R * 0.0193 + G * 0.1192 + B * 0.9505;
-      return {X, Y, Z};
-    }
-    function xyz_to_lab(c2) {
-      var ref_Y = 100;
-      var ref_Z = 108.883;
-      var ref_X = 95.047;
-      var Y = c2.Y / ref_Y;
-      var Z = c2.Z / ref_Z;
-      var X = c2.X / ref_X;
-      if (X > 8856e-6)
-        X = pow(X, 1 / 3);
-      else
-        X = 7.787 * X + 16 / 116;
-      if (Y > 8856e-6)
-        Y = pow(Y, 1 / 3);
-      else
-        Y = 7.787 * Y + 16 / 116;
-      if (Z > 8856e-6)
-        Z = pow(Z, 1 / 3);
-      else
-        Z = 7.787 * Z + 16 / 116;
-      var L2 = 116 * Y - 16;
-      var a2 = 500 * (X - Y);
-      var b2 = 200 * (Y - Z);
-      return {L: L2, a: a2, b: b2};
-    }
-    function normalize_rgb(c2) {
-      var new_c = {
-        R: c2.R || c2.r || 0,
-        G: c2.G || c2.g || 0,
-        B: c2.B || c2.b || 0
-      };
-      if (typeof c2.a !== "undefined" || typeof c2.A !== "undefined") {
-        new_c.A = c2.A || c2.a || 0;
+  var require_convert = __commonJS({
+    "node_modules/color-diff/lib/convert.js"(exports) {
+      exports.rgb_to_lab = rgb_to_lab;
+      exports.rgba_to_lab = rgba_to_lab;
+      exports.normalize_rgb = normalize_rgb;
+      var pow = Math.pow;
+      function rgba_to_lab(c2, bc) {
+        c2 = normalize_rgb(c2);
+        var bc = typeof bc !== "undefined" ? normalize_rgb(bc) : {R: 255, G: 255, B: 255};
+        var new_c = {
+          R: bc.R + (c2.R - bc.R) * c2.A,
+          G: bc.G + (c2.G - bc.G) * c2.A,
+          B: bc.B + (c2.B - bc.B) * c2.A
+        };
+        return rgb_to_lab(new_c);
       }
-      return new_c;
+      function rgb_to_lab(c2) {
+        return xyz_to_lab(rgb_to_xyz(c2));
+      }
+      function rgb_to_xyz(c2) {
+        c2 = normalize_rgb(c2);
+        var R = c2.R / 255;
+        var G = c2.G / 255;
+        var B = c2.B / 255;
+        if (R > 0.04045)
+          R = pow((R + 0.055) / 1.055, 2.4);
+        else
+          R = R / 12.92;
+        if (G > 0.04045)
+          G = pow((G + 0.055) / 1.055, 2.4);
+        else
+          G = G / 12.92;
+        if (B > 0.04045)
+          B = pow((B + 0.055) / 1.055, 2.4);
+        else
+          B = B / 12.92;
+        R *= 100;
+        G *= 100;
+        B *= 100;
+        var X = R * 0.4124 + G * 0.3576 + B * 0.1805;
+        var Y = R * 0.2126 + G * 0.7152 + B * 0.0722;
+        var Z = R * 0.0193 + G * 0.1192 + B * 0.9505;
+        return {"X": X, "Y": Y, "Z": Z};
+      }
+      function xyz_to_lab(c2) {
+        var ref_Y = 100;
+        var ref_Z = 108.883;
+        var ref_X = 95.047;
+        var Y = c2.Y / ref_Y;
+        var Z = c2.Z / ref_Z;
+        var X = c2.X / ref_X;
+        if (X > 8856e-6)
+          X = pow(X, 1 / 3);
+        else
+          X = 7.787 * X + 16 / 116;
+        if (Y > 8856e-6)
+          Y = pow(Y, 1 / 3);
+        else
+          Y = 7.787 * Y + 16 / 116;
+        if (Z > 8856e-6)
+          Z = pow(Z, 1 / 3);
+        else
+          Z = 7.787 * Z + 16 / 116;
+        var L2 = 116 * Y - 16;
+        var a2 = 500 * (X - Y);
+        var b2 = 200 * (Y - Z);
+        return {"L": L2, "a": a2, "b": b2};
+      }
+      function normalize_rgb(c2) {
+        var new_c = {
+          R: c2.R || c2.r || 0,
+          G: c2.G || c2.g || 0,
+          B: c2.B || c2.b || 0
+        };
+        if (typeof c2.a !== "undefined" || typeof c2.A !== "undefined") {
+          new_c.A = c2.A || c2.a || 0;
+        }
+        return new_c;
+      }
     }
   });
 
   // node_modules/color-diff/lib/palette.js
-  var require_palette = __commonJS((exports) => {
-    /**
-     * @author Markus Ekholm
-     * @copyright 2012-2016 (c) Markus Ekholm <markus at botten dot org >
-     * @license Copyright (c) 2012-2016, Markus Ekholm
-     * All rights reserved.
-     * Redistribution and use in source and binary forms, with or without
-     * modification, are permitted provided that the following conditions are met:
-     *    * Redistributions of source code must retain the above copyright
-     *      notice, this list of conditions and the following disclaimer.
-     *    * Redistributions in binary form must reproduce the above copyright
-     *      notice, this list of conditions and the following disclaimer in the
-     *      documentation and/or other materials provided with the distribution.
-     *    * Neither the name of the author nor the
-     *      names of its contributors may be used to endorse or promote products
-     *      derived from this software without specific prior written permission.
-     *
-     * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-     * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-     * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-     * DISCLAIMED. IN NO EVENT SHALL MARKUS EKHOLM BE LIABLE FOR ANY
-     * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-     * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-     * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-     * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-     * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-     * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-     */
-    exports.map_palette = map_palette;
-    exports.map_palette_lab = map_palette_lab;
-    exports.match_palette_lab = match_palette_lab;
-    exports.palette_map_key = palette_map_key;
-    exports.lab_palette_map_key = lab_palette_map_key;
-    var ciede2000 = require_diff().ciede2000;
-    var color_convert = require_convert();
-    function palette_map_key(c2) {
-      c2 = color_convert.normalize_rgb(c2);
-      var s2 = "R" + c2.R + "B" + c2.B + "G" + c2.G;
-      if ("A" in c2) {
-        s2 = s2 + "A" + c2.A;
+  var require_palette = __commonJS({
+    "node_modules/color-diff/lib/palette.js"(exports) {
+      exports.map_palette = map_palette;
+      exports.map_palette_lab = map_palette_lab;
+      exports.match_palette_lab = match_palette_lab;
+      exports.palette_map_key = palette_map_key;
+      exports.lab_palette_map_key = lab_palette_map_key;
+      var ciede2000 = require_diff().ciede2000;
+      var color_convert = require_convert();
+      function palette_map_key(c2) {
+        c2 = color_convert.normalize_rgb(c2);
+        var s2 = "R" + c2.R + "B" + c2.B + "G" + c2.G;
+        if ("A" in c2) {
+          s2 = s2 + "A" + c2.A;
+        }
+        return s2;
       }
-      return s2;
-    }
-    function lab_palette_map_key(c2) {
-      return "L" + c2.L + "a" + c2.a + "b" + c2.b;
-    }
-    function map_palette(a2, b2, type, bc) {
-      var c2 = {};
-      bc = typeof bc !== "undefined" ? bc : {R: 255, G: 255, B: 255};
-      type = type || "closest";
-      for (var idx1 = 0; idx1 < a2.length; idx1 += 1) {
-        var color1 = a2[idx1];
-        var best_color = void 0;
-        var best_color_diff = void 0;
-        for (var idx2 = 0; idx2 < b2.length; idx2 += 1) {
-          var color2 = b2[idx2];
-          var current_color_diff = diff3(color1, color2, bc);
-          if (best_color == void 0 || type === "closest" && current_color_diff < best_color_diff) {
+      function lab_palette_map_key(c2) {
+        return "L" + c2.L + "a" + c2.a + "b" + c2.b;
+      }
+      function map_palette(a2, b2, type, bc) {
+        var c2 = {};
+        bc = typeof bc !== "undefined" ? bc : {R: 255, G: 255, B: 255};
+        type = type || "closest";
+        for (var idx1 = 0; idx1 < a2.length; idx1 += 1) {
+          var color1 = a2[idx1];
+          var best_color = void 0;
+          var best_color_diff = void 0;
+          for (var idx2 = 0; idx2 < b2.length; idx2 += 1) {
+            var color2 = b2[idx2];
+            var current_color_diff = diff3(color1, color2, bc);
+            if (best_color == void 0 || type === "closest" && current_color_diff < best_color_diff) {
+              best_color = color2;
+              best_color_diff = current_color_diff;
+              continue;
+            }
+            if (type === "furthest" && current_color_diff > best_color_diff) {
+              best_color = color2;
+              best_color_diff = current_color_diff;
+              continue;
+            }
+          }
+          c2[palette_map_key(color1)] = best_color;
+        }
+        return c2;
+      }
+      function match_palette_lab(target_color, palette, find_furthest) {
+        var color2, current_color_diff;
+        var best_color = palette[0];
+        var best_color_diff = ciede2000(target_color, best_color);
+        for (var idx2 = 1, l2 = palette.length; idx2 < l2; idx2 += 1) {
+          color2 = palette[idx2];
+          current_color_diff = ciede2000(target_color, color2);
+          if (!find_furthest && current_color_diff < best_color_diff || find_furthest && current_color_diff > best_color_diff) {
             best_color = color2;
             best_color_diff = current_color_diff;
-            continue;
-          }
-          if (type === "furthest" && current_color_diff > best_color_diff) {
-            best_color = color2;
-            best_color_diff = current_color_diff;
-            continue;
           }
         }
-        c2[palette_map_key(color1)] = best_color;
+        return best_color;
       }
-      return c2;
-    }
-    function match_palette_lab(target_color, palette, find_furthest) {
-      var color2, current_color_diff;
-      var best_color = palette[0];
-      var best_color_diff = ciede2000(target_color, best_color);
-      for (var idx2 = 1, l2 = palette.length; idx2 < l2; idx2 += 1) {
-        color2 = palette[idx2];
-        current_color_diff = ciede2000(target_color, color2);
-        if (!find_furthest && current_color_diff < best_color_diff || find_furthest && current_color_diff > best_color_diff) {
-          best_color = color2;
-          best_color_diff = current_color_diff;
+      function map_palette_lab(a2, b2, type) {
+        var c2 = {};
+        var find_furthest = type === "furthest";
+        for (var idx1 = 0; idx1 < a2.length; idx1 += 1) {
+          var color1 = a2[idx1];
+          c2[lab_palette_map_key(color1)] = match_palette_lab(color1, b2, find_furthest);
         }
+        return c2;
       }
-      return best_color;
-    }
-    function map_palette_lab(a2, b2, type) {
-      var c2 = {};
-      var find_furthest = type === "furthest";
-      for (var idx1 = 0; idx1 < a2.length; idx1 += 1) {
-        var color1 = a2[idx1];
-        c2[lab_palette_map_key(color1)] = match_palette_lab(color1, b2, find_furthest);
+      function diff3(c1, c2, bc) {
+        var conv_c1 = color_convert.rgb_to_lab;
+        var conv_c2 = color_convert.rgb_to_lab;
+        var rgba_conv = function(x2) {
+          return color_convert.rgba_to_lab(x2, bc);
+        };
+        if ("A" in c1) {
+          conv_c1 = rgba_conv;
+        }
+        if ("A" in c2) {
+          conv_c2 = rgba_conv;
+        }
+        c1 = conv_c1(c1);
+        c2 = conv_c2(c2);
+        return ciede2000(c1, c2);
       }
-      return c2;
-    }
-    function diff3(c1, c2, bc) {
-      var conv_c1 = color_convert.rgb_to_lab;
-      var conv_c2 = color_convert.rgb_to_lab;
-      var rgba_conv = function(x2) {
-        return color_convert.rgba_to_lab(x2, bc);
-      };
-      if ("A" in c1) {
-        conv_c1 = rgba_conv;
-      }
-      if ("A" in c2) {
-        conv_c2 = rgba_conv;
-      }
-      c1 = conv_c1(c1);
-      c2 = conv_c2(c2);
-      return ciede2000(c1, c2);
     }
   });
 
   // node_modules/color-diff/lib/index.js
-  var require_lib = __commonJS((exports, module) => {
-    "use strict";
-    var diff3 = require_diff();
-    var convert = require_convert();
-    var palette = require_palette();
-    var color = module.exports = {};
-    color.diff = diff3.ciede2000;
-    color.rgb_to_lab = convert.rgb_to_lab;
-    color.rgba_to_lab = convert.rgba_to_lab;
-    color.map_palette = palette.map_palette;
-    color.palette_map_key = palette.palette_map_key;
-    color.map_palette_lab = palette.map_palette_lab;
-    color.lab_palette_map_key = palette.lab_palette_map_key;
-    color.match_palette_lab = palette.match_palette_lab;
-    color.closest = function(target, relative, bc) {
-      var key = color.palette_map_key(target);
-      bc = typeof bc !== "undefined" ? bc : {R: 255, G: 255, B: 255};
-      var result = color.map_palette([target], relative, "closest", bc);
-      return result[key];
-    };
-    color.furthest = function(target, relative, bc) {
-      var key = color.palette_map_key(target);
-      bc = typeof bc !== "undefined" ? bc : {R: 255, G: 255, B: 255};
-      var result = color.map_palette([target], relative, "furthest", bc);
-      return result[key];
-    };
-    color.closest_lab = function(target, relative) {
-      return color.match_palette_lab(target, relative, false);
-    };
-    color.furthest_lab = function(target, relative) {
-      return color.match_palette_lab(target, relative, true);
-    };
+  var require_lib = __commonJS({
+    "node_modules/color-diff/lib/index.js"(exports, module) {
+      "use strict";
+      var diff3 = require_diff();
+      var convert = require_convert();
+      var palette = require_palette();
+      var color = module.exports = {};
+      color.diff = diff3.ciede2000;
+      color.rgb_to_lab = convert.rgb_to_lab;
+      color.rgba_to_lab = convert.rgba_to_lab;
+      color.map_palette = palette.map_palette;
+      color.palette_map_key = palette.palette_map_key;
+      color.map_palette_lab = palette.map_palette_lab;
+      color.lab_palette_map_key = palette.lab_palette_map_key;
+      color.match_palette_lab = palette.match_palette_lab;
+      color.closest = function(target, relative, bc) {
+        var key = color.palette_map_key(target);
+        bc = typeof bc !== "undefined" ? bc : {R: 255, G: 255, B: 255};
+        var result = color.map_palette([target], relative, "closest", bc);
+        return result[key];
+      };
+      color.furthest = function(target, relative, bc) {
+        var key = color.palette_map_key(target);
+        bc = typeof bc !== "undefined" ? bc : {R: 255, G: 255, B: 255};
+        var result = color.map_palette([target], relative, "furthest", bc);
+        return result[key];
+      };
+      color.closest_lab = function(target, relative) {
+        return color.match_palette_lab(target, relative, false);
+      };
+      color.furthest_lab = function(target, relative) {
+        return color.match_palette_lab(target, relative, true);
+      };
+    }
   });
 
   // node_modules/color-name/index.js
-  var require_color_name = __commonJS((exports, module) => {
-    "use strict";
-    module.exports = {
-      aliceblue: [240, 248, 255],
-      antiquewhite: [250, 235, 215],
-      aqua: [0, 255, 255],
-      aquamarine: [127, 255, 212],
-      azure: [240, 255, 255],
-      beige: [245, 245, 220],
-      bisque: [255, 228, 196],
-      black: [0, 0, 0],
-      blanchedalmond: [255, 235, 205],
-      blue: [0, 0, 255],
-      blueviolet: [138, 43, 226],
-      brown: [165, 42, 42],
-      burlywood: [222, 184, 135],
-      cadetblue: [95, 158, 160],
-      chartreuse: [127, 255, 0],
-      chocolate: [210, 105, 30],
-      coral: [255, 127, 80],
-      cornflowerblue: [100, 149, 237],
-      cornsilk: [255, 248, 220],
-      crimson: [220, 20, 60],
-      cyan: [0, 255, 255],
-      darkblue: [0, 0, 139],
-      darkcyan: [0, 139, 139],
-      darkgoldenrod: [184, 134, 11],
-      darkgray: [169, 169, 169],
-      darkgreen: [0, 100, 0],
-      darkgrey: [169, 169, 169],
-      darkkhaki: [189, 183, 107],
-      darkmagenta: [139, 0, 139],
-      darkolivegreen: [85, 107, 47],
-      darkorange: [255, 140, 0],
-      darkorchid: [153, 50, 204],
-      darkred: [139, 0, 0],
-      darksalmon: [233, 150, 122],
-      darkseagreen: [143, 188, 143],
-      darkslateblue: [72, 61, 139],
-      darkslategray: [47, 79, 79],
-      darkslategrey: [47, 79, 79],
-      darkturquoise: [0, 206, 209],
-      darkviolet: [148, 0, 211],
-      deeppink: [255, 20, 147],
-      deepskyblue: [0, 191, 255],
-      dimgray: [105, 105, 105],
-      dimgrey: [105, 105, 105],
-      dodgerblue: [30, 144, 255],
-      firebrick: [178, 34, 34],
-      floralwhite: [255, 250, 240],
-      forestgreen: [34, 139, 34],
-      fuchsia: [255, 0, 255],
-      gainsboro: [220, 220, 220],
-      ghostwhite: [248, 248, 255],
-      gold: [255, 215, 0],
-      goldenrod: [218, 165, 32],
-      gray: [128, 128, 128],
-      green: [0, 128, 0],
-      greenyellow: [173, 255, 47],
-      grey: [128, 128, 128],
-      honeydew: [240, 255, 240],
-      hotpink: [255, 105, 180],
-      indianred: [205, 92, 92],
-      indigo: [75, 0, 130],
-      ivory: [255, 255, 240],
-      khaki: [240, 230, 140],
-      lavender: [230, 230, 250],
-      lavenderblush: [255, 240, 245],
-      lawngreen: [124, 252, 0],
-      lemonchiffon: [255, 250, 205],
-      lightblue: [173, 216, 230],
-      lightcoral: [240, 128, 128],
-      lightcyan: [224, 255, 255],
-      lightgoldenrodyellow: [250, 250, 210],
-      lightgray: [211, 211, 211],
-      lightgreen: [144, 238, 144],
-      lightgrey: [211, 211, 211],
-      lightpink: [255, 182, 193],
-      lightsalmon: [255, 160, 122],
-      lightseagreen: [32, 178, 170],
-      lightskyblue: [135, 206, 250],
-      lightslategray: [119, 136, 153],
-      lightslategrey: [119, 136, 153],
-      lightsteelblue: [176, 196, 222],
-      lightyellow: [255, 255, 224],
-      lime: [0, 255, 0],
-      limegreen: [50, 205, 50],
-      linen: [250, 240, 230],
-      magenta: [255, 0, 255],
-      maroon: [128, 0, 0],
-      mediumaquamarine: [102, 205, 170],
-      mediumblue: [0, 0, 205],
-      mediumorchid: [186, 85, 211],
-      mediumpurple: [147, 112, 219],
-      mediumseagreen: [60, 179, 113],
-      mediumslateblue: [123, 104, 238],
-      mediumspringgreen: [0, 250, 154],
-      mediumturquoise: [72, 209, 204],
-      mediumvioletred: [199, 21, 133],
-      midnightblue: [25, 25, 112],
-      mintcream: [245, 255, 250],
-      mistyrose: [255, 228, 225],
-      moccasin: [255, 228, 181],
-      navajowhite: [255, 222, 173],
-      navy: [0, 0, 128],
-      oldlace: [253, 245, 230],
-      olive: [128, 128, 0],
-      olivedrab: [107, 142, 35],
-      orange: [255, 165, 0],
-      orangered: [255, 69, 0],
-      orchid: [218, 112, 214],
-      palegoldenrod: [238, 232, 170],
-      palegreen: [152, 251, 152],
-      paleturquoise: [175, 238, 238],
-      palevioletred: [219, 112, 147],
-      papayawhip: [255, 239, 213],
-      peachpuff: [255, 218, 185],
-      peru: [205, 133, 63],
-      pink: [255, 192, 203],
-      plum: [221, 160, 221],
-      powderblue: [176, 224, 230],
-      purple: [128, 0, 128],
-      rebeccapurple: [102, 51, 153],
-      red: [255, 0, 0],
-      rosybrown: [188, 143, 143],
-      royalblue: [65, 105, 225],
-      saddlebrown: [139, 69, 19],
-      salmon: [250, 128, 114],
-      sandybrown: [244, 164, 96],
-      seagreen: [46, 139, 87],
-      seashell: [255, 245, 238],
-      sienna: [160, 82, 45],
-      silver: [192, 192, 192],
-      skyblue: [135, 206, 235],
-      slateblue: [106, 90, 205],
-      slategray: [112, 128, 144],
-      slategrey: [112, 128, 144],
-      snow: [255, 250, 250],
-      springgreen: [0, 255, 127],
-      steelblue: [70, 130, 180],
-      tan: [210, 180, 140],
-      teal: [0, 128, 128],
-      thistle: [216, 191, 216],
-      tomato: [255, 99, 71],
-      turquoise: [64, 224, 208],
-      violet: [238, 130, 238],
-      wheat: [245, 222, 179],
-      white: [255, 255, 255],
-      whitesmoke: [245, 245, 245],
-      yellow: [255, 255, 0],
-      yellowgreen: [154, 205, 50]
-    };
+  var require_color_name = __commonJS({
+    "node_modules/color-name/index.js"(exports, module) {
+      "use strict";
+      module.exports = {
+        "aliceblue": [240, 248, 255],
+        "antiquewhite": [250, 235, 215],
+        "aqua": [0, 255, 255],
+        "aquamarine": [127, 255, 212],
+        "azure": [240, 255, 255],
+        "beige": [245, 245, 220],
+        "bisque": [255, 228, 196],
+        "black": [0, 0, 0],
+        "blanchedalmond": [255, 235, 205],
+        "blue": [0, 0, 255],
+        "blueviolet": [138, 43, 226],
+        "brown": [165, 42, 42],
+        "burlywood": [222, 184, 135],
+        "cadetblue": [95, 158, 160],
+        "chartreuse": [127, 255, 0],
+        "chocolate": [210, 105, 30],
+        "coral": [255, 127, 80],
+        "cornflowerblue": [100, 149, 237],
+        "cornsilk": [255, 248, 220],
+        "crimson": [220, 20, 60],
+        "cyan": [0, 255, 255],
+        "darkblue": [0, 0, 139],
+        "darkcyan": [0, 139, 139],
+        "darkgoldenrod": [184, 134, 11],
+        "darkgray": [169, 169, 169],
+        "darkgreen": [0, 100, 0],
+        "darkgrey": [169, 169, 169],
+        "darkkhaki": [189, 183, 107],
+        "darkmagenta": [139, 0, 139],
+        "darkolivegreen": [85, 107, 47],
+        "darkorange": [255, 140, 0],
+        "darkorchid": [153, 50, 204],
+        "darkred": [139, 0, 0],
+        "darksalmon": [233, 150, 122],
+        "darkseagreen": [143, 188, 143],
+        "darkslateblue": [72, 61, 139],
+        "darkslategray": [47, 79, 79],
+        "darkslategrey": [47, 79, 79],
+        "darkturquoise": [0, 206, 209],
+        "darkviolet": [148, 0, 211],
+        "deeppink": [255, 20, 147],
+        "deepskyblue": [0, 191, 255],
+        "dimgray": [105, 105, 105],
+        "dimgrey": [105, 105, 105],
+        "dodgerblue": [30, 144, 255],
+        "firebrick": [178, 34, 34],
+        "floralwhite": [255, 250, 240],
+        "forestgreen": [34, 139, 34],
+        "fuchsia": [255, 0, 255],
+        "gainsboro": [220, 220, 220],
+        "ghostwhite": [248, 248, 255],
+        "gold": [255, 215, 0],
+        "goldenrod": [218, 165, 32],
+        "gray": [128, 128, 128],
+        "green": [0, 128, 0],
+        "greenyellow": [173, 255, 47],
+        "grey": [128, 128, 128],
+        "honeydew": [240, 255, 240],
+        "hotpink": [255, 105, 180],
+        "indianred": [205, 92, 92],
+        "indigo": [75, 0, 130],
+        "ivory": [255, 255, 240],
+        "khaki": [240, 230, 140],
+        "lavender": [230, 230, 250],
+        "lavenderblush": [255, 240, 245],
+        "lawngreen": [124, 252, 0],
+        "lemonchiffon": [255, 250, 205],
+        "lightblue": [173, 216, 230],
+        "lightcoral": [240, 128, 128],
+        "lightcyan": [224, 255, 255],
+        "lightgoldenrodyellow": [250, 250, 210],
+        "lightgray": [211, 211, 211],
+        "lightgreen": [144, 238, 144],
+        "lightgrey": [211, 211, 211],
+        "lightpink": [255, 182, 193],
+        "lightsalmon": [255, 160, 122],
+        "lightseagreen": [32, 178, 170],
+        "lightskyblue": [135, 206, 250],
+        "lightslategray": [119, 136, 153],
+        "lightslategrey": [119, 136, 153],
+        "lightsteelblue": [176, 196, 222],
+        "lightyellow": [255, 255, 224],
+        "lime": [0, 255, 0],
+        "limegreen": [50, 205, 50],
+        "linen": [250, 240, 230],
+        "magenta": [255, 0, 255],
+        "maroon": [128, 0, 0],
+        "mediumaquamarine": [102, 205, 170],
+        "mediumblue": [0, 0, 205],
+        "mediumorchid": [186, 85, 211],
+        "mediumpurple": [147, 112, 219],
+        "mediumseagreen": [60, 179, 113],
+        "mediumslateblue": [123, 104, 238],
+        "mediumspringgreen": [0, 250, 154],
+        "mediumturquoise": [72, 209, 204],
+        "mediumvioletred": [199, 21, 133],
+        "midnightblue": [25, 25, 112],
+        "mintcream": [245, 255, 250],
+        "mistyrose": [255, 228, 225],
+        "moccasin": [255, 228, 181],
+        "navajowhite": [255, 222, 173],
+        "navy": [0, 0, 128],
+        "oldlace": [253, 245, 230],
+        "olive": [128, 128, 0],
+        "olivedrab": [107, 142, 35],
+        "orange": [255, 165, 0],
+        "orangered": [255, 69, 0],
+        "orchid": [218, 112, 214],
+        "palegoldenrod": [238, 232, 170],
+        "palegreen": [152, 251, 152],
+        "paleturquoise": [175, 238, 238],
+        "palevioletred": [219, 112, 147],
+        "papayawhip": [255, 239, 213],
+        "peachpuff": [255, 218, 185],
+        "peru": [205, 133, 63],
+        "pink": [255, 192, 203],
+        "plum": [221, 160, 221],
+        "powderblue": [176, 224, 230],
+        "purple": [128, 0, 128],
+        "rebeccapurple": [102, 51, 153],
+        "red": [255, 0, 0],
+        "rosybrown": [188, 143, 143],
+        "royalblue": [65, 105, 225],
+        "saddlebrown": [139, 69, 19],
+        "salmon": [250, 128, 114],
+        "sandybrown": [244, 164, 96],
+        "seagreen": [46, 139, 87],
+        "seashell": [255, 245, 238],
+        "sienna": [160, 82, 45],
+        "silver": [192, 192, 192],
+        "skyblue": [135, 206, 235],
+        "slateblue": [106, 90, 205],
+        "slategray": [112, 128, 144],
+        "slategrey": [112, 128, 144],
+        "snow": [255, 250, 250],
+        "springgreen": [0, 255, 127],
+        "steelblue": [70, 130, 180],
+        "tan": [210, 180, 140],
+        "teal": [0, 128, 128],
+        "thistle": [216, 191, 216],
+        "tomato": [255, 99, 71],
+        "turquoise": [64, 224, 208],
+        "violet": [238, 130, 238],
+        "wheat": [245, 222, 179],
+        "white": [255, 255, 255],
+        "whitesmoke": [245, 245, 245],
+        "yellow": [255, 255, 0],
+        "yellowgreen": [154, 205, 50]
+      };
+    }
   });
 
   // node_modules/color-convert/conversions.js
-  var require_conversions = __commonJS((exports, module) => {
-    var cssKeywords = require_color_name();
-    var reverseKeywords = {};
-    for (const key of Object.keys(cssKeywords)) {
-      reverseKeywords[cssKeywords[key]] = key;
-    }
-    var convert = {
-      rgb: {channels: 3, labels: "rgb"},
-      hsl: {channels: 3, labels: "hsl"},
-      hsv: {channels: 3, labels: "hsv"},
-      hwb: {channels: 3, labels: "hwb"},
-      cmyk: {channels: 4, labels: "cmyk"},
-      xyz: {channels: 3, labels: "xyz"},
-      lab: {channels: 3, labels: "lab"},
-      lch: {channels: 3, labels: "lch"},
-      hex: {channels: 1, labels: ["hex"]},
-      keyword: {channels: 1, labels: ["keyword"]},
-      ansi16: {channels: 1, labels: ["ansi16"]},
-      ansi256: {channels: 1, labels: ["ansi256"]},
-      hcg: {channels: 3, labels: ["h", "c", "g"]},
-      apple: {channels: 3, labels: ["r16", "g16", "b16"]},
-      gray: {channels: 1, labels: ["gray"]}
-    };
-    module.exports = convert;
-    for (const model of Object.keys(convert)) {
-      if (!("channels" in convert[model])) {
-        throw new Error("missing channels property: " + model);
+  var require_conversions = __commonJS({
+    "node_modules/color-convert/conversions.js"(exports, module) {
+      var cssKeywords = require_color_name();
+      var reverseKeywords = {};
+      for (const key of Object.keys(cssKeywords)) {
+        reverseKeywords[cssKeywords[key]] = key;
       }
-      if (!("labels" in convert[model])) {
-        throw new Error("missing channel labels property: " + model);
-      }
-      if (convert[model].labels.length !== convert[model].channels) {
-        throw new Error("channel and label counts mismatch: " + model);
-      }
-      const {channels, labels} = convert[model];
-      delete convert[model].channels;
-      delete convert[model].labels;
-      Object.defineProperty(convert[model], "channels", {value: channels});
-      Object.defineProperty(convert[model], "labels", {value: labels});
-    }
-    convert.rgb.hsl = function(rgb) {
-      const r2 = rgb[0] / 255;
-      const g2 = rgb[1] / 255;
-      const b2 = rgb[2] / 255;
-      const min = Math.min(r2, g2, b2);
-      const max = Math.max(r2, g2, b2);
-      const delta = max - min;
-      let h2;
-      let s2;
-      if (max === min) {
-        h2 = 0;
-      } else if (r2 === max) {
-        h2 = (g2 - b2) / delta;
-      } else if (g2 === max) {
-        h2 = 2 + (b2 - r2) / delta;
-      } else if (b2 === max) {
-        h2 = 4 + (r2 - g2) / delta;
-      }
-      h2 = Math.min(h2 * 60, 360);
-      if (h2 < 0) {
-        h2 += 360;
-      }
-      const l2 = (min + max) / 2;
-      if (max === min) {
-        s2 = 0;
-      } else if (l2 <= 0.5) {
-        s2 = delta / (max + min);
-      } else {
-        s2 = delta / (2 - max - min);
-      }
-      return [h2, s2 * 100, l2 * 100];
-    };
-    convert.rgb.hsv = function(rgb) {
-      let rdif;
-      let gdif;
-      let bdif;
-      let h2;
-      let s2;
-      const r2 = rgb[0] / 255;
-      const g2 = rgb[1] / 255;
-      const b2 = rgb[2] / 255;
-      const v2 = Math.max(r2, g2, b2);
-      const diff3 = v2 - Math.min(r2, g2, b2);
-      const diffc = function(c2) {
-        return (v2 - c2) / 6 / diff3 + 1 / 2;
+      var convert = {
+        rgb: {channels: 3, labels: "rgb"},
+        hsl: {channels: 3, labels: "hsl"},
+        hsv: {channels: 3, labels: "hsv"},
+        hwb: {channels: 3, labels: "hwb"},
+        cmyk: {channels: 4, labels: "cmyk"},
+        xyz: {channels: 3, labels: "xyz"},
+        lab: {channels: 3, labels: "lab"},
+        lch: {channels: 3, labels: "lch"},
+        hex: {channels: 1, labels: ["hex"]},
+        keyword: {channels: 1, labels: ["keyword"]},
+        ansi16: {channels: 1, labels: ["ansi16"]},
+        ansi256: {channels: 1, labels: ["ansi256"]},
+        hcg: {channels: 3, labels: ["h", "c", "g"]},
+        apple: {channels: 3, labels: ["r16", "g16", "b16"]},
+        gray: {channels: 1, labels: ["gray"]}
       };
-      if (diff3 === 0) {
-        h2 = 0;
-        s2 = 0;
-      } else {
-        s2 = diff3 / v2;
-        rdif = diffc(r2);
-        gdif = diffc(g2);
-        bdif = diffc(b2);
-        if (r2 === v2) {
-          h2 = bdif - gdif;
-        } else if (g2 === v2) {
-          h2 = 1 / 3 + rdif - bdif;
-        } else if (b2 === v2) {
-          h2 = 2 / 3 + gdif - rdif;
+      module.exports = convert;
+      for (const model of Object.keys(convert)) {
+        if (!("channels" in convert[model])) {
+          throw new Error("missing channels property: " + model);
         }
+        if (!("labels" in convert[model])) {
+          throw new Error("missing channel labels property: " + model);
+        }
+        if (convert[model].labels.length !== convert[model].channels) {
+          throw new Error("channel and label counts mismatch: " + model);
+        }
+        const {channels, labels} = convert[model];
+        delete convert[model].channels;
+        delete convert[model].labels;
+        Object.defineProperty(convert[model], "channels", {value: channels});
+        Object.defineProperty(convert[model], "labels", {value: labels});
+      }
+      convert.rgb.hsl = function(rgb) {
+        const r2 = rgb[0] / 255;
+        const g2 = rgb[1] / 255;
+        const b2 = rgb[2] / 255;
+        const min = Math.min(r2, g2, b2);
+        const max = Math.max(r2, g2, b2);
+        const delta = max - min;
+        let h2;
+        let s2;
+        if (max === min) {
+          h2 = 0;
+        } else if (r2 === max) {
+          h2 = (g2 - b2) / delta;
+        } else if (g2 === max) {
+          h2 = 2 + (b2 - r2) / delta;
+        } else if (b2 === max) {
+          h2 = 4 + (r2 - g2) / delta;
+        }
+        h2 = Math.min(h2 * 60, 360);
         if (h2 < 0) {
-          h2 += 1;
-        } else if (h2 > 1) {
-          h2 -= 1;
+          h2 += 360;
         }
-      }
-      return [
-        h2 * 360,
-        s2 * 100,
-        v2 * 100
-      ];
-    };
-    convert.rgb.hwb = function(rgb) {
-      const r2 = rgb[0];
-      const g2 = rgb[1];
-      let b2 = rgb[2];
-      const h2 = convert.rgb.hsl(rgb)[0];
-      const w2 = 1 / 255 * Math.min(r2, Math.min(g2, b2));
-      b2 = 1 - 1 / 255 * Math.max(r2, Math.max(g2, b2));
-      return [h2, w2 * 100, b2 * 100];
-    };
-    convert.rgb.cmyk = function(rgb) {
-      const r2 = rgb[0] / 255;
-      const g2 = rgb[1] / 255;
-      const b2 = rgb[2] / 255;
-      const k2 = Math.min(1 - r2, 1 - g2, 1 - b2);
-      const c2 = (1 - r2 - k2) / (1 - k2) || 0;
-      const m2 = (1 - g2 - k2) / (1 - k2) || 0;
-      const y2 = (1 - b2 - k2) / (1 - k2) || 0;
-      return [c2 * 100, m2 * 100, y2 * 100, k2 * 100];
-    };
-    function comparativeDistance(x2, y2) {
-      return (x2[0] - y2[0]) ** 2 + (x2[1] - y2[1]) ** 2 + (x2[2] - y2[2]) ** 2;
-    }
-    convert.rgb.keyword = function(rgb) {
-      const reversed = reverseKeywords[rgb];
-      if (reversed) {
-        return reversed;
-      }
-      let currentClosestDistance = Infinity;
-      let currentClosestKeyword;
-      for (const keyword of Object.keys(cssKeywords)) {
-        const value = cssKeywords[keyword];
-        const distance = comparativeDistance(rgb, value);
-        if (distance < currentClosestDistance) {
-          currentClosestDistance = distance;
-          currentClosestKeyword = keyword;
-        }
-      }
-      return currentClosestKeyword;
-    };
-    convert.keyword.rgb = function(keyword) {
-      return cssKeywords[keyword];
-    };
-    convert.rgb.xyz = function(rgb) {
-      let r2 = rgb[0] / 255;
-      let g2 = rgb[1] / 255;
-      let b2 = rgb[2] / 255;
-      r2 = r2 > 0.04045 ? ((r2 + 0.055) / 1.055) ** 2.4 : r2 / 12.92;
-      g2 = g2 > 0.04045 ? ((g2 + 0.055) / 1.055) ** 2.4 : g2 / 12.92;
-      b2 = b2 > 0.04045 ? ((b2 + 0.055) / 1.055) ** 2.4 : b2 / 12.92;
-      const x2 = r2 * 0.4124 + g2 * 0.3576 + b2 * 0.1805;
-      const y2 = r2 * 0.2126 + g2 * 0.7152 + b2 * 0.0722;
-      const z2 = r2 * 0.0193 + g2 * 0.1192 + b2 * 0.9505;
-      return [x2 * 100, y2 * 100, z2 * 100];
-    };
-    convert.rgb.lab = function(rgb) {
-      const xyz = convert.rgb.xyz(rgb);
-      let x2 = xyz[0];
-      let y2 = xyz[1];
-      let z2 = xyz[2];
-      x2 /= 95.047;
-      y2 /= 100;
-      z2 /= 108.883;
-      x2 = x2 > 8856e-6 ? x2 ** (1 / 3) : 7.787 * x2 + 16 / 116;
-      y2 = y2 > 8856e-6 ? y2 ** (1 / 3) : 7.787 * y2 + 16 / 116;
-      z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
-      const l2 = 116 * y2 - 16;
-      const a2 = 500 * (x2 - y2);
-      const b2 = 200 * (y2 - z2);
-      return [l2, a2, b2];
-    };
-    convert.hsl.rgb = function(hsl) {
-      const h2 = hsl[0] / 360;
-      const s2 = hsl[1] / 100;
-      const l2 = hsl[2] / 100;
-      let t2;
-      let t3;
-      let val;
-      if (s2 === 0) {
-        val = l2 * 255;
-        return [val, val, val];
-      }
-      if (l2 < 0.5) {
-        t2 = l2 * (1 + s2);
-      } else {
-        t2 = l2 + s2 - l2 * s2;
-      }
-      const t1 = 2 * l2 - t2;
-      const rgb = [0, 0, 0];
-      for (let i2 = 0; i2 < 3; i2++) {
-        t3 = h2 + 1 / 3 * -(i2 - 1);
-        if (t3 < 0) {
-          t3++;
-        }
-        if (t3 > 1) {
-          t3--;
-        }
-        if (6 * t3 < 1) {
-          val = t1 + (t2 - t1) * 6 * t3;
-        } else if (2 * t3 < 1) {
-          val = t2;
-        } else if (3 * t3 < 2) {
-          val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+        const l2 = (min + max) / 2;
+        if (max === min) {
+          s2 = 0;
+        } else if (l2 <= 0.5) {
+          s2 = delta / (max + min);
         } else {
-          val = t1;
+          s2 = delta / (2 - max - min);
         }
-        rgb[i2] = val * 255;
-      }
-      return rgb;
-    };
-    convert.hsl.hsv = function(hsl) {
-      const h2 = hsl[0];
-      let s2 = hsl[1] / 100;
-      let l2 = hsl[2] / 100;
-      let smin = s2;
-      const lmin = Math.max(l2, 0.01);
-      l2 *= 2;
-      s2 *= l2 <= 1 ? l2 : 2 - l2;
-      smin *= lmin <= 1 ? lmin : 2 - lmin;
-      const v2 = (l2 + s2) / 2;
-      const sv = l2 === 0 ? 2 * smin / (lmin + smin) : 2 * s2 / (l2 + s2);
-      return [h2, sv * 100, v2 * 100];
-    };
-    convert.hsv.rgb = function(hsv) {
-      const h2 = hsv[0] / 60;
-      const s2 = hsv[1] / 100;
-      let v2 = hsv[2] / 100;
-      const hi = Math.floor(h2) % 6;
-      const f2 = h2 - Math.floor(h2);
-      const p2 = 255 * v2 * (1 - s2);
-      const q2 = 255 * v2 * (1 - s2 * f2);
-      const t2 = 255 * v2 * (1 - s2 * (1 - f2));
-      v2 *= 255;
-      switch (hi) {
-        case 0:
-          return [v2, t2, p2];
-        case 1:
-          return [q2, v2, p2];
-        case 2:
-          return [p2, v2, t2];
-        case 3:
-          return [p2, q2, v2];
-        case 4:
-          return [t2, p2, v2];
-        case 5:
-          return [v2, p2, q2];
-      }
-    };
-    convert.hsv.hsl = function(hsv) {
-      const h2 = hsv[0];
-      const s2 = hsv[1] / 100;
-      const v2 = hsv[2] / 100;
-      const vmin = Math.max(v2, 0.01);
-      let sl;
-      let l2;
-      l2 = (2 - s2) * v2;
-      const lmin = (2 - s2) * vmin;
-      sl = s2 * vmin;
-      sl /= lmin <= 1 ? lmin : 2 - lmin;
-      sl = sl || 0;
-      l2 /= 2;
-      return [h2, sl * 100, l2 * 100];
-    };
-    convert.hwb.rgb = function(hwb) {
-      const h2 = hwb[0] / 360;
-      let wh = hwb[1] / 100;
-      let bl = hwb[2] / 100;
-      const ratio = wh + bl;
-      let f2;
-      if (ratio > 1) {
-        wh /= ratio;
-        bl /= ratio;
-      }
-      const i2 = Math.floor(6 * h2);
-      const v2 = 1 - bl;
-      f2 = 6 * h2 - i2;
-      if ((i2 & 1) !== 0) {
-        f2 = 1 - f2;
-      }
-      const n2 = wh + f2 * (v2 - wh);
-      let r2;
-      let g2;
-      let b2;
-      switch (i2) {
-        default:
-        case 6:
-        case 0:
-          r2 = v2;
-          g2 = n2;
-          b2 = wh;
-          break;
-        case 1:
-          r2 = n2;
-          g2 = v2;
-          b2 = wh;
-          break;
-        case 2:
-          r2 = wh;
-          g2 = v2;
-          b2 = n2;
-          break;
-        case 3:
-          r2 = wh;
-          g2 = n2;
-          b2 = v2;
-          break;
-        case 4:
-          r2 = n2;
-          g2 = wh;
-          b2 = v2;
-          break;
-        case 5:
-          r2 = v2;
-          g2 = wh;
-          b2 = n2;
-          break;
-      }
-      return [r2 * 255, g2 * 255, b2 * 255];
-    };
-    convert.cmyk.rgb = function(cmyk) {
-      const c2 = cmyk[0] / 100;
-      const m2 = cmyk[1] / 100;
-      const y2 = cmyk[2] / 100;
-      const k2 = cmyk[3] / 100;
-      const r2 = 1 - Math.min(1, c2 * (1 - k2) + k2);
-      const g2 = 1 - Math.min(1, m2 * (1 - k2) + k2);
-      const b2 = 1 - Math.min(1, y2 * (1 - k2) + k2);
-      return [r2 * 255, g2 * 255, b2 * 255];
-    };
-    convert.xyz.rgb = function(xyz) {
-      const x2 = xyz[0] / 100;
-      const y2 = xyz[1] / 100;
-      const z2 = xyz[2] / 100;
-      let r2;
-      let g2;
-      let b2;
-      r2 = x2 * 3.2406 + y2 * -1.5372 + z2 * -0.4986;
-      g2 = x2 * -0.9689 + y2 * 1.8758 + z2 * 0.0415;
-      b2 = x2 * 0.0557 + y2 * -0.204 + z2 * 1.057;
-      r2 = r2 > 31308e-7 ? 1.055 * r2 ** (1 / 2.4) - 0.055 : r2 * 12.92;
-      g2 = g2 > 31308e-7 ? 1.055 * g2 ** (1 / 2.4) - 0.055 : g2 * 12.92;
-      b2 = b2 > 31308e-7 ? 1.055 * b2 ** (1 / 2.4) - 0.055 : b2 * 12.92;
-      r2 = Math.min(Math.max(0, r2), 1);
-      g2 = Math.min(Math.max(0, g2), 1);
-      b2 = Math.min(Math.max(0, b2), 1);
-      return [r2 * 255, g2 * 255, b2 * 255];
-    };
-    convert.xyz.lab = function(xyz) {
-      let x2 = xyz[0];
-      let y2 = xyz[1];
-      let z2 = xyz[2];
-      x2 /= 95.047;
-      y2 /= 100;
-      z2 /= 108.883;
-      x2 = x2 > 8856e-6 ? x2 ** (1 / 3) : 7.787 * x2 + 16 / 116;
-      y2 = y2 > 8856e-6 ? y2 ** (1 / 3) : 7.787 * y2 + 16 / 116;
-      z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
-      const l2 = 116 * y2 - 16;
-      const a2 = 500 * (x2 - y2);
-      const b2 = 200 * (y2 - z2);
-      return [l2, a2, b2];
-    };
-    convert.lab.xyz = function(lab) {
-      const l2 = lab[0];
-      const a2 = lab[1];
-      const b2 = lab[2];
-      let x2;
-      let y2;
-      let z2;
-      y2 = (l2 + 16) / 116;
-      x2 = a2 / 500 + y2;
-      z2 = y2 - b2 / 200;
-      const y22 = y2 ** 3;
-      const x22 = x2 ** 3;
-      const z22 = z2 ** 3;
-      y2 = y22 > 8856e-6 ? y22 : (y2 - 16 / 116) / 7.787;
-      x2 = x22 > 8856e-6 ? x22 : (x2 - 16 / 116) / 7.787;
-      z2 = z22 > 8856e-6 ? z22 : (z2 - 16 / 116) / 7.787;
-      x2 *= 95.047;
-      y2 *= 100;
-      z2 *= 108.883;
-      return [x2, y2, z2];
-    };
-    convert.lab.lch = function(lab) {
-      const l2 = lab[0];
-      const a2 = lab[1];
-      const b2 = lab[2];
-      let h2;
-      const hr = Math.atan2(b2, a2);
-      h2 = hr * 360 / 2 / Math.PI;
-      if (h2 < 0) {
-        h2 += 360;
-      }
-      const c2 = Math.sqrt(a2 * a2 + b2 * b2);
-      return [l2, c2, h2];
-    };
-    convert.lch.lab = function(lch) {
-      const l2 = lch[0];
-      const c2 = lch[1];
-      const h2 = lch[2];
-      const hr = h2 / 360 * 2 * Math.PI;
-      const a2 = c2 * Math.cos(hr);
-      const b2 = c2 * Math.sin(hr);
-      return [l2, a2, b2];
-    };
-    convert.rgb.ansi16 = function(args, saturation = null) {
-      const [r2, g2, b2] = args;
-      let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation;
-      value = Math.round(value / 50);
-      if (value === 0) {
-        return 30;
-      }
-      let ansi = 30 + (Math.round(b2 / 255) << 2 | Math.round(g2 / 255) << 1 | Math.round(r2 / 255));
-      if (value === 2) {
-        ansi += 60;
-      }
-      return ansi;
-    };
-    convert.hsv.ansi16 = function(args) {
-      return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
-    };
-    convert.rgb.ansi256 = function(args) {
-      const r2 = args[0];
-      const g2 = args[1];
-      const b2 = args[2];
-      if (r2 === g2 && g2 === b2) {
-        if (r2 < 8) {
-          return 16;
+        return [h2, s2 * 100, l2 * 100];
+      };
+      convert.rgb.hsv = function(rgb) {
+        let rdif;
+        let gdif;
+        let bdif;
+        let h2;
+        let s2;
+        const r2 = rgb[0] / 255;
+        const g2 = rgb[1] / 255;
+        const b2 = rgb[2] / 255;
+        const v2 = Math.max(r2, g2, b2);
+        const diff3 = v2 - Math.min(r2, g2, b2);
+        const diffc = function(c2) {
+          return (v2 - c2) / 6 / diff3 + 1 / 2;
+        };
+        if (diff3 === 0) {
+          h2 = 0;
+          s2 = 0;
+        } else {
+          s2 = diff3 / v2;
+          rdif = diffc(r2);
+          gdif = diffc(g2);
+          bdif = diffc(b2);
+          if (r2 === v2) {
+            h2 = bdif - gdif;
+          } else if (g2 === v2) {
+            h2 = 1 / 3 + rdif - bdif;
+          } else if (b2 === v2) {
+            h2 = 2 / 3 + gdif - rdif;
+          }
+          if (h2 < 0) {
+            h2 += 1;
+          } else if (h2 > 1) {
+            h2 -= 1;
+          }
         }
-        if (r2 > 248) {
-          return 231;
+        return [
+          h2 * 360,
+          s2 * 100,
+          v2 * 100
+        ];
+      };
+      convert.rgb.hwb = function(rgb) {
+        const r2 = rgb[0];
+        const g2 = rgb[1];
+        let b2 = rgb[2];
+        const h2 = convert.rgb.hsl(rgb)[0];
+        const w2 = 1 / 255 * Math.min(r2, Math.min(g2, b2));
+        b2 = 1 - 1 / 255 * Math.max(r2, Math.max(g2, b2));
+        return [h2, w2 * 100, b2 * 100];
+      };
+      convert.rgb.cmyk = function(rgb) {
+        const r2 = rgb[0] / 255;
+        const g2 = rgb[1] / 255;
+        const b2 = rgb[2] / 255;
+        const k2 = Math.min(1 - r2, 1 - g2, 1 - b2);
+        const c2 = (1 - r2 - k2) / (1 - k2) || 0;
+        const m2 = (1 - g2 - k2) / (1 - k2) || 0;
+        const y2 = (1 - b2 - k2) / (1 - k2) || 0;
+        return [c2 * 100, m2 * 100, y2 * 100, k2 * 100];
+      };
+      function comparativeDistance(x2, y2) {
+        return (x2[0] - y2[0]) ** 2 + (x2[1] - y2[1]) ** 2 + (x2[2] - y2[2]) ** 2;
+      }
+      convert.rgb.keyword = function(rgb) {
+        const reversed = reverseKeywords[rgb];
+        if (reversed) {
+          return reversed;
         }
-        return Math.round((r2 - 8) / 247 * 24) + 232;
-      }
-      const ansi = 16 + 36 * Math.round(r2 / 255 * 5) + 6 * Math.round(g2 / 255 * 5) + Math.round(b2 / 255 * 5);
-      return ansi;
-    };
-    convert.ansi16.rgb = function(args) {
-      let color = args % 10;
-      if (color === 0 || color === 7) {
-        if (args > 50) {
-          color += 3.5;
+        let currentClosestDistance = Infinity;
+        let currentClosestKeyword;
+        for (const keyword of Object.keys(cssKeywords)) {
+          const value = cssKeywords[keyword];
+          const distance = comparativeDistance(rgb, value);
+          if (distance < currentClosestDistance) {
+            currentClosestDistance = distance;
+            currentClosestKeyword = keyword;
+          }
         }
-        color = color / 10.5 * 255;
-        return [color, color, color];
-      }
-      const mult = (~~(args > 50) + 1) * 0.5;
-      const r2 = (color & 1) * mult * 255;
-      const g2 = (color >> 1 & 1) * mult * 255;
-      const b2 = (color >> 2 & 1) * mult * 255;
-      return [r2, g2, b2];
-    };
-    convert.ansi256.rgb = function(args) {
-      if (args >= 232) {
-        const c2 = (args - 232) * 10 + 8;
-        return [c2, c2, c2];
-      }
-      args -= 16;
-      let rem;
-      const r2 = Math.floor(args / 36) / 5 * 255;
-      const g2 = Math.floor((rem = args % 36) / 6) / 5 * 255;
-      const b2 = rem % 6 / 5 * 255;
-      return [r2, g2, b2];
-    };
-    convert.rgb.hex = function(args) {
-      const integer = ((Math.round(args[0]) & 255) << 16) + ((Math.round(args[1]) & 255) << 8) + (Math.round(args[2]) & 255);
-      const string = integer.toString(16).toUpperCase();
-      return "000000".substring(string.length) + string;
-    };
-    convert.hex.rgb = function(args) {
-      const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
-      if (!match) {
-        return [0, 0, 0];
-      }
-      let colorString = match[0];
-      if (match[0].length === 3) {
-        colorString = colorString.split("").map((char) => {
-          return char + char;
-        }).join("");
-      }
-      const integer = parseInt(colorString, 16);
-      const r2 = integer >> 16 & 255;
-      const g2 = integer >> 8 & 255;
-      const b2 = integer & 255;
-      return [r2, g2, b2];
-    };
-    convert.rgb.hcg = function(rgb) {
-      const r2 = rgb[0] / 255;
-      const g2 = rgb[1] / 255;
-      const b2 = rgb[2] / 255;
-      const max = Math.max(Math.max(r2, g2), b2);
-      const min = Math.min(Math.min(r2, g2), b2);
-      const chroma = max - min;
-      let grayscale;
-      let hue;
-      if (chroma < 1) {
-        grayscale = min / (1 - chroma);
-      } else {
-        grayscale = 0;
-      }
-      if (chroma <= 0) {
-        hue = 0;
-      } else if (max === r2) {
-        hue = (g2 - b2) / chroma % 6;
-      } else if (max === g2) {
-        hue = 2 + (b2 - r2) / chroma;
-      } else {
-        hue = 4 + (r2 - g2) / chroma;
-      }
-      hue /= 6;
-      hue %= 1;
-      return [hue * 360, chroma * 100, grayscale * 100];
-    };
-    convert.hsl.hcg = function(hsl) {
-      const s2 = hsl[1] / 100;
-      const l2 = hsl[2] / 100;
-      const c2 = l2 < 0.5 ? 2 * s2 * l2 : 2 * s2 * (1 - l2);
-      let f2 = 0;
-      if (c2 < 1) {
-        f2 = (l2 - 0.5 * c2) / (1 - c2);
-      }
-      return [hsl[0], c2 * 100, f2 * 100];
-    };
-    convert.hsv.hcg = function(hsv) {
-      const s2 = hsv[1] / 100;
-      const v2 = hsv[2] / 100;
-      const c2 = s2 * v2;
-      let f2 = 0;
-      if (c2 < 1) {
-        f2 = (v2 - c2) / (1 - c2);
-      }
-      return [hsv[0], c2 * 100, f2 * 100];
-    };
-    convert.hcg.rgb = function(hcg) {
-      const h2 = hcg[0] / 360;
-      const c2 = hcg[1] / 100;
-      const g2 = hcg[2] / 100;
-      if (c2 === 0) {
-        return [g2 * 255, g2 * 255, g2 * 255];
-      }
-      const pure = [0, 0, 0];
-      const hi = h2 % 1 * 6;
-      const v2 = hi % 1;
-      const w2 = 1 - v2;
-      let mg = 0;
-      switch (Math.floor(hi)) {
-        case 0:
-          pure[0] = 1;
-          pure[1] = v2;
-          pure[2] = 0;
-          break;
-        case 1:
-          pure[0] = w2;
-          pure[1] = 1;
-          pure[2] = 0;
-          break;
-        case 2:
-          pure[0] = 0;
-          pure[1] = 1;
-          pure[2] = v2;
-          break;
-        case 3:
-          pure[0] = 0;
-          pure[1] = w2;
-          pure[2] = 1;
-          break;
-        case 4:
-          pure[0] = v2;
-          pure[1] = 0;
-          pure[2] = 1;
-          break;
-        default:
-          pure[0] = 1;
-          pure[1] = 0;
-          pure[2] = w2;
-      }
-      mg = (1 - c2) * g2;
-      return [
-        (c2 * pure[0] + mg) * 255,
-        (c2 * pure[1] + mg) * 255,
-        (c2 * pure[2] + mg) * 255
-      ];
-    };
-    convert.hcg.hsv = function(hcg) {
-      const c2 = hcg[1] / 100;
-      const g2 = hcg[2] / 100;
-      const v2 = c2 + g2 * (1 - c2);
-      let f2 = 0;
-      if (v2 > 0) {
-        f2 = c2 / v2;
-      }
-      return [hcg[0], f2 * 100, v2 * 100];
-    };
-    convert.hcg.hsl = function(hcg) {
-      const c2 = hcg[1] / 100;
-      const g2 = hcg[2] / 100;
-      const l2 = g2 * (1 - c2) + 0.5 * c2;
-      let s2 = 0;
-      if (l2 > 0 && l2 < 0.5) {
-        s2 = c2 / (2 * l2);
-      } else if (l2 >= 0.5 && l2 < 1) {
-        s2 = c2 / (2 * (1 - l2));
-      }
-      return [hcg[0], s2 * 100, l2 * 100];
-    };
-    convert.hcg.hwb = function(hcg) {
-      const c2 = hcg[1] / 100;
-      const g2 = hcg[2] / 100;
-      const v2 = c2 + g2 * (1 - c2);
-      return [hcg[0], (v2 - c2) * 100, (1 - v2) * 100];
-    };
-    convert.hwb.hcg = function(hwb) {
-      const w2 = hwb[1] / 100;
-      const b2 = hwb[2] / 100;
-      const v2 = 1 - b2;
-      const c2 = v2 - w2;
-      let g2 = 0;
-      if (c2 < 1) {
-        g2 = (v2 - c2) / (1 - c2);
-      }
-      return [hwb[0], c2 * 100, g2 * 100];
-    };
-    convert.apple.rgb = function(apple) {
-      return [apple[0] / 65535 * 255, apple[1] / 65535 * 255, apple[2] / 65535 * 255];
-    };
-    convert.rgb.apple = function(rgb) {
-      return [rgb[0] / 255 * 65535, rgb[1] / 255 * 65535, rgb[2] / 255 * 65535];
-    };
-    convert.gray.rgb = function(args) {
-      return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
-    };
-    convert.gray.hsl = function(args) {
-      return [0, 0, args[0]];
-    };
-    convert.gray.hsv = convert.gray.hsl;
-    convert.gray.hwb = function(gray) {
-      return [0, 100, gray[0]];
-    };
-    convert.gray.cmyk = function(gray) {
-      return [0, 0, 0, gray[0]];
-    };
-    convert.gray.lab = function(gray) {
-      return [gray[0], 0, 0];
-    };
-    convert.gray.hex = function(gray) {
-      const val = Math.round(gray[0] / 100 * 255) & 255;
-      const integer = (val << 16) + (val << 8) + val;
-      const string = integer.toString(16).toUpperCase();
-      return "000000".substring(string.length) + string;
-    };
-    convert.rgb.gray = function(rgb) {
-      const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
-      return [val / 255 * 100];
-    };
+        return currentClosestKeyword;
+      };
+      convert.keyword.rgb = function(keyword) {
+        return cssKeywords[keyword];
+      };
+      convert.rgb.xyz = function(rgb) {
+        let r2 = rgb[0] / 255;
+        let g2 = rgb[1] / 255;
+        let b2 = rgb[2] / 255;
+        r2 = r2 > 0.04045 ? ((r2 + 0.055) / 1.055) ** 2.4 : r2 / 12.92;
+        g2 = g2 > 0.04045 ? ((g2 + 0.055) / 1.055) ** 2.4 : g2 / 12.92;
+        b2 = b2 > 0.04045 ? ((b2 + 0.055) / 1.055) ** 2.4 : b2 / 12.92;
+        const x2 = r2 * 0.4124 + g2 * 0.3576 + b2 * 0.1805;
+        const y2 = r2 * 0.2126 + g2 * 0.7152 + b2 * 0.0722;
+        const z2 = r2 * 0.0193 + g2 * 0.1192 + b2 * 0.9505;
+        return [x2 * 100, y2 * 100, z2 * 100];
+      };
+      convert.rgb.lab = function(rgb) {
+        const xyz = convert.rgb.xyz(rgb);
+        let x2 = xyz[0];
+        let y2 = xyz[1];
+        let z2 = xyz[2];
+        x2 /= 95.047;
+        y2 /= 100;
+        z2 /= 108.883;
+        x2 = x2 > 8856e-6 ? x2 ** (1 / 3) : 7.787 * x2 + 16 / 116;
+        y2 = y2 > 8856e-6 ? y2 ** (1 / 3) : 7.787 * y2 + 16 / 116;
+        z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
+        const l2 = 116 * y2 - 16;
+        const a2 = 500 * (x2 - y2);
+        const b2 = 200 * (y2 - z2);
+        return [l2, a2, b2];
+      };
+      convert.hsl.rgb = function(hsl) {
+        const h2 = hsl[0] / 360;
+        const s2 = hsl[1] / 100;
+        const l2 = hsl[2] / 100;
+        let t2;
+        let t3;
+        let val;
+        if (s2 === 0) {
+          val = l2 * 255;
+          return [val, val, val];
+        }
+        if (l2 < 0.5) {
+          t2 = l2 * (1 + s2);
+        } else {
+          t2 = l2 + s2 - l2 * s2;
+        }
+        const t1 = 2 * l2 - t2;
+        const rgb = [0, 0, 0];
+        for (let i2 = 0; i2 < 3; i2++) {
+          t3 = h2 + 1 / 3 * -(i2 - 1);
+          if (t3 < 0) {
+            t3++;
+          }
+          if (t3 > 1) {
+            t3--;
+          }
+          if (6 * t3 < 1) {
+            val = t1 + (t2 - t1) * 6 * t3;
+          } else if (2 * t3 < 1) {
+            val = t2;
+          } else if (3 * t3 < 2) {
+            val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+          } else {
+            val = t1;
+          }
+          rgb[i2] = val * 255;
+        }
+        return rgb;
+      };
+      convert.hsl.hsv = function(hsl) {
+        const h2 = hsl[0];
+        let s2 = hsl[1] / 100;
+        let l2 = hsl[2] / 100;
+        let smin = s2;
+        const lmin = Math.max(l2, 0.01);
+        l2 *= 2;
+        s2 *= l2 <= 1 ? l2 : 2 - l2;
+        smin *= lmin <= 1 ? lmin : 2 - lmin;
+        const v2 = (l2 + s2) / 2;
+        const sv = l2 === 0 ? 2 * smin / (lmin + smin) : 2 * s2 / (l2 + s2);
+        return [h2, sv * 100, v2 * 100];
+      };
+      convert.hsv.rgb = function(hsv) {
+        const h2 = hsv[0] / 60;
+        const s2 = hsv[1] / 100;
+        let v2 = hsv[2] / 100;
+        const hi = Math.floor(h2) % 6;
+        const f2 = h2 - Math.floor(h2);
+        const p2 = 255 * v2 * (1 - s2);
+        const q2 = 255 * v2 * (1 - s2 * f2);
+        const t2 = 255 * v2 * (1 - s2 * (1 - f2));
+        v2 *= 255;
+        switch (hi) {
+          case 0:
+            return [v2, t2, p2];
+          case 1:
+            return [q2, v2, p2];
+          case 2:
+            return [p2, v2, t2];
+          case 3:
+            return [p2, q2, v2];
+          case 4:
+            return [t2, p2, v2];
+          case 5:
+            return [v2, p2, q2];
+        }
+      };
+      convert.hsv.hsl = function(hsv) {
+        const h2 = hsv[0];
+        const s2 = hsv[1] / 100;
+        const v2 = hsv[2] / 100;
+        const vmin = Math.max(v2, 0.01);
+        let sl;
+        let l2;
+        l2 = (2 - s2) * v2;
+        const lmin = (2 - s2) * vmin;
+        sl = s2 * vmin;
+        sl /= lmin <= 1 ? lmin : 2 - lmin;
+        sl = sl || 0;
+        l2 /= 2;
+        return [h2, sl * 100, l2 * 100];
+      };
+      convert.hwb.rgb = function(hwb) {
+        const h2 = hwb[0] / 360;
+        let wh = hwb[1] / 100;
+        let bl = hwb[2] / 100;
+        const ratio = wh + bl;
+        let f2;
+        if (ratio > 1) {
+          wh /= ratio;
+          bl /= ratio;
+        }
+        const i2 = Math.floor(6 * h2);
+        const v2 = 1 - bl;
+        f2 = 6 * h2 - i2;
+        if ((i2 & 1) !== 0) {
+          f2 = 1 - f2;
+        }
+        const n2 = wh + f2 * (v2 - wh);
+        let r2;
+        let g2;
+        let b2;
+        switch (i2) {
+          default:
+          case 6:
+          case 0:
+            r2 = v2;
+            g2 = n2;
+            b2 = wh;
+            break;
+          case 1:
+            r2 = n2;
+            g2 = v2;
+            b2 = wh;
+            break;
+          case 2:
+            r2 = wh;
+            g2 = v2;
+            b2 = n2;
+            break;
+          case 3:
+            r2 = wh;
+            g2 = n2;
+            b2 = v2;
+            break;
+          case 4:
+            r2 = n2;
+            g2 = wh;
+            b2 = v2;
+            break;
+          case 5:
+            r2 = v2;
+            g2 = wh;
+            b2 = n2;
+            break;
+        }
+        return [r2 * 255, g2 * 255, b2 * 255];
+      };
+      convert.cmyk.rgb = function(cmyk) {
+        const c2 = cmyk[0] / 100;
+        const m2 = cmyk[1] / 100;
+        const y2 = cmyk[2] / 100;
+        const k2 = cmyk[3] / 100;
+        const r2 = 1 - Math.min(1, c2 * (1 - k2) + k2);
+        const g2 = 1 - Math.min(1, m2 * (1 - k2) + k2);
+        const b2 = 1 - Math.min(1, y2 * (1 - k2) + k2);
+        return [r2 * 255, g2 * 255, b2 * 255];
+      };
+      convert.xyz.rgb = function(xyz) {
+        const x2 = xyz[0] / 100;
+        const y2 = xyz[1] / 100;
+        const z2 = xyz[2] / 100;
+        let r2;
+        let g2;
+        let b2;
+        r2 = x2 * 3.2406 + y2 * -1.5372 + z2 * -0.4986;
+        g2 = x2 * -0.9689 + y2 * 1.8758 + z2 * 0.0415;
+        b2 = x2 * 0.0557 + y2 * -0.204 + z2 * 1.057;
+        r2 = r2 > 31308e-7 ? 1.055 * r2 ** (1 / 2.4) - 0.055 : r2 * 12.92;
+        g2 = g2 > 31308e-7 ? 1.055 * g2 ** (1 / 2.4) - 0.055 : g2 * 12.92;
+        b2 = b2 > 31308e-7 ? 1.055 * b2 ** (1 / 2.4) - 0.055 : b2 * 12.92;
+        r2 = Math.min(Math.max(0, r2), 1);
+        g2 = Math.min(Math.max(0, g2), 1);
+        b2 = Math.min(Math.max(0, b2), 1);
+        return [r2 * 255, g2 * 255, b2 * 255];
+      };
+      convert.xyz.lab = function(xyz) {
+        let x2 = xyz[0];
+        let y2 = xyz[1];
+        let z2 = xyz[2];
+        x2 /= 95.047;
+        y2 /= 100;
+        z2 /= 108.883;
+        x2 = x2 > 8856e-6 ? x2 ** (1 / 3) : 7.787 * x2 + 16 / 116;
+        y2 = y2 > 8856e-6 ? y2 ** (1 / 3) : 7.787 * y2 + 16 / 116;
+        z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
+        const l2 = 116 * y2 - 16;
+        const a2 = 500 * (x2 - y2);
+        const b2 = 200 * (y2 - z2);
+        return [l2, a2, b2];
+      };
+      convert.lab.xyz = function(lab) {
+        const l2 = lab[0];
+        const a2 = lab[1];
+        const b2 = lab[2];
+        let x2;
+        let y2;
+        let z2;
+        y2 = (l2 + 16) / 116;
+        x2 = a2 / 500 + y2;
+        z2 = y2 - b2 / 200;
+        const y22 = y2 ** 3;
+        const x22 = x2 ** 3;
+        const z22 = z2 ** 3;
+        y2 = y22 > 8856e-6 ? y22 : (y2 - 16 / 116) / 7.787;
+        x2 = x22 > 8856e-6 ? x22 : (x2 - 16 / 116) / 7.787;
+        z2 = z22 > 8856e-6 ? z22 : (z2 - 16 / 116) / 7.787;
+        x2 *= 95.047;
+        y2 *= 100;
+        z2 *= 108.883;
+        return [x2, y2, z2];
+      };
+      convert.lab.lch = function(lab) {
+        const l2 = lab[0];
+        const a2 = lab[1];
+        const b2 = lab[2];
+        let h2;
+        const hr = Math.atan2(b2, a2);
+        h2 = hr * 360 / 2 / Math.PI;
+        if (h2 < 0) {
+          h2 += 360;
+        }
+        const c2 = Math.sqrt(a2 * a2 + b2 * b2);
+        return [l2, c2, h2];
+      };
+      convert.lch.lab = function(lch) {
+        const l2 = lch[0];
+        const c2 = lch[1];
+        const h2 = lch[2];
+        const hr = h2 / 360 * 2 * Math.PI;
+        const a2 = c2 * Math.cos(hr);
+        const b2 = c2 * Math.sin(hr);
+        return [l2, a2, b2];
+      };
+      convert.rgb.ansi16 = function(args, saturation = null) {
+        const [r2, g2, b2] = args;
+        let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation;
+        value = Math.round(value / 50);
+        if (value === 0) {
+          return 30;
+        }
+        let ansi = 30 + (Math.round(b2 / 255) << 2 | Math.round(g2 / 255) << 1 | Math.round(r2 / 255));
+        if (value === 2) {
+          ansi += 60;
+        }
+        return ansi;
+      };
+      convert.hsv.ansi16 = function(args) {
+        return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+      };
+      convert.rgb.ansi256 = function(args) {
+        const r2 = args[0];
+        const g2 = args[1];
+        const b2 = args[2];
+        if (r2 === g2 && g2 === b2) {
+          if (r2 < 8) {
+            return 16;
+          }
+          if (r2 > 248) {
+            return 231;
+          }
+          return Math.round((r2 - 8) / 247 * 24) + 232;
+        }
+        const ansi = 16 + 36 * Math.round(r2 / 255 * 5) + 6 * Math.round(g2 / 255 * 5) + Math.round(b2 / 255 * 5);
+        return ansi;
+      };
+      convert.ansi16.rgb = function(args) {
+        let color = args % 10;
+        if (color === 0 || color === 7) {
+          if (args > 50) {
+            color += 3.5;
+          }
+          color = color / 10.5 * 255;
+          return [color, color, color];
+        }
+        const mult = (~~(args > 50) + 1) * 0.5;
+        const r2 = (color & 1) * mult * 255;
+        const g2 = (color >> 1 & 1) * mult * 255;
+        const b2 = (color >> 2 & 1) * mult * 255;
+        return [r2, g2, b2];
+      };
+      convert.ansi256.rgb = function(args) {
+        if (args >= 232) {
+          const c2 = (args - 232) * 10 + 8;
+          return [c2, c2, c2];
+        }
+        args -= 16;
+        let rem;
+        const r2 = Math.floor(args / 36) / 5 * 255;
+        const g2 = Math.floor((rem = args % 36) / 6) / 5 * 255;
+        const b2 = rem % 6 / 5 * 255;
+        return [r2, g2, b2];
+      };
+      convert.rgb.hex = function(args) {
+        const integer = ((Math.round(args[0]) & 255) << 16) + ((Math.round(args[1]) & 255) << 8) + (Math.round(args[2]) & 255);
+        const string = integer.toString(16).toUpperCase();
+        return "000000".substring(string.length) + string;
+      };
+      convert.hex.rgb = function(args) {
+        const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
+        if (!match) {
+          return [0, 0, 0];
+        }
+        let colorString = match[0];
+        if (match[0].length === 3) {
+          colorString = colorString.split("").map((char) => {
+            return char + char;
+          }).join("");
+        }
+        const integer = parseInt(colorString, 16);
+        const r2 = integer >> 16 & 255;
+        const g2 = integer >> 8 & 255;
+        const b2 = integer & 255;
+        return [r2, g2, b2];
+      };
+      convert.rgb.hcg = function(rgb) {
+        const r2 = rgb[0] / 255;
+        const g2 = rgb[1] / 255;
+        const b2 = rgb[2] / 255;
+        const max = Math.max(Math.max(r2, g2), b2);
+        const min = Math.min(Math.min(r2, g2), b2);
+        const chroma = max - min;
+        let grayscale;
+        let hue;
+        if (chroma < 1) {
+          grayscale = min / (1 - chroma);
+        } else {
+          grayscale = 0;
+        }
+        if (chroma <= 0) {
+          hue = 0;
+        } else if (max === r2) {
+          hue = (g2 - b2) / chroma % 6;
+        } else if (max === g2) {
+          hue = 2 + (b2 - r2) / chroma;
+        } else {
+          hue = 4 + (r2 - g2) / chroma;
+        }
+        hue /= 6;
+        hue %= 1;
+        return [hue * 360, chroma * 100, grayscale * 100];
+      };
+      convert.hsl.hcg = function(hsl) {
+        const s2 = hsl[1] / 100;
+        const l2 = hsl[2] / 100;
+        const c2 = l2 < 0.5 ? 2 * s2 * l2 : 2 * s2 * (1 - l2);
+        let f2 = 0;
+        if (c2 < 1) {
+          f2 = (l2 - 0.5 * c2) / (1 - c2);
+        }
+        return [hsl[0], c2 * 100, f2 * 100];
+      };
+      convert.hsv.hcg = function(hsv) {
+        const s2 = hsv[1] / 100;
+        const v2 = hsv[2] / 100;
+        const c2 = s2 * v2;
+        let f2 = 0;
+        if (c2 < 1) {
+          f2 = (v2 - c2) / (1 - c2);
+        }
+        return [hsv[0], c2 * 100, f2 * 100];
+      };
+      convert.hcg.rgb = function(hcg) {
+        const h2 = hcg[0] / 360;
+        const c2 = hcg[1] / 100;
+        const g2 = hcg[2] / 100;
+        if (c2 === 0) {
+          return [g2 * 255, g2 * 255, g2 * 255];
+        }
+        const pure = [0, 0, 0];
+        const hi = h2 % 1 * 6;
+        const v2 = hi % 1;
+        const w2 = 1 - v2;
+        let mg = 0;
+        switch (Math.floor(hi)) {
+          case 0:
+            pure[0] = 1;
+            pure[1] = v2;
+            pure[2] = 0;
+            break;
+          case 1:
+            pure[0] = w2;
+            pure[1] = 1;
+            pure[2] = 0;
+            break;
+          case 2:
+            pure[0] = 0;
+            pure[1] = 1;
+            pure[2] = v2;
+            break;
+          case 3:
+            pure[0] = 0;
+            pure[1] = w2;
+            pure[2] = 1;
+            break;
+          case 4:
+            pure[0] = v2;
+            pure[1] = 0;
+            pure[2] = 1;
+            break;
+          default:
+            pure[0] = 1;
+            pure[1] = 0;
+            pure[2] = w2;
+        }
+        mg = (1 - c2) * g2;
+        return [
+          (c2 * pure[0] + mg) * 255,
+          (c2 * pure[1] + mg) * 255,
+          (c2 * pure[2] + mg) * 255
+        ];
+      };
+      convert.hcg.hsv = function(hcg) {
+        const c2 = hcg[1] / 100;
+        const g2 = hcg[2] / 100;
+        const v2 = c2 + g2 * (1 - c2);
+        let f2 = 0;
+        if (v2 > 0) {
+          f2 = c2 / v2;
+        }
+        return [hcg[0], f2 * 100, v2 * 100];
+      };
+      convert.hcg.hsl = function(hcg) {
+        const c2 = hcg[1] / 100;
+        const g2 = hcg[2] / 100;
+        const l2 = g2 * (1 - c2) + 0.5 * c2;
+        let s2 = 0;
+        if (l2 > 0 && l2 < 0.5) {
+          s2 = c2 / (2 * l2);
+        } else if (l2 >= 0.5 && l2 < 1) {
+          s2 = c2 / (2 * (1 - l2));
+        }
+        return [hcg[0], s2 * 100, l2 * 100];
+      };
+      convert.hcg.hwb = function(hcg) {
+        const c2 = hcg[1] / 100;
+        const g2 = hcg[2] / 100;
+        const v2 = c2 + g2 * (1 - c2);
+        return [hcg[0], (v2 - c2) * 100, (1 - v2) * 100];
+      };
+      convert.hwb.hcg = function(hwb) {
+        const w2 = hwb[1] / 100;
+        const b2 = hwb[2] / 100;
+        const v2 = 1 - b2;
+        const c2 = v2 - w2;
+        let g2 = 0;
+        if (c2 < 1) {
+          g2 = (v2 - c2) / (1 - c2);
+        }
+        return [hwb[0], c2 * 100, g2 * 100];
+      };
+      convert.apple.rgb = function(apple) {
+        return [apple[0] / 65535 * 255, apple[1] / 65535 * 255, apple[2] / 65535 * 255];
+      };
+      convert.rgb.apple = function(rgb) {
+        return [rgb[0] / 255 * 65535, rgb[1] / 255 * 65535, rgb[2] / 255 * 65535];
+      };
+      convert.gray.rgb = function(args) {
+        return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
+      };
+      convert.gray.hsl = function(args) {
+        return [0, 0, args[0]];
+      };
+      convert.gray.hsv = convert.gray.hsl;
+      convert.gray.hwb = function(gray) {
+        return [0, 100, gray[0]];
+      };
+      convert.gray.cmyk = function(gray) {
+        return [0, 0, 0, gray[0]];
+      };
+      convert.gray.lab = function(gray) {
+        return [gray[0], 0, 0];
+      };
+      convert.gray.hex = function(gray) {
+        const val = Math.round(gray[0] / 100 * 255) & 255;
+        const integer = (val << 16) + (val << 8) + val;
+        const string = integer.toString(16).toUpperCase();
+        return "000000".substring(string.length) + string;
+      };
+      convert.rgb.gray = function(rgb) {
+        const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
+        return [val / 255 * 100];
+      };
+    }
   });
 
   // node_modules/color-convert/route.js
-  var require_route = __commonJS((exports, module) => {
-    var conversions = require_conversions();
-    function buildGraph() {
-      const graph = {};
-      const models = Object.keys(conversions);
-      for (let len = models.length, i2 = 0; i2 < len; i2++) {
-        graph[models[i2]] = {
-          distance: -1,
-          parent: null
-        };
+  var require_route = __commonJS({
+    "node_modules/color-convert/route.js"(exports, module) {
+      var conversions = require_conversions();
+      function buildGraph() {
+        const graph = {};
+        const models = Object.keys(conversions);
+        for (let len = models.length, i2 = 0; i2 < len; i2++) {
+          graph[models[i2]] = {
+            distance: -1,
+            parent: null
+          };
+        }
+        return graph;
       }
-      return graph;
-    }
-    function deriveBFS(fromModel) {
-      const graph = buildGraph();
-      const queue = [fromModel];
-      graph[fromModel].distance = 0;
-      while (queue.length) {
-        const current = queue.pop();
-        const adjacents = Object.keys(conversions[current]);
-        for (let len = adjacents.length, i2 = 0; i2 < len; i2++) {
-          const adjacent = adjacents[i2];
-          const node = graph[adjacent];
-          if (node.distance === -1) {
-            node.distance = graph[current].distance + 1;
-            node.parent = current;
-            queue.unshift(adjacent);
+      function deriveBFS(fromModel) {
+        const graph = buildGraph();
+        const queue = [fromModel];
+        graph[fromModel].distance = 0;
+        while (queue.length) {
+          const current = queue.pop();
+          const adjacents = Object.keys(conversions[current]);
+          for (let len = adjacents.length, i2 = 0; i2 < len; i2++) {
+            const adjacent = adjacents[i2];
+            const node = graph[adjacent];
+            if (node.distance === -1) {
+              node.distance = graph[current].distance + 1;
+              node.parent = current;
+              queue.unshift(adjacent);
+            }
           }
         }
+        return graph;
       }
-      return graph;
-    }
-    function link(from, to) {
-      return function(args) {
-        return to(from(args));
+      function link(from, to) {
+        return function(args) {
+          return to(from(args));
+        };
+      }
+      function wrapConversion(toModel, graph) {
+        const path = [graph[toModel].parent, toModel];
+        let fn = conversions[graph[toModel].parent][toModel];
+        let cur = graph[toModel].parent;
+        while (graph[cur].parent) {
+          path.unshift(graph[cur].parent);
+          fn = link(conversions[graph[cur].parent][cur], fn);
+          cur = graph[cur].parent;
+        }
+        fn.conversion = path;
+        return fn;
+      }
+      module.exports = function(fromModel) {
+        const graph = deriveBFS(fromModel);
+        const conversion = {};
+        const models = Object.keys(graph);
+        for (let len = models.length, i2 = 0; i2 < len; i2++) {
+          const toModel = models[i2];
+          const node = graph[toModel];
+          if (node.parent === null) {
+            continue;
+          }
+          conversion[toModel] = wrapConversion(toModel, graph);
+        }
+        return conversion;
       };
     }
-    function wrapConversion(toModel, graph) {
-      const path = [graph[toModel].parent, toModel];
-      let fn = conversions[graph[toModel].parent][toModel];
-      let cur = graph[toModel].parent;
-      while (graph[cur].parent) {
-        path.unshift(graph[cur].parent);
-        fn = link(conversions[graph[cur].parent][cur], fn);
-        cur = graph[cur].parent;
-      }
-      fn.conversion = path;
-      return fn;
-    }
-    module.exports = function(fromModel) {
-      const graph = deriveBFS(fromModel);
-      const conversion = {};
-      const models = Object.keys(graph);
-      for (let len = models.length, i2 = 0; i2 < len; i2++) {
-        const toModel = models[i2];
-        const node = graph[toModel];
-        if (node.parent === null) {
-          continue;
-        }
-        conversion[toModel] = wrapConversion(toModel, graph);
-      }
-      return conversion;
-    };
   });
 
   // node_modules/color-convert/index.js
-  var require_color_convert = __commonJS((exports, module) => {
-    var conversions = require_conversions();
-    var route = require_route();
-    var convert = {};
-    var models = Object.keys(conversions);
-    function wrapRaw(fn) {
-      const wrappedFn = function(...args) {
-        const arg0 = args[0];
-        if (arg0 === void 0 || arg0 === null) {
-          return arg0;
-        }
-        if (arg0.length > 1) {
-          args = arg0;
-        }
-        return fn(args);
-      };
-      if ("conversion" in fn) {
-        wrappedFn.conversion = fn.conversion;
-      }
-      return wrappedFn;
-    }
-    function wrapRounded(fn) {
-      const wrappedFn = function(...args) {
-        const arg0 = args[0];
-        if (arg0 === void 0 || arg0 === null) {
-          return arg0;
-        }
-        if (arg0.length > 1) {
-          args = arg0;
-        }
-        const result = fn(args);
-        if (typeof result === "object") {
-          for (let len = result.length, i2 = 0; i2 < len; i2++) {
-            result[i2] = Math.round(result[i2]);
+  var require_color_convert = __commonJS({
+    "node_modules/color-convert/index.js"(exports, module) {
+      var conversions = require_conversions();
+      var route = require_route();
+      var convert = {};
+      var models = Object.keys(conversions);
+      function wrapRaw(fn) {
+        const wrappedFn = function(...args) {
+          const arg0 = args[0];
+          if (arg0 === void 0 || arg0 === null) {
+            return arg0;
           }
+          if (arg0.length > 1) {
+            args = arg0;
+          }
+          return fn(args);
+        };
+        if ("conversion" in fn) {
+          wrappedFn.conversion = fn.conversion;
         }
-        return result;
-      };
-      if ("conversion" in fn) {
-        wrappedFn.conversion = fn.conversion;
+        return wrappedFn;
       }
-      return wrappedFn;
-    }
-    models.forEach((fromModel) => {
-      convert[fromModel] = {};
-      Object.defineProperty(convert[fromModel], "channels", {value: conversions[fromModel].channels});
-      Object.defineProperty(convert[fromModel], "labels", {value: conversions[fromModel].labels});
-      const routes = route(fromModel);
-      const routeModels = Object.keys(routes);
-      routeModels.forEach((toModel) => {
-        const fn = routes[toModel];
-        convert[fromModel][toModel] = wrapRounded(fn);
-        convert[fromModel][toModel].raw = wrapRaw(fn);
+      function wrapRounded(fn) {
+        const wrappedFn = function(...args) {
+          const arg0 = args[0];
+          if (arg0 === void 0 || arg0 === null) {
+            return arg0;
+          }
+          if (arg0.length > 1) {
+            args = arg0;
+          }
+          const result = fn(args);
+          if (typeof result === "object") {
+            for (let len = result.length, i2 = 0; i2 < len; i2++) {
+              result[i2] = Math.round(result[i2]);
+            }
+          }
+          return result;
+        };
+        if ("conversion" in fn) {
+          wrappedFn.conversion = fn.conversion;
+        }
+        return wrappedFn;
+      }
+      models.forEach((fromModel) => {
+        convert[fromModel] = {};
+        Object.defineProperty(convert[fromModel], "channels", {value: conversions[fromModel].channels});
+        Object.defineProperty(convert[fromModel], "labels", {value: conversions[fromModel].labels});
+        const routes = route(fromModel);
+        const routeModels = Object.keys(routes);
+        routeModels.forEach((toModel) => {
+          const fn = routes[toModel];
+          convert[fromModel][toModel] = wrapRounded(fn);
+          convert[fromModel][toModel].raw = wrapRaw(fn);
+        });
       });
-    });
-    module.exports = convert;
+      module.exports = convert;
+    }
   });
 
   // node_modules/file-saver/dist/FileSaver.min.js
-  var require_FileSaver_min = __commonJS((exports, module) => {
-    (function(a2, b2) {
-      if (typeof define == "function" && define.amd)
-        define([], b2);
-      else if (typeof exports != "undefined")
-        b2();
-      else {
-        b2(), a2.FileSaver = {exports: {}}.exports;
-      }
-    })(exports, function() {
-      "use strict";
-      function b2(a3, b3) {
-        return typeof b3 == "undefined" ? b3 = {autoBom: false} : typeof b3 != "object" && (console.warn("Deprecated: Expected third argument to be a object"), b3 = {autoBom: !b3}), b3.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a3.type) ? new Blob(["\uFEFF", a3], {type: a3.type}) : a3;
-      }
-      function c2(a3, b3, c3) {
-        var d3 = new XMLHttpRequest();
-        d3.open("GET", a3), d3.responseType = "blob", d3.onload = function() {
-          g2(d3.response, b3, c3);
-        }, d3.onerror = function() {
-          console.error("could not download file");
-        }, d3.send();
-      }
-      function d2(a3) {
-        var b3 = new XMLHttpRequest();
-        b3.open("HEAD", a3, false);
-        try {
-          b3.send();
-        } catch (a4) {
-        }
-        return 200 <= b3.status && 299 >= b3.status;
-      }
-      function e2(a3) {
-        try {
-          a3.dispatchEvent(new MouseEvent("click"));
-        } catch (c3) {
-          var b3 = document.createEvent("MouseEvents");
-          b3.initMouseEvent("click", true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null), a3.dispatchEvent(b3);
-        }
-      }
-      var f2 = typeof window == "object" && window.window === window ? window : typeof self == "object" && self.self === self ? self : typeof global == "object" && global.global === global ? global : void 0, a2 = f2.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent), g2 = f2.saveAs || (typeof window != "object" || window !== f2 ? function() {
-      } : "download" in HTMLAnchorElement.prototype && !a2 ? function(b3, g3, h2) {
-        var i2 = f2.URL || f2.webkitURL, j2 = document.createElement("a");
-        g3 = g3 || b3.name || "download", j2.download = g3, j2.rel = "noopener", typeof b3 == "string" ? (j2.href = b3, j2.origin === location.origin ? e2(j2) : d2(j2.href) ? c2(b3, g3, h2) : e2(j2, j2.target = "_blank")) : (j2.href = i2.createObjectURL(b3), setTimeout(function() {
-          i2.revokeObjectURL(j2.href);
-        }, 4e4), setTimeout(function() {
-          e2(j2);
-        }, 0));
-      } : "msSaveOrOpenBlob" in navigator ? function(f3, g3, h2) {
-        if (g3 = g3 || f3.name || "download", typeof f3 != "string")
-          navigator.msSaveOrOpenBlob(b2(f3, h2), g3);
-        else if (d2(f3))
-          c2(f3, g3, h2);
+  var require_FileSaver_min = __commonJS({
+    "node_modules/file-saver/dist/FileSaver.min.js"(exports, module) {
+      (function(a2, b2) {
+        if (typeof define == "function" && define.amd)
+          define([], b2);
+        else if (typeof exports != "undefined")
+          b2();
         else {
-          var i2 = document.createElement("a");
-          i2.href = f3, i2.target = "_blank", setTimeout(function() {
-            e2(i2);
-          });
+          b2(), a2.FileSaver = {exports: {}}.exports;
         }
-      } : function(b3, d3, e3, g3) {
-        if (g3 = g3 || open("", "_blank"), g3 && (g3.document.title = g3.document.body.innerText = "downloading..."), typeof b3 == "string")
-          return c2(b3, d3, e3);
-        var h2 = b3.type === "application/octet-stream", i2 = /constructor/i.test(f2.HTMLElement) || f2.safari, j2 = /CriOS\/[\d]+/.test(navigator.userAgent);
-        if ((j2 || h2 && i2 || a2) && typeof FileReader != "undefined") {
-          var k2 = new FileReader();
-          k2.onloadend = function() {
-            var a3 = k2.result;
-            a3 = j2 ? a3 : a3.replace(/^data:[^;]*;/, "data:attachment/file;"), g3 ? g3.location.href = a3 : location = a3, g3 = null;
-          }, k2.readAsDataURL(b3);
-        } else {
-          var l2 = f2.URL || f2.webkitURL, m2 = l2.createObjectURL(b3);
-          g3 ? g3.location = m2 : location.href = m2, g3 = null, setTimeout(function() {
-            l2.revokeObjectURL(m2);
-          }, 4e4);
+      })(exports, function() {
+        "use strict";
+        function b2(a3, b3) {
+          return typeof b3 == "undefined" ? b3 = {autoBom: false} : typeof b3 != "object" && (console.warn("Deprecated: Expected third argument to be a object"), b3 = {autoBom: !b3}), b3.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a3.type) ? new Blob(["\uFEFF", a3], {type: a3.type}) : a3;
         }
+        function c2(a3, b3, c3) {
+          var d3 = new XMLHttpRequest();
+          d3.open("GET", a3), d3.responseType = "blob", d3.onload = function() {
+            g2(d3.response, b3, c3);
+          }, d3.onerror = function() {
+            console.error("could not download file");
+          }, d3.send();
+        }
+        function d2(a3) {
+          var b3 = new XMLHttpRequest();
+          b3.open("HEAD", a3, false);
+          try {
+            b3.send();
+          } catch (a4) {
+          }
+          return 200 <= b3.status && 299 >= b3.status;
+        }
+        function e2(a3) {
+          try {
+            a3.dispatchEvent(new MouseEvent("click"));
+          } catch (c3) {
+            var b3 = document.createEvent("MouseEvents");
+            b3.initMouseEvent("click", true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null), a3.dispatchEvent(b3);
+          }
+        }
+        var f2 = typeof window == "object" && window.window === window ? window : typeof self == "object" && self.self === self ? self : typeof global == "object" && global.global === global ? global : void 0, a2 = f2.navigator && /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent), g2 = f2.saveAs || (typeof window != "object" || window !== f2 ? function() {
+        } : "download" in HTMLAnchorElement.prototype && !a2 ? function(b3, g3, h2) {
+          var i2 = f2.URL || f2.webkitURL, j2 = document.createElement("a");
+          g3 = g3 || b3.name || "download", j2.download = g3, j2.rel = "noopener", typeof b3 == "string" ? (j2.href = b3, j2.origin === location.origin ? e2(j2) : d2(j2.href) ? c2(b3, g3, h2) : e2(j2, j2.target = "_blank")) : (j2.href = i2.createObjectURL(b3), setTimeout(function() {
+            i2.revokeObjectURL(j2.href);
+          }, 4e4), setTimeout(function() {
+            e2(j2);
+          }, 0));
+        } : "msSaveOrOpenBlob" in navigator ? function(f3, g3, h2) {
+          if (g3 = g3 || f3.name || "download", typeof f3 != "string")
+            navigator.msSaveOrOpenBlob(b2(f3, h2), g3);
+          else if (d2(f3))
+            c2(f3, g3, h2);
+          else {
+            var i2 = document.createElement("a");
+            i2.href = f3, i2.target = "_blank", setTimeout(function() {
+              e2(i2);
+            });
+          }
+        } : function(b3, d3, e3, g3) {
+          if (g3 = g3 || open("", "_blank"), g3 && (g3.document.title = g3.document.body.innerText = "downloading..."), typeof b3 == "string")
+            return c2(b3, d3, e3);
+          var h2 = b3.type === "application/octet-stream", i2 = /constructor/i.test(f2.HTMLElement) || f2.safari, j2 = /CriOS\/[\d]+/.test(navigator.userAgent);
+          if ((j2 || h2 && i2 || a2) && typeof FileReader != "undefined") {
+            var k2 = new FileReader();
+            k2.onloadend = function() {
+              var a3 = k2.result;
+              a3 = j2 ? a3 : a3.replace(/^data:[^;]*;/, "data:attachment/file;"), g3 ? g3.location.href = a3 : location = a3, g3 = null;
+            }, k2.readAsDataURL(b3);
+          } else {
+            var l2 = f2.URL || f2.webkitURL, m2 = l2.createObjectURL(b3);
+            g3 ? g3.location = m2 : location.href = m2, g3 = null, setTimeout(function() {
+              l2.revokeObjectURL(m2);
+            }, 4e4);
+          }
+        });
+        f2.saveAs = g2.saveAs = g2, typeof module != "undefined" && (module.exports = g2);
       });
-      f2.saveAs = g2.saveAs = g2, typeof module != "undefined" && (module.exports = g2);
-    });
+    }
   });
 
   // color-data.ts
@@ -2095,6 +2038,12 @@ R67				Yolk Yellow	R:255 G:197 B:110	255	197	110`;
       ["1", "None"],
       ["1.04166667", "104.2%"]
     ],
+    skew: [
+      ["none", "None"],
+      ["low", "Low"],
+      ["medium", "Medium"],
+      ["high", "High"]
+    ],
     carveSize: [
       ["none", "None"],
       ["50", "50x50"]
@@ -2150,6 +2099,10 @@ R67				Yolk Yellow	R:255 G:197 B:110	255	197	110`;
       }, /* @__PURE__ */ preact3.h("span", {
         className: "header"
       }, "Scale Correction"), radioGroup("correction", changed, "1.04166667", PrinterSettings)), /* @__PURE__ */ preact3.h("div", {
+        className: "options-group"
+      }, /* @__PURE__ */ preact3.h("span", {
+        className: "header"
+      }, "Perspective Correction"), radioGroup("skew", changed, "none", PrinterSettings)), /* @__PURE__ */ preact3.h("div", {
         className: "options-group"
       }, /* @__PURE__ */ preact3.h("span", {
         className: "header"
@@ -2408,7 +2361,7 @@ R67				Yolk Yellow	R:255 G:197 B:110	255	197	110`;
     rgb: (lhs, rhs) => {
       return Math.pow(lhs.r - rhs.r, 2) * 3 + Math.pow(lhs.g - rhs.g, 2) * 4 + Math.pow(lhs.b - rhs.b, 2) * 2;
     },
-    CIEDE2000: (lhs, rhs) => {
+    "CIEDE2000": (lhs, rhs) => {
       return diff2.diff(diff2.rgb_to_lab({R: lhs.r, G: lhs.g, B: lhs.b}), diff2.rgb_to_lab({R: rhs.r, G: rhs.g, B: rhs.b}));
     }
   };
@@ -2479,10 +2432,23 @@ Print this page at 100% scale and check it with a ruler`;
       top: 25.4 / 2
     };
     const minimumGridMargin = 2;
+    const skewThickness = {
+      "none": 0,
+      "low": 3,
+      "medium": 6,
+      "high": 14
+    }[printOptions.skew];
+    const observerHeight = 17 * 25.4;
+    const observerDistance = 8 * 25.4;
+    const minTheta = Math.atan2(observerHeight, observerDistance);
+    const maxTheta = Math.atan2(observerHeight, observerDistance + carveSize[1] * pitch);
+    const minPerspectiveOffset = Math.tan(maxTheta) * skewThickness;
+    const maxPerspectiveOffset = Math.tan(minTheta) * skewThickness;
+    const netPerspectiveOffset = maxPerspectiveOffset - minPerspectiveOffset;
     const textHeight = 4;
     const gridSize = {
       width: pitch * Math.min(image.width, carveSize[0]),
-      height: pitch * Math.min(image.height, carveSize[1])
+      height: pitch * Math.min(image.height, carveSize[1]) + netPerspectiveOffset
     };
     const cellSize = {
       width: gridSize.width,
@@ -2558,6 +2524,12 @@ Print this page at 100% scale and check it with a ruler`;
           if (realCount === 0)
             continue;
           nextCellLocation();
+          const yAt = (rawY) => {
+            const adjY = rawY - slice.y;
+            const rowTheta = Math.atan2(observerHeight, observerDistance + adjY * pitch);
+            const ySkew = maxPerspectiveOffset - Math.tan(rowTheta) * skewThickness;
+            return (adjY + 0.5) * pitch + ySkew;
+          };
           ctx.save();
           ctx.font = "4pt Helvetica";
           ctx.translate(colCursor * (cellSize.width + horizontalGridMargin) + pageMargins.top, rowCursor * (cellSize.height + verticalGridMargin) + pageMargins.left);
@@ -2567,7 +2539,7 @@ Print this page at 100% scale and check it with a ruler`;
           ctx.translate(0, textHeight);
           ctx.lineWidth = 0.01;
           ctx.strokeStyle = "grey";
-          ctx.strokeRect(0, 0, slice.width * pitch, slice.height * pitch);
+          ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
           if (printOptions.color === "color") {
             ctx.fillStyle = colorEntryToHex(image.partList[i2].target);
           } else {
@@ -2575,9 +2547,10 @@ Print this page at 100% scale and check it with a ruler`;
           }
           ctx.beginPath();
           for (let y2 = slice.y; y2 < slice.y + slice.height; y2++) {
+            const cy = yAt(y2);
             for (let x2 = slice.x; x2 < slice.x + slice.width; x2++) {
               if (image.pixels[y2][x2] === image.partList[i2]) {
-                ctx.arc((x2 - slice.x + 0.5) * pitch, (y2 - slice.y + 0.5) * pitch, pitch / 2.5, 0, Math.PI * 2, false);
+                ctx.arc((x2 - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
               }
             }
           }
@@ -2605,24 +2578,26 @@ Print this page at 100% scale and check it with a ruler`;
           }
           for (let y2 = slice.y; y2 < slice.y + slice.height; y2++) {
             const py = y2 - slice.y;
+            const yTop = yAt(y2 - 0.5);
+            const yBottom = yAt(y2 + 0.5);
             for (let x2 = slice.x; x2 < slice.x + slice.width; x2++) {
               const px = x2 - slice.x;
               if (prevFill[py][px]) {
                 if (py !== 0 && !prevFill[y2 - 1][px]) {
-                  ctx.moveTo((px + 0) * pitch, py * pitch);
-                  ctx.lineTo((px + 1) * pitch, py * pitch);
+                  ctx.moveTo((px + 0) * pitch, yTop);
+                  ctx.lineTo((px + 1) * pitch, yTop);
                 }
                 if (py !== prevFill.length - 1 && !prevFill[y2 + 1][px]) {
-                  ctx.moveTo((px + 0) * pitch, (py + 1) * pitch);
-                  ctx.lineTo((px + 1) * pitch, (py + 1) * pitch);
+                  ctx.moveTo((px + 0) * pitch, yBottom);
+                  ctx.lineTo((px + 1) * pitch, yBottom);
                 }
                 if (!prevFill[y2][px - 1]) {
-                  ctx.moveTo(px * pitch, (py + 0) * pitch);
-                  ctx.lineTo(px * pitch, (py + 1) * pitch);
+                  ctx.moveTo(px * pitch, yTop);
+                  ctx.lineTo(px * pitch, yBottom);
                 }
                 if (!prevFill[y2][px + 1]) {
-                  ctx.moveTo((px + 1) * pitch, (py + 0) * pitch);
-                  ctx.lineTo((px + 1) * pitch, (py + 1) * pitch);
+                  ctx.moveTo((px + 1) * pitch, yTop);
+                  ctx.lineTo((px + 1) * pitch, yBottom);
                 }
               }
             }
@@ -2635,6 +2610,7 @@ Print this page at 100% scale and check it with a ruler`;
     } else if (printOptions.style === "single") {
       for (let si = 0; si < slices.length; si++) {
         nextCellLocation();
+        ctx.translate(pageMargins.top, pageMargins.left);
         const slice = slices[si];
         for (let y2 = slice.y; y2 < slice.y + slice.height; y2++) {
           for (let x2 = slice.x; x2 < slice.x + slice.width; x2++) {
@@ -2655,7 +2631,7 @@ Print this page at 100% scale and check it with a ruler`;
         }
       }
     }
-    doc.output("dataurlnewwindow");
+    doc.output("dataurlnewwindow", {filename: "plan.pdf"});
     function nextCellLocation() {
       colCursor++;
       if (colCursor === cols) {
@@ -2688,7 +2664,6 @@ Print this page at 100% scale and check it with a ruler`;
       let rows = Math.floor((pageHeight + minumumMargin) / (cellHeight + minumumMargin));
       let cols = Math.floor((pageWidth + minumumMargin) / (cellWidth + minumumMargin));
       while (true) {
-        debugger;
         if (rows > cols) {
           if (tryDecr(() => rows--))
             continue;
@@ -3314,3 +3289,30 @@ Print this page at 100% scale and check it with a ruler`;
     "smw-plant"
   ].map((s2) => `./gallery/${s2}.png`).reverse();
 })();
+/**
+ * @author Markus Ekholm
+ * @copyright 2012-2016 (c) Markus Ekholm <markus at botten dot org >
+ * @license Copyright (c) 2012-2016, Markus Ekholm
+ * All rights reserved.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *    * Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *    * Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in the
+ *      documentation and/or other materials provided with the distribution.
+ *    * Neither the name of the author nor the
+ *      names of its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL MARKUS EKHOLM BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */

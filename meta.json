@@ -73,7 +73,7 @@
       ]
     },
     "download-bar.tsx": {
-      "bytes": 3205,
+      "bytes": 3546,
       "imports": [
         {
           "path": "utils.tsx",
@@ -152,7 +152,7 @@
       ]
     },
     "pdf-generator.ts": {
-      "bytes": 14905,
+      "bytes": 16159,
       "imports": [
         {
           "path": "utils.tsx",
@@ -234,34 +234,34 @@
       "entryPoint": "firaga.tsx",
       "inputs": {
         "node_modules/preact/dist/preact.module.js": {
-          "bytesInOutput": 15803
+          "bytesInOutput": 15897
         },
         "node_modules/color-diff/lib/diff.js": {
-          "bytesInOutput": 4672
+          "bytesInOutput": 3121
         },
         "node_modules/color-diff/lib/convert.js": {
-          "bytesInOutput": 3959
+          "bytesInOutput": 2412
         },
         "node_modules/color-diff/lib/palette.js": {
-          "bytesInOutput": 4818
+          "bytesInOutput": 3262
         },
         "node_modules/color-diff/lib/index.js": {
-          "bytesInOutput": 1412
+          "bytesInOutput": 1521
         },
         "node_modules/color-name/index.js": {
-          "bytesInOutput": 4988
+          "bytesInOutput": 5629
         },
         "node_modules/color-convert/conversions.js": {
-          "bytesInOutput": 19729
+          "bytesInOutput": 21111
         },
         "node_modules/color-convert/route.js": {
-          "bytesInOutput": 2018
+          "bytesInOutput": 2188
         },
         "node_modules/color-convert/index.js": {
-          "bytesInOutput": 1809
+          "bytesInOutput": 1965
         },
         "node_modules/file-saver/dist/FileSaver.min.js": {
-          "bytesInOutput": 4052
+          "bytesInOutput": 4260
         },
         "color-data.ts": {
           "bytesInOutput": 9155
@@ -273,7 +273,7 @@
           "bytesInOutput": 2048
         },
         "download-bar.tsx": {
-          "bytesInOutput": 3331
+          "bytesInOutput": 3681
         },
         "gallery.tsx": {
           "bytesInOutput": 925
@@ -282,10 +282,10 @@
           "bytesInOutput": 3813
         },
         "palettizer.ts": {
-          "bytesInOutput": 2818
+          "bytesInOutput": 2820
         },
         "pdf-generator.ts": {
-          "bytesInOutput": 11618
+          "bytesInOutput": 12597
         },
         "plan-settings.tsx": {
           "bytesInOutput": 3553
@@ -294,7 +294,7 @@
           "bytesInOutput": 17794
         }
       },
-      "bytes": 121576
+      "bytes": 122785
     }
   }
 }
