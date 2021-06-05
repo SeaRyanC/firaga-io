@@ -25,7 +25,7 @@ export function palettize(rgbaArray: RgbaImage, palette: InputColorsToObjectColo
     };
 }
 
-export function makePalette(rgbaArray: RgbaImage, allowedColors: ObjectColor[] | undefined, settings: PlanSettings): ColorAssignment[] {
+export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly ObjectColor[] | undefined, settings: PlanSettings): ColorAssignment[] {
     const tempAssignments: ColorAssignment[] = [];
     const inputColors = [];
 

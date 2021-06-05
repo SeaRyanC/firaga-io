@@ -1,6 +1,6 @@
 import saver = require('file-saver');
 import preact = require('preact');
-import { rawColorData } from "./color-data";
+import { loadColorData } from './color-data';
 import { createDisplaySettingsComponent, DisplaySettings } from "./display-settings";
 import { createDownloadBar, PrintOptions } from './download-bar';
 import { Gallery } from "./gallery";
@@ -10,6 +10,7 @@ import { makePdf, makeTestSheet } from './pdf-generator';
 import { createPlannerSettingsComponent, PlanSettings } from "./plan-settings";
 import { InputColorsToObjectColors as ColorAssignments, ObjectColor, PalettizedImage } from "./types";
 import { colorEntryToHex, colorEntryToHtml, getPitch, isBright, symbolAlphabet, timer } from "./utils";
+
 
 const refObjs = {
     quarter: {
@@ -29,19 +30,7 @@ const refObjs = {
     }
 };
 
-const colorData: ObjectColor[] = rawColorData.split(/\r?\n/g).map(line => {
-    const parts = line.split('\t');
-    return ({
-        name: parts[4],
-        code: parts[2],
-        r: +parts[6],
-        g: +parts[7],
-        b: +parts[8],
-        R: +parts[6],
-        G: +parts[7],
-        B: +parts[8]
-    });
-});
+const colorData = loadColorData();
 
 const artkalStarterCodes =
     ("CT1,C01,C88,C33,C34,C02," +
@@ -116,7 +105,7 @@ function app() {
     }
 
     function download(name: string, opts: PrintOptions) {
-        switch(name) {
+        switch (name) {
             case "calibration":
                 makeTestSheet();
                 break;
@@ -191,10 +180,20 @@ function app() {
             if (gallery[i] === undefined) {
                 window.localStorage.removeItem(keyFormat(userIndex));
             } else {
-                window.localStorage.setItem(keyFormat(userIndex), gallery[i]);
+                saveTo(gallery[i], userIndex);
             }
             userIndex++;
         }
+
+        async function saveTo(blobUrl: string, index: number) {
+            const blob = await (await fetch(blobUrl)).blob();
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = function () {
+                window.localStorage.setItem(keyFormat(index), reader.result as string);
+            }
+        }
+
     }
 }
 
