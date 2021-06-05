@@ -1,8 +1,25 @@
 {
   "inputs": {
-    "color-data.ts": {
-      "bytes": 9333,
+    "src/csv.ts": {
+      "bytes": 576,
       "imports": []
+    },
+    "data/colors.csv": {
+      "bytes": 6491,
+      "imports": []
+    },
+    "src/color-data.ts": {
+      "bytes": 1160,
+      "imports": [
+        {
+          "path": "src/csv.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "data/colors.csv",
+          "kind": "require-call"
+        }
+      ]
     },
     "node_modules/preact/dist/preact.module.js": {
       "bytes": 10097,
@@ -46,7 +63,7 @@
         }
       ]
     },
-    "utils.tsx": {
+    "src/utils.tsx": {
       "bytes": 5307,
       "imports": [
         {
@@ -59,11 +76,11 @@
         }
       ]
     },
-    "display-settings.tsx": {
+    "src/display-settings.tsx": {
       "bytes": 2373,
       "imports": [
         {
-          "path": "utils.tsx",
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
@@ -72,11 +89,11 @@
         }
       ]
     },
-    "download-bar.tsx": {
+    "src/download-bar.tsx": {
       "bytes": 3546,
       "imports": [
         {
-          "path": "utils.tsx",
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
@@ -85,7 +102,7 @@
         }
       ]
     },
-    "gallery.tsx": {
+    "src/gallery.tsx": {
       "bytes": 1002,
       "imports": [
         {
@@ -129,7 +146,7 @@
         }
       ]
     },
-    "image-utils.tsx": {
+    "src/image-utils.tsx": {
       "bytes": 4624,
       "imports": [
         {
@@ -138,11 +155,11 @@
         }
       ]
     },
-    "palettizer.ts": {
-      "bytes": 3712,
+    "src/palettizer.ts": {
+      "bytes": 3721,
       "imports": [
         {
-          "path": "utils.tsx",
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
@@ -151,20 +168,20 @@
         }
       ]
     },
-    "pdf-generator.ts": {
-      "bytes": 16159,
+    "src/pdf-generator.ts": {
+      "bytes": 16211,
       "imports": [
         {
-          "path": "utils.tsx",
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         }
       ]
     },
-    "plan-settings.tsx": {
+    "src/plan-settings.tsx": {
       "bytes": 3207,
       "imports": [
         {
-          "path": "utils.tsx",
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
@@ -177,43 +194,43 @@
       "bytes": 2749,
       "imports": []
     },
-    "firaga.tsx": {
-      "bytes": 23723,
+    "src/firaga.tsx": {
+      "bytes": 23781,
       "imports": [
         {
-          "path": "color-data.ts",
+          "path": "src/color-data.ts",
           "kind": "import-statement"
         },
         {
-          "path": "display-settings.tsx",
+          "path": "src/display-settings.tsx",
           "kind": "import-statement"
         },
         {
-          "path": "download-bar.tsx",
+          "path": "src/download-bar.tsx",
           "kind": "import-statement"
         },
         {
-          "path": "gallery.tsx",
+          "path": "src/gallery.tsx",
           "kind": "import-statement"
         },
         {
-          "path": "image-utils.tsx",
+          "path": "src/image-utils.tsx",
           "kind": "import-statement"
         },
         {
-          "path": "palettizer.ts",
+          "path": "src/palettizer.ts",
           "kind": "import-statement"
         },
         {
-          "path": "pdf-generator.ts",
+          "path": "src/pdf-generator.ts",
           "kind": "import-statement"
         },
         {
-          "path": "plan-settings.tsx",
+          "path": "src/plan-settings.tsx",
           "kind": "import-statement"
         },
         {
-          "path": "utils.tsx",
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
@@ -228,11 +245,14 @@
     }
   },
   "outputs": {
-    "firaga.js": {
+    "docs/firaga.js": {
       "imports": [],
       "exports": [],
-      "entryPoint": "firaga.tsx",
+      "entryPoint": "src/firaga.tsx",
       "inputs": {
+        "data/colors.csv": {
+          "bytesInOutput": 6953
+        },
         "node_modules/preact/dist/preact.module.js": {
           "bytesInOutput": 15897
         },
@@ -263,38 +283,41 @@
         "node_modules/file-saver/dist/FileSaver.min.js": {
           "bytesInOutput": 4260
         },
-        "color-data.ts": {
-          "bytesInOutput": 9155
+        "src/csv.ts": {
+          "bytesInOutput": 442
         },
-        "utils.tsx": {
+        "src/color-data.ts": {
+          "bytesInOutput": 818
+        },
+        "src/utils.tsx": {
           "bytesInOutput": 2249
         },
-        "display-settings.tsx": {
+        "src/display-settings.tsx": {
           "bytesInOutput": 2048
         },
-        "download-bar.tsx": {
+        "src/download-bar.tsx": {
           "bytesInOutput": 3681
         },
-        "gallery.tsx": {
+        "src/gallery.tsx": {
           "bytesInOutput": 925
         },
-        "image-utils.tsx": {
+        "src/image-utils.tsx": {
           "bytesInOutput": 3813
         },
-        "palettizer.ts": {
+        "src/palettizer.ts": {
           "bytesInOutput": 2820
         },
-        "pdf-generator.ts": {
+        "src/pdf-generator.ts": {
           "bytesInOutput": 12597
         },
-        "plan-settings.tsx": {
+        "src/plan-settings.tsx": {
           "bytesInOutput": 3553
         },
-        "firaga.tsx": {
-          "bytesInOutput": 17794
+        "src/firaga.tsx": {
+          "bytesInOutput": 17822
         }
       },
-      "bytes": 122785
+      "bytes": 121950
     }
   }
 }

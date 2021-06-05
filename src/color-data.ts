@@ -4,7 +4,7 @@ import { ObjectColor } from './types';
 declare const require: any;
 
 export function loadColorData(): ReadonlyArray<ObjectColor> {
-    const colorDataRaw = parseCsv(require("./data/colors.csv"));
+    const colorDataRaw = parseCsv(require("../data/colors.csv"));
     const rows = assertCsv<[string, string, string, string, string, string, string, string]>(colorDataRaw, ["R", "G", "B", "Artkal Midi Soft", "Artkal Mini Soft", "Artkal Mini", "Artkal Midi", "Name"]);
     const colorData: ObjectColor[] = [];
     for (const r of rows) {
