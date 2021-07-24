@@ -1,5 +1,27 @@
 {
   "inputs": {
+    "node_modules/preact/dist/preact.module.js": {
+      "bytes": 10097,
+      "imports": []
+    },
+    "node_modules/preact/hooks/dist/hooks.module.js": {
+      "bytes": 2641,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/gallery.tsx": {
+      "bytes": 1203,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "require-call"
+        }
+      ]
+    },
     "src/csv.ts": {
       "bytes": 576,
       "imports": []
@@ -20,10 +42,6 @@
           "kind": "require-call"
         }
       ]
-    },
-    "node_modules/preact/dist/preact.module.js": {
-      "bytes": 10097,
-      "imports": []
     },
     "node_modules/color-diff/lib/diff.js": {
       "bytes": 5330,
@@ -64,7 +82,7 @@
       ]
     },
     "src/utils.tsx": {
-      "bytes": 5307,
+      "bytes": 5266,
       "imports": [
         {
           "path": "node_modules/preact/dist/preact.module.js",
@@ -76,37 +94,15 @@
         }
       ]
     },
-    "src/display-settings.tsx": {
-      "bytes": 2373,
+    "src/palettizer.ts": {
+      "bytes": 3688,
       "imports": [
         {
           "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
-          "path": "node_modules/preact/dist/preact.module.js",
-          "kind": "require-call"
-        }
-      ]
-    },
-    "src/download-bar.tsx": {
-      "bytes": 3546,
-      "imports": [
-        {
-          "path": "src/utils.tsx",
-          "kind": "import-statement"
-        },
-        {
-          "path": "node_modules/preact/dist/preact.module.js",
-          "kind": "require-call"
-        }
-      ]
-    },
-    "src/gallery.tsx": {
-      "bytes": 1002,
-      "imports": [
-        {
-          "path": "node_modules/preact/dist/preact.module.js",
+          "path": "node_modules/color-diff/lib/index.js",
           "kind": "require-call"
         }
       ]
@@ -147,66 +143,52 @@
       ]
     },
     "src/image-utils.tsx": {
-      "bytes": 4624,
-      "imports": [
-        {
-          "path": "node_modules/color-convert/index.js",
-          "kind": "require-call"
-        }
-      ]
-    },
-    "src/palettizer.ts": {
-      "bytes": 3721,
-      "imports": [
-        {
-          "path": "src/utils.tsx",
-          "kind": "import-statement"
-        },
-        {
-          "path": "node_modules/color-diff/lib/index.js",
-          "kind": "require-call"
-        }
-      ]
-    },
-    "src/pdf-generator.ts": {
-      "bytes": 16211,
-      "imports": [
-        {
-          "path": "src/utils.tsx",
-          "kind": "import-statement"
-        }
-      ]
-    },
-    "src/plan-settings.tsx": {
-      "bytes": 3207,
-      "imports": [
-        {
-          "path": "src/utils.tsx",
-          "kind": "import-statement"
-        },
-        {
-          "path": "node_modules/preact/dist/preact.module.js",
-          "kind": "require-call"
-        }
-      ]
-    },
-    "node_modules/file-saver/dist/FileSaver.min.js": {
-      "bytes": 2749,
-      "imports": []
-    },
-    "src/firaga.tsx": {
-      "bytes": 23781,
+      "bytes": 9312,
       "imports": [
         {
           "path": "src/color-data.ts",
           "kind": "import-statement"
         },
         {
-          "path": "src/display-settings.tsx",
+          "path": "src/palettizer.ts",
           "kind": "import-statement"
         },
         {
-          "path": "src/download-bar.tsx",
+          "path": "src/utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/color-convert/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "src/types.tsx": {
+      "bytes": 4135,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/user-gallery.ts": {
+      "bytes": 1895,
+      "imports": []
+    },
+    "src/svg.css": {
+      "bytes": 421,
+      "imports": []
+    },
+    "src/app.tsx": {
+      "bytes": 30154,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/preact/hooks/dist/hooks.module.js",
           "kind": "import-statement"
         },
         {
@@ -218,15 +200,7 @@
           "kind": "import-statement"
         },
         {
-          "path": "src/palettizer.ts",
-          "kind": "import-statement"
-        },
-        {
-          "path": "src/pdf-generator.ts",
-          "kind": "import-statement"
-        },
-        {
-          "path": "src/plan-settings.tsx",
+          "path": "src/types.tsx",
           "kind": "import-statement"
         },
         {
@@ -234,12 +208,21 @@
           "kind": "import-statement"
         },
         {
-          "path": "node_modules/file-saver/dist/FileSaver.min.js",
-          "kind": "require-call"
+          "path": "src/user-gallery.ts",
+          "kind": "import-statement"
         },
         {
-          "path": "node_modules/preact/dist/preact.module.js",
+          "path": "src/svg.css",
           "kind": "require-call"
+        }
+      ]
+    },
+    "src/firaga.tsx": {
+      "bytes": 20740,
+      "imports": [
+        {
+          "path": "src/app.tsx",
+          "kind": "import-statement"
         }
       ]
     }
@@ -250,20 +233,20 @@
       "exports": [],
       "entryPoint": "src/firaga.tsx",
       "inputs": {
-        "data/colors.csv": {
-          "bytesInOutput": 6953
-        },
         "node_modules/preact/dist/preact.module.js": {
           "bytesInOutput": 15897
         },
+        "data/colors.csv": {
+          "bytesInOutput": 6953
+        },
         "node_modules/color-diff/lib/diff.js": {
-          "bytesInOutput": 3121
+          "bytesInOutput": 3132
         },
         "node_modules/color-diff/lib/convert.js": {
           "bytesInOutput": 2412
         },
         "node_modules/color-diff/lib/palette.js": {
-          "bytesInOutput": 3262
+          "bytesInOutput": 3267
         },
         "node_modules/color-diff/lib/index.js": {
           "bytesInOutput": 1521
@@ -272,7 +255,7 @@
           "bytesInOutput": 5629
         },
         "node_modules/color-convert/conversions.js": {
-          "bytesInOutput": 21111
+          "bytesInOutput": 21118
         },
         "node_modules/color-convert/route.js": {
           "bytesInOutput": 2188
@@ -280,8 +263,17 @@
         "node_modules/color-convert/index.js": {
           "bytesInOutput": 1965
         },
-        "node_modules/file-saver/dist/FileSaver.min.js": {
-          "bytesInOutput": 4260
+        "src/svg.css": {
+          "bytesInOutput": 584
+        },
+        "src/app.tsx": {
+          "bytesInOutput": 27068
+        },
+        "node_modules/preact/hooks/dist/hooks.module.js": {
+          "bytesInOutput": 2652
+        },
+        "src/gallery.tsx": {
+          "bytesInOutput": 975
         },
         "src/csv.ts": {
           "bytesInOutput": 442
@@ -290,34 +282,25 @@
           "bytesInOutput": 818
         },
         "src/utils.tsx": {
-          "bytesInOutput": 2249
-        },
-        "src/display-settings.tsx": {
-          "bytesInOutput": 2048
-        },
-        "src/download-bar.tsx": {
-          "bytesInOutput": 3681
-        },
-        "src/gallery.tsx": {
-          "bytesInOutput": 925
-        },
-        "src/image-utils.tsx": {
-          "bytesInOutput": 3813
+          "bytesInOutput": 1046
         },
         "src/palettizer.ts": {
           "bytesInOutput": 2820
         },
-        "src/pdf-generator.ts": {
-          "bytesInOutput": 12597
+        "src/image-utils.tsx": {
+          "bytesInOutput": 7198
         },
-        "src/plan-settings.tsx": {
-          "bytesInOutput": 3553
+        "src/types.tsx": {
+          "bytesInOutput": 1933
+        },
+        "src/user-gallery.ts": {
+          "bytesInOutput": 1613
         },
         "src/firaga.tsx": {
-          "bytesInOutput": 17822
+          "bytesInOutput": 238
         }
       },
-      "bytes": 121950
+      "bytes": 114320
     }
   }
 }

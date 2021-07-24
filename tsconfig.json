@@ -3,11 +3,16 @@
     "target": "es2019",
     "module": "commonjs",
     "jsx": "preserve",
+    "jsxImportSource": "preact",
     "strict": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "types": [
+      "preact"
+    ]
   }
 }

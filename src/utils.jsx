@@ -1,16 +1,14 @@
-import preact = require('preact');
-import diff = require('color-diff');
-import { AppProps, PalettizedImage, RgbaImage } from './types';
-
-export const symbolAlphabet = "ABCDEFGHJKLMNPQRSTVXZαβΔθλπΦΨΩabcdefghijklmnopqrstuvwxyz0123456789";
-export const smallSymbolAlphabet = "○×★□";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.carveAxis = exports.carve = exports.radioGroup = exports.timer = exports.isBright = exports.hx = exports.colorEntryToHex = exports.colorEntryToHtml = exports.rawToHtml = exports.rgbToRGB = exports.getPitch = exports.pitchInfo = exports.smallSymbolAlphabet = exports.symbolAlphabet = void 0;
+exports.symbolAlphabet = "ABCDEFGHJKLMNPQRSTVXZαβΔθλπΦΨΩabcdefghijklmnopqrstuvwxyz0123456789";
+exports.smallSymbolAlphabet = "○×★□";
 /**
  * Pitch is the center-to-center distance between pegs (in mm). This is
  * slightly larger than the actual bead diameter, so needs to be measured
  * manually and is specific to each manufacturer's pegboard.
  */
- export const pitchInfo = {
+exports.pitchInfo = {
     // Measured from 50 pegs @ 138mm
     "artkal-mini": 2.82,
     // Measured from 56 pegs @ 147.8mm
@@ -20,70 +18,64 @@ export const smallSymbolAlphabet = "○×★□";
     // https://orionrobots.co.uk/wiki/lego_specifications.html
     lego: 8
 };
-
-export function getPitch(size: AppProps["material"]["size"]) {
-    return pitchInfo[size];
+function getPitch(size) {
+    return exports.pitchInfo[size];
 }
-
-export type Rgb = { r: number, g: number, b: number };
-
-export function rgbToRGB(rgb: Rgb): diff.RGBColor {
+exports.getPitch = getPitch;
+function rgbToRGB(rgb) {
     return {
         R: rgb.r,
         G: rgb.g,
         B: rgb.b
     };
 }
-
-export function rawToHtml(i: number) {
+exports.rgbToRGB = rgbToRGB;
+function rawToHtml(i) {
     return "rgb(" + (i & 0xFF) + "," + ((i >> 8) & 0xFF) + "," + ((i >> 16) & 0xFF) + ")";
 }
-
-export function colorEntryToHtml(c: Rgb) {
+exports.rawToHtml = rawToHtml;
+function colorEntryToHtml(c) {
     return "rgb(" + c.r + "," + c.g + "," + c.b + ")";
 }
-
-export function colorEntryToHex(c: Rgb) {
+exports.colorEntryToHtml = colorEntryToHtml;
+function colorEntryToHex(c) {
     return "#" + hx(c.r) + hx(c.g) + hx(c.b);
 }
-
-export function hx(n: number) {
-    if (n === undefined) return "";
-    if (n === 0) return "00";
-    if (n < 16) return "0" + n.toString(16);
+exports.colorEntryToHex = colorEntryToHex;
+function hx(n) {
+    if (n === undefined)
+        return "";
+    if (n === 0)
+        return "00";
+    if (n < 16)
+        return "0" + n.toString(16);
     return n.toString(16);
 }
-
-export function isBright(i: Rgb) {
+exports.hx = hx;
+function isBright(i) {
     return i.r + i.g * 1.4 + i.b > 460;
 }
-
-export function timer() {
+exports.isBright = isBright;
+function timer() {
     let last = Date.now();
-
     return { mark };
-
-    function mark(event: string) {
+    function mark(event) {
         const n = Date.now();
-        console.log(`PERF: '${event}' finished in ${n - last}ms`);
+        // console.log(`PERF: '${event}' finished in ${n - last}ms`);
         last = n;
     }
 }
-
-export type RadioSettings<T extends Record<string, readonly (readonly [unknown, unknown])[]>> = {
-    [K in keyof T & string]: T[K][number][0]
-};
-export function radioGroup<K extends string, V extends Record<K, readonly (readonly [string | number, unknown])[]>>(name: K, changed: () => void, defaultValue: V[K][number][0], values: V) {
+exports.timer = timer;
+function radioGroup(name, changed, defaultValue, values) {
     const v = values[name];
     return <>
         {...v.map(([value, caption]) => {
-            return <label key={value}><input type="radio" onChange={changed} name={name} value={value} checked={value === defaultValue} />{caption}</label>;
-        }
-        )}
+            return <label key={value}><input type="radio" onChange={changed} name={name} value={value} defaultChecked={value === defaultValue}/>{caption}</label>;
+        })}
     </>;
 }
-
-export function carve(width: number, height: number, xSize: number, ySize: number): { x: number, y: number, width: number, height: number }[] {
+exports.radioGroup = radioGroup;
+function carve(width, height, xSize, ySize) {
     const res = [];
     const xa = carveAxis(width, xSize);
     const ya = carveAxis(height, ySize);
@@ -103,14 +95,14 @@ export function carve(width: number, height: number, xSize: number, ySize: numbe
     }
     return res;
 }
-
-export function carveAxis(width: number, size: number) {
-    if (width <= size) return [width];
+exports.carve = carve;
+function carveAxis(width, size) {
+    if (width <= size)
+        return [width];
     if (width <= size * 2) {
         return [Math.ceil(width / 2), Math.floor(width / 2)];
     }
     const remainder = width % size;
-
     let res = [remainder];
     let remaining = width - res[0];
     while (remaining > size) {
@@ -119,13 +111,12 @@ export function carveAxis(width: number, size: number) {
     }
     res.push(remaining);
     return res;
-
 }
-
-function renderRgbaImageToCanvas(quantized: RgbaImage, target: HTMLCanvasElement) {
+exports.carveAxis = carveAxis;
+function renderRgbaImageToCanvas(quantized, target) {
     target.width = quantized.width;
     target.height = quantized.height;
-    const ctx = target.getContext('2d')!;
+    const ctx = target.getContext('2d');
     const data = ctx.getImageData(0, 0, quantized.width, quantized.height);
     for (let y = 0; y < quantized.height; y++) {
         for (let x = 0; x < quantized.width; x++) {
@@ -133,7 +124,8 @@ function renderRgbaImageToCanvas(quantized: RgbaImage, target: HTMLCanvasElement
             const p = quantized.pixels[y][x];
             if (p === -1) {
                 data.data[j + 3] = 0;
-            } else {
+            }
+            else {
                 data.data[j + 0] = p & 0xFF;
                 data.data[j + 1] = (p >> 8) & 0xFF;
                 data.data[j + 2] = (p >> 16) & 0xFF;
@@ -143,11 +135,10 @@ function renderRgbaImageToCanvas(quantized: RgbaImage, target: HTMLCanvasElement
     }
     ctx.putImageData(data, 0, 0);
 }
-
-function renderPalettizedImageToCanvas(quantized: PalettizedImage, target: HTMLCanvasElement) {
+function renderPalettizedImageToCanvas(quantized, target) {
     target.width = quantized.width;
     target.height = quantized.height;
-    const ctx = target.getContext('2d')!;
+    const ctx = target.getContext('2d');
     const data = ctx.getImageData(0, 0, quantized.width, quantized.height);
     for (let y = 0; y < quantized.height; y++) {
         for (let x = 0; x < quantized.width; x++) {
@@ -155,7 +146,8 @@ function renderPalettizedImageToCanvas(quantized: PalettizedImage, target: HTMLC
             const p = quantized.pixels[y][x];
             if (p === undefined) {
                 data.data[j + 3] = 0;
-            } else {
+            }
+            else {
                 data.data[j + 0] = p.r;
                 data.data[j + 1] = p.g;
                 data.data[j + 2] = p.b;

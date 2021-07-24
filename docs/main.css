@@ -1,5 +1,54 @@
 body {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    background: #777;
+    padding: 0px;
+    margin: 0px;
+}
+
+div.app-top {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+    height: 100vh;
+    width: 100vw;
+}
+
+div.app-main {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 64px;
+}
+
+div.toolbar {
+    width: 100%;
+    height: 64px;
+    display: flex;
+}
+
+button.toolbar-button {
+    font-size: 28px;
+    display: inline-block;
+    text-align: center;
+    width: 64px;
+    height: 48px;
+    background-color: #AAC;
+    border: solid 2px #225;
+    border-radius: 8px;
+    margin-left: 0.2em;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-shadow: black 2px 2px 3px;
 }
 
 details {
@@ -10,62 +59,71 @@ details summary {
     font-size: 120%;
 }
 
+div.options-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
 div.options-group {
-    display: inline-block;
+    flex-grow: 1;
     vertical-align: top;
     padding: 0.6em;
     border: solid #ddd 1px;
-    height: 8em;
 }
 
-div.options-group span, div.options-group label {
+div.options-group label {
     display: block;
+    white-space: nowrap;
 }
 
-div.options-group .header {
-    font-size: 110%;
+div.options-group span.header {
+    font-size: 115%;
     width: 100%;
     text-align: center;
+    display: block;
+    padding-bottom: 0.2em;
 }
 
-span#legend {
+table.part-list, table.plan-stats {
     display: inline-block;
     vertical-align: top;
 }
 
-svg {
-    max-height: 600px;
-    max-width: 70%;
+svg.plan {
+    display: inline;
+    flex-grow: 1;
+    max-width: 100%;
+    max-height: 100vh;
 }
 
-body {
-    text-align: center;
-    background: #777;
-}
-
-div.main {
+div.settings {
+    display: flex;
+    flex-direction: column;
     background: white;
     position: relative;
-    display: inline-block;
-    margin: 0 auto;
     text-align: left;
-    padding-left: 0em;
-    padding-right: 0em;
 }
 
-div.main-row {
-    position: relative;
-    min-width: 50vw;
-    border: solid #444 1px;
+div.settings-row {
+    border-top: solid #444 1px;
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 0.2em;
 }
 
-div.main-row div.header {
+div.settings-row:first-child {
+    border-top: none;
+}
+
+div.settings-row div.header {
     font-size: 120%;
     font-weight: bold;
     margin-left: 1em;
+}
+
+div.plan-display {
+    flex-grow: 1;
 }
 
 th.top-header {
@@ -112,9 +170,6 @@ table, td {
     border-collapse: collapse;
 }
 
-/* Make this fixed-width so it doesn't jostle the display
- * when the color names change
- */
 td .colorName {
     width: 7em;
     display: inline-block;
@@ -124,26 +179,27 @@ td .colorName {
     padding-left: 4px;
 }
 
-div#gallery {
-    position: relative;
-    height: 100vh;
+div.gallery {
+    animation: 0.4s ease-out 0s 1 slideInFromRight;
+
     text-align: center;
     overflow: hidden;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    right: leftpx;
-    width: 14vw;
+    max-width: 480px;
     background: white;
     border-left: solid black 3px;
+
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
 }
 
 div.gallery-list {
-    overflow-x: hidden;
-    overflow-y: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
     justify-content: space-evenly;
     padding-left: 1em;
     padding-right: 1em;
@@ -163,11 +219,26 @@ div.gallery-entry img {
     width: 64px;
     height: 64px;
     object-fit: contain;
-    background: grey;
     border: solid grey 3px;
     filter: drop-shadow(4px 4px 6px);
     margin: 0px;
-    padding: 0px;
+    padding: 4px;
+}
+
+div.gallery-entry:nth-child(4n+0) img {
+    background: #f37736
+}
+
+div.gallery-entry:nth-child(4n+1) img {
+    background: #fdf498
+}
+
+div.gallery-entry:nth-child(4n+2) img {
+    background: #7bc043
+}
+
+div.gallery-entry:nth-child(4n+3) img {
+    background: #0392cf
 }
 
 div.gallery-delete {
@@ -186,7 +257,7 @@ div.about {
     text-align: center;
 }
 
-div#drop-target {
+div.dropbox {
     display: inline-block;
     text-align: center;
     padding-top: 1.5em;
@@ -194,6 +265,80 @@ div#drop-target {
     height: 6em;
     background: #CCC;
     border: dashed 1px black;
+    border-radius: 6px;
+}
+
+div.print-dialog {
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: 15%;
+    height: auto;
+    z-index: 100;
+    background: white;
+    border: solid black 3px;
+    box-shadow: black 6px 6px 12px;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div.print-dialog div.print-setting-group {
+    border: solid black 1px;
+}
+
+div.print-dialog div.print-setting-group-options {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+div.print-dialog div.print-setting-group h1 {
+    text-align: center;
+    font-size: 150%;
+    margin: 0px auto 0px auto;
+    padding: 0px 15px 0px 15px;
+    border: solid red 1px;
+}
+
+div.print-dialog input {
+    display: none;
+}
+
+div.print-dialog label div.option {
+    display: inline-block;
+    margin: 4px 12px 4px 12px;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    border: solid grey 1px;
+    text-align: center;
+}
+
+div.print-dialog label div.option h3 {
+    margin: 0px 0px 3px 0px;
+}
+
+div.print-dialog span.letter-icon {
+    display: block;
+    width: 42.5px;
+    height: 55px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 4px;
+    border: solid black 1px;
+}
+
+div.print-dialog span.a4-icon {
+    display: block;
+    width: 42px;
+    height: 59.4px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 4px;
+    border: solid black 1px;
+}
+
+
+div.print-dialog input:checked + div.option {
+    background-color: #ADF;
 }
 
 label.download-button-label {
@@ -206,7 +351,16 @@ label.download-button-label {
     filter: drop-shadow(1px 1px 2px);
 }
 
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 a.extern:after {
-  content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
-  margin: 0 3px 0 5px;
+    content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+    margin: 0 3px 0 5px;
 }

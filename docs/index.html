@@ -1,113 +1,15 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>firaga.io - bead sprites done fast and easy</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='firaga.js'></script>
 </head>
-
 <body>
-    <img id="myImg" style="display: none">
-    <div class="main">
-        <div id="plan-settings-row" class="main-row">
-            <details open>
-                <summary>Plan Settings</summary>
-                <div id="plan-settings"></div>
-            </details>
-        </div>
-
-        <div id="plan-row" class="main-row">
-            <details open>
-                <summary>Plan</summary>
-                <div id="plan-display">
-                    <svg id="plan" xmlns="http://www.w3.org/2000/svg">
-                        <style>
-                            line.gridmajor {
-                                stroke-width: 2px;
-                                stroke: rgba(0, 0, 0, 0.5);
-                            }
-
-                            line.gridminor {
-                                stroke-width: 1px;
-                                stroke: rgba(0, 0, 0, 0.2);
-                            }
-
-                            text {
-                                font-family: 'Courier New', Courier, monospace;
-                                font-weight: bold;
-                                font-size: 31px;
-                                fill: black;
-                                pointer-events: none;
-                            }
-
-                            use.dark text,
-                            text.dark {
-                                fill: white;
-                            }
-
-                            use.light text,
-                            text.light {
-                                fill: black;
-                            }
-                        </style>
-                        <defs>
-                            <rect id="melted" width="32" height="32" rx="7" ry="7"></rect>
-                            <rect id="square" width="32" height="32"></rect>
-                            <rect id="circle" width="32" height="32" rx="16" ry="16"></rect>
-                            <pattern id="wood" patternUnits="userSpaceOnUse" width="400" height="400">
-                                <image href="https://upload.wikimedia.org/wikipedia/commons/5/50/Mahag%C3%B3ni_001.jpg"
-                                    x="0" y="0" width="400" height="400" />
-                            </pattern>
-                        </defs>
-                        <rect id="plan-background" width="100%" height="100%" fill="grey" />
-                        <g id="layer-colors"></g>
-                        <g id="layer-grid"></g>
-                        <g id="layer-text"></g>
-                        <g id="layer-refobj"></g>
-                    </svg>
-                    <span id="legend"></span>
-                </div>
-            </details>
-        </div>
-
-        <div id="display-settings-row" class="main-row">
-            <details open>
-                <summary>Display Settings</summary>
-                <div id="display-settings"></div>
-            </details>
-        </div>
-
-        <div id="print-row" class="main-row">
-            <details open>
-                <summary>Printable Plans</summary>
-                <div id="print-settings"></div>
-            </details>
-        </div>
+    <div id="app-root" class="app-main">
     </div>
-
-    <div id="gallery">
-        <h2>Pick Image</h2>
-        <form id="upload-form">
-            <div id="drop-target"> <label for="upload-image-button" style="display: inline"
-                    class="download-button-label">Upload</label>
-                <input style="display: none;" type="file" accept="image/png, image/jpeg" id="upload-image-button"
-                    value="Choose..." onchange="this.form.submit()"></input>, Paste, or Drag & Drop here
-            </div>
-        </form>
-
-        <h2>Gallery</h2>
-        <div id="gallery-list" class="gallery-list-container">
-        </div>
-        <div class="about">
-            <a href="https://github.com/SeaRyanC/firaga-io"><img
-                    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="40"
-                    height="40"></a>
-        </div>
-    </div>
-    <script src='firaga.js' defer></script>
 </body>
-
 </html>

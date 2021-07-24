@@ -1,9 +1,8 @@
-import preact = require('preact');
-import { radioGroup, RadioSettings } from './utils';
-
-export interface PrintOptions extends RadioSettings<typeof PrinterSettings> {
-}
-export const PrinterSettings = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createDownloadBar = exports.PrinterSettings = void 0;
+const utils_1 = require("./utils");
+exports.PrinterSettings = {
     paperSize: [
         ["letter", "Letter"],
         ["A4", "A4"],
@@ -32,30 +31,25 @@ export const PrinterSettings = {
         ["none", "None"],
         ["50", "50x50"]
     ]
-} as const;
-
-export function createDownloadBar(onRequest: (name: string, settings: PrintOptions) => void) {
+};
+function createDownloadBar(onRequest) {
     return ({
         component
     });
-
-    function download(s: string) {
-        return function (e: any) {
+    function download(s) {
+        return function (e) {
             e.preventDefault();
             onRequest(s, value());
-        }
+        };
     }
-
     function changed() {
         // no-op for now
     }
-
     function value() {
-        const p = new FormData(document.getElementById("printsettingsform") as HTMLFormElement);
+        const p = new FormData(document.getElementById("printsettingsform"));
         const entries = [...p.entries()];
-        return Object.fromEntries(entries) as any as PrintOptions;
+        return Object.fromEntries(entries);
     }
-
     function component() {
         return <form id="printsettingsform">
             <div className="options-group">
@@ -67,32 +61,32 @@ export function createDownloadBar(onRequest: (name: string, settings: PrintOptio
 
             <div className="options-group">
                 <span className="header">Page Size</span>
-                {radioGroup("paperSize", changed, "letter", PrinterSettings)}
+                {(0, utils_1.radioGroup)("paperSize", changed, "letter", exports.PrinterSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Color</span>
-                {radioGroup("color", changed, "bw-max", PrinterSettings)}
+                {(0, utils_1.radioGroup)("color", changed, "bw-max", exports.PrinterSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Style</span>
-                {radioGroup("style", changed, "stepped", PrinterSettings)}
+                {(0, utils_1.radioGroup)("style", changed, "stepped", exports.PrinterSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Scale Correction</span>
-                {radioGroup("correction", changed, "1.04166667", PrinterSettings)}
+                {(0, utils_1.radioGroup)("correction", changed, "1.04166667", exports.PrinterSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Perspective Correction</span>
-                {radioGroup("skew", changed, "none", PrinterSettings)}
+                {(0, utils_1.radioGroup)("skew", changed, "none", exports.PrinterSettings)}
             </div>
 
             <div className="options-group">
                 <span className="header">Segmenting</span>
-                {radioGroup("carveSize", changed, "none", PrinterSettings)}
+                {(0, utils_1.radioGroup)("carveSize", changed, "none", exports.PrinterSettings)}
             </div>
 
             <div className="options-group">
@@ -103,3 +97,4 @@ export function createDownloadBar(onRequest: (name: string, settings: PrintOptio
         </form>;
     }
 }
+exports.createDownloadBar = createDownloadBar;
