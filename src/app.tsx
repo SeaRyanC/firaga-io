@@ -602,11 +602,19 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         return <div class="print-dialog">
             <div class="print-setting-group">
                 <h1>Format</h1>
-                <label><input type="radio" name="format"></input>
-                    <span>Step by Step</span>
-                </label>
-                <label><input type="radio" name="format"></input><span>Single Plan</span></label>
-                <label><input type="radio" name="format"></input><span>Color Image</span></label>
+                <div class="print-setting-group-options">
+                    <div class="option">
+                        <label><input type="radio" name="format"></input>
+                            <span>Step by Step</span>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <label><input type="radio" name="format"></input><span>Single Plan</span></label>
+                    </div>
+                    <div class="option">
+                        <label><input type="radio" name="format"></input><span>Color Image</span></label>
+                    </div>
+                </div>
             </div>
             <div class="print-setting-group">
                 <h1>Paper Size</h1>
@@ -629,10 +637,20 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
             </div>
             <div class="print-setting-group">
                 <h1>Perspective Correction</h1>
-                <label><input type="radio" name="persp-corr"></input><span>Off</span></label>
-                <label><input type="radio" name="persp-corr"></input><span>Low</span></label>
-                <label><input type="radio" name="persp-corr"></input><span>Medium</span></label>
-                <label><input type="radio" name="persp-corr"></input><span>High</span></label>
+                <div class="print-setting-group-options">
+                    <div class="option">
+                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,off">Off</span></label>
+                    </div>
+                    <div class="option">
+                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,low">Low</span></label>
+                    </div>
+                    <div class="option">
+                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,mid">Medium</span></label>
+                    </div>
+                    <div class="option">
+                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,high">High</span></label>
+                    </div>
+                </div>
             </div>
             <div class="print-setting-group">
                 <h1>Misc.</h1>
