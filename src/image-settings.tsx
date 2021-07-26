@@ -46,9 +46,9 @@ export function createImageSettingsComponent(firedChanged: () => void) {
 
             <div className="options-group">
                 <span className="header">Adjustments</span>
-                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="brightness" />Brightness</label>
-                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="contrast" />Contrast</label>
-                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" defaultValue={0} name="saturation" />Saturation</label>
+                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" name="brightness" />Brightness</label>
+                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" name="contrast" />Contrast</label>
+                <label><input type="range" onInput={changed} onChange={changed} min="-10" max="10" step="1" name="saturation" />Saturation</label>
             </div>
 
             <div className="options-group">

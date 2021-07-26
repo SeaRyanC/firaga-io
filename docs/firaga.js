@@ -27,19 +27,19 @@
     render: () => N,
     toChildArray: () => w
   });
-  function c(n2, l2) {
-    for (var u3 in l2)
-      n2[u3] = l2[u3];
+  function c(n2, l3) {
+    for (var u3 in l3)
+      n2[u3] = l3[u3];
     return n2;
   }
   function s(n2) {
-    var l2 = n2.parentNode;
-    l2 && l2.removeChild(n2);
+    var l3 = n2.parentNode;
+    l3 && l3.removeChild(n2);
   }
-  function a(n2, l2, u3) {
+  function a(n2, l3, u3) {
     var i3, t3, o3, r3 = arguments, f3 = {};
-    for (o3 in l2)
-      o3 == "key" ? i3 = l2[o3] : o3 == "ref" ? t3 = l2[o3] : f3[o3] = l2[o3];
+    for (o3 in l3)
+      o3 == "key" ? i3 = l3[o3] : o3 == "ref" ? t3 = l3[o3] : f3[o3] = l3[o3];
     if (arguments.length > 3)
       for (u3 = [u3], o3 = 3; o3 < arguments.length; o3++)
         u3.push(r3[o3]);
@@ -48,8 +48,8 @@
         f3[o3] === void 0 && (f3[o3] = n2.defaultProps[o3]);
     return v(n2, f3, i3, t3, null);
   }
-  function v(l2, u3, i3, t3, o3) {
-    var r3 = {type: l2, props: u3, key: i3, ref: t3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: o3 == null ? ++n.__v : o3};
+  function v(l3, u3, i3, t3, o3) {
+    var r3 = {type: l3, props: u3, key: i3, ref: t3, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: o3 == null ? ++n.__v : o3};
     return n.vnode != null && n.vnode(r3), r3;
   }
   function h() {
@@ -58,77 +58,77 @@
   function y(n2) {
     return n2.children;
   }
-  function p(n2, l2) {
-    this.props = n2, this.context = l2;
+  function p(n2, l3) {
+    this.props = n2, this.context = l3;
   }
-  function d(n2, l2) {
-    if (l2 == null)
+  function d(n2, l3) {
+    if (l3 == null)
       return n2.__ ? d(n2.__, n2.__.__k.indexOf(n2) + 1) : null;
-    for (var u3; l2 < n2.__k.length; l2++)
-      if ((u3 = n2.__k[l2]) != null && u3.__e != null)
+    for (var u3; l3 < n2.__k.length; l3++)
+      if ((u3 = n2.__k[l3]) != null && u3.__e != null)
         return u3.__e;
     return typeof n2.type == "function" ? d(n2) : null;
   }
   function _(n2) {
-    var l2, u3;
+    var l3, u3;
     if ((n2 = n2.__) != null && n2.__c != null) {
-      for (n2.__e = n2.__c.base = null, l2 = 0; l2 < n2.__k.length; l2++)
-        if ((u3 = n2.__k[l2]) != null && u3.__e != null) {
+      for (n2.__e = n2.__c.base = null, l3 = 0; l3 < n2.__k.length; l3++)
+        if ((u3 = n2.__k[l3]) != null && u3.__e != null) {
           n2.__e = n2.__c.base = u3.__e;
           break;
         }
       return _(n2);
     }
   }
-  function k(l2) {
-    (!l2.__d && (l2.__d = true) && u.push(l2) && !b.__r++ || t !== n.debounceRendering) && ((t = n.debounceRendering) || i)(b);
+  function k(l3) {
+    (!l3.__d && (l3.__d = true) && u.push(l3) && !b.__r++ || t !== n.debounceRendering) && ((t = n.debounceRendering) || i)(b);
   }
   function b() {
     for (var n2; b.__r = u.length; )
-      n2 = u.sort(function(n3, l2) {
-        return n3.__v.__b - l2.__v.__b;
+      n2 = u.sort(function(n3, l3) {
+        return n3.__v.__b - l3.__v.__b;
       }), u = [], n2.some(function(n3) {
-        var l2, u3, i3, t3, o3, r3;
-        n3.__d && (o3 = (t3 = (l2 = n3).__v).__e, (r3 = l2.__P) && (u3 = [], (i3 = c({}, t3)).__v = t3.__v + 1, I(r3, t3, i3, l2.__n, r3.ownerSVGElement !== void 0, t3.__h != null ? [o3] : null, u3, o3 == null ? d(t3) : o3, t3.__h), T(u3, t3), t3.__e != o3 && _(t3)));
+        var l3, u3, i3, t3, o3, r3;
+        n3.__d && (o3 = (t3 = (l3 = n3).__v).__e, (r3 = l3.__P) && (u3 = [], (i3 = c({}, t3)).__v = t3.__v + 1, I(r3, t3, i3, l3.__n, r3.ownerSVGElement !== void 0, t3.__h != null ? [o3] : null, u3, o3 == null ? d(t3) : o3, t3.__h), T(u3, t3), t3.__e != o3 && _(t3)));
       });
   }
-  function m(n2, l2, u3, i3, t3, o3, e3, c3, s4, a3) {
-    var h3, p2, _2, k3, b3, m3, w2, A2 = i3 && i3.__k || f, P2 = A2.length;
-    for (u3.__k = [], h3 = 0; h3 < l2.length; h3++)
-      if ((k3 = u3.__k[h3] = (k3 = l2[h3]) == null || typeof k3 == "boolean" ? null : typeof k3 == "string" || typeof k3 == "number" || typeof k3 == "bigint" ? v(null, k3, null, null, k3) : Array.isArray(k3) ? v(y, {children: k3}, null, null, null) : k3.__b > 0 ? v(k3.type, k3.props, k3.key, null, k3.__v) : k3) != null) {
+  function m(n2, l3, u3, i3, t3, o3, e3, c3, s4, a3) {
+    var h3, p3, _2, k3, b3, m3, w3, A2 = i3 && i3.__k || f, P2 = A2.length;
+    for (u3.__k = [], h3 = 0; h3 < l3.length; h3++)
+      if ((k3 = u3.__k[h3] = (k3 = l3[h3]) == null || typeof k3 == "boolean" ? null : typeof k3 == "string" || typeof k3 == "number" || typeof k3 == "bigint" ? v(null, k3, null, null, k3) : Array.isArray(k3) ? v(y, {children: k3}, null, null, null) : k3.__b > 0 ? v(k3.type, k3.props, k3.key, null, k3.__v) : k3) != null) {
         if (k3.__ = u3, k3.__b = u3.__b + 1, (_2 = A2[h3]) === null || _2 && k3.key == _2.key && k3.type === _2.type)
           A2[h3] = void 0;
         else
-          for (p2 = 0; p2 < P2; p2++) {
-            if ((_2 = A2[p2]) && k3.key == _2.key && k3.type === _2.type) {
-              A2[p2] = void 0;
+          for (p3 = 0; p3 < P2; p3++) {
+            if ((_2 = A2[p3]) && k3.key == _2.key && k3.type === _2.type) {
+              A2[p3] = void 0;
               break;
             }
             _2 = null;
           }
-        I(n2, k3, _2 = _2 || r, t3, o3, e3, c3, s4, a3), b3 = k3.__e, (p2 = k3.ref) && _2.ref != p2 && (w2 || (w2 = []), _2.ref && w2.push(_2.ref, null, k3), w2.push(p2, k3.__c || b3, k3)), b3 != null ? (m3 == null && (m3 = b3), typeof k3.type == "function" && k3.__k != null && k3.__k === _2.__k ? k3.__d = s4 = g(k3, s4, n2) : s4 = x(n2, k3, _2, A2, b3, s4), a3 || u3.type !== "option" ? typeof u3.type == "function" && (u3.__d = s4) : n2.value = "") : s4 && _2.__e == s4 && s4.parentNode != n2 && (s4 = d(_2));
+        I(n2, k3, _2 = _2 || r, t3, o3, e3, c3, s4, a3), b3 = k3.__e, (p3 = k3.ref) && _2.ref != p3 && (w3 || (w3 = []), _2.ref && w3.push(_2.ref, null, k3), w3.push(p3, k3.__c || b3, k3)), b3 != null ? (m3 == null && (m3 = b3), typeof k3.type == "function" && k3.__k != null && k3.__k === _2.__k ? k3.__d = s4 = g(k3, s4, n2) : s4 = x(n2, k3, _2, A2, b3, s4), a3 || u3.type !== "option" ? typeof u3.type == "function" && (u3.__d = s4) : n2.value = "") : s4 && _2.__e == s4 && s4.parentNode != n2 && (s4 = d(_2));
       }
     for (u3.__e = m3, h3 = P2; h3--; )
       A2[h3] != null && (typeof u3.type == "function" && A2[h3].__e != null && A2[h3].__e == u3.__d && (u3.__d = d(i3, h3 + 1)), L(A2[h3], A2[h3]));
-    if (w2)
-      for (h3 = 0; h3 < w2.length; h3++)
-        z(w2[h3], w2[++h3], w2[++h3]);
+    if (w3)
+      for (h3 = 0; h3 < w3.length; h3++)
+        z(w3[h3], w3[++h3], w3[++h3]);
   }
-  function g(n2, l2, u3) {
+  function g(n2, l3, u3) {
     var i3, t3;
     for (i3 = 0; i3 < n2.__k.length; i3++)
-      (t3 = n2.__k[i3]) && (t3.__ = n2, l2 = typeof t3.type == "function" ? g(t3, l2, u3) : x(u3, t3, t3, n2.__k, t3.__e, l2));
-    return l2;
+      (t3 = n2.__k[i3]) && (t3.__ = n2, l3 = typeof t3.type == "function" ? g(t3, l3, u3) : x(u3, t3, t3, n2.__k, t3.__e, l3));
+    return l3;
   }
-  function w(n2, l2) {
-    return l2 = l2 || [], n2 == null || typeof n2 == "boolean" || (Array.isArray(n2) ? n2.some(function(n3) {
-      w(n3, l2);
-    }) : l2.push(n2)), l2;
+  function w(n2, l3) {
+    return l3 = l3 || [], n2 == null || typeof n2 == "boolean" || (Array.isArray(n2) ? n2.some(function(n3) {
+      w(n3, l3);
+    }) : l3.push(n2)), l3;
   }
-  function x(n2, l2, u3, i3, t3, o3) {
+  function x(n2, l3, u3, i3, t3, o3) {
     var r3, f3, e3;
-    if (l2.__d !== void 0)
-      r3 = l2.__d, l2.__d = void 0;
+    if (l3.__d !== void 0)
+      r3 = l3.__d, l3.__d = void 0;
     else if (u3 == null || t3 != o3 || t3.parentNode == null)
       n:
         if (o3 == null || o3.parentNode !== n2)
@@ -141,59 +141,59 @@
         }
     return r3 !== void 0 ? r3 : t3.nextSibling;
   }
-  function A(n2, l2, u3, i3, t3) {
+  function A(n2, l3, u3, i3, t3) {
     var o3;
     for (o3 in u3)
-      o3 === "children" || o3 === "key" || o3 in l2 || C(n2, o3, null, u3[o3], i3);
-    for (o3 in l2)
-      t3 && typeof l2[o3] != "function" || o3 === "children" || o3 === "key" || o3 === "value" || o3 === "checked" || u3[o3] === l2[o3] || C(n2, o3, l2[o3], u3[o3], i3);
+      o3 === "children" || o3 === "key" || o3 in l3 || C(n2, o3, null, u3[o3], i3);
+    for (o3 in l3)
+      t3 && typeof l3[o3] != "function" || o3 === "children" || o3 === "key" || o3 === "value" || o3 === "checked" || u3[o3] === l3[o3] || C(n2, o3, l3[o3], u3[o3], i3);
   }
-  function P(n2, l2, u3) {
-    l2[0] === "-" ? n2.setProperty(l2, u3) : n2[l2] = u3 == null ? "" : typeof u3 != "number" || e.test(l2) ? u3 : u3 + "px";
+  function P(n2, l3, u3) {
+    l3[0] === "-" ? n2.setProperty(l3, u3) : n2[l3] = u3 == null ? "" : typeof u3 != "number" || e.test(l3) ? u3 : u3 + "px";
   }
-  function C(n2, l2, u3, i3, t3) {
+  function C(n2, l3, u3, i3, t3) {
     var o3;
     n:
-      if (l2 === "style")
+      if (l3 === "style")
         if (typeof u3 == "string")
           n2.style.cssText = u3;
         else {
           if (typeof i3 == "string" && (n2.style.cssText = i3 = ""), i3)
-            for (l2 in i3)
-              u3 && l2 in u3 || P(n2.style, l2, "");
+            for (l3 in i3)
+              u3 && l3 in u3 || P(n2.style, l3, "");
           if (u3)
-            for (l2 in u3)
-              i3 && u3[l2] === i3[l2] || P(n2.style, l2, u3[l2]);
+            for (l3 in u3)
+              i3 && u3[l3] === i3[l3] || P(n2.style, l3, u3[l3]);
         }
-      else if (l2[0] === "o" && l2[1] === "n")
-        o3 = l2 !== (l2 = l2.replace(/Capture$/, "")), l2 = l2.toLowerCase() in n2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o3] = u3, u3 ? i3 || n2.addEventListener(l2, o3 ? H : $, o3) : n2.removeEventListener(l2, o3 ? H : $, o3);
-      else if (l2 !== "dangerouslySetInnerHTML") {
+      else if (l3[0] === "o" && l3[1] === "n")
+        o3 = l3 !== (l3 = l3.replace(/Capture$/, "")), l3 = l3.toLowerCase() in n2 ? l3.toLowerCase().slice(2) : l3.slice(2), n2.l || (n2.l = {}), n2.l[l3 + o3] = u3, u3 ? i3 || n2.addEventListener(l3, o3 ? H : $, o3) : n2.removeEventListener(l3, o3 ? H : $, o3);
+      else if (l3 !== "dangerouslySetInnerHTML") {
         if (t3)
-          l2 = l2.replace(/xlink[H:h]/, "h").replace(/sName$/, "s");
-        else if (l2 !== "href" && l2 !== "list" && l2 !== "form" && l2 !== "tabIndex" && l2 !== "download" && l2 in n2)
+          l3 = l3.replace(/xlink[H:h]/, "h").replace(/sName$/, "s");
+        else if (l3 !== "href" && l3 !== "list" && l3 !== "form" && l3 !== "tabIndex" && l3 !== "download" && l3 in n2)
           try {
-            n2[l2] = u3 == null ? "" : u3;
+            n2[l3] = u3 == null ? "" : u3;
             break n;
           } catch (n3) {
           }
-        typeof u3 == "function" || (u3 != null && (u3 !== false || l2[0] === "a" && l2[1] === "r") ? n2.setAttribute(l2, u3) : n2.removeAttribute(l2));
+        typeof u3 == "function" || (u3 != null && (u3 !== false || l3[0] === "a" && l3[1] === "r") ? n2.setAttribute(l3, u3) : n2.removeAttribute(l3));
       }
   }
-  function $(l2) {
-    this.l[l2.type + false](n.event ? n.event(l2) : l2);
+  function $(l3) {
+    this.l[l3.type + false](n.event ? n.event(l3) : l3);
   }
-  function H(l2) {
-    this.l[l2.type + true](n.event ? n.event(l2) : l2);
+  function H(l3) {
+    this.l[l3.type + true](n.event ? n.event(l3) : l3);
   }
-  function I(l2, u3, i3, t3, o3, r3, f3, e3, s4) {
-    var a3, v3, h3, d3, _2, k3, b3, g3, w2, x3, A2, P2 = u3.type;
+  function I(l3, u3, i3, t3, o3, r3, f3, e3, s4) {
+    var a3, v3, h3, d3, _2, k3, b3, g3, w3, x3, A2, P2 = u3.type;
     if (u3.constructor !== void 0)
       return null;
     i3.__h != null && (s4 = i3.__h, e3 = u3.__e = i3.__e, u3.__h = null, r3 = [e3]), (a3 = n.__b) && a3(u3);
     try {
       n:
         if (typeof P2 == "function") {
-          if (g3 = u3.props, w2 = (a3 = P2.contextType) && t3[a3.__c], x3 = a3 ? w2 ? w2.props.value : a3.__ : t3, i3.__c ? b3 = (v3 = u3.__c = i3.__c).__ = v3.__E : ("prototype" in P2 && P2.prototype.render ? u3.__c = v3 = new P2(g3, x3) : (u3.__c = v3 = new p(g3, x3), v3.constructor = P2, v3.render = M), w2 && w2.sub(v3), v3.props = g3, v3.state || (v3.state = {}), v3.context = x3, v3.__n = t3, h3 = v3.__d = true, v3.__h = []), v3.__s == null && (v3.__s = v3.state), P2.getDerivedStateFromProps != null && (v3.__s == v3.state && (v3.__s = c({}, v3.__s)), c(v3.__s, P2.getDerivedStateFromProps(g3, v3.__s))), d3 = v3.props, _2 = v3.state, h3)
+          if (g3 = u3.props, w3 = (a3 = P2.contextType) && t3[a3.__c], x3 = a3 ? w3 ? w3.props.value : a3.__ : t3, i3.__c ? b3 = (v3 = u3.__c = i3.__c).__ = v3.__E : ("prototype" in P2 && P2.prototype.render ? u3.__c = v3 = new P2(g3, x3) : (u3.__c = v3 = new p(g3, x3), v3.constructor = P2, v3.render = M), w3 && w3.sub(v3), v3.props = g3, v3.state || (v3.state = {}), v3.context = x3, v3.__n = t3, h3 = v3.__d = true, v3.__h = []), v3.__s == null && (v3.__s = v3.state), P2.getDerivedStateFromProps != null && (v3.__s == v3.state && (v3.__s = c({}, v3.__s)), c(v3.__s, P2.getDerivedStateFromProps(g3, v3.__s))), d3 = v3.props, _2 = v3.state, h3)
             P2.getDerivedStateFromProps == null && v3.componentWillMount != null && v3.componentWillMount(), v3.componentDidMount != null && v3.__h.push(v3.componentDidMount);
           else {
             if (P2.getDerivedStateFromProps == null && g3 !== d3 && v3.componentWillReceiveProps != null && v3.componentWillReceiveProps(g3, x3), !v3.__e && v3.shouldComponentUpdate != null && v3.shouldComponentUpdate(g3, v3.__s, x3) === false || u3.__v === i3.__v) {
@@ -206,27 +206,27 @@
               v3.componentDidUpdate(d3, _2, k3);
             });
           }
-          v3.context = x3, v3.props = g3, v3.state = v3.__s, (a3 = n.__r) && a3(u3), v3.__d = false, v3.__v = u3, v3.__P = l2, a3 = v3.render(v3.props, v3.state, v3.context), v3.state = v3.__s, v3.getChildContext != null && (t3 = c(c({}, t3), v3.getChildContext())), h3 || v3.getSnapshotBeforeUpdate == null || (k3 = v3.getSnapshotBeforeUpdate(d3, _2)), A2 = a3 != null && a3.type === y && a3.key == null ? a3.props.children : a3, m(l2, Array.isArray(A2) ? A2 : [A2], u3, i3, t3, o3, r3, f3, e3, s4), v3.base = u3.__e, u3.__h = null, v3.__h.length && f3.push(v3), b3 && (v3.__E = v3.__ = null), v3.__e = false;
+          v3.context = x3, v3.props = g3, v3.state = v3.__s, (a3 = n.__r) && a3(u3), v3.__d = false, v3.__v = u3, v3.__P = l3, a3 = v3.render(v3.props, v3.state, v3.context), v3.state = v3.__s, v3.getChildContext != null && (t3 = c(c({}, t3), v3.getChildContext())), h3 || v3.getSnapshotBeforeUpdate == null || (k3 = v3.getSnapshotBeforeUpdate(d3, _2)), A2 = a3 != null && a3.type === y && a3.key == null ? a3.props.children : a3, m(l3, Array.isArray(A2) ? A2 : [A2], u3, i3, t3, o3, r3, f3, e3, s4), v3.base = u3.__e, u3.__h = null, v3.__h.length && f3.push(v3), b3 && (v3.__E = v3.__ = null), v3.__e = false;
         } else
           r3 == null && u3.__v === i3.__v ? (u3.__k = i3.__k, u3.__e = i3.__e) : u3.__e = j(i3.__e, u3, i3, t3, o3, r3, f3, s4);
       (a3 = n.diffed) && a3(u3);
-    } catch (l3) {
-      u3.__v = null, (s4 || r3 != null) && (u3.__e = e3, u3.__h = !!s4, r3[r3.indexOf(e3)] = null), n.__e(l3, u3, i3);
+    } catch (l4) {
+      u3.__v = null, (s4 || r3 != null) && (u3.__e = e3, u3.__h = !!s4, r3[r3.indexOf(e3)] = null), n.__e(l4, u3, i3);
     }
   }
-  function T(l2, u3) {
-    n.__c && n.__c(u3, l2), l2.some(function(u4) {
+  function T(l3, u3) {
+    n.__c && n.__c(u3, l3), l3.some(function(u4) {
       try {
-        l2 = u4.__h, u4.__h = [], l2.some(function(n2) {
+        l3 = u4.__h, u4.__h = [], l3.some(function(n2) {
           n2.call(u4);
         });
-      } catch (l3) {
-        n.__e(l3, u4.__v);
+      } catch (l4) {
+        n.__e(l4, u4.__v);
       }
     });
   }
-  function j(n2, l2, u3, i3, t3, o3, e3, c3) {
-    var a3, v3, h3, y3, p2 = u3.props, d3 = l2.props, _2 = l2.type, k3 = 0;
+  function j(n2, l3, u3, i3, t3, o3, e3, c3) {
+    var a3, v3, h3, y3, p3 = u3.props, d3 = l3.props, _2 = l3.type, k3 = 0;
     if (_2 === "svg" && (t3 = true), o3 != null) {
       for (; k3 < o3.length; k3++)
         if ((a3 = o3[k3]) && (a3 === n2 || (_2 ? a3.localName == _2 : a3.nodeType == 3))) {
@@ -240,79 +240,79 @@
       n2 = t3 ? document.createElementNS("http://www.w3.org/2000/svg", _2) : document.createElement(_2, d3.is && d3), o3 = null, c3 = false;
     }
     if (_2 === null)
-      p2 === d3 || c3 && n2.data === d3 || (n2.data = d3);
+      p3 === d3 || c3 && n2.data === d3 || (n2.data = d3);
     else {
-      if (o3 = o3 && f.slice.call(n2.childNodes), v3 = (p2 = u3.props || r).dangerouslySetInnerHTML, h3 = d3.dangerouslySetInnerHTML, !c3) {
+      if (o3 = o3 && f.slice.call(n2.childNodes), v3 = (p3 = u3.props || r).dangerouslySetInnerHTML, h3 = d3.dangerouslySetInnerHTML, !c3) {
         if (o3 != null)
-          for (p2 = {}, y3 = 0; y3 < n2.attributes.length; y3++)
-            p2[n2.attributes[y3].name] = n2.attributes[y3].value;
+          for (p3 = {}, y3 = 0; y3 < n2.attributes.length; y3++)
+            p3[n2.attributes[y3].name] = n2.attributes[y3].value;
         (h3 || v3) && (h3 && (v3 && h3.__html == v3.__html || h3.__html === n2.innerHTML) || (n2.innerHTML = h3 && h3.__html || ""));
       }
-      if (A(n2, d3, p2, t3, c3), h3)
-        l2.__k = [];
-      else if (k3 = l2.props.children, m(n2, Array.isArray(k3) ? k3 : [k3], l2, u3, i3, t3 && _2 !== "foreignObject", o3, e3, n2.firstChild, c3), o3 != null)
+      if (A(n2, d3, p3, t3, c3), h3)
+        l3.__k = [];
+      else if (k3 = l3.props.children, m(n2, Array.isArray(k3) ? k3 : [k3], l3, u3, i3, t3 && _2 !== "foreignObject", o3, e3, n2.firstChild, c3), o3 != null)
         for (k3 = o3.length; k3--; )
           o3[k3] != null && s(o3[k3]);
-      c3 || ("value" in d3 && (k3 = d3.value) !== void 0 && (k3 !== n2.value || _2 === "progress" && !k3) && C(n2, "value", k3, p2.value, false), "checked" in d3 && (k3 = d3.checked) !== void 0 && k3 !== n2.checked && C(n2, "checked", k3, p2.checked, false));
+      c3 || ("value" in d3 && (k3 = d3.value) !== void 0 && (k3 !== n2.value || _2 === "progress" && !k3) && C(n2, "value", k3, p3.value, false), "checked" in d3 && (k3 = d3.checked) !== void 0 && k3 !== n2.checked && C(n2, "checked", k3, p3.checked, false));
     }
     return n2;
   }
-  function z(l2, u3, i3) {
+  function z(l3, u3, i3) {
     try {
-      typeof l2 == "function" ? l2(u3) : l2.current = u3;
-    } catch (l3) {
-      n.__e(l3, i3);
+      typeof l3 == "function" ? l3(u3) : l3.current = u3;
+    } catch (l4) {
+      n.__e(l4, i3);
     }
   }
-  function L(l2, u3, i3) {
+  function L(l3, u3, i3) {
     var t3, o3, r3;
-    if (n.unmount && n.unmount(l2), (t3 = l2.ref) && (t3.current && t3.current !== l2.__e || z(t3, null, u3)), i3 || typeof l2.type == "function" || (i3 = (o3 = l2.__e) != null), l2.__e = l2.__d = void 0, (t3 = l2.__c) != null) {
+    if (n.unmount && n.unmount(l3), (t3 = l3.ref) && (t3.current && t3.current !== l3.__e || z(t3, null, u3)), i3 || typeof l3.type == "function" || (i3 = (o3 = l3.__e) != null), l3.__e = l3.__d = void 0, (t3 = l3.__c) != null) {
       if (t3.componentWillUnmount)
         try {
           t3.componentWillUnmount();
-        } catch (l3) {
-          n.__e(l3, u3);
+        } catch (l4) {
+          n.__e(l4, u3);
         }
       t3.base = t3.__P = null;
     }
-    if (t3 = l2.__k)
+    if (t3 = l3.__k)
       for (r3 = 0; r3 < t3.length; r3++)
         t3[r3] && L(t3[r3], u3, i3);
     o3 != null && s(o3);
   }
-  function M(n2, l2, u3) {
+  function M(n2, l3, u3) {
     return this.constructor(n2, u3);
   }
-  function N(l2, u3, i3) {
+  function N(l3, u3, i3) {
     var t3, o3, e3;
-    n.__ && n.__(l2, u3), o3 = (t3 = typeof i3 == "function") ? null : i3 && i3.__k || u3.__k, e3 = [], I(u3, l2 = (!t3 && i3 || u3).__k = a(y, null, [l2]), o3 || r, r, u3.ownerSVGElement !== void 0, !t3 && i3 ? [i3] : o3 ? null : u3.firstChild ? f.slice.call(u3.childNodes) : null, e3, !t3 && i3 ? i3 : o3 ? o3.__e : u3.firstChild, t3), T(e3, l2);
+    n.__ && n.__(l3, u3), o3 = (t3 = typeof i3 == "function") ? null : i3 && i3.__k || u3.__k, e3 = [], I(u3, l3 = (!t3 && i3 || u3).__k = a(y, null, [l3]), o3 || r, r, u3.ownerSVGElement !== void 0, !t3 && i3 ? [i3] : o3 ? null : u3.firstChild ? f.slice.call(u3.childNodes) : null, e3, !t3 && i3 ? i3 : o3 ? o3.__e : u3.firstChild, t3), T(e3, l3);
   }
-  function O(n2, l2) {
-    N(n2, l2, O);
+  function O(n2, l3) {
+    N(n2, l3, O);
   }
-  function S(n2, l2, u3) {
+  function S(n2, l3, u3) {
     var i3, t3, o3, r3 = arguments, f3 = c({}, n2.props);
-    for (o3 in l2)
-      o3 == "key" ? i3 = l2[o3] : o3 == "ref" ? t3 = l2[o3] : f3[o3] = l2[o3];
+    for (o3 in l3)
+      o3 == "key" ? i3 = l3[o3] : o3 == "ref" ? t3 = l3[o3] : f3[o3] = l3[o3];
     if (arguments.length > 3)
       for (u3 = [u3], o3 = 3; o3 < arguments.length; o3++)
         u3.push(r3[o3]);
     return u3 != null && (f3.children = u3), v(n2.type, f3, i3 || n2.key, t3 || n2.ref, null);
   }
-  function q(n2, l2) {
-    var u3 = {__c: l2 = "__cC" + o++, __: n2, Consumer: function(n3, l3) {
-      return n3.children(l3);
+  function q(n2, l3) {
+    var u3 = {__c: l3 = "__cC" + o++, __: n2, Consumer: function(n3, l4) {
+      return n3.children(l4);
     }, Provider: function(n3) {
       var u4, i3;
-      return this.getChildContext || (u4 = [], (i3 = {})[l2] = this, this.getChildContext = function() {
+      return this.getChildContext || (u4 = [], (i3 = {})[l3] = this, this.getChildContext = function() {
         return i3;
       }, this.shouldComponentUpdate = function(n4) {
         this.props.value !== n4.value && u4.some(k);
       }, this.sub = function(n4) {
         u4.push(n4);
-        var l3 = n4.componentWillUnmount;
+        var l4 = n4.componentWillUnmount;
         n4.componentWillUnmount = function() {
-          u4.splice(u4.indexOf(n4), 1), l3 && l3.call(n4);
+          u4.splice(u4.indexOf(n4), 1), l4 && l4.call(n4);
         };
       }), n3.children;
     }};
@@ -324,21 +324,21 @@
       r = {};
       f = [];
       e = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
-      n = {__e: function(n2, l2) {
-        for (var u3, i3, t3; l2 = l2.__; )
-          if ((u3 = l2.__c) && !u3.__)
+      n = {__e: function(n2, l3) {
+        for (var u3, i3, t3; l3 = l3.__; )
+          if ((u3 = l3.__c) && !u3.__)
             try {
               if ((i3 = u3.constructor) && i3.getDerivedStateFromError != null && (u3.setState(i3.getDerivedStateFromError(n2)), t3 = u3.__d), u3.componentDidCatch != null && (u3.componentDidCatch(n2), t3 = u3.__d), t3)
                 return u3.__E = u3;
-            } catch (l3) {
-              n2 = l3;
+            } catch (l4) {
+              n2 = l4;
             }
         throw n2;
       }, __v: 0}, l = function(n2) {
         return n2 != null && n2.constructor === void 0;
-      }, p.prototype.setState = function(n2, l2) {
+      }, p.prototype.setState = function(n2, l3) {
         var u3;
-        u3 = this.__s != null && this.__s !== this.state ? this.__s : this.__s = c({}, this.state), typeof n2 == "function" && (n2 = n2(c({}, u3), this.props)), n2 && c(u3, n2), n2 != null && this.__v && (l2 && this.__h.push(l2), k(this));
+        u3 = this.__s != null && this.__s !== this.state ? this.__s : this.__s = c({}, this.state), typeof n2 == "function" && (n2 = n2(c({}, u3), this.props)), n2 && c(u3, n2), n2 != null && this.__v && (l3 && this.__h.push(l3), k(this));
       }, p.prototype.forceUpdate = function(n2) {
         this.__v && (this.__e = true, n2 && this.__h.push(n2), k(this));
       }, p.prototype.render = y, u = [], i = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, b.__r = 0, o = 0;
@@ -579,7 +579,7 @@
         var color2, current_color_diff;
         var best_color = palette[0];
         var best_color_diff = ciede2000(target_color, best_color);
-        for (var idx2 = 1, l2 = palette.length; idx2 < l2; idx2 += 1) {
+        for (var idx2 = 1, l3 = palette.length; idx2 < l3; idx2 += 1) {
           color2 = palette[idx2];
           current_color_diff = ciede2000(target_color, color2);
           if (!find_furthest && current_color_diff < best_color_diff || find_furthest && current_color_diff > best_color_diff) {
@@ -875,15 +875,15 @@
         if (h3 < 0) {
           h3 += 360;
         }
-        const l2 = (min + max) / 2;
+        const l3 = (min + max) / 2;
         if (max === min) {
           s4 = 0;
-        } else if (l2 <= 0.5) {
+        } else if (l3 <= 0.5) {
           s4 = delta / (max + min);
         } else {
           s4 = delta / (2 - max - min);
         }
-        return [h3, s4 * 100, l2 * 100];
+        return [h3, s4 * 100, l3 * 100];
       };
       convert.rgb.hsv = function(rgb) {
         let rdif;
@@ -931,9 +931,9 @@
         const g3 = rgb[1];
         let b3 = rgb[2];
         const h3 = convert.rgb.hsl(rgb)[0];
-        const w2 = 1 / 255 * Math.min(r3, Math.min(g3, b3));
+        const w3 = 1 / 255 * Math.min(r3, Math.min(g3, b3));
         b3 = 1 - 1 / 255 * Math.max(r3, Math.max(g3, b3));
-        return [h3, w2 * 100, b3 * 100];
+        return [h3, w3 * 100, b3 * 100];
       };
       convert.rgb.cmyk = function(rgb) {
         const r3 = rgb[0] / 255;
@@ -991,28 +991,28 @@
         x3 = x3 > 8856e-6 ? x3 ** (1 / 3) : 7.787 * x3 + 16 / 116;
         y3 = y3 > 8856e-6 ? y3 ** (1 / 3) : 7.787 * y3 + 16 / 116;
         z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
-        const l2 = 116 * y3 - 16;
+        const l3 = 116 * y3 - 16;
         const a3 = 500 * (x3 - y3);
         const b3 = 200 * (y3 - z2);
-        return [l2, a3, b3];
+        return [l3, a3, b3];
       };
       convert.hsl.rgb = function(hsl) {
         const h3 = hsl[0] / 360;
         const s4 = hsl[1] / 100;
-        const l2 = hsl[2] / 100;
+        const l3 = hsl[2] / 100;
         let t22;
         let t3;
         let val;
         if (s4 === 0) {
-          val = l2 * 255;
+          val = l3 * 255;
           return [val, val, val];
         }
-        if (l2 < 0.5) {
-          t22 = l2 * (1 + s4);
+        if (l3 < 0.5) {
+          t22 = l3 * (1 + s4);
         } else {
-          t22 = l2 + s4 - l2 * s4;
+          t22 = l3 + s4 - l3 * s4;
         }
-        const t1 = 2 * l2 - t22;
+        const t1 = 2 * l3 - t22;
         const rgb = [0, 0, 0];
         for (let i3 = 0; i3 < 3; i3++) {
           t3 = h3 + 1 / 3 * -(i3 - 1);
@@ -1038,14 +1038,14 @@
       convert.hsl.hsv = function(hsl) {
         const h3 = hsl[0];
         let s4 = hsl[1] / 100;
-        let l2 = hsl[2] / 100;
+        let l3 = hsl[2] / 100;
         let smin = s4;
-        const lmin = Math.max(l2, 0.01);
-        l2 *= 2;
-        s4 *= l2 <= 1 ? l2 : 2 - l2;
+        const lmin = Math.max(l3, 0.01);
+        l3 *= 2;
+        s4 *= l3 <= 1 ? l3 : 2 - l3;
         smin *= lmin <= 1 ? lmin : 2 - lmin;
-        const v3 = (l2 + s4) / 2;
-        const sv = l2 === 0 ? 2 * smin / (lmin + smin) : 2 * s4 / (l2 + s4);
+        const v3 = (l3 + s4) / 2;
+        const sv = l3 === 0 ? 2 * smin / (lmin + smin) : 2 * s4 / (l3 + s4);
         return [h3, sv * 100, v3 * 100];
       };
       convert.hsv.rgb = function(hsv) {
@@ -1054,23 +1054,23 @@
         let v3 = hsv[2] / 100;
         const hi = Math.floor(h3) % 6;
         const f3 = h3 - Math.floor(h3);
-        const p2 = 255 * v3 * (1 - s4);
+        const p3 = 255 * v3 * (1 - s4);
         const q2 = 255 * v3 * (1 - s4 * f3);
         const t3 = 255 * v3 * (1 - s4 * (1 - f3));
         v3 *= 255;
         switch (hi) {
           case 0:
-            return [v3, t3, p2];
+            return [v3, t3, p3];
           case 1:
-            return [q2, v3, p2];
+            return [q2, v3, p3];
           case 2:
-            return [p2, v3, t3];
+            return [p3, v3, t3];
           case 3:
-            return [p2, q2, v3];
+            return [p3, q2, v3];
           case 4:
-            return [t3, p2, v3];
+            return [t3, p3, v3];
           case 5:
-            return [v3, p2, q2];
+            return [v3, p3, q2];
         }
       };
       convert.hsv.hsl = function(hsv) {
@@ -1079,14 +1079,14 @@
         const v3 = hsv[2] / 100;
         const vmin = Math.max(v3, 0.01);
         let sl;
-        let l2;
-        l2 = (2 - s4) * v3;
+        let l3;
+        l3 = (2 - s4) * v3;
         const lmin = (2 - s4) * vmin;
         sl = s4 * vmin;
         sl /= lmin <= 1 ? lmin : 2 - lmin;
         sl = sl || 0;
-        l2 /= 2;
-        return [h3, sl * 100, l2 * 100];
+        l3 /= 2;
+        return [h3, sl * 100, l3 * 100];
       };
       convert.hwb.rgb = function(hwb) {
         const h3 = hwb[0] / 360;
@@ -1182,19 +1182,19 @@
         x3 = x3 > 8856e-6 ? x3 ** (1 / 3) : 7.787 * x3 + 16 / 116;
         y3 = y3 > 8856e-6 ? y3 ** (1 / 3) : 7.787 * y3 + 16 / 116;
         z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
-        const l2 = 116 * y3 - 16;
+        const l3 = 116 * y3 - 16;
         const a3 = 500 * (x3 - y3);
         const b3 = 200 * (y3 - z2);
-        return [l2, a3, b3];
+        return [l3, a3, b3];
       };
       convert.lab.xyz = function(lab) {
-        const l2 = lab[0];
+        const l3 = lab[0];
         const a3 = lab[1];
         const b3 = lab[2];
         let x3;
         let y3;
         let z2;
-        y3 = (l2 + 16) / 116;
+        y3 = (l3 + 16) / 116;
         x3 = a3 / 500 + y3;
         z2 = y3 - b3 / 200;
         const y22 = y3 ** 3;
@@ -1209,7 +1209,7 @@
         return [x3, y3, z2];
       };
       convert.lab.lch = function(lab) {
-        const l2 = lab[0];
+        const l3 = lab[0];
         const a3 = lab[1];
         const b3 = lab[2];
         let h3;
@@ -1219,16 +1219,16 @@
           h3 += 360;
         }
         const c3 = Math.sqrt(a3 * a3 + b3 * b3);
-        return [l2, c3, h3];
+        return [l3, c3, h3];
       };
       convert.lch.lab = function(lch) {
-        const l2 = lch[0];
+        const l3 = lch[0];
         const c3 = lch[1];
         const h3 = lch[2];
         const hr = h3 / 360 * 2 * Math.PI;
         const a3 = c3 * Math.cos(hr);
         const b3 = c3 * Math.sin(hr);
-        return [l2, a3, b3];
+        return [l3, a3, b3];
       };
       convert.rgb.ansi16 = function(args, saturation = null) {
         const [r3, g3, b3] = args;
@@ -1340,11 +1340,11 @@
       };
       convert.hsl.hcg = function(hsl) {
         const s4 = hsl[1] / 100;
-        const l2 = hsl[2] / 100;
-        const c3 = l2 < 0.5 ? 2 * s4 * l2 : 2 * s4 * (1 - l2);
+        const l3 = hsl[2] / 100;
+        const c3 = l3 < 0.5 ? 2 * s4 * l3 : 2 * s4 * (1 - l3);
         let f3 = 0;
         if (c3 < 1) {
-          f3 = (l2 - 0.5 * c3) / (1 - c3);
+          f3 = (l3 - 0.5 * c3) / (1 - c3);
         }
         return [hsl[0], c3 * 100, f3 * 100];
       };
@@ -1368,7 +1368,7 @@
         const pure = [0, 0, 0];
         const hi = h3 % 1 * 6;
         const v3 = hi % 1;
-        const w2 = 1 - v3;
+        const w3 = 1 - v3;
         let mg = 0;
         switch (Math.floor(hi)) {
           case 0:
@@ -1377,7 +1377,7 @@
             pure[2] = 0;
             break;
           case 1:
-            pure[0] = w2;
+            pure[0] = w3;
             pure[1] = 1;
             pure[2] = 0;
             break;
@@ -1388,7 +1388,7 @@
             break;
           case 3:
             pure[0] = 0;
-            pure[1] = w2;
+            pure[1] = w3;
             pure[2] = 1;
             break;
           case 4:
@@ -1399,7 +1399,7 @@
           default:
             pure[0] = 1;
             pure[1] = 0;
-            pure[2] = w2;
+            pure[2] = w3;
         }
         mg = (1 - c3) * g3;
         return [
@@ -1421,14 +1421,14 @@
       convert.hcg.hsl = function(hcg) {
         const c3 = hcg[1] / 100;
         const g3 = hcg[2] / 100;
-        const l2 = g3 * (1 - c3) + 0.5 * c3;
+        const l3 = g3 * (1 - c3) + 0.5 * c3;
         let s4 = 0;
-        if (l2 > 0 && l2 < 0.5) {
-          s4 = c3 / (2 * l2);
-        } else if (l2 >= 0.5 && l2 < 1) {
-          s4 = c3 / (2 * (1 - l2));
+        if (l3 > 0 && l3 < 0.5) {
+          s4 = c3 / (2 * l3);
+        } else if (l3 >= 0.5 && l3 < 1) {
+          s4 = c3 / (2 * (1 - l3));
         }
-        return [hcg[0], s4 * 100, l2 * 100];
+        return [hcg[0], s4 * 100, l3 * 100];
       };
       convert.hcg.hwb = function(hcg) {
         const c3 = hcg[1] / 100;
@@ -1437,10 +1437,10 @@
         return [hcg[0], (v3 - c3) * 100, (1 - v3) * 100];
       };
       convert.hwb.hcg = function(hwb) {
-        const w2 = hwb[1] / 100;
+        const w3 = hwb[1] / 100;
         const b3 = hwb[2] / 100;
         const v3 = 1 - b3;
-        const c3 = v3 - w2;
+        const c3 = v3 - w3;
         let g3 = 0;
         if (c3 < 1) {
           g3 = (v3 - c3) / (1 - c3);
@@ -1638,6 +1638,16 @@
     var i3 = u2.__H || (u2.__H = {__: [], __h: []});
     return t3 >= i3.__.length && i3.__.push({}), i3.__[t3];
   }
+  function l2(n2) {
+    return o2 = 1, p2(w2, n2);
+  }
+  function p2(n2, r3, o3) {
+    var i3 = m2(t2++, 2);
+    return i3.t = n2, i3.__c || (i3.__ = [o3 ? o3(r3) : w2(void 0, r3), function(n3) {
+      var t3 = i3.t(i3.__[0], n3);
+      i3.__[0] !== t3 && (i3.__ = [t3, i3.__[1]], i3.__c.setState({}));
+    }], i3.__c = u2), i3.__;
+  }
   function y2(r3, o3) {
     var i3 = m2(t2++, 3);
     !n.__s && k2(i3.__H, o3) && (i3.__ = r3, i3.__H = o3, u2.__H.__h.push(i3));
@@ -1715,6 +1725,9 @@
     return !n2 || n2.length !== t3.length || t3.some(function(t4, u3) {
       return t4 !== n2[u3];
     });
+  }
+  function w2(n2, t3) {
+    return typeof t3 == "function" ? t3(n2) : t3;
   }
 
   // src/gallery.tsx
@@ -1846,7 +1859,7 @@
         if (rgbaArray.pixels[y3][x3] === -1) {
           row.push(void 0);
         } else {
-          const paletteEntry = palette.filter((p2) => p2.color === rgbaArray.pixels[y3][x3])[0];
+          const paletteEntry = palette.filter((p3) => p3.color === rgbaArray.pixels[y3][x3])[0];
           row.push(paletteEntry.target);
         }
       }
@@ -1957,37 +1970,27 @@
       height: imageData.height
     };
   }
-  function applyImageAdjustments(rgbaArray, brightness, contrast, saturation) {
-    if (brightness === 0 && contrast === 0 && saturation === 0)
-      return;
-    const data = rgbaArray.pixels;
-    for (let y3 = 0; y3 < rgbaArray.height; y3++) {
-      for (let x3 = 0; x3 < rgbaArray.width; x3++) {
-        const p2 = data[y3][x3];
-        if (p2 === -1)
-          continue;
-        const hsv = colorConvert.rgb.hsv(p2 & 255, p2 >> 8 & 255, p2 >> 16 & 255);
-        if (contrast > 0) {
-          hsv[2] = clamp(0, (hsv[2] - 50) * (1 + contrast / 7) + 50, 100);
-        } else if (contrast < 0) {
-          hsv[2] = clamp(0, (hsv[2] - 50) * (1 + contrast / 10) + 50, 100);
-        }
-        hsv[1] = clamp(0, hsv[1] + saturation * 5, 100);
-        hsv[2] = clamp(0, hsv[2] + brightness * 5, 100);
-        const rgb = colorConvert.hsv.rgb(hsv);
-        data[y3][x3] = rgb[0] | 0 | rgb[1] << 8 | rgb[2] << 16;
-      }
-    }
-  }
-  function clamp(min, v3, max) {
-    return Math.max(min, Math.min(v3, max));
+  function applyImageAdjustments(image, brightnessPct, contrastPct, saturationPct) {
+    const srcCanvas = document.createElement("canvas");
+    srcCanvas.width = image.width;
+    srcCanvas.height = image.height;
+    const srcContext = srcCanvas.getContext("2d");
+    srcContext.putImageData(image, 0, 0);
+    const dstCanvas = document.createElement("canvas");
+    dstCanvas.width = image.width;
+    dstCanvas.height = image.height;
+    const dstContext = dstCanvas.getContext("2d");
+    dstContext.filter = `saturate(${saturationPct}%) brightness(${brightnessPct}%) contrast(${contrastPct}%)`;
+    console.log(dstContext.filter);
+    dstContext.drawImage(srcCanvas, 0, 0);
+    return dstContext.getImageData(0, 0, image.width, image.height);
   }
   function applyTransparencyAndCrop(rgbaArray, transparentValue) {
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
     for (let y3 = 0; y3 < rgbaArray.height; y3++) {
       for (let x3 = 0; x3 < rgbaArray.width; x3++) {
-        if (rgbaArray.pixels[y3][x3] !== transparentValue) {
+        if (!isTransparent(colorAt(rgbaArray, x3, y3))) {
           minX = Math.min(minX, x3);
           maxX = Math.max(maxX, x3);
           minY = Math.min(minY, y3);
@@ -1995,24 +1998,28 @@
         }
       }
     }
-    const pixels = [];
+    const id = new ImageData(maxX - minX, maxY - minY);
     for (let y3 = minY; y3 <= maxY; y3++) {
-      const row = [];
       for (let x3 = minX; x3 <= maxX; x3++) {
-        const v3 = rgbaArray.pixels[y3][x3];
-        if (v3 === transparentValue) {
-          row.push(-1);
+        const color = colorAt(rgbaArray, x3, y3);
+        const c3 = ((y3 - minY) * id.width + (x3 - minX)) * 4;
+        if (isTransparent(color)) {
+          id.data[c3 + 3] = 0;
         } else {
-          row.push(v3);
+          id.data[c3 + 0] = color >> 0 & 255;
+          id.data[c3 + 1] = color >> 8 & 255;
+          id.data[c3 + 2] = color >> 16 & 255;
+          id.data[c3 + 3] = 255;
         }
       }
-      pixels.push(row);
     }
-    return {
-      pixels,
-      width: maxX - minX + 1,
-      height: maxY - minY + 1
-    };
+    function isTransparent(n2) {
+      if (transparentValue === 0) {
+        return (n2 >> 24) * 255 === 0;
+      }
+      return (n2 & 16777215) === (transparentValue & 16777215);
+    }
+    return id;
   }
   function getImageData(img) {
     const canvas = document.createElement("canvas");
@@ -2023,64 +2030,70 @@
     const imageData = ctx.getImageData(0, 0, img.width, img.height);
     return imageData;
   }
-  function inferTransparencyValue(rgbaArray) {
+  function inferTransparencyValue(imageData) {
     let hasEdgeMagenta = false;
-    for (let y3 = 0; y3 < rgbaArray.height; y3++) {
-      const isYedge = y3 === 0 || y3 === rgbaArray.height - 1;
-      for (let x3 = 0; x3 < rgbaArray.width; x3++) {
-        if (rgbaArray.pixels[y3][x3] === -1) {
-          return -1;
+    for (let y3 = 0; y3 < imageData.height; y3++) {
+      const isYedge = y3 === 0 || y3 === imageData.height - 1;
+      for (let x3 = 0; x3 < imageData.width; x3++) {
+        const c3 = 4 * (y3 * imageData.width + x3);
+        if (imageData.data[c3 + 3] === 0) {
+          return 0;
         }
-        const rv = rgbaArray.pixels[y3][x3];
-        if (isYedge || x3 === 0 || x3 === rgbaArray.width - 1) {
-          hasEdgeMagenta = hasEdgeMagenta || rv === 16711935;
+        if (isYedge || x3 === 0 || x3 === imageData.width - 1) {
+          if (imageData.data[c3 + 0] === 255 && imageData.data[c3 + 1] === 0 && imageData.data[c3 + 2] === 255) {
+            hasEdgeMagenta = true;
+          }
         }
       }
     }
     if (hasEdgeMagenta)
       return 16711935;
-    return getCornerTransparency(rgbaArray);
+    return getCornerTransparency(imageData);
   }
   function getCornerTransparency(rgbaArray) {
     const arr = [
-      rgbaArray.pixels[0][0],
-      rgbaArray.pixels[rgbaArray.height - 1][0],
-      rgbaArray.pixels[rgbaArray.height - 1][rgbaArray.width - 1],
-      rgbaArray.pixels[0][rgbaArray.width - 1]
+      colorAt(rgbaArray, 0, 0),
+      colorAt(rgbaArray, 0, rgbaArray.height - 1),
+      colorAt(rgbaArray, rgbaArray.width - 1, 0),
+      colorAt(rgbaArray, rgbaArray.width - 1, rgbaArray.height)
     ];
     arr.sort();
-    return arr[2];
+    if (arr[1] === arr[2]) {
+      return arr[1];
+    }
+    return 0;
+  }
+  function colorAt(img, x3, y3) {
+    const c3 = (y3 * img.width + x3) * 4;
+    return img.data[c3 + 0] << 0 | img.data[c3 + 1] << 8 | img.data[c3 + 2] << 16 | img.data[c3 + 3] << 24;
   }
   function adjustImage(imageData, imageSettings) {
     const {mark} = timer();
-    const uncroppedRgbaArray = imageDataToRgbaArray(imageData);
     mark("Image -> RGBA");
     let transparency;
     switch (imageSettings.transparency) {
       case "auto":
         mark("Infer transparency");
-        transparency = inferTransparencyValue(uncroppedRgbaArray);
+        transparency = inferTransparencyValue(imageData);
         break;
       case "alpha":
-        transparency = -1;
+        transparency = 0;
         break;
       case "none":
         transparency = NaN;
         break;
       case "magenta":
-        transparency = 16711935;
+        transparency = 4294902015;
         break;
       case "corners":
-        transparency = getCornerTransparency(uncroppedRgbaArray);
+        transparency = getCornerTransparency(imageData);
         break;
     }
-    const rgbaArray = applyTransparencyAndCrop(uncroppedRgbaArray, transparency);
+    const croppedImageData = applyTransparencyAndCrop(imageData, transparency);
     mark("Apply transparency & crop");
-    applyImageAdjustments(rgbaArray, imageSettings.brightness, imageSettings.contrast, imageSettings.saturation);
+    const adjustedImageData = applyImageAdjustments(croppedImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100);
     mark("Adjust image");
-    return {
-      rgbaArray
-    };
+    return adjustedImageData;
   }
   function palettizeImage(rgbaArray, materialSettings) {
     const {mark} = timer();
@@ -2114,7 +2127,7 @@
     const res = new Array(quantized.height);
     const lookup = new Map();
     for (const e3 of palette) {
-      lookup.set(e3.target, partList.filter((p2) => p2.target === e3.target)[0]);
+      lookup.set(e3.target, partList.filter((p3) => p3.target === e3.target)[0]);
     }
     for (let y3 = 0; y3 < quantized.height; y3++) {
       res[y3] = new Array(quantized.width);
@@ -2153,6 +2166,32 @@
     return {
       pixels: image.partList.reduce((a3, b3) => a3 + b3.count, 0)
     };
+  }
+  function renderPartListImageToDatURL(image, maxPartFrame = Infinity) {
+    const buffer = new Uint8ClampedArray(image.width * image.height * 4);
+    const partList = image.partList.map((p3) => p3.target);
+    for (let x3 = 0; x3 < image.width; x3++) {
+      for (let y3 = 0; y3 < image.height; y3++) {
+        const c3 = (y3 * image.width + x3) * 4;
+        const px = image.pixels[y3][x3];
+        if (px && partList.indexOf(px.target) < maxPartFrame) {
+          buffer[c3 + 0] = px.target.r;
+          buffer[c3 + 1] = px.target.g;
+          buffer[c3 + 2] = px.target.b;
+          buffer[c3 + 3] = 255;
+        } else {
+          buffer[c3 + 3] = 0;
+        }
+      }
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const ctx = canvas.getContext("2d");
+    const data = ctx.createImageData(image.width, image.height);
+    data.data.set(buffer);
+    ctx.putImageData(data, 0, 0);
+    return canvas.toDataURL();
   }
 
   // src/types.tsx
@@ -2406,8 +2445,9 @@
       }, []);
       const none = {};
       const imageData = props.source._decoded;
-      const {rgbaArray} = imageData ? memoized.adjustImage(imageData, props.image) : none;
-      const {palette, quantized} = rgbaArray ? memoized.palettizeImage(rgbaArray, props.material) : none;
+      const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
+      const processedRgbaArray = adjustedImageData && imageDataToRgbaArray(adjustedImageData);
+      const {palette, quantized} = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
       const image = palette && quantized ? memoized.createPartListImage(palette, quantized) : void 0;
       const pitch = getPitch(props.material.size);
       return /* @__PURE__ */ a("div", {
@@ -2460,7 +2500,9 @@
         requestDelete: (uri) => {
           galleryStorage.remove(uri);
         }
-      }), props.ui.isPrintOpen && /* @__PURE__ */ a(PrintDialog, null));
+      }), props.ui.isPrintOpen && image && /* @__PURE__ */ a(PrintDialog, {
+        image
+      }));
     }
     function ImageSettingsRow(props) {
       return /* @__PURE__ */ a("div", {
@@ -2884,21 +2926,112 @@
         }
       }
     }
-    function PrintDialog() {
+    function StepByStepPreviewer(props) {
+      const [frame, setFrame] = l2(0);
+      const imgRef = s2();
+      y2(() => {
+        drawNextFrame();
+        const id = window.setInterval(incrementFrame, 600);
+        return () => {
+          window.clearInterval(id);
+        };
+      });
+      return /* @__PURE__ */ a("img", {
+        class: "step-by-step-preview",
+        ref: imgRef
+      });
+      function incrementFrame() {
+        setFrame((frame + 1) % (props.image.partList.length + 3));
+      }
+      function drawNextFrame() {
+        imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
+      }
+    }
+    function ColorImagePreviewer(props) {
+      return /* @__PURE__ */ a("img", {
+        src: renderPartListImageToDatURL(props.image)
+      });
+    }
+    function SinglePlanPreviewer(props) {
+      const width = 12;
+      const height = 6;
+      const startX = Math.floor(props.image.width / 2) - width / 2;
+      const startY = Math.floor(props.image.height / 2) - height / 2;
+      const lines = [];
+      for (let y3 = Math.max(startY, 0); y3 < Math.min(props.image.height, startY + height); y3++) {
+        let s4 = "";
+        for (let x3 = Math.max(startX, 0); x3 < Math.min(props.image.width, startX + width); x3++) {
+          s4 = s4 + (props.image.pixels[y3][x3]?.symbol ?? " ");
+        }
+        lines.push(s4);
+      }
+      return /* @__PURE__ */ a("span", null, /* @__PURE__ */ a("pre", null, lines.join("\n")));
+    }
+    function PerspectiveArrow(props) {
+      const x1 = {
+        off: 25,
+        low: 20,
+        medium: 15,
+        high: 5
+      }[props.amount];
+      return /* @__PURE__ */ a("svg", {
+        width: "50",
+        height: "50"
+      }, /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("marker", {
+        id: "arrowhead",
+        markerWidth: "6",
+        markerHeight: "4",
+        refX: "0",
+        refY: "2",
+        orient: "auto"
+      }, /* @__PURE__ */ a("polygon", {
+        points: "0 0, 3 2, 0 4"
+      }))), /* @__PURE__ */ a("line", {
+        x1,
+        y1: "5",
+        x2: "25",
+        y2: "30",
+        stroke: "#000",
+        "stroke-width": "4",
+        "marker-end": "url(#arrowhead)"
+      }), /* @__PURE__ */ a("line", {
+        x1: "0",
+        y1: "50",
+        x2: "50",
+        y2: "50",
+        stroke: "#000",
+        "stroke-width": "4"
+      }));
+    }
+    function PrintDialog(props) {
       return /* @__PURE__ */ a("div", {
         class: "print-dialog"
       }, /* @__PURE__ */ a("div", {
         class: "print-setting-group"
-      }, /* @__PURE__ */ a("h1", null, "Format"), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }, /* @__PURE__ */ a("h1", null, "Format"), /* @__PURE__ */ a("div", {
+        class: "print-setting-group-options"
+      }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "format"
-      }), /* @__PURE__ */ a("span", null, "Step by Step")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "Step by Step"), /* @__PURE__ */ a(StepByStepPreviewer, {
+        image: props.image
+      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "format"
-      }), /* @__PURE__ */ a("span", null, "Single Plan")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "Legend Plan"), /* @__PURE__ */ a(SinglePlanPreviewer, {
+        image: props.image
+      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "format"
-      }), /* @__PURE__ */ a("span", null, "Color Image"))), /* @__PURE__ */ a("div", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "Color Image"), /* @__PURE__ */ a(ColorImagePreviewer, {
+        image: props.image
+      }))))), /* @__PURE__ */ a("div", {
         class: "print-setting-group"
       }, /* @__PURE__ */ a("h1", null, "Paper Size"), /* @__PURE__ */ a("div", {
         class: "print-setting-group-options"
@@ -2918,19 +3051,37 @@
         class: "a4-icon"
       }), "210x297")))), /* @__PURE__ */ a("div", {
         class: "print-setting-group"
-      }, /* @__PURE__ */ a("h1", null, "Perspective Correction"), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }, /* @__PURE__ */ a("h1", null, "Perspective Correction"), /* @__PURE__ */ a("div", {
+        class: "print-setting-group-options"
+      }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "persp-corr"
-      }), /* @__PURE__ */ a("span", null, "Off")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "Off"), /* @__PURE__ */ a(PerspectiveArrow, {
+        amount: "off"
+      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "persp-corr"
-      }), /* @__PURE__ */ a("span", null, "Low")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "Low"), /* @__PURE__ */ a(PerspectiveArrow, {
+        amount: "low"
+      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "persp-corr"
-      }), /* @__PURE__ */ a("span", null, "Medium")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "Medium"), /* @__PURE__ */ a(PerspectiveArrow, {
+        amount: "medium"
+      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "radio",
         name: "persp-corr"
-      }), /* @__PURE__ */ a("span", null, "High"))), /* @__PURE__ */ a("div", {
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, "High"), /* @__PURE__ */ a(PerspectiveArrow, {
+        amount: "high"
+      }))))), /* @__PURE__ */ a("div", {
         class: "print-setting-group"
       }, /* @__PURE__ */ a("h1", null, "Misc.")));
     }

@@ -1,7 +1,7 @@
 import * as preact from 'preact';
-import { useRef, useEffect, useLayoutEffect } from 'preact/hooks';
+import { useRef, useEffect, useLayoutEffect, useState } from 'preact/hooks';
 import { Gallery, GalleryProps } from './gallery';
-import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage } from './image-utils';
+import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, imageDataToRgbaArray, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage, renderPartListImageToDatURL } from './image-utils';
 import { AppProps, DisplayProps, DisplaySettings, ImageProps, ImageSettings, MaterialProps, MaterialSettings } from "./types";
 import { colorEntryToHex, colorEntryToHtml, getPitch, isBright, timer } from './utils';
 import { createGallery } from './user-gallery';
@@ -134,8 +134,9 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
         const none: Record<string, undefined> = {};
         const imageData = props.source._decoded;
-        const { rgbaArray } = imageData ? memoized.adjustImage(imageData, props.image) : none;
-        const { palette, quantized } = rgbaArray ? memoized.palettizeImage(rgbaArray, props.material) : none;
+        const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
+        const processedRgbaArray = adjustedImageData && imageDataToRgbaArray(adjustedImageData);
+        const { palette, quantized } = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
         const image = (palette && quantized) ? memoized.createPartListImage(palette, quantized) : undefined;
         const pitch = getPitch(props.material.size);
 
@@ -168,8 +169,8 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         galleryStorage.remove(uri);
                     }}
                 />}
-            {props.ui.isPrintOpen &&
-                <PrintDialog />}
+            {props.ui.isPrintOpen && image &&
+                <PrintDialog image={image} />}
         </div>;
     }
 
@@ -598,35 +599,110 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         }
     }
 
-    function PrintDialog() {
+    function StepByStepPreviewer(props: { image: PartListImage }) {
+        const [frame, setFrame] = useState(0);
+        const imgRef = useRef<HTMLImageElement>();
+        useEffect(() => {
+            drawNextFrame();
+            const id = window.setInterval(incrementFrame, 600);
+            return () => {
+                window.clearInterval(id);
+            }
+        });
+
+        return <img class="step-by-step-preview" ref={imgRef}>
+        </img>;
+
+        function incrementFrame() {
+            setFrame((frame + 1) % (props.image.partList.length + 3));
+        }
+
+        function drawNextFrame() {
+            imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
+        }
+    }
+
+    function ColorImagePreviewer(props: { image: PartListImage }) {
+        return <img src={renderPartListImageToDatURL(props.image)} />;
+    }
+
+    function SinglePlanPreviewer(props: { image: PartListImage }) {
+        const width = 12;
+        const height = 6;
+        // Grab a region from the center
+        const startX = Math.floor(props.image.width / 2) - (width / 2);
+        const startY = Math.floor(props.image.height / 2) - (height / 2);
+        const lines = [];
+        for (let y = Math.max(startY, 0); y < Math.min(props.image.height, startY + height); y++) {
+            let s = '';
+            for (let x = Math.max(startX, 0); x < Math.min(props.image.width, startX + width); x++) {
+                s = s + (props.image.pixels[y][x]?.symbol ?? ' ');
+            }
+            lines.push(s);
+        }
+        return <span><pre>{lines.join('\n')}</pre></span>
+    }
+
+    function PerspectiveArrow(props: { amount: "off" | "low" | "medium" | "high" }) {
+        const x1 = {
+            off: 25,
+            low: 20,
+            medium: 15,
+            high: 5
+        }[props.amount];
+        return <svg width="50" height="50">
+            <defs>
+                <marker id="arrowhead" markerWidth="6" markerHeight="4"
+                    refX="0" refY="2" orient="auto">
+                    <polygon points="0 0, 3 2, 0 4" />
+                </marker>
+            </defs>
+            <line x1={x1} y1="5" x2="25" y2="30" stroke="#000" stroke-width="4" marker-end="url(#arrowhead)" />
+            <line x1="0" y1="50" x2="50" y2="50" stroke="#000" stroke-width="4" />
+        </svg>
+    }
+
+    function PrintDialog(props: { image: PartListImage }) {
         return <div class="print-dialog">
             <div class="print-setting-group">
                 <h1>Format</h1>
                 <div class="print-setting-group-options">
-                    <div class="option">
-                        <label><input type="radio" name="format"></input>
-                            <span>Step by Step</span>
-                        </label>
-                    </div>
-                    <div class="option">
-                        <label><input type="radio" name="format"></input><span>Single Plan</span></label>
-                    </div>
-                    <div class="option">
-                        <label><input type="radio" name="format"></input><span>Color Image</span></label>
-                    </div>
+                    <label>
+                        <input type="radio" name="format"></input>
+                        <div class="option">
+                            <h3>Step by Step</h3>
+                            <StepByStepPreviewer image={props.image} />
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="format"></input>
+                        <div class="option">
+                            <h3>Legend Plan</h3>
+                            <SinglePlanPreviewer image={props.image} />
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="format"></input>
+                        <div class="option">
+                            <h3>Color Image</h3>
+                            <ColorImagePreviewer image={props.image} />
+                        </div>
+                    </label>
                 </div>
             </div>
             <div class="print-setting-group">
                 <h1>Paper Size</h1>
                 <div class="print-setting-group-options">
-                    <label><input type="radio" name="paper-size"></input>
+                    <label>
+                        <input type="radio" name="paper-size"></input>
                         <div class="option">
                             <h3>Letter</h3>
                             <span class="letter-icon" />
                             8.5x11
                         </div>
                     </label>
-                    <label><input type="radio" name="paper-size"></input>
+                    <label>
+                        <input type="radio" name="paper-size"></input>
                         <div class="option">
                             <h3>A4</h3>
                             <span class="a4-icon" />
@@ -638,18 +714,34 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
             <div class="print-setting-group">
                 <h1>Perspective Correction</h1>
                 <div class="print-setting-group-options">
-                    <div class="option">
-                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,off">Off</span></label>
-                    </div>
-                    <div class="option">
-                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,low">Low</span></label>
-                    </div>
-                    <div class="option">
-                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,mid">Medium</span></label>
-                    </div>
-                    <div class="option">
-                        <label><input type="radio" name="persp-corr"></input><span class="persp-corr,high">High</span></label>
-                    </div>
+                    <label>
+                        <input type="radio" name="persp-corr" />
+                        <div class="option">
+                            <h3>Off</h3>
+                            <PerspectiveArrow amount="off" />
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="persp-corr" />
+                        <div class="option">
+                            <h3>Low</h3>
+                            <PerspectiveArrow amount="low" />
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="persp-corr" />
+                        <div class="option">
+                            <h3>Medium</h3>
+                            <PerspectiveArrow amount="medium" />
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="persp-corr" />
+                        <div class="option">
+                            <h3>High</h3>
+                            <PerspectiveArrow amount="high" />
+                        </div>
+                    </label>
                 </div>
             </div>
             <div class="print-setting-group">

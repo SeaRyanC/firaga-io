@@ -341,6 +341,12 @@ div.print-dialog input:checked + div.option {
     background-color: #ADF;
 }
 
+div.print-dialog img {
+    width: 64px;
+    height: 64px;
+    
+}
+
 label.download-button-label {
     padding: 3px;
     margin-left: 5px;
