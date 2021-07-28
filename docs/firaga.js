@@ -1998,14 +1998,15 @@
         }
       }
     }
-    const id = new ImageData(maxX - minX, maxY - minY);
+    const id = new ImageData(maxX - minX + 3, maxY - minY + 3);
+    for (let y3 = 0; y3 < id.height; y3++)
+      for (let x3 = 0; x3 < id.width; x3++)
+        id.data[(y3 * id.width + x3) * 4 + 3] = 0;
     for (let y3 = minY; y3 <= maxY; y3++) {
       for (let x3 = minX; x3 <= maxX; x3++) {
         const color = colorAt(rgbaArray, x3, y3);
-        const c3 = ((y3 - minY) * id.width + (x3 - minX)) * 4;
-        if (isTransparent(color)) {
-          id.data[c3 + 3] = 0;
-        } else {
+        const c3 = ((y3 - minY + 1) * id.width + (x3 - minX + 1)) * 4;
+        if (!isTransparent(color)) {
           id.data[c3 + 0] = color >> 0 & 255;
           id.data[c3 + 1] = color >> 8 & 255;
           id.data[c3 + 2] = color >> 16 & 255;
@@ -2329,6 +2330,220 @@
     };
   }
 
+  // src/components/context.ts
+  init_preact_module();
+  var PropContext = q(null);
+
+  // src/components/print-dialog.tsx
+  init_preact_module();
+  function PrintDialog(props) {
+    return /* @__PURE__ */ a("div", {
+      class: "print-dialog"
+    }, /* @__PURE__ */ a("h1", {
+      class: "dialog-title"
+    }, "Print"), /* @__PURE__ */ a("div", {
+      class: "print-setting-group"
+    }, /* @__PURE__ */ a("h1", null, "Format"), /* @__PURE__ */ a("div", {
+      class: "print-setting-group-options"
+    }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "format"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Step by Step"), /* @__PURE__ */ a(StepByStepPreviewer, {
+      image: props.image
+    }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "format"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Color Image"), /* @__PURE__ */ a(ColorImagePreviewer, {
+      image: props.image
+    }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "format"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Legend Plan"), /* @__PURE__ */ a(SinglePlanPreviewer, {
+      image: props.image
+    })))), /* @__PURE__ */ a("span", {
+      class: "description"
+    }, "Does a thing for a person")), /* @__PURE__ */ a("div", {
+      class: "print-setting-group"
+    }, /* @__PURE__ */ a("h1", null, "Paper Size"), /* @__PURE__ */ a("div", {
+      class: "print-setting-group-options"
+    }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "paper-size"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Letter"), /* @__PURE__ */ a("span", {
+      class: "letter-icon"
+    }), "8.5x11")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "paper-size"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "A4"), /* @__PURE__ */ a("span", {
+      class: "a4-icon"
+    }), "210x297")))), /* @__PURE__ */ a("div", {
+      class: "print-setting-group"
+    }, /* @__PURE__ */ a("h1", null, "Perspective Correction"), /* @__PURE__ */ a("div", {
+      class: "print-setting-group-options"
+    }, /* @__PURE__ */ a("label", {
+      tabIndex: 0
+    }, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "persp-corr"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Off"), /* @__PURE__ */ a(PerspectiveArrow, {
+      amount: "off"
+    }))), /* @__PURE__ */ a("label", {
+      tabIndex: 0
+    }, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "persp-corr"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Low"), /* @__PURE__ */ a(PerspectiveArrow, {
+      amount: "low"
+    }))), /* @__PURE__ */ a("label", {
+      tabIndex: 0
+    }, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "persp-corr"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Medium"), /* @__PURE__ */ a(PerspectiveArrow, {
+      amount: "medium"
+    }))), /* @__PURE__ */ a("label", {
+      tabIndex: 0
+    }, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "persp-corr"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "High"), /* @__PURE__ */ a(PerspectiveArrow, {
+      amount: "high"
+    })))), /* @__PURE__ */ a("span", {
+      class: "description"
+    }, "Perspective correction slightly skews the image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead.")), /* @__PURE__ */ a("div", {
+      class: "print-setting-group"
+    }, /* @__PURE__ */ a("h1", null, "Image Size"), /* @__PURE__ */ a("div", {
+      class: "print-setting-group-options"
+    }, /* @__PURE__ */ a("label", {
+      tabIndex: 0
+    }, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "print-size"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Fit to Page"), /* @__PURE__ */ a("span", {
+      class: "stretch"
+    }, "\u26F6"))), /* @__PURE__ */ a("label", {
+      tabIndex: 0
+    }, /* @__PURE__ */ a("input", {
+      type: "radio",
+      name: "print-size"
+    }), /* @__PURE__ */ a("div", {
+      class: "option"
+    }, /* @__PURE__ */ a("h3", null, "Actual Size"), /* @__PURE__ */ a("span", {
+      class: "actual-size"
+    }, "1:1"))))), /* @__PURE__ */ a("div", {
+      class: "print-setting-group"
+    }, /* @__PURE__ */ a("h1", null, "Misc."), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      type: "checkbox"
+    }), "Use less ink (Step by Step only)")), /* @__PURE__ */ a("div", {
+      class: "final-row"
+    }, /* @__PURE__ */ a("button", {
+      class: "cancel",
+      onClick: () => updateProp("ui", "isPrintOpen", false)
+    }, "Cancel"), /* @__PURE__ */ a("button", {
+      class: "print"
+    }, "Print\xA0", /* @__PURE__ */ a("img", {
+      class: "pdf-logo",
+      src: "./pdf-logo.png"
+    }))));
+  }
+  function StepByStepPreviewer(props) {
+    const [frame, setFrame] = l2(0);
+    const imgRef = s2();
+    y2(() => {
+      drawNextFrame();
+      const id = window.setInterval(incrementFrame, 600);
+      return () => {
+        window.clearInterval(id);
+      };
+    });
+    return /* @__PURE__ */ a("img", {
+      class: "step-by-step-preview",
+      ref: imgRef
+    });
+    function incrementFrame() {
+      setFrame((frame + 1) % (props.image.partList.length + 3));
+    }
+    function drawNextFrame() {
+      imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
+    }
+  }
+  function ColorImagePreviewer(props) {
+    return /* @__PURE__ */ a("img", {
+      src: renderPartListImageToDatURL(props.image)
+    });
+  }
+  function SinglePlanPreviewer(props) {
+    const width = 10;
+    const height = 5;
+    const startX = Math.floor(props.image.width / 2) - Math.floor(width / 2);
+    const startY = Math.floor(props.image.height / 2) - Math.floor(height / 2);
+    const lines = [];
+    for (let y3 = Math.max(startY, 0); y3 < Math.min(props.image.height, startY + height); y3++) {
+      let s4 = "";
+      for (let x3 = Math.max(startX, 0); x3 < Math.min(props.image.width, startX + width); x3++) {
+        s4 = s4 + (props.image.pixels[y3][x3]?.symbol ?? " ");
+      }
+      lines.push(s4);
+    }
+    return /* @__PURE__ */ a("span", null, /* @__PURE__ */ a("pre", null, lines.join("\n")));
+  }
+  function PerspectiveArrow(props) {
+    const x1 = {
+      off: 25,
+      low: 20,
+      medium: 15,
+      high: 5
+    }[props.amount];
+    return /* @__PURE__ */ a("svg", {
+      width: "50",
+      height: "50"
+    }, /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("marker", {
+      id: "arrowhead",
+      markerWidth: "6",
+      markerHeight: "4",
+      refX: "0",
+      refY: "2",
+      orient: "auto"
+    }, /* @__PURE__ */ a("polygon", {
+      points: "0 0, 3 2, 0 4"
+    }))), /* @__PURE__ */ a("line", {
+      x1,
+      y1: "5",
+      x2: "25",
+      y2: "30",
+      stroke: "#000",
+      "stroke-width": "4",
+      "marker-end": "url(#arrowhead)"
+    }), /* @__PURE__ */ a("line", {
+      x1: "0",
+      y1: "50",
+      x2: "50",
+      y2: "50",
+      stroke: "#000",
+      "stroke-width": "4"
+    }));
+  }
+
   // src/app.tsx
   var svgns = "http://www.w3.org/2000/svg";
   var memoized = {
@@ -2378,11 +2593,11 @@
       size: "artkal-mini"
     },
     print: {
-      color: "bw-max",
       paperSize: "letter",
-      skew: "none",
-      style: "stepped",
-      carveSize: "none"
+      format: "step-by-step",
+      perpsective: "off",
+      imageSize: "actual",
+      inkSaver: false
     },
     source: {
       displayName: galleryStorage.current[0][0],
@@ -2399,7 +2614,7 @@
   function createApp(initProps = DefaultAppProps, renderTarget) {
     let _props = initProps;
     selectImage(_props.source.displayName, _props.source.uri);
-    function updateProp(parent, name, value) {
+    function updateProp2(parent, name, value) {
       _props = {..._props, [parent]: {..._props[parent], [name]: value}};
       N(/* @__PURE__ */ a(App, {
         ..._props
@@ -2412,10 +2627,10 @@
     }
     function selectImage(displayName, uri) {
       getImageDataFromName(uri, (data) => {
-        updateProp("source", "uri", uri);
-        updateProp("source", "displayName", displayName);
-        updateProp("source", "_decoded", data);
-        updateProp("ui", "isUploadOpen", false);
+        updateProp2("source", "uri", uri);
+        updateProp2("source", "displayName", displayName);
+        updateProp2("source", "_decoded", data);
+        updateProp2("ui", "isUploadOpen", false);
       });
     }
     function App(props) {
@@ -2438,8 +2653,8 @@
         });
         window.addEventListener("keydown", (evt) => {
           if (evt.key === "Escape") {
-            updateProp("ui", "isPrintOpen", false);
-            updateProp("ui", "isUploadOpen", false);
+            updateProp2("ui", "isPrintOpen", false);
+            updateProp2("ui", "isUploadOpen", false);
           }
         });
       }, []);
@@ -2452,24 +2667,26 @@
       const pitch = getPitch(props.material.size);
       return /* @__PURE__ */ a("div", {
         class: "app-top"
+      }, /* @__PURE__ */ a(PropContext.Provider, {
+        value: updateProp2
       }, /* @__PURE__ */ a("div", {
         class: "toolbar"
       }, /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Upload",
-        onClick: () => updateProp("ui", "isUploadOpen", true)
+        onClick: () => updateProp2("ui", "isUploadOpen", true)
       }, "\u{1F4C2}"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Settings",
-        onClick: () => updateProp("ui", "showSettings", !props.ui.showSettings)
+        onClick: () => updateProp2("ui", "showSettings", !props.ui.showSettings)
       }, "\u2699"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Print...",
-        onClick: () => updateProp("ui", "isPrintOpen", true)
+        onClick: () => updateProp2("ui", "isPrintOpen", true)
       }, "\u{1F5A8}"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Legend",
-        onClick: () => updateProp("ui", "showLegend", !props.ui.showLegend)
+        onClick: () => updateProp2("ui", "showLegend", !props.ui.showLegend)
       }, "\u{1F4C3}"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Help"
@@ -2502,7 +2719,7 @@
         }
       }), props.ui.isPrintOpen && image && /* @__PURE__ */ a(PrintDialog, {
         image
-      }));
+      })));
     }
     function ImageSettingsRow(props) {
       return /* @__PURE__ */ a("div", {
@@ -2926,171 +3143,12 @@
         }
       }
     }
-    function StepByStepPreviewer(props) {
-      const [frame, setFrame] = l2(0);
-      const imgRef = s2();
-      y2(() => {
-        drawNextFrame();
-        const id = window.setInterval(incrementFrame, 600);
-        return () => {
-          window.clearInterval(id);
-        };
-      });
-      return /* @__PURE__ */ a("img", {
-        class: "step-by-step-preview",
-        ref: imgRef
-      });
-      function incrementFrame() {
-        setFrame((frame + 1) % (props.image.partList.length + 3));
-      }
-      function drawNextFrame() {
-        imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
-      }
-    }
-    function ColorImagePreviewer(props) {
-      return /* @__PURE__ */ a("img", {
-        src: renderPartListImageToDatURL(props.image)
-      });
-    }
-    function SinglePlanPreviewer(props) {
-      const width = 12;
-      const height = 6;
-      const startX = Math.floor(props.image.width / 2) - width / 2;
-      const startY = Math.floor(props.image.height / 2) - height / 2;
-      const lines = [];
-      for (let y3 = Math.max(startY, 0); y3 < Math.min(props.image.height, startY + height); y3++) {
-        let s4 = "";
-        for (let x3 = Math.max(startX, 0); x3 < Math.min(props.image.width, startX + width); x3++) {
-          s4 = s4 + (props.image.pixels[y3][x3]?.symbol ?? " ");
-        }
-        lines.push(s4);
-      }
-      return /* @__PURE__ */ a("span", null, /* @__PURE__ */ a("pre", null, lines.join("\n")));
-    }
-    function PerspectiveArrow(props) {
-      const x1 = {
-        off: 25,
-        low: 20,
-        medium: 15,
-        high: 5
-      }[props.amount];
-      return /* @__PURE__ */ a("svg", {
-        width: "50",
-        height: "50"
-      }, /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("marker", {
-        id: "arrowhead",
-        markerWidth: "6",
-        markerHeight: "4",
-        refX: "0",
-        refY: "2",
-        orient: "auto"
-      }, /* @__PURE__ */ a("polygon", {
-        points: "0 0, 3 2, 0 4"
-      }))), /* @__PURE__ */ a("line", {
-        x1,
-        y1: "5",
-        x2: "25",
-        y2: "30",
-        stroke: "#000",
-        "stroke-width": "4",
-        "marker-end": "url(#arrowhead)"
-      }), /* @__PURE__ */ a("line", {
-        x1: "0",
-        y1: "50",
-        x2: "50",
-        y2: "50",
-        stroke: "#000",
-        "stroke-width": "4"
-      }));
-    }
-    function PrintDialog(props) {
-      return /* @__PURE__ */ a("div", {
-        class: "print-dialog"
-      }, /* @__PURE__ */ a("div", {
-        class: "print-setting-group"
-      }, /* @__PURE__ */ a("h1", null, "Format"), /* @__PURE__ */ a("div", {
-        class: "print-setting-group-options"
-      }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "format"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Step by Step"), /* @__PURE__ */ a(StepByStepPreviewer, {
-        image: props.image
-      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "format"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Legend Plan"), /* @__PURE__ */ a(SinglePlanPreviewer, {
-        image: props.image
-      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "format"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Color Image"), /* @__PURE__ */ a(ColorImagePreviewer, {
-        image: props.image
-      }))))), /* @__PURE__ */ a("div", {
-        class: "print-setting-group"
-      }, /* @__PURE__ */ a("h1", null, "Paper Size"), /* @__PURE__ */ a("div", {
-        class: "print-setting-group-options"
-      }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "paper-size"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Letter"), /* @__PURE__ */ a("span", {
-        class: "letter-icon"
-      }), "8.5x11")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "paper-size"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "A4"), /* @__PURE__ */ a("span", {
-        class: "a4-icon"
-      }), "210x297")))), /* @__PURE__ */ a("div", {
-        class: "print-setting-group"
-      }, /* @__PURE__ */ a("h1", null, "Perspective Correction"), /* @__PURE__ */ a("div", {
-        class: "print-setting-group-options"
-      }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "persp-corr"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Off"), /* @__PURE__ */ a(PerspectiveArrow, {
-        amount: "off"
-      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "persp-corr"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Low"), /* @__PURE__ */ a(PerspectiveArrow, {
-        amount: "low"
-      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "persp-corr"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "Medium"), /* @__PURE__ */ a(PerspectiveArrow, {
-        amount: "medium"
-      }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-        type: "radio",
-        name: "persp-corr"
-      }), /* @__PURE__ */ a("div", {
-        class: "option"
-      }, /* @__PURE__ */ a("h3", null, "High"), /* @__PURE__ */ a(PerspectiveArrow, {
-        amount: "high"
-      }))))), /* @__PURE__ */ a("div", {
-        class: "print-setting-group"
-      }, /* @__PURE__ */ a("h1", null, "Misc.")));
-    }
     function getCheckbox(props, subKey, valueKey, label) {
       return /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
         type: "checkbox",
         checked: props[valueKey],
         onChange: (arg) => {
-          updateProp(subKey, valueKey, !props[valueKey]);
+          updateProp2(subKey, valueKey, !props[valueKey]);
         }
       }), label);
     }
@@ -3104,11 +3162,11 @@
         value: props[key]
       }), label);
       function changed(e3) {
-        updateProp(parentKey, key, e3.target.value);
+        updateProp2(parentKey, key, e3.target.value);
       }
     }
     function getRadioGroup(props, parentProp, key, settings) {
-      return radioGroup(key, (k3, v3) => updateProp(parentProp, k3, v3), props[key], settings);
+      return radioGroup(key, (k3, v3) => updateProp2(parentProp, k3, v3), props[key], settings);
     }
   }
   function radioGroup(name, changed, defaultValue, values) {

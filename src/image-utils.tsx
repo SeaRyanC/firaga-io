@@ -69,14 +69,18 @@ export function applyTransparencyAndCrop(rgbaArray: ImageData, transparentValue:
         }
     }
 
+    // +3 because it's +1 due to fenceposting and +1 for each margin
     const id = new ImageData(maxX - minX + 3, maxY - minY + 3);
+    // Zero out the whole thing
+    for (let y = 0; y < id.height; y++)
+        for (let x = 0; x < id.width; x++)
+            id.data[(y * id.width + x) * 4 + 3] = 0;
+
     for (let y = minY; y <= maxY; y++) {
         for (let x = minX; x <= maxX; x++) {
             const color = colorAt(rgbaArray, x, y);
-            const c = ((y - minY) * id.width + (x - minX)) * 4;
-            if (isTransparent(color)) {
-                id.data[c + 3] = 0;
-            } else {
+            const c = ((y - minY + 1) * id.width + (x - minX + 1)) * 4;
+            if (!isTransparent(color)) {
                 id.data[c + 0] = (color >> 0) & 0xFF;
                 id.data[c + 1] = (color >> 8) & 0xFF;
                 id.data[c + 2] = (color >> 16) & 0xFF;
@@ -121,8 +125,8 @@ export function inferTransparencyValue(imageData: ImageData): number {
                 if (imageData.data[c + 0] === 0xFF &&
                     imageData.data[c + 1] === 0x00 &&
                     imageData.data[c + 2] === 0xFF) {
-                        hasEdgeMagenta = true;
-                    }
+                    hasEdgeMagenta = true;
+                }
             }
         }
     }
@@ -136,7 +140,7 @@ export function inferTransparencyValue(imageData: ImageData): number {
 export function getCornerTransparency(rgbaArray: ImageData): number {
     const arr = [
         colorAt(rgbaArray, 0, 0),
-        colorAt(rgbaArray, 0, rgbaArray.height- 1),
+        colorAt(rgbaArray, 0, rgbaArray.height - 1),
         colorAt(rgbaArray, rgbaArray.width - 1, 0),
         colorAt(rgbaArray, rgbaArray.width - 1, rgbaArray.height)
     ];

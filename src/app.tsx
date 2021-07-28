@@ -5,6 +5,8 @@ import { adjustImage, createPartListImage, getImageData, getImageData as getImag
 import { AppProps, DisplayProps, DisplaySettings, ImageProps, ImageSettings, MaterialProps, MaterialSettings } from "./types";
 import { colorEntryToHex, colorEntryToHtml, getPitch, isBright, timer } from './utils';
 import { createGallery } from './user-gallery';
+import { PropContext } from './components/context';
+import { PrintDialog } from './components/print-dialog';
 
 const svgns = "http://www.w3.org/2000/svg";
 
@@ -62,11 +64,11 @@ const DefaultAppProps: AppProps = {
         size: "artkal-mini",
     },
     print: {
-        color: "bw-max",
         paperSize: "letter",
-        skew: "none",
-        style: "stepped",
-        carveSize: "none",
+        format: "step-by-step",
+        perpsective: "off",
+        imageSize: "actual",
+        inkSaver: false
     },
     source: {
         displayName: galleryStorage.current[0][0],
@@ -141,36 +143,38 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         const pitch = getPitch(props.material.size);
 
         return <div class="app-top">
-            <div class="toolbar">
-                <button class="toolbar-button" title="Upload" onClick={() => updateProp("ui", "isUploadOpen", true)}>📂</button>
-                <button class="toolbar-button" title="Settings" onClick={() => updateProp("ui", "showSettings", !props.ui.showSettings)}>⚙</button>
-                <button class="toolbar-button" title="Print..." onClick={() => updateProp("ui", "isPrintOpen", true)}>🖨</button>
-                <button class="toolbar-button" title="Legend" onClick={() => updateProp("ui", "showLegend", !props.ui.showLegend)}>📃</button>
-                <button class="toolbar-button" title="Help">❓</button>
-            </div>
-            <div class="app-main">
-                {props.ui.showSettings && <div class="settings">
-                    <MaterialSettingsRow {...props.material} />
-                    <ImageSettingsRow {...props.image} />
-                    <DisplaySettingsRow {...props.display} />
+            <PropContext.Provider value={updateProp}>
+                <div class="toolbar">
+                    <button class="toolbar-button" title="Upload" onClick={() => updateProp("ui", "isUploadOpen", true)}>📂</button>
+                    <button class="toolbar-button" title="Settings" onClick={() => updateProp("ui", "showSettings", !props.ui.showSettings)}>⚙</button>
+                    <button class="toolbar-button" title="Print..." onClick={() => updateProp("ui", "isPrintOpen", true)}>🖨</button>
+                    <button class="toolbar-button" title="Legend" onClick={() => updateProp("ui", "showLegend", !props.ui.showLegend)}>📃</button>
+                    <button class="toolbar-button" title="Help">❓</button>
+                </div>
+                <div class="app-main">
+                    {props.ui.showSettings && <div class="settings">
+                        <MaterialSettingsRow {...props.material} />
+                        <ImageSettingsRow {...props.image} />
+                        <DisplaySettingsRow {...props.display} />
 
-                    {!!image && <Stats img={image} pitch={getPitch(props.material.size)} />}
-                </div>}
-                {image ? <PlanSvg image={image} pitch={pitch} displaySettings={props.display} /> : <div>Loading...</div>}
-                {props.ui.showLegend && image && <Legend partList={image.partList} />}
-            </div>
-            {props.ui.isUploadOpen &&
-                <GalleryContainer
-                    gallery={galleryStorage.current}
-                    load={(name, uri) => {
-                        selectImage(name, uri);
-                    }}
-                    requestDelete={(uri) => {
-                        galleryStorage.remove(uri);
-                    }}
-                />}
-            {props.ui.isPrintOpen && image &&
-                <PrintDialog image={image} />}
+                        {!!image && <Stats img={image} pitch={getPitch(props.material.size)} />}
+                    </div>}
+                    {image ? <PlanSvg image={image} pitch={pitch} displaySettings={props.display} /> : <div>Loading...</div>}
+                    {props.ui.showLegend && image && <Legend partList={image.partList} />}
+                </div>
+                {props.ui.isUploadOpen &&
+                    <GalleryContainer
+                        gallery={galleryStorage.current}
+                        load={(name, uri) => {
+                            selectImage(name, uri);
+                        }}
+                        requestDelete={(uri) => {
+                            galleryStorage.remove(uri);
+                        }}
+                    />}
+                {props.ui.isPrintOpen && image &&
+                    <PrintDialog image={image} />}
+            </PropContext.Provider>
         </div>;
     }
 
@@ -597,157 +601,6 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                 reader.readAsDataURL(file);
             }
         }
-    }
-
-    function StepByStepPreviewer(props: { image: PartListImage }) {
-        const [frame, setFrame] = useState(0);
-        const imgRef = useRef<HTMLImageElement>();
-        useEffect(() => {
-            drawNextFrame();
-            const id = window.setInterval(incrementFrame, 600);
-            return () => {
-                window.clearInterval(id);
-            }
-        });
-
-        return <img class="step-by-step-preview" ref={imgRef}>
-        </img>;
-
-        function incrementFrame() {
-            setFrame((frame + 1) % (props.image.partList.length + 3));
-        }
-
-        function drawNextFrame() {
-            imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
-        }
-    }
-
-    function ColorImagePreviewer(props: { image: PartListImage }) {
-        return <img src={renderPartListImageToDatURL(props.image)} />;
-    }
-
-    function SinglePlanPreviewer(props: { image: PartListImage }) {
-        const width = 12;
-        const height = 6;
-        // Grab a region from the center
-        const startX = Math.floor(props.image.width / 2) - (width / 2);
-        const startY = Math.floor(props.image.height / 2) - (height / 2);
-        const lines = [];
-        for (let y = Math.max(startY, 0); y < Math.min(props.image.height, startY + height); y++) {
-            let s = '';
-            for (let x = Math.max(startX, 0); x < Math.min(props.image.width, startX + width); x++) {
-                s = s + (props.image.pixels[y][x]?.symbol ?? ' ');
-            }
-            lines.push(s);
-        }
-        return <span><pre>{lines.join('\n')}</pre></span>
-    }
-
-    function PerspectiveArrow(props: { amount: "off" | "low" | "medium" | "high" }) {
-        const x1 = {
-            off: 25,
-            low: 20,
-            medium: 15,
-            high: 5
-        }[props.amount];
-        return <svg width="50" height="50">
-            <defs>
-                <marker id="arrowhead" markerWidth="6" markerHeight="4"
-                    refX="0" refY="2" orient="auto">
-                    <polygon points="0 0, 3 2, 0 4" />
-                </marker>
-            </defs>
-            <line x1={x1} y1="5" x2="25" y2="30" stroke="#000" stroke-width="4" marker-end="url(#arrowhead)" />
-            <line x1="0" y1="50" x2="50" y2="50" stroke="#000" stroke-width="4" />
-        </svg>
-    }
-
-    function PrintDialog(props: { image: PartListImage }) {
-        return <div class="print-dialog">
-            <div class="print-setting-group">
-                <h1>Format</h1>
-                <div class="print-setting-group-options">
-                    <label>
-                        <input type="radio" name="format"></input>
-                        <div class="option">
-                            <h3>Step by Step</h3>
-                            <StepByStepPreviewer image={props.image} />
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="format"></input>
-                        <div class="option">
-                            <h3>Legend Plan</h3>
-                            <SinglePlanPreviewer image={props.image} />
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="format"></input>
-                        <div class="option">
-                            <h3>Color Image</h3>
-                            <ColorImagePreviewer image={props.image} />
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="print-setting-group">
-                <h1>Paper Size</h1>
-                <div class="print-setting-group-options">
-                    <label>
-                        <input type="radio" name="paper-size"></input>
-                        <div class="option">
-                            <h3>Letter</h3>
-                            <span class="letter-icon" />
-                            8.5x11
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="paper-size"></input>
-                        <div class="option">
-                            <h3>A4</h3>
-                            <span class="a4-icon" />
-                            210x297
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="print-setting-group">
-                <h1>Perspective Correction</h1>
-                <div class="print-setting-group-options">
-                    <label>
-                        <input type="radio" name="persp-corr" />
-                        <div class="option">
-                            <h3>Off</h3>
-                            <PerspectiveArrow amount="off" />
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="persp-corr" />
-                        <div class="option">
-                            <h3>Low</h3>
-                            <PerspectiveArrow amount="low" />
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="persp-corr" />
-                        <div class="option">
-                            <h3>Medium</h3>
-                            <PerspectiveArrow amount="medium" />
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="persp-corr" />
-                        <div class="option">
-                            <h3>High</h3>
-                            <PerspectiveArrow amount="high" />
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="print-setting-group">
-                <h1>Misc.</h1>
-            </div>
-        </div>;
     }
 
     function getCheckbox<S extends keyof AppProps, K extends keyof AppProps[S]>(props: Record<K, boolean>, subKey: S, valueKey: K, label: string) {

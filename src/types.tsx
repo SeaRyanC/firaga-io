@@ -47,7 +47,14 @@ export type ImageProps = RadioSettings<typeof ImageSettings> & {
     repixelate: boolean;
 };
 
-export type PrintProps = RadioSettings<typeof PrinterSettings>;
+export type PrintProps = {
+    format: "step-by-step" | "color" | "legend";
+    paperSize: "letter" | "a4";
+    perpsective: "off" | "low" | "medium" | "high";
+    imageSize: "fit" | "actual";
+    inkSaver: boolean;
+}
+
 export type DisplayProps = RadioSettings<typeof DisplaySettings>;
 
 export type AppProps = {
@@ -96,33 +103,6 @@ export const ImageSettings = {
         ["corners", "Corners"],
         ["none", "None"]
     ],
-} as const;
-
-export const PrinterSettings = {
-    paperSize: [
-        ["letter", "Letter"],
-        ["A4", "A4"],
-        ["fit", "Fit"]
-    ],
-    style: [
-        ["stepped", "Step-by-Step"],
-        ["single", "Single Plan"]
-    ],
-    color: [
-        ["bw-min", "Monochrome (ink-saver)"],
-        ["bw-max", "Monochrome"],
-        ["color", "Color"]
-    ],
-    skew: [
-        ["none", "None"],
-        ["low", "Low"],
-        ["medium", "Medium"],
-        ["high", "High"]
-    ],
-    carveSize: [
-        ["none", "None"],
-        ["50", "50x50"]
-    ]
 } as const;
 
 export const DisplaySettings = {
