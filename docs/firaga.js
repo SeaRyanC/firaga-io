@@ -1665,6 +1665,10 @@
     var r3 = m2(t2++, 7);
     return k2(r3.__H, u3) && (r3.__ = n2(), r3.__H = u3, r3.__h = n2), r3.__;
   }
+  function F(n2) {
+    var r3 = u2.context[n2.__c], o3 = m2(t2++, 9);
+    return o3.__c = n2, r3 ? (o3.__ == null && (o3.__ = true, r3.sub(u2)), r3.props.value) : n2.__;
+  }
   function x2() {
     i2.forEach(function(t3) {
       if (t3.__P)
@@ -1970,7 +1974,7 @@
       height: imageData.height
     };
   }
-  function applyImageAdjustments(image, brightnessPct, contrastPct, saturationPct) {
+  function applyImageAdjustments(image, brightnessPct, contrastPct, saturationPct, flip, mirror) {
     const srcCanvas = document.createElement("canvas");
     srcCanvas.width = image.width;
     srcCanvas.height = image.height;
@@ -1981,16 +1985,77 @@
     dstCanvas.height = image.height;
     const dstContext = dstCanvas.getContext("2d");
     dstContext.filter = `saturate(${saturationPct}%) brightness(${brightnessPct}%) contrast(${contrastPct}%)`;
+    if (flip) {
+      dstContext.scale(1, -1);
+      dstContext.translate(0, -image.height);
+    }
+    if (mirror) {
+      dstContext.scale(-1, 1);
+      dstContext.translate(-image.width, 0);
+    }
     console.log(dstContext.filter);
     dstContext.drawImage(srcCanvas, 0, 0);
     return dstContext.getImageData(0, 0, image.width, image.height);
   }
-  function applyTransparencyAndCrop(rgbaArray, transparentValue) {
+  function descale(imageData) {
+    const {mark} = timer();
+    const {data, width, height} = imageData;
+    for (const scaleChk of [8, 7, 6, 5, 4, 3, 2]) {
+      for (let xOffset = 0; xOffset < scaleChk; xOffset++) {
+        for (let yOffset = 0; yOffset < scaleChk; yOffset++) {
+          let match = true;
+          for (let x3 = xOffset; x3 < width; x3 += scaleChk) {
+            for (let y3 = yOffset; y3 < height; y3 += scaleChk) {
+              for (let xi = 1; xi < scaleChk; xi++) {
+                for (let yi = 1; yi < scaleChk; yi++) {
+                  if (!areSame(x3 + xi, y3 + yi, x3, y3)) {
+                    match = false;
+                    break;
+                  }
+                }
+                if (!match)
+                  break;
+              }
+              if (!match)
+                break;
+            }
+            if (!match)
+              break;
+          }
+          if (match) {
+            const newData = new ImageData(Math.floor(width / scaleChk), Math.floor(height / scaleChk));
+            let c3 = 0;
+            for (let y3 = yOffset; y3 < height; y3 += scaleChk) {
+              for (let x3 = xOffset; x3 < width; x3 += scaleChk) {
+                const c0 = (y3 * width + x3) * 4;
+                newData.data[c3] = data[c0];
+                newData.data[c3 + 1] = data[c0 + 1];
+                newData.data[c3 + 2] = data[c0 + 2];
+                newData.data[c3 + 3] = data[c0 + 3];
+                c3 += 4;
+              }
+            }
+            mark(`Descale with match ${scaleChk} ${xOffset} ${yOffset}`);
+            return newData;
+          }
+        }
+      }
+    }
+    mark("Descale with no match");
+    return imageData;
+    function areSame(x0, y0, x1, y1) {
+      const c0 = (y0 * imageData.width + x0) * 4;
+      const c1 = (y1 * imageData.width + x1) * 4;
+      return data[c0] === data[c1] && data[c0 + 1] === data[c1 + 1] && data[c0 + 2] === data[c1 + 2] && data[c0 + 3] === data[c1 + 3];
+    }
+  }
+  function applyTransparencyAndCrop(imageData, transparentValue) {
+    imageData = descale(imageData);
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
-    for (let y3 = 0; y3 < rgbaArray.height; y3++) {
-      for (let x3 = 0; x3 < rgbaArray.width; x3++) {
-        if (!isTransparent(colorAt(rgbaArray, x3, y3))) {
+    for (let y3 = 0; y3 < imageData.height; y3++) {
+      for (let x3 = 0; x3 < imageData.width; x3++) {
+        if (!isTransparent(colorAt(imageData, x3, y3))) {
           minX = Math.min(minX, x3);
           maxX = Math.max(maxX, x3);
           minY = Math.min(minY, y3);
@@ -1998,29 +2063,29 @@
         }
       }
     }
-    const id = new ImageData(maxX - minX + 3, maxY - minY + 3);
-    for (let y3 = 0; y3 < id.height; y3++)
-      for (let x3 = 0; x3 < id.width; x3++)
-        id.data[(y3 * id.width + x3) * 4 + 3] = 0;
+    const newImage = new ImageData(maxX - minX + 1, maxY - minY + 1);
+    for (let y3 = 0; y3 < newImage.height; y3++)
+      for (let x3 = 0; x3 < newImage.width; x3++)
+        newImage.data[(y3 * newImage.width + x3) * 4 + 3] = 0;
     for (let y3 = minY; y3 <= maxY; y3++) {
       for (let x3 = minX; x3 <= maxX; x3++) {
-        const color = colorAt(rgbaArray, x3, y3);
-        const c3 = ((y3 - minY + 1) * id.width + (x3 - minX + 1)) * 4;
+        const color = colorAt(imageData, x3, y3);
+        const c3 = ((y3 - minY) * newImage.width + (x3 - minX)) * 4;
         if (!isTransparent(color)) {
-          id.data[c3 + 0] = color >> 0 & 255;
-          id.data[c3 + 1] = color >> 8 & 255;
-          id.data[c3 + 2] = color >> 16 & 255;
-          id.data[c3 + 3] = 255;
+          newImage.data[c3 + 0] = color >> 0 & 255;
+          newImage.data[c3 + 1] = color >> 8 & 255;
+          newImage.data[c3 + 2] = color >> 16 & 255;
+          newImage.data[c3 + 3] = 255;
         }
       }
     }
+    return newImage;
     function isTransparent(n2) {
       if (transparentValue === 0) {
         return (n2 >> 24) * 255 === 0;
       }
       return (n2 & 16777215) === (transparentValue & 16777215);
     }
-    return id;
   }
   function getImageData(img) {
     const canvas = document.createElement("canvas");
@@ -2092,7 +2157,7 @@
     }
     const croppedImageData = applyTransparencyAndCrop(imageData, transparency);
     mark("Apply transparency & crop");
-    const adjustedImageData = applyImageAdjustments(croppedImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100);
+    const adjustedImageData = applyImageAdjustments(croppedImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100, imageSettings.flip, imageSettings.mirror);
     mark("Adjust image");
     return adjustedImageData;
   }
@@ -2336,121 +2401,133 @@
 
   // src/components/print-dialog.tsx
   init_preact_module();
+  var FormatGroup = makeRadioGroup(({image}) => ({
+    title: "Format",
+    key: "format",
+    values: [
+      {
+        value: "step-by-step",
+        title: "Step by Step",
+        description: "Print one monochrome grid per color",
+        icon: /* @__PURE__ */ a(StepByStepPreviewer, {
+          image
+        })
+      },
+      {
+        value: "color",
+        title: "Color Image",
+        description: "Print a single color image",
+        icon: /* @__PURE__ */ a(ColorImagePreviewer, {
+          image
+        })
+      },
+      {
+        value: "legend",
+        title: "Legend",
+        description: "Print a grid of letters corresponding to the legend",
+        icon: /* @__PURE__ */ a(SinglePlanPreviewer, {
+          image
+        })
+      }
+    ]
+  }));
+  var PaperSizeGroup = makeRadioGroup(() => ({
+    key: "paperSize",
+    title: "Paper Size",
+    values: [
+      {
+        title: "Letter",
+        value: "letter",
+        description: '8.5" x 11"',
+        icon: /* @__PURE__ */ a("span", {
+          class: "letter-icon"
+        })
+      },
+      {
+        title: "A4",
+        value: "a4",
+        description: "210mm x 297mm",
+        icon: /* @__PURE__ */ a("span", {
+          class: "a4-icon"
+        })
+      }
+    ]
+  }));
+  var PerspectiveGroup = makeRadioGroup(() => ({
+    key: "perpsective",
+    title: "Perspective Correction",
+    values: [
+      {
+        title: "Off",
+        value: "off",
+        description: "Do not apply perspective correction",
+        icon: /* @__PURE__ */ a(PerspectiveArrow, {
+          amount: "off"
+        })
+      },
+      {
+        title: "Low",
+        value: "low",
+        description: "Slightly skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
+        icon: /* @__PURE__ */ a(PerspectiveArrow, {
+          amount: "low"
+        })
+      },
+      {
+        title: "Medium",
+        value: "medium",
+        description: "Skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
+        icon: /* @__PURE__ */ a(PerspectiveArrow, {
+          amount: "medium"
+        })
+      },
+      {
+        title: "High",
+        value: "high",
+        description: "Aggressively skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
+        icon: /* @__PURE__ */ a(PerspectiveArrow, {
+          amount: "high"
+        })
+      }
+    ]
+  }));
+  var ImageSizeGroup = makeRadioGroup(() => ({
+    key: "imageSize",
+    title: "Image Size",
+    values: [
+      {
+        title: "Fit to Page",
+        value: "fit",
+        description: "Scale the image to fit a single page",
+        icon: /* @__PURE__ */ a("span", {
+          class: "stretch"
+        }, "\u26F6")
+      },
+      {
+        title: "Actual Size",
+        value: "actual",
+        description: "Print at actual size. Multiple pages will be generated if necessary",
+        icon: /* @__PURE__ */ a("span", {
+          class: "actual-size"
+        }, "1:1")
+      }
+    ]
+  }));
   function PrintDialog(props) {
+    const updateProp = F(PropContext);
     return /* @__PURE__ */ a("div", {
       class: "print-dialog"
     }, /* @__PURE__ */ a("h1", {
       class: "dialog-title"
-    }, "Print"), /* @__PURE__ */ a("div", {
-      class: "print-setting-group"
-    }, /* @__PURE__ */ a("h1", null, "Format"), /* @__PURE__ */ a("div", {
-      class: "print-setting-group-options"
-    }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "format"
+    }, "Print"), /* @__PURE__ */ a(FormatGroup, {
+      ...props
+    }), /* @__PURE__ */ a(PaperSizeGroup, {
+      ...props
+    }), /* @__PURE__ */ a(PerspectiveGroup, {
+      ...props
+    }), /* @__PURE__ */ a(ImageSizeGroup, {
+      ...props
     }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Step by Step"), /* @__PURE__ */ a(StepByStepPreviewer, {
-      image: props.image
-    }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "format"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Color Image"), /* @__PURE__ */ a(ColorImagePreviewer, {
-      image: props.image
-    }))), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "format"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Legend Plan"), /* @__PURE__ */ a(SinglePlanPreviewer, {
-      image: props.image
-    })))), /* @__PURE__ */ a("span", {
-      class: "description"
-    }, "Does a thing for a person")), /* @__PURE__ */ a("div", {
-      class: "print-setting-group"
-    }, /* @__PURE__ */ a("h1", null, "Paper Size"), /* @__PURE__ */ a("div", {
-      class: "print-setting-group-options"
-    }, /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "paper-size"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Letter"), /* @__PURE__ */ a("span", {
-      class: "letter-icon"
-    }), "8.5x11")), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "paper-size"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "A4"), /* @__PURE__ */ a("span", {
-      class: "a4-icon"
-    }), "210x297")))), /* @__PURE__ */ a("div", {
-      class: "print-setting-group"
-    }, /* @__PURE__ */ a("h1", null, "Perspective Correction"), /* @__PURE__ */ a("div", {
-      class: "print-setting-group-options"
-    }, /* @__PURE__ */ a("label", {
-      tabIndex: 0
-    }, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "persp-corr"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Off"), /* @__PURE__ */ a(PerspectiveArrow, {
-      amount: "off"
-    }))), /* @__PURE__ */ a("label", {
-      tabIndex: 0
-    }, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "persp-corr"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Low"), /* @__PURE__ */ a(PerspectiveArrow, {
-      amount: "low"
-    }))), /* @__PURE__ */ a("label", {
-      tabIndex: 0
-    }, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "persp-corr"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Medium"), /* @__PURE__ */ a(PerspectiveArrow, {
-      amount: "medium"
-    }))), /* @__PURE__ */ a("label", {
-      tabIndex: 0
-    }, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "persp-corr"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "High"), /* @__PURE__ */ a(PerspectiveArrow, {
-      amount: "high"
-    })))), /* @__PURE__ */ a("span", {
-      class: "description"
-    }, "Perspective correction slightly skews the image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead.")), /* @__PURE__ */ a("div", {
-      class: "print-setting-group"
-    }, /* @__PURE__ */ a("h1", null, "Image Size"), /* @__PURE__ */ a("div", {
-      class: "print-setting-group-options"
-    }, /* @__PURE__ */ a("label", {
-      tabIndex: 0
-    }, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "print-size"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Fit to Page"), /* @__PURE__ */ a("span", {
-      class: "stretch"
-    }, "\u26F6"))), /* @__PURE__ */ a("label", {
-      tabIndex: 0
-    }, /* @__PURE__ */ a("input", {
-      type: "radio",
-      name: "print-size"
-    }), /* @__PURE__ */ a("div", {
-      class: "option"
-    }, /* @__PURE__ */ a("h3", null, "Actual Size"), /* @__PURE__ */ a("span", {
-      class: "actual-size"
-    }, "1:1"))))), /* @__PURE__ */ a("div", {
       class: "print-setting-group"
     }, /* @__PURE__ */ a("h1", null, "Misc."), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
       type: "checkbox"
@@ -2493,8 +2570,8 @@
     });
   }
   function SinglePlanPreviewer(props) {
-    const width = 10;
-    const height = 5;
+    const width = 5;
+    const height = 4;
     const startX = Math.floor(props.image.width / 2) - Math.floor(width / 2);
     const startY = Math.floor(props.image.height / 2) - Math.floor(height / 2);
     const lines = [];
@@ -2542,6 +2619,28 @@
       stroke: "#000",
       "stroke-width": "4"
     }));
+  }
+  function makeRadioGroup(factory) {
+    return function(props) {
+      const updateProp = F(PropContext);
+      const p3 = factory(props);
+      return /* @__PURE__ */ a("div", {
+        class: "print-setting-group"
+      }, /* @__PURE__ */ a("h1", null, p3.title), /* @__PURE__ */ a("div", {
+        class: "print-setting-group-options"
+      }, p3.values.map((v3) => /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+        type: "radio",
+        name: p3.key,
+        checked: v3.value === props.settings[p3.key],
+        onChange: () => {
+          updateProp("print", p3.key, v3.value);
+        }
+      }), /* @__PURE__ */ a("div", {
+        class: "option"
+      }, /* @__PURE__ */ a("h3", null, v3.title), v3.icon)))), /* @__PURE__ */ a("span", {
+        class: "description"
+      }, p3.values.filter((v3) => v3.value === props.settings[p3.key])[0]?.description));
+    };
   }
 
   // src/app.tsx
@@ -2614,7 +2713,7 @@
   function createApp(initProps = DefaultAppProps, renderTarget) {
     let _props = initProps;
     selectImage(_props.source.displayName, _props.source.uri);
-    function updateProp2(parent, name, value) {
+    function updateProp(parent, name, value) {
       _props = {..._props, [parent]: {..._props[parent], [name]: value}};
       N(/* @__PURE__ */ a(App, {
         ..._props
@@ -2627,10 +2726,10 @@
     }
     function selectImage(displayName, uri) {
       getImageDataFromName(uri, (data) => {
-        updateProp2("source", "uri", uri);
-        updateProp2("source", "displayName", displayName);
-        updateProp2("source", "_decoded", data);
-        updateProp2("ui", "isUploadOpen", false);
+        updateProp("source", "uri", uri);
+        updateProp("source", "displayName", displayName);
+        updateProp("source", "_decoded", data);
+        updateProp("ui", "isUploadOpen", false);
       });
     }
     function App(props) {
@@ -2653,8 +2752,8 @@
         });
         window.addEventListener("keydown", (evt) => {
           if (evt.key === "Escape") {
-            updateProp2("ui", "isPrintOpen", false);
-            updateProp2("ui", "isUploadOpen", false);
+            updateProp("ui", "isPrintOpen", false);
+            updateProp("ui", "isUploadOpen", false);
           }
         });
       }, []);
@@ -2668,25 +2767,25 @@
       return /* @__PURE__ */ a("div", {
         class: "app-top"
       }, /* @__PURE__ */ a(PropContext.Provider, {
-        value: updateProp2
+        value: updateProp
       }, /* @__PURE__ */ a("div", {
         class: "toolbar"
       }, /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Upload",
-        onClick: () => updateProp2("ui", "isUploadOpen", true)
+        onClick: () => updateProp("ui", "isUploadOpen", true)
       }, "\u{1F4C2}"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Settings",
-        onClick: () => updateProp2("ui", "showSettings", !props.ui.showSettings)
+        onClick: () => updateProp("ui", "showSettings", !props.ui.showSettings)
       }, "\u2699"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Print...",
-        onClick: () => updateProp2("ui", "isPrintOpen", true)
+        onClick: () => updateProp("ui", "isPrintOpen", true)
       }, "\u{1F5A8}"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Legend",
-        onClick: () => updateProp2("ui", "showLegend", !props.ui.showLegend)
+        onClick: () => updateProp("ui", "showLegend", !props.ui.showLegend)
       }, "\u{1F4C3}"), /* @__PURE__ */ a("button", {
         class: "toolbar-button",
         title: "Help"
@@ -2718,7 +2817,8 @@
           galleryStorage.remove(uri);
         }
       }), props.ui.isPrintOpen && image && /* @__PURE__ */ a(PrintDialog, {
-        image
+        image,
+        settings: props.print
       })));
     }
     function ImageSettingsRow(props) {
@@ -2775,7 +2875,7 @@
       return /* @__PURE__ */ a("svg", {
         class: "plan",
         xmlns: "http://www.w3.org/2000/svg",
-        viewBox: `0 0 ${image.width * 32} ${image.height * 32}`,
+        viewBox: `-16 -16 ${(image.width + 1) * 32} ${(image.height + 1) * 32}`,
         preserveAspectRatio: "xMidYMid meet"
       }, /* @__PURE__ */ a("style", null, svgCss), /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("rect", {
         id: "melted",
@@ -2921,23 +3021,23 @@
         const target = gridLayer.current;
         if (grid !== "none") {
           const gridInterval = +grid;
-          for (let y3 = 1; y3 < image.height; y3++) {
+          for (let y3 = 0; y3 <= image.height; y3++) {
             const line = document.createElementNS(svgns, "line");
             line.classList.add("gridline");
-            line.classList.add(y3 % gridInterval === 0 ? "gridmajor" : "gridminor");
-            line.setAttribute("x1", 2);
-            line.setAttribute("x2", image.width * 32 - 4);
+            line.classList.add(gridInterval < image.height && y3 % gridInterval === 0 ? "gridmajor" : "gridminor");
+            line.setAttribute("x1", -16);
+            line.setAttribute("x2", image.width * 32 + 16);
             line.setAttribute("y1", y3 * 32);
             line.setAttribute("y2", y3 * 32);
             target.appendChild(line);
           }
-          for (let x3 = 1; x3 < image.width; x3++) {
+          for (let x3 = 0; x3 <= image.width; x3++) {
             const line = document.createElementNS(svgns, "line");
-            line.classList.add(x3 % gridInterval === 0 ? "gridmajor" : "gridminor");
+            line.classList.add(gridInterval < image.width && x3 % gridInterval === 0 ? "gridmajor" : "gridminor");
             line.setAttribute("x1", x3 * 32);
             line.setAttribute("x2", x3 * 32);
-            line.setAttribute("y1", 2);
-            line.setAttribute("y2", image.height * 32 - 4);
+            line.setAttribute("y1", -16);
+            line.setAttribute("y2", image.height * 32 + 16);
             target.appendChild(line);
           }
         }
@@ -3007,8 +3107,11 @@
         }, ent.count.toLocaleString()), /* @__PURE__ */ a("td", {
           className: "color-code"
         }, ent.target.code), /* @__PURE__ */ a("td", {
+          className: "color-swatch",
           style: {color: colorEntryToHex(ent.target)}
-        }, "\u2B24"), /* @__PURE__ */ a("td", null, /* @__PURE__ */ a("span", {
+        }, "\u2B24"), /* @__PURE__ */ a("td", {
+          className: "color-name"
+        }, /* @__PURE__ */ a("span", {
           className: "colorName"
         }, ent.target.name)));
       })));
@@ -3148,7 +3251,7 @@
         type: "checkbox",
         checked: props[valueKey],
         onChange: (arg) => {
-          updateProp2(subKey, valueKey, !props[valueKey]);
+          updateProp(subKey, valueKey, !props[valueKey]);
         }
       }), label);
     }
@@ -3162,11 +3265,11 @@
         value: props[key]
       }), label);
       function changed(e3) {
-        updateProp2(parentKey, key, e3.target.value);
+        updateProp(parentKey, key, e3.target.value);
       }
     }
     function getRadioGroup(props, parentProp, key, settings) {
-      return radioGroup(key, (k3, v3) => updateProp2(parentProp, k3, v3), props[key], settings);
+      return radioGroup(key, (k3, v3) => updateProp(parentProp, k3, v3), props[key], settings);
     }
   }
   function radioGroup(name, changed, defaultValue, values) {

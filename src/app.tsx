@@ -173,7 +173,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         }}
                     />}
                 {props.ui.isPrintOpen && image &&
-                    <PrintDialog image={image} />}
+                    <PrintDialog image={image} settings={props.print} />}
             </PropContext.Provider>
         </div>;
     }
@@ -251,7 +251,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
         return <svg class="plan"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox={`0 0 ${image.width * 32} ${image.height * 32}`}
+            viewBox={`-16 -16 ${(image.width + 1) * 32} ${(image.height + 1) * 32}`}
             preserveAspectRatio="xMidYMid meet">
             <style>{svgCss}</style>
 
@@ -379,23 +379,23 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
             // Grid lines
             if (grid !== "none") {
                 const gridInterval = +grid;
-                for (let y = 1; y < image.height; y++) {
+                for (let y = 0; y <= image.height; y++) {
                     const line = document.createElementNS(svgns, "line");
                     line.classList.add("gridline");
-                    line.classList.add(y % gridInterval === 0 ? "gridmajor" : "gridminor");
-                    line.setAttribute("x1", 2);
-                    line.setAttribute("x2", image.width * 32 - 4);
+                    line.classList.add(gridInterval < image.height && y % gridInterval === 0 ? "gridmajor" : "gridminor");
+                    line.setAttribute("x1", -16);
+                    line.setAttribute("x2", image.width * 32 + 16);
                     line.setAttribute("y1", y * 32);
                     line.setAttribute("y2", y * 32);
                     target.appendChild(line);
                 }
-                for (let x = 1; x < image.width; x++) {
+                for (let x = 0; x <= image.width; x++) {
                     const line = document.createElementNS(svgns, "line");
-                    line.classList.add(x % gridInterval === 0 ? "gridmajor" : "gridminor");
+                    line.classList.add(gridInterval < image.width && x % gridInterval === 0 ? "gridmajor" : "gridminor");
                     line.setAttribute("x1", x * 32);
                     line.setAttribute("x2", x * 32);
-                    line.setAttribute("y1", 2);
-                    line.setAttribute("y2", image.height * 32 - 4);
+                    line.setAttribute("y1", -16);
+                    line.setAttribute("y2", image.height * 32 + 16);
                     target.appendChild(line);
                 }
             }
@@ -469,10 +469,10 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         <td className="legend-symbol">{ent.symbol}</td>
                         <td className="part-count">{ent.count.toLocaleString()}</td>
                         <td className="color-code">{ent.target.code}</td>
-                        <td style={{ color: colorEntryToHex(ent.target) }}>⬤</td>
-                        <td><span className="colorName">{ent.target.name}</span></td>
+                        <td className="color-swatch" style={{ color: colorEntryToHex(ent.target) }}>⬤</td>
+                        <td className="color-name"><span className="colorName">{ent.target.name}</span></td>
                     </tr>
-                }) as any}
+                })}
             </tbody>
         </table>;
     }

@@ -1,8 +1,9 @@
 import * as preact from 'preact';
 import { JSX } from 'preact';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useEffect, useRef, useState } from 'preact/hooks';
 import { PartListImage, renderPartListImageToDatURL } from '../image-utils';
-import { AppProps } from '../types';
+import { AppProps, PrintProps } from '../types';
+import { PropContext } from './context';
 
 type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialogProps) => {
     title: string | JSX.Element;
@@ -15,146 +16,113 @@ type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialog
     }>;
 }
 
-const FormatGroup: OptionGroupFactory<"format"> = ({image}) => ({
+const FormatGroup = makeRadioGroup(({ image }) => ({
     title: "Format",
     key: "format",
     values: [
         {
             value: "step-by-step",
             title: "Step by Step",
-            description: "Do a thing",
+            description: "Print one monochrome grid per color",
             icon: <StepByStepPreviewer image={image} />,
         },
         {
             value: "color",
             title: "Color Image",
-            description: "Do a thing",
+            description: "Print a single color image",
             icon: <ColorImagePreviewer image={image} />,
         },
         {
             value: "legend",
             title: "Legend",
-            description: "Do a thing",
+            description: "Print a grid of letters corresponding to the legend",
             icon: <SinglePlanPreviewer image={image} />,
         }
     ]
-});
+}));
+
+const PaperSizeGroup = makeRadioGroup(() => ({
+    key: "paperSize",
+    title: "Paper Size",
+    values: [
+        {
+            title: "Letter",
+            value: "letter",
+            description: "8.5\" x 11\"",
+            icon: <span class="letter-icon" />
+        },
+        {
+            title: "A4",
+            value: "a4",
+            description: "210mm x 297mm",
+            icon: <span class="a4-icon" />
+        },
+    ]
+}));
+
+const PerspectiveGroup = makeRadioGroup(() => ({
+    key: "perpsective",
+    title: "Perspective Correction",
+    values: [
+        {
+            title: "Off",
+            value: "off",
+            description: "Do not apply perspective correction",
+            icon: <PerspectiveArrow amount="off" />
+        },
+        {
+            title: "Low",
+            value: "low",
+            description: "Slightly skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
+            icon: <PerspectiveArrow amount="low" />
+        },
+        {
+            title: "Medium",
+            value: "medium",
+            description: "Skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
+            icon: <PerspectiveArrow amount="medium" />
+        },
+        {
+            title: "High",
+            value: "high",
+            description: "Aggressively skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
+            icon: <PerspectiveArrow amount="high" />
+        }
+    ]
+}));
+
+const ImageSizeGroup = makeRadioGroup(() => ({
+    key: "imageSize",
+    title: "Image Size",
+    values: [
+        {
+            title: "Fit to Page",
+            value: "fit",
+            description: "Scale the image to fit a single page",
+            icon: <span class="stretch">⛶</span>
+        },
+        {
+            title: "Actual Size",
+            value: "actual",
+            description: "Print at actual size. Multiple pages will be generated if necessary",
+            icon: <span class="actual-size">1:1</span>
+        }
+    ]
+}));
 
 export type PrintDialogProps = {
     image: PartListImage;
+    settings: PrintProps;
 };
 
 export function PrintDialog(props: PrintDialogProps) {
+    const updateProp = useContext(PropContext);
     return <div class="print-dialog">
         <h1 class="dialog-title">Print</h1>
-        <div class="print-setting-group">
-            <h1>Format</h1>
-            <div class="print-setting-group-options">
-                <label>
-                    <input type="radio" name="format"></input>
-                    <div class="option">
-                        <h3>Step by Step</h3>
-                        <StepByStepPreviewer image={props.image} />
-                    </div>
-                </label>
-                <label>
-                    <input type="radio" name="format"></input>
-                    <div class="option">
-                        <h3>Color Image</h3>
-                        <ColorImagePreviewer image={props.image} />
-                    </div>
-                </label>
-                <label>
-                    <input type="radio" name="format"></input>
-                    <div class="option">
-                        <h3>Legend Plan</h3>
-                        <SinglePlanPreviewer image={props.image} />
-                    </div>
-                </label>
-            </div>
-            <span class="description">
-                Does a thing for a person
-            </span>
-        </div>
-        <div class="print-setting-group">
-            <h1>Paper Size</h1>
-            <div class="print-setting-group-options">
-                <label>
-                    <input type="radio" name="paper-size"></input>
-                    <div class="option">
-                        <h3>Letter</h3>
-                        <span class="letter-icon" />
-                        8.5x11
-                    </div>
-                </label>
-                <label>
-                    <input type="radio" name="paper-size"></input>
-                    <div class="option">
-                        <h3>A4</h3>
-                        <span class="a4-icon" />
-                        210x297
-                    </div>
-                </label>
-            </div>
-        </div>
-        <div class="print-setting-group">
-            <h1>Perspective Correction</h1>
-            <div class="print-setting-group-options">
-                <label tabIndex={0}>
-                    <input type="radio" name="persp-corr" />
-                    <div class="option">
-                        <h3>Off</h3>
-                        <PerspectiveArrow amount="off" />
-                    </div>
-                </label>
-                <label tabIndex={0}>
-                    <input type="radio" name="persp-corr" />
-                    <div class="option">
-                        <h3>Low</h3>
-                        <PerspectiveArrow amount="low" />
-                    </div>
-                </label>
-                <label tabIndex={0}>
-                    <input type="radio" name="persp-corr" />
-                    <div class="option">
-                        <h3>Medium</h3>
-                        <PerspectiveArrow amount="medium" />
-                    </div>
-                </label>
-                <label tabIndex={0}>
-                    <input type="radio" name="persp-corr" />
-                    <div class="option">
-                        <h3>High</h3>
-                        <PerspectiveArrow amount="high" />
-                    </div>
-                </label>
-            </div>
-            <span class="description">
-                Perspective correction slightly skews the image
-                so that the dots on the paper and the pegs on the
-                pegboard line up when viewed from an angle other
-                than directly overhead.
-            </span>
-        </div>
-        <div class="print-setting-group">
-            <h1>Image Size</h1>
-            <div class="print-setting-group-options">
-                <label tabIndex={0}>
-                    <input type="radio" name="print-size" />
-                    <div class="option">
-                        <h3>Fit to Page</h3>
-                        <span class="stretch">⛶</span>
-                    </div>
-                </label>
-                <label tabIndex={0}>
-                    <input type="radio" name="print-size" />
-                    <div class="option">
-                        <h3>Actual Size</h3>
-                        <span class="actual-size">1:1</span>
-                    </div>
-                </label>
-            </div>
-        </div>
+        <FormatGroup {...props} />
+        <PaperSizeGroup {...props} />
+        <PerspectiveGroup {...props} />
+        <ImageSizeGroup {...props} />
         <div class="print-setting-group">
             <h1>Misc.</h1>
             <label><input type="checkbox" />Use less ink (Step by Step only)</label>
@@ -194,8 +162,8 @@ function ColorImagePreviewer(props: { image: PartListImage }) {
 }
 
 function SinglePlanPreviewer(props: { image: PartListImage }) {
-    const width = 10;
-    const height = 5;
+    const width = 5;
+    const height = 4;
     // Grab a region from the center
     const startX = Math.floor(props.image.width / 2) - Math.floor(width / 2);
     const startY = Math.floor(props.image.height / 2) - Math.floor(height / 2);
@@ -227,4 +195,29 @@ function PerspectiveArrow(props: { amount: "off" | "low" | "medium" | "high" }) 
         <line x1={x1} y1="5" x2="25" y2="30" stroke="#000" stroke-width="4" marker-end="url(#arrowhead)" />
         <line x1="0" y1="50" x2="50" y2="50" stroke="#000" stroke-width="4" />
     </svg>
+}
+
+function makeRadioGroup<K extends keyof PrintProps>(factory: OptionGroupFactory<K>) {
+    return function (props: PrintDialogProps) {
+        const updateProp = useContext(PropContext);
+        const p = factory(props);
+        return <div class="print-setting-group">
+            <h1>{p.title}</h1>
+            <div class="print-setting-group-options">
+                {p.values.map(v => <label>
+                    <input type="radio"
+                        name={p.key}
+                        checked={v.value === props.settings[p.key]}
+                        onChange={() => {
+                            updateProp("print", p.key, v.value);
+                        }} />
+                    <div class="option">
+                        <h3>{v.title}</h3>
+                        {v.icon}
+                    </div>
+                </label>)}
+            </div>
+            <span class="description">{p.values.filter(v => v.value === props.settings[p.key])[0]?.description}</span>
+        </div>;
+    };
 }

@@ -38,7 +38,7 @@ export function imageDataToRgbaArray(imageData: ImageData): RgbaImage {
     };
 }
 
-export function applyImageAdjustments(image: ImageData, brightnessPct: number, contrastPct: number, saturationPct: number): ImageData {
+export function applyImageAdjustments(image: ImageData, brightnessPct: number, contrastPct: number, saturationPct: number, flip: boolean, mirror: boolean): ImageData {
     const srcCanvas = document.createElement("canvas");
     srcCanvas.width = image.width;
     srcCanvas.height = image.height;
@@ -50,17 +50,80 @@ export function applyImageAdjustments(image: ImageData, brightnessPct: number, c
     dstCanvas.height = image.height;
     const dstContext = dstCanvas.getContext('2d')!;
     dstContext.filter = `saturate(${saturationPct}%) brightness(${brightnessPct}%) contrast(${contrastPct}%)`;
+    if (flip) {
+        dstContext.scale(1, -1);
+        dstContext.translate(0, -image.height);
+    }
+    if (mirror) {
+        dstContext.scale(-1, 1);
+        dstContext.translate(-image.width, 0);
+    }
     console.log(dstContext.filter);
     dstContext.drawImage(srcCanvas, 0, 0);
     return dstContext.getImageData(0, 0, image.width, image.height);
 }
 
-export function applyTransparencyAndCrop(rgbaArray: ImageData, transparentValue: number): ImageData {
+export function descale(imageData: ImageData) {
+    const { mark }= timer();
+    const { data, width, height } = imageData;
+    for (const scaleChk of [8, 7, 6, 5, 4, 3, 2]) {
+        for (let xOffset = 0; xOffset < scaleChk; xOffset++) {
+            for (let yOffset = 0; yOffset < scaleChk; yOffset++) {
+                let match = true;
+                for (let x = xOffset; x < width; x += scaleChk) {
+                    for (let y = yOffset; y < height; y += scaleChk) {
+                        for (let xi = 1; xi < scaleChk; xi++) {
+                            for (let yi = 1; yi < scaleChk; yi++) {
+                                if (!areSame(x + xi, y + yi, x, y)) {
+                                    match = false;
+                                    break;
+                                }
+                            }
+                            if (!match) break;
+                        }
+                        if (!match) break;
+                    }
+                    if (!match) break;
+                }
+                if (match) {
+                    const newData = new ImageData(Math.floor(width / scaleChk), Math.floor(height / scaleChk));
+                    let c = 0;
+                    for (let y = yOffset; y < height; y += scaleChk) {
+                        for (let x = xOffset; x < width; x += scaleChk) {
+                            const c0 = (y * width + x) * 4;
+                            newData.data[c] = data[c0];
+                            newData.data[c + 1] = data[c0 + 1];
+                            newData.data[c + 2] = data[c0 + 2];
+                            newData.data[c + 3] = data[c0 + 3];
+                            c += 4;
+                        }
+                    }
+                    mark(`Descale with match ${scaleChk} ${xOffset} ${yOffset}`)
+                    return newData;
+                }
+            }
+        }
+    }
+    mark("Descale with no match");
+    return imageData;
+
+    function areSame(x0: number, y0: number, x1: number, y1: number) {
+        const c0 = (y0 * imageData.width + x0) * 4;
+        const c1 = (y1 * imageData.width + x1) * 4;
+        return data[c0] === data[c1] &&
+            data[c0 + 1] === data[c1 + 1] &&
+            data[c0 + 2] === data[c1 + 2] &&
+            data[c0 + 3] === data[c1 + 3];
+    }
+}
+
+export function applyTransparencyAndCrop(imageData: ImageData, transparentValue: number): ImageData {
+    imageData = descale(imageData);
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
-    for (let y = 0; y < rgbaArray.height; y++) {
-        for (let x = 0; x < rgbaArray.width; x++) {
-            if (!isTransparent(colorAt(rgbaArray, x, y))) {
+    for (let y = 0; y < imageData.height; y++) {
+        for (let x = 0; x < imageData.width; x++) {
+            if (!isTransparent(colorAt(imageData, x, y))) {
                 minX = Math.min(minX, x);
                 maxX = Math.max(maxX, x);
                 minY = Math.min(minY, y);
@@ -69,25 +132,25 @@ export function applyTransparencyAndCrop(rgbaArray: ImageData, transparentValue:
         }
     }
 
-    // +3 because it's +1 due to fenceposting and +1 for each margin
-    const id = new ImageData(maxX - minX + 3, maxY - minY + 3);
+    const newImage = new ImageData(maxX - minX + 1, maxY - minY + 1);
     // Zero out the whole thing
-    for (let y = 0; y < id.height; y++)
-        for (let x = 0; x < id.width; x++)
-            id.data[(y * id.width + x) * 4 + 3] = 0;
+    for (let y = 0; y < newImage.height; y++)
+        for (let x = 0; x < newImage.width; x++)
+            newImage.data[(y * newImage.width + x) * 4 + 3] = 0;
 
     for (let y = minY; y <= maxY; y++) {
         for (let x = minX; x <= maxX; x++) {
-            const color = colorAt(rgbaArray, x, y);
-            const c = ((y - minY + 1) * id.width + (x - minX + 1)) * 4;
+            const color = colorAt(imageData, x, y);
+            const c = ((y - minY) * newImage.width + (x - minX)) * 4;
             if (!isTransparent(color)) {
-                id.data[c + 0] = (color >> 0) & 0xFF;
-                id.data[c + 1] = (color >> 8) & 0xFF;
-                id.data[c + 2] = (color >> 16) & 0xFF;
-                id.data[c + 3] = 0xFF;
+                newImage.data[c + 0] = (color >> 0) & 0xFF;
+                newImage.data[c + 1] = (color >> 8) & 0xFF;
+                newImage.data[c + 2] = (color >> 16) & 0xFF;
+                newImage.data[c + 3] = 0xFF;
             }
         }
     }
+    return newImage;
 
     function isTransparent(n: number) {
         if (transparentValue === 0) {
@@ -95,8 +158,6 @@ export function applyTransparencyAndCrop(rgbaArray: ImageData, transparentValue:
         }
         return (n & 0xFFFFFF) === (transparentValue & 0xFFFFFF);
     }
-
-    return id;
 }
 
 export function getImageData(img: HTMLImageElement): ImageData {
@@ -189,7 +250,12 @@ export function adjustImage(imageData: ImageData, imageSettings: ImageSettings) 
     const croppedImageData: ImageData = applyTransparencyAndCrop(imageData, transparency);
     mark("Apply transparency & crop");
 
-    const adjustedImageData = applyImageAdjustments(croppedImageData, (imageSettings.brightness * 10) + 100, (imageSettings.contrast * 10) + 100, (imageSettings.saturation * 10) + 100);
+    const adjustedImageData = applyImageAdjustments(croppedImageData,
+        (imageSettings.brightness * 10) + 100,
+        (imageSettings.contrast * 10) + 100,
+        (imageSettings.saturation * 10) + 100,
+        imageSettings.flip,
+        imageSettings.mirror);
     mark("Adjust image");
 
     return adjustedImageData;
