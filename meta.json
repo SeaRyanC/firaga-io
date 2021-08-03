@@ -186,7 +186,7 @@
       ]
     },
     "src/pdf-generator.ts": {
-      "bytes": 15633,
+      "bytes": 16436,
       "imports": [
         {
           "path": "src/utils.tsx",
@@ -379,7 +379,7 @@
           "bytesInOutput": 7524
         },
         "src/pdf-generator.ts": {
-          "bytesInOutput": 10424
+          "bytesInOutput": 11032
         },
         "src/components/plan-display.tsx": {
           "bytesInOutput": 8486
@@ -388,7 +388,7 @@
           "bytesInOutput": 238
         }
       },
-      "bytes": 135568
+      "bytes": 136176
     }
   }
 }

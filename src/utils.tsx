@@ -8,21 +8,30 @@ export const smallSymbolAlphabet = "○×★□";
 /**
  * Pitch is the center-to-center distance between pegs (in mm). This is
  * slightly larger than the actual bead diameter, so needs to be measured
- * manually and is specific to each manufacturer's pegboard.
+ * manually and is specific to each manufacturer's pegboard rather than the bead itself
  */
- export const pitchInfo = {
-    // Measured from 50 pegs @ 138mm
-    "artkal-mini": 2.82,
-    // Measured from 56 pegs @ 147.8mm
-    "perler-mini": 2.69,
-    // TODO: Best guess; need actual
-    perler: 5.1,
+export const GridFormats = {
+    "perler": {
+        size: [29, 29],
+        pitch: 139.75 / (29 - 1)
+    },
+    "artkal-mini": {
+        size: [50, 50],
+        pitch: 137.8 / (50 - 1)
+    },
+    "perler-mini": {
+        size: [56, 56],
+        pitch: 147.9 / (56 - 1)
+    },
     // https://orionrobots.co.uk/wiki/lego_specifications.html
-    lego: 8
-};
+    "lego": {
+        size: [32, 32],
+        pitch: 8
+    }
+} as const;
 
 export function getPitch(size: AppProps["material"]["size"]) {
-    return pitchInfo[size];
+    return GridFormats[size].pitch;
 }
 
 export type Rgb = { r: number, g: number, b: number };

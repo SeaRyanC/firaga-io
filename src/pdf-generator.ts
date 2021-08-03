@@ -98,18 +98,17 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
     // Space between adjacent grids
     const minimumGridMargin = 2;
 
-    const skewThickness = {
-        "off": 0,
-        "low": 3,
-        "medium": 6,
-        "high": 14
-    }[settings.perspective];
-
     // Perspective correction
+    const observerOffset = {
+        "off": 0,
+        "low": 2 * 25.4,
+        "medium": 5 * 25.4,
+        "high": 8 * 25.4
+    }[settings.perspective];
     const observerHeight = 17 * 25.4;
-    const observerDistance = 8 * 25.4;
-    const minTheta = Math.atan2(observerHeight, observerDistance);
-    const maxTheta = Math.atan2(observerHeight, observerDistance + carveSize[1] * pitch);
+    const skewThickness = settings.perspective === "off" ? 0 : 8;
+    const minTheta = Math.atan2(observerOffset, observerHeight);
+    const maxTheta = Math.atan2(observerOffset + carveSize[1] * pitch, observerHeight);
     const minPerspectiveOffset = Math.tan(maxTheta) * skewThickness;
     const maxPerspectiveOffset = Math.tan(minTheta) * skewThickness;
     const netPerspectiveOffset = maxPerspectiveOffset - minPerspectiveOffset;
@@ -182,10 +181,6 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
         doc.addPage();
     }
 
-    doc.setFont("Helvetica");
-    doc.setFontSize(7);
-    doc.setFillColor(0, 0, 0);
-
     const ctx = doc.context2d;
 
     const horizontalGridMargin = (finalWidth - (cols * cellSize.width)) / (cols + 1);
@@ -212,118 +207,56 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
                 // Print the slice
                 nextCellLocation();
 
-                // Resuable row-to-mm-position function
                 const yAt = (rawY: number) => {
                     const adjY = (rawY - slice.y);
-                    const rowTheta = Math.atan2(observerHeight, observerDistance + (adjY * pitch));
+                    const rowTheta = Math.atan2(observerOffset + (adjY * pitch), observerHeight);
                     const ySkew = maxPerspectiveOffset - Math.tan(rowTheta) * skewThickness;
                     return (adjY + 0.5) * pitch + ySkew;
                 };
 
+
+                doc.setFont("Helvetica");
+                doc.setFontSize(12);
+                doc.setFillColor(0, 0, 0);
+
                 ctx.save();
-
-                // Print the header
-                ctx.font = "4pt Helvetica";
                 ctx.translate(colCursor * (cellSize.width + horizontalGridMargin) + pageMargins.top, rowCursor * (cellSize.height + verticalGridMargin) + pageMargins.left);
-                const text = slices.length === 1 ?
-                    `${image.partList[i].target.code} (${image.partList[i].target.name})` :
-                    `Cell ${symbolAlphabet[si]}: ${image.partList[i].target.code} (${image.partList[i].target.name})`
-                ctx.textBaseline = "top";
-                ctx.fillText(text, 0, 0, cellSize.width);
-
-                // Draw the grid outline
-                ctx.translate(0, textHeight);
-                ctx.lineWidth = 0.01;
-                ctx.strokeStyle = "grey";
-                ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
-
-                // Fill in the own pixels
-                ctx.fillStyle = "black";
-                ctx.beginPath();
-                for (let y = slice.y; y < slice.y + slice.height; y++) {
-                    const cy = yAt(y);
-                    for (let x = slice.x; x < slice.x + slice.width; x++) {
-                        if (image.pixels[y][x] === image.partList[i]) {
-                            ctx.arc((x - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
-                        }
-                    }
-                }
-                // TODO: Here, implement inksaver
-                ctx.fill();
-                ctx.closePath();
-
-                // Prior-fill outlining
-                ctx.beginPath();
-
-                // Compute matrix of prior-fill
-                const prevFill: boolean[][] = [];
-                for (let y = slice.y; y < slice.y + slice.height; y++) {
-                    const row = [];
-                    for (let x = slice.x; x < slice.x + slice.width; x++) {
-                        let prev = false;
-                        for (let j = 0; j < i; j++) {
-                            if (image.pixels[y][x] === image.partList[j]) {
-                                prev = true;
-                                break;
-                            }
-                        }
-                        row.push(prev);
-                    }
-                    prevFill.push(row);
-                }
-
-                // TODO: Refactor into own body...
-                for (let y = slice.y; y < slice.y + slice.height; y++) {
-                    const py = y - slice.y;
-                    const yTop = yAt(y - 0.5);
-                    const yBottom = yAt(y + 0.5);
-                    for (let x = slice.x; x < slice.x + slice.width; x++) {
-                        const px = x - slice.x;
-                        if (prevFill[py][px]) {
-                            // Above
-                            if (py !== 0 && !prevFill[y - 1][px]) {
-                                ctx.moveTo((px + 0) * pitch, yTop);
-                                ctx.lineTo((px + 1) * pitch, yTop);
-                            }
-                            // Below
-                            if (py !== prevFill.length - 1 && !prevFill[y + 1][px]) {
-                                ctx.moveTo((px + 0) * pitch, yBottom);
-                                ctx.lineTo((px + 1) * pitch, yBottom);
-                            }
-                            // Left
-                            if (!prevFill[y][px - 1]) {
-                                ctx.moveTo(px * pitch, yTop);
-                                ctx.lineTo(px * pitch, yBottom);
-                            }
-                            // Right
-                            if (!prevFill[y][px + 1]) {
-                                ctx.moveTo((px + 1) * pitch, yTop);
-                                ctx.lineTo((px + 1) * pitch, yBottom);
-                            }
-                        }
-                    }
-                }
-
-                ctx.stroke();
-                ctx.closePath();
-
+                printSteppedSlice({
+                    ctx,
+                    image,
+                    yAt,
+                    gridSize,
+                    i,
+                    slice
+                });
                 ctx.restore();
             }
         }
-    } else if (settings.style === "color") {
+    } else {
         // TODO: Apply perspective correction here?
         for (let si = 0; si < slices.length; si++) {
             nextCellLocation();
             ctx.translate(pageMargins.top, pageMargins.left);
+
+            doc.setFontSize(pitch * 3);
+            doc.setFillColor(0, 0, 0);
             const slice = slices[si];
             for (let y = slice.y; y < slice.y + slice.height; y++) {
                 for (let x = slice.x; x < slice.x + slice.width; x++) {
                     const px = image.pixels[y][x];
                     if (px !== undefined) {
-                        ctx.fillStyle = colorEntryToHex(px.target);
-                        for (let i = 0; i < image.partList.length; i++) {
-                            if (image.partList[i] === px) {
-                                ctx.fillText(symbolAlphabet[i], (x - slice.x + 0.15) * pitch, (y - slice.y + 1) * pitch);
+                        if (settings.style === "color") {
+                            ctx.fillStyle = colorEntryToHex(px.target);
+                            for (let i = 0; i < image.partList.length; i++) {
+                                if (image.partList[i] === px) {
+                                    ctx.fillRect((x - slice.x) * pitch, (y - slice.y + 1) * pitch, pitch, pitch);
+                                }
+                            }
+                        } else if (settings.style === "legend") {
+                            for (let i = 0; i < image.partList.length; i++) {
+                                if (image.partList[i] === px) {
+                                    ctx.fillText(symbolAlphabet[i], (x - slice.x + 0.15) * pitch, (y - slice.y + 1) * pitch);
+                                }
                             }
                         }
                     }
@@ -349,7 +282,116 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
     }
 }
 
-function getLayout(printableWidth: number, printableHeight: number, cellWidth: number, cellHeight: number, cellCount: number, minumumMargin: number) {
+type StepOptions = {
+    image: PartListImage;
+    i: number;
+    gridSize: { width: number, height: number };
+    slice: { x: number, y: number, width: number, height: number };
+    yAt: (y: number) => number;
+    ctx: import("jspdf").Context2d;
+};
+
+function printSteppedSlice(opts: StepOptions) {
+    const {
+        image, i, gridSize, slice, yAt, ctx
+    } = opts;
+
+    const pitch = gridSize.height / slice.height;
+
+    // Print the header
+    let text = `${image.partList[i].target.code} (${image.partList[i].target.name})`;
+    ctx.textBaseline = "bottom";
+    // https://github.com/MrRio/jsPDF/issues/3225
+    // @ts-expect-error measureText is said to return 'number' but actually returns an object
+    while (ctx.measureText(text).width / 2.8346456 * (72 / 96) >= gridSize.width) {
+        text = text.substr(0, text.length - 1);
+    }
+    ctx.fillText(text, 0, 0);
+
+    // Draw the grid outline
+    ctx.lineWidth = 0.01;
+    ctx.strokeStyle = "grey";
+    ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
+
+    // Fill in the own pixels
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    // TODO: Here, implement inksaver
+    traceOwnPixels();
+    ctx.fill();
+    ctx.closePath();
+
+    // Prior-fill outlining
+    ctx.beginPath();
+    tracePriorPixels();
+    ctx.stroke();
+    ctx.closePath();
+
+    function traceOwnPixels() {
+        for (let y = slice.y; y < slice.y + slice.height; y++) {
+            const cy = yAt(y);
+            for (let x = slice.x; x < slice.x + slice.width; x++) {
+                if (image.pixels[y][x] === image.partList[i]) {
+                    ctx.arc((x - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
+                }
+            }
+        }
+
+    }
+
+    function tracePriorPixels() {
+        // Compute matrix of prior-fill
+        const prevFill: boolean[][] = [];
+        for (let y = slice.y; y < slice.y + slice.height; y++) {
+            const row = [];
+            for (let x = slice.x; x < slice.x + slice.width; x++) {
+                let prev = false;
+                for (let j = 0; j < i; j++) {
+                    if (image.pixels[y][x] === image.partList[j]) {
+                        prev = true;
+                        break;
+                    }
+                }
+                row.push(prev);
+            }
+            prevFill.push(row);
+        }
+
+        for (let y = slice.y; y < slice.y + slice.height; y++) {
+            const py = y - slice.y;
+            const yTop = yAt(y - 0.5);
+            const yBottom = yAt(y + 0.5);
+            for (let x = slice.x; x < slice.x + slice.width; x++) {
+                const px = x - slice.x;
+                if (prevFill[py][px]) {
+                    // Above
+                    if (py !== 0 && !prevFill[y - 1][px]) {
+                        ctx.moveTo((px + 0) * pitch, yTop);
+                        ctx.lineTo((px + 1) * pitch, yTop);
+                    }
+                    // Below
+                    if (py !== prevFill.length - 1 && !prevFill[y + 1][px]) {
+                        ctx.moveTo((px + 0) * pitch, yBottom);
+                        ctx.lineTo((px + 1) * pitch, yBottom);
+                    }
+                    // Left
+                    if (!prevFill[y][px - 1]) {
+                        ctx.moveTo(px * pitch, yTop);
+                        ctx.lineTo(px * pitch, yBottom);
+                    }
+                    // Right
+                    if (!prevFill[y][px + 1]) {
+                        ctx.moveTo((px + 1) * pitch, yTop);
+                        ctx.lineTo((px + 1) * pitch, yBottom);
+                    }
+                }
+            }
+        }
+    }
+}
+
+type Layout = { readonly rows: number; readonly cols: number; readonly orientation: "landscape" | "portrait"; };
+function getLayout(printableWidth: number, printableHeight: number, cellWidth: number, cellHeight: number, cellCount: number, minumumMargin: number): Layout {
     // Landscape
     const landscape = {
         orientation: "landscape",
@@ -369,7 +411,7 @@ function getLayout(printableWidth: number, printableHeight: number, cellWidth: n
             return (landscape.rows * landscape.cols) < (portrait.rows * portrait.cols) ? landscape : portrait;
         }
         return portrait;
-    } 
+    }
     // Else just use whatever packs more cells in
     return (landscape.rows * landscape.cols) > (portrait.rows * portrait.cols) ? landscape : portrait;
 

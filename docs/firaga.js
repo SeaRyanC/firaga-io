@@ -2467,16 +2467,16 @@
       top: 25.4 / 2
     };
     const minimumGridMargin = 2;
-    const skewThickness = {
+    const observerOffset = {
       "off": 0,
-      "low": 3,
-      "medium": 6,
-      "high": 14
+      "low": 2 * 25.4,
+      "medium": 5 * 25.4,
+      "high": 8 * 25.4
     }[settings.perspective];
     const observerHeight = 17 * 25.4;
-    const observerDistance = 8 * 25.4;
-    const minTheta = Math.atan2(observerHeight, observerDistance);
-    const maxTheta = Math.atan2(observerHeight, observerDistance + carveSize[1] * pitch);
+    const skewThickness = settings.perspective === "off" ? 0 : 8;
+    const minTheta = Math.atan2(observerOffset, observerHeight);
+    const maxTheta = Math.atan2(observerOffset + carveSize[1] * pitch, observerHeight);
     const minPerspectiveOffset = Math.tan(maxTheta) * skewThickness;
     const maxPerspectiveOffset = Math.tan(minTheta) * skewThickness;
     const netPerspectiveOffset = maxPerspectiveOffset - minPerspectiveOffset;
@@ -2533,9 +2533,6 @@
       }
       doc.addPage();
     }
-    doc.setFont("Helvetica");
-    doc.setFontSize(7);
-    doc.setFillColor(0, 0, 0);
     const ctx = doc.context2d;
     const horizontalGridMargin = (finalWidth - cols * cellSize.width) / (cols + 1);
     const verticalGridMargin = (finalHeight - rows * cellSize.height) / (rows + 1);
@@ -2557,92 +2554,49 @@
           nextCellLocation();
           const yAt = (rawY) => {
             const adjY = rawY - slice.y;
-            const rowTheta = Math.atan2(observerHeight, observerDistance + adjY * pitch);
+            const rowTheta = Math.atan2(observerOffset + adjY * pitch, observerHeight);
             const ySkew = maxPerspectiveOffset - Math.tan(rowTheta) * skewThickness;
             return (adjY + 0.5) * pitch + ySkew;
           };
+          doc.setFont("Helvetica");
+          doc.setFontSize(12);
+          doc.setFillColor(0, 0, 0);
           ctx.save();
-          ctx.font = "4pt Helvetica";
           ctx.translate(colCursor * (cellSize.width + horizontalGridMargin) + pageMargins.top, rowCursor * (cellSize.height + verticalGridMargin) + pageMargins.left);
-          const text = slices.length === 1 ? `${image.partList[i3].target.code} (${image.partList[i3].target.name})` : `Cell ${symbolAlphabet[si]}: ${image.partList[i3].target.code} (${image.partList[i3].target.name})`;
-          ctx.textBaseline = "top";
-          ctx.fillText(text, 0, 0, cellSize.width);
-          ctx.translate(0, textHeight);
-          ctx.lineWidth = 0.01;
-          ctx.strokeStyle = "grey";
-          ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
-          ctx.fillStyle = "black";
-          ctx.beginPath();
-          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-            const cy = yAt(y3);
-            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-              if (image.pixels[y3][x3] === image.partList[i3]) {
-                ctx.arc((x3 - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
-              }
-            }
-          }
-          ctx.fill();
-          ctx.closePath();
-          ctx.beginPath();
-          const prevFill = [];
-          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-            const row = [];
-            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-              let prev = false;
-              for (let j3 = 0; j3 < i3; j3++) {
-                if (image.pixels[y3][x3] === image.partList[j3]) {
-                  prev = true;
-                  break;
-                }
-              }
-              row.push(prev);
-            }
-            prevFill.push(row);
-          }
-          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-            const py = y3 - slice.y;
-            const yTop = yAt(y3 - 0.5);
-            const yBottom = yAt(y3 + 0.5);
-            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-              const px = x3 - slice.x;
-              if (prevFill[py][px]) {
-                if (py !== 0 && !prevFill[y3 - 1][px]) {
-                  ctx.moveTo((px + 0) * pitch, yTop);
-                  ctx.lineTo((px + 1) * pitch, yTop);
-                }
-                if (py !== prevFill.length - 1 && !prevFill[y3 + 1][px]) {
-                  ctx.moveTo((px + 0) * pitch, yBottom);
-                  ctx.lineTo((px + 1) * pitch, yBottom);
-                }
-                if (!prevFill[y3][px - 1]) {
-                  ctx.moveTo(px * pitch, yTop);
-                  ctx.lineTo(px * pitch, yBottom);
-                }
-                if (!prevFill[y3][px + 1]) {
-                  ctx.moveTo((px + 1) * pitch, yTop);
-                  ctx.lineTo((px + 1) * pitch, yBottom);
-                }
-              }
-            }
-          }
-          ctx.stroke();
-          ctx.closePath();
+          printSteppedSlice({
+            ctx,
+            image,
+            yAt,
+            gridSize,
+            i: i3,
+            slice
+          });
           ctx.restore();
         }
       }
-    } else if (settings.style === "color") {
+    } else {
       for (let si = 0; si < slices.length; si++) {
         nextCellLocation();
         ctx.translate(pageMargins.top, pageMargins.left);
+        doc.setFontSize(pitch * 3);
+        doc.setFillColor(0, 0, 0);
         const slice = slices[si];
         for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
           for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
             const px = image.pixels[y3][x3];
             if (px !== void 0) {
-              ctx.fillStyle = colorEntryToHex(px.target);
-              for (let i3 = 0; i3 < image.partList.length; i3++) {
-                if (image.partList[i3] === px) {
-                  ctx.fillText(symbolAlphabet[i3], (x3 - slice.x + 0.15) * pitch, (y3 - slice.y + 1) * pitch);
+              if (settings.style === "color") {
+                ctx.fillStyle = colorEntryToHex(px.target);
+                for (let i3 = 0; i3 < image.partList.length; i3++) {
+                  if (image.partList[i3] === px) {
+                    ctx.fillRect((x3 - slice.x) * pitch, (y3 - slice.y + 1) * pitch, pitch, pitch);
+                  }
+                }
+              } else if (settings.style === "legend") {
+                for (let i3 = 0; i3 < image.partList.length; i3++) {
+                  if (image.partList[i3] === px) {
+                    ctx.fillText(symbolAlphabet[i3], (x3 - slice.x + 0.15) * pitch, (y3 - slice.y + 1) * pitch);
+                  }
                 }
               }
             }
@@ -2659,6 +2613,88 @@
         if (rowCursor === rows) {
           doc.addPage();
           rowCursor = 0;
+        }
+      }
+    }
+  }
+  function printSteppedSlice(opts) {
+    const {
+      image,
+      i: i3,
+      gridSize,
+      slice,
+      yAt,
+      ctx
+    } = opts;
+    const pitch = gridSize.height / slice.height;
+    let text = `${image.partList[i3].target.code} (${image.partList[i3].target.name})`;
+    ctx.textBaseline = "bottom";
+    while (ctx.measureText(text).width / 2.8346456 * (72 / 96) >= gridSize.width) {
+      text = text.substr(0, text.length - 1);
+    }
+    ctx.fillText(text, 0, 0);
+    ctx.lineWidth = 0.01;
+    ctx.strokeStyle = "grey";
+    ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    traceOwnPixels();
+    ctx.fill();
+    ctx.closePath();
+    ctx.beginPath();
+    tracePriorPixels();
+    ctx.stroke();
+    ctx.closePath();
+    function traceOwnPixels() {
+      for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+        const cy = yAt(y3);
+        for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+          if (image.pixels[y3][x3] === image.partList[i3]) {
+            ctx.arc((x3 - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
+          }
+        }
+      }
+    }
+    function tracePriorPixels() {
+      const prevFill = [];
+      for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+        const row = [];
+        for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+          let prev = false;
+          for (let j3 = 0; j3 < i3; j3++) {
+            if (image.pixels[y3][x3] === image.partList[j3]) {
+              prev = true;
+              break;
+            }
+          }
+          row.push(prev);
+        }
+        prevFill.push(row);
+      }
+      for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+        const py = y3 - slice.y;
+        const yTop = yAt(y3 - 0.5);
+        const yBottom = yAt(y3 + 0.5);
+        for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+          const px = x3 - slice.x;
+          if (prevFill[py][px]) {
+            if (py !== 0 && !prevFill[y3 - 1][px]) {
+              ctx.moveTo((px + 0) * pitch, yTop);
+              ctx.lineTo((px + 1) * pitch, yTop);
+            }
+            if (py !== prevFill.length - 1 && !prevFill[y3 + 1][px]) {
+              ctx.moveTo((px + 0) * pitch, yBottom);
+              ctx.lineTo((px + 1) * pitch, yBottom);
+            }
+            if (!prevFill[y3][px - 1]) {
+              ctx.moveTo(px * pitch, yTop);
+              ctx.lineTo(px * pitch, yBottom);
+            }
+            if (!prevFill[y3][px + 1]) {
+              ctx.moveTo((px + 1) * pitch, yTop);
+              ctx.lineTo((px + 1) * pitch, yBottom);
+            }
+          }
         }
       }
     }
@@ -2745,7 +2781,7 @@
         perspective: props.settings.perpsective,
         pitch: getPitch(props.pitch),
         style: props.settings.format,
-        filename: props.filename.replace(".pdf", "")
+        filename: props.filename.replace(".png", "")
       };
       makePdf(props.image, settings);
     }

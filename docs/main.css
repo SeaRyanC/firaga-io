@@ -181,10 +181,6 @@ td.part-count {
     text-align: right;
 }
 
-table {
-    margin-left: 1em;
-}
-
 table, td {
     border: solid #EEE 1px;
     border-collapse: collapse;

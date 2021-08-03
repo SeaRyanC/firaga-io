@@ -35,7 +35,7 @@ export function PrintDialog(props: PrintDialogProps) {
             perspective: props.settings.perpsective,
             pitch: getPitch(props.pitch),
             style: props.settings.format,
-            filename: props.filename.replace(".pdf", "")
+            filename: props.filename.replace(".png", "")
         };
         makePdf(props.image, settings);
     }
