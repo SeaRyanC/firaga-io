@@ -185,8 +185,17 @@
         }
       ]
     },
+    "src/pdf-generator.ts": {
+      "bytes": 15633,
+      "imports": [
+        {
+          "path": "src/utils.tsx",
+          "kind": "import-statement"
+        }
+      ]
+    },
     "src/components/print-dialog.tsx": {
-      "bytes": 7820,
+      "bytes": 8469,
       "imports": [
         {
           "path": "node_modules/preact/dist/preact.module.js",
@@ -198,6 +207,14 @@
         },
         {
           "path": "src/image-utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/pdf-generator.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/utils.tsx",
           "kind": "import-statement"
         },
         {
@@ -232,7 +249,7 @@
       ]
     },
     "src/app.tsx": {
-      "bytes": 18785,
+      "bytes": 18845,
       "imports": [
         {
           "path": "node_modules/preact/dist/preact.module.js",
@@ -326,7 +343,7 @@
           "bytesInOutput": 595
         },
         "src/app.tsx": {
-          "bytesInOutput": 16347
+          "bytesInOutput": 16427
         },
         "node_modules/preact/hooks/dist/hooks.module.js": {
           "bytesInOutput": 3240
@@ -341,7 +358,7 @@
           "bytesInOutput": 818
         },
         "src/utils.tsx": {
-          "bytesInOutput": 1046
+          "bytesInOutput": 1864
         },
         "src/palettizer.ts": {
           "bytesInOutput": 2820
@@ -359,7 +376,10 @@
           "bytesInOutput": 53
         },
         "src/components/print-dialog.tsx": {
-          "bytesInOutput": 7098
+          "bytesInOutput": 7524
+        },
+        "src/pdf-generator.ts": {
+          "bytesInOutput": 10424
         },
         "src/components/plan-display.tsx": {
           "bytesInOutput": 8486
@@ -368,7 +388,7 @@
           "bytesInOutput": 238
         }
       },
-      "bytes": 123755
+      "bytes": 135568
     }
   }
 }

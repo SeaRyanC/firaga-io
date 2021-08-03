@@ -151,7 +151,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         }}
                     />}
                 {props.ui.isPrintOpen && image &&
-                    <PrintDialog image={image} settings={props.print} />}
+                    <PrintDialog image={image} settings={props.print} pitch={props.material.size} filename={props.source.displayName} />}
             </PropContext.Provider>
         </div>;
     }

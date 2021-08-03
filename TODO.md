@@ -15,3 +15,5 @@
    * Change display grid to "Auto / 50 / 25 / 10 / Off"
  * Move "About" to top toolbar
  * Add Twitter link
+ * Less crappy slice diagram in multi-slice printouts
+ 

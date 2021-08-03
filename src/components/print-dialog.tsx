@@ -2,7 +2,9 @@ import * as preact from 'preact';
 import { JSX } from 'preact';
 import { useContext, useEffect, useRef, useState } from 'preact/hooks';
 import { PartListImage, renderPartListImageToDatURL } from '../image-utils';
+import { makePdf, PrintSettings } from '../pdf-generator';
 import { AppProps, PrintProps } from '../types';
+import { getPitch } from '../utils';
 import { PropContext } from './context';
 
 export function PrintDialog(props: PrintDialogProps) {
@@ -21,9 +23,22 @@ export function PrintDialog(props: PrintDialogProps) {
         */}
         <div class="final-row">
             <button class="cancel" onClick={() => updateProp("ui", "isPrintOpen", false)}>Cancel</button>
-            <button class="print">Print&nbsp;<img class="pdf-logo" src="./pdf-logo.png" /></button>
+            <button class="print" onClick={() => print()}>Print&nbsp;<img class="pdf-logo" src="./pdf-logo.png" /></button>
         </div>
     </div>;
+
+    function print() {
+        const settings: PrintSettings = {
+            carveSize: undefined,
+            imageSize: props.settings.imageSize,
+            paperSize: props.settings.paperSize,
+            perspective: props.settings.perpsective,
+            pitch: getPitch(props.pitch),
+            style: props.settings.format,
+            filename: props.filename.replace(".pdf", "")
+        };
+        makePdf(props.image, settings);
+    }
 }
 
 type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialogProps) => {
@@ -40,6 +55,8 @@ type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialog
 export type PrintDialogProps = {
     image: PartListImage;
     settings: PrintProps;
+    pitch: AppProps["material"]["size"];
+    filename: string;
 };
 
 const FormatGroup = makeRadioGroup(({ image }) => ({

@@ -1852,6 +1852,42 @@
       last = n2;
     }
   }
+  function carve(width, height, xSize, ySize) {
+    const res = [];
+    const xa = carveAxis(width, xSize);
+    const ya = carveAxis(height, ySize);
+    let cy = 0;
+    for (const y3 of ya) {
+      let cx = 0;
+      for (const x3 of xa) {
+        res.push({
+          x: cx,
+          y: cy,
+          width: x3,
+          height: y3
+        });
+        cx += x3;
+      }
+      cy += y3;
+    }
+    return res;
+  }
+  function carveAxis(width, size) {
+    if (width <= size)
+      return [width];
+    if (width <= size * 2) {
+      return [Math.ceil(width / 2), Math.floor(width / 2)];
+    }
+    const remainder = width % size;
+    let res = [remainder];
+    let remaining = width - res[0];
+    while (remaining > size) {
+      res.push(size);
+      remaining -= size;
+    }
+    res.push(remaining);
+    return res;
+  }
 
   // src/palettizer.ts
   var diff2 = require_lib();
@@ -2401,6 +2437,280 @@
 
   // src/components/print-dialog.tsx
   init_preact_module();
+
+  // src/pdf-generator.ts
+  async function makePdf(image, settings) {
+    loadPdfAnd(() => makePdfWorker(image, settings));
+  }
+  async function loadPdfAnd(func) {
+    const tagName = "pdf-script-tag";
+    const scriptEl = document.getElementById(tagName);
+    if (scriptEl === null) {
+      const tag = document.createElement("script");
+      tag.id = tagName;
+      tag.onload = () => {
+        func();
+      };
+      tag.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js";
+      document.head.appendChild(tag);
+    } else {
+      func();
+    }
+  }
+  function makePdfWorker(image, settings) {
+    const {pitch} = settings;
+    const carveSize = settings.carveSize === void 0 ? [image.width, image.height] : [50, 50];
+    const pageMargins = {
+      left: 25.4 / 2,
+      right: 25.4 / 2,
+      bottom: 25.4 / 2,
+      top: 25.4 / 2
+    };
+    const minimumGridMargin = 2;
+    const skewThickness = {
+      "off": 0,
+      "low": 3,
+      "medium": 6,
+      "high": 14
+    }[settings.perspective];
+    const observerHeight = 17 * 25.4;
+    const observerDistance = 8 * 25.4;
+    const minTheta = Math.atan2(observerHeight, observerDistance);
+    const maxTheta = Math.atan2(observerHeight, observerDistance + carveSize[1] * pitch);
+    const minPerspectiveOffset = Math.tan(maxTheta) * skewThickness;
+    const maxPerspectiveOffset = Math.tan(minTheta) * skewThickness;
+    const netPerspectiveOffset = maxPerspectiveOffset - minPerspectiveOffset;
+    const textHeight = 4;
+    const gridSize = {
+      width: pitch * Math.min(image.width, carveSize[0]),
+      height: pitch * Math.min(image.height, carveSize[1]) + netPerspectiveOffset
+    };
+    const cellSize = {
+      width: gridSize.width,
+      height: gridSize.height + textHeight
+    };
+    let orientation = "";
+    let paperWidth, paperHeight;
+    let rows = 1, cols = 1;
+    if (settings.paperSize === "letter") {
+      paperWidth = 8.5 * 25.4;
+      paperHeight = 11 * 25.4;
+    } else if (settings.paperSize === "a4") {
+      paperWidth = 210;
+      paperHeight = 297;
+    } else {
+      throw new Error(settings.paperSize);
+    }
+    const printableAreaSize = {
+      width: paperWidth - pageMargins.left - pageMargins.right,
+      height: paperHeight - pageMargins.bottom - pageMargins.top
+    };
+    if (settings.imageSize !== "fit") {
+      const layout = getLayout(printableAreaSize.width, printableAreaSize.height, gridSize.width, gridSize.height, image.partList.length, minimumGridMargin);
+      rows = layout.rows;
+      cols = layout.cols;
+      orientation = layout.orientation;
+    }
+    const finalWidth = orientation === "landscape" ? printableAreaSize.height : printableAreaSize.width;
+    const finalHeight = orientation === "landscape" ? printableAreaSize.width : printableAreaSize.height;
+    const doc = new jspdf.jsPDF({
+      unit: "mm",
+      format: [paperWidth, paperHeight],
+      orientation
+    });
+    let rowCursor = 0, colCursor = -1;
+    const slices = carve(image.width, image.height, carveSize[0], carveSize[1]);
+    if (slices.length > 1) {
+      doc.setFont("Helvetica");
+      doc.setFontSize(12);
+      doc.setFillColor(0, 0, 0);
+      const sliceScale = 1 / 2;
+      for (let i3 = 0; i3 < slices.length; i3++) {
+        let x3 = pageMargins.left + slices[i3].x * sliceScale;
+        let y3 = pageMargins.top + slices[i3].y * sliceScale;
+        doc.rect(x3, y3, slices[i3].width * sliceScale, slices[i3].height * sliceScale);
+        doc.text(symbolAlphabet[i3], x3 + slices[i3].width / 2 * sliceScale, y3 + slices[i3].height / 2 * sliceScale, {baseline: "middle", align: "center"});
+      }
+      doc.addPage();
+    }
+    doc.setFont("Helvetica");
+    doc.setFontSize(7);
+    doc.setFillColor(0, 0, 0);
+    const ctx = doc.context2d;
+    const horizontalGridMargin = (finalWidth - cols * cellSize.width) / (cols + 1);
+    const verticalGridMargin = (finalHeight - rows * cellSize.height) / (rows + 1);
+    ctx.translate(horizontalGridMargin, verticalGridMargin);
+    if (settings.style === "step-by-step") {
+      for (let i3 = 0; i3 < image.partList.length; i3++) {
+        for (let si = 0; si < slices.length; si++) {
+          const slice = slices[si];
+          let realCount = 0;
+          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+              if (image.pixels[y3][x3] === image.partList[i3]) {
+                realCount++;
+              }
+            }
+          }
+          if (realCount === 0)
+            continue;
+          nextCellLocation();
+          const yAt = (rawY) => {
+            const adjY = rawY - slice.y;
+            const rowTheta = Math.atan2(observerHeight, observerDistance + adjY * pitch);
+            const ySkew = maxPerspectiveOffset - Math.tan(rowTheta) * skewThickness;
+            return (adjY + 0.5) * pitch + ySkew;
+          };
+          ctx.save();
+          ctx.font = "4pt Helvetica";
+          ctx.translate(colCursor * (cellSize.width + horizontalGridMargin) + pageMargins.top, rowCursor * (cellSize.height + verticalGridMargin) + pageMargins.left);
+          const text = slices.length === 1 ? `${image.partList[i3].target.code} (${image.partList[i3].target.name})` : `Cell ${symbolAlphabet[si]}: ${image.partList[i3].target.code} (${image.partList[i3].target.name})`;
+          ctx.textBaseline = "top";
+          ctx.fillText(text, 0, 0, cellSize.width);
+          ctx.translate(0, textHeight);
+          ctx.lineWidth = 0.01;
+          ctx.strokeStyle = "grey";
+          ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
+          ctx.fillStyle = "black";
+          ctx.beginPath();
+          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+            const cy = yAt(y3);
+            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+              if (image.pixels[y3][x3] === image.partList[i3]) {
+                ctx.arc((x3 - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
+              }
+            }
+          }
+          ctx.fill();
+          ctx.closePath();
+          ctx.beginPath();
+          const prevFill = [];
+          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+            const row = [];
+            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+              let prev = false;
+              for (let j3 = 0; j3 < i3; j3++) {
+                if (image.pixels[y3][x3] === image.partList[j3]) {
+                  prev = true;
+                  break;
+                }
+              }
+              row.push(prev);
+            }
+            prevFill.push(row);
+          }
+          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+            const py = y3 - slice.y;
+            const yTop = yAt(y3 - 0.5);
+            const yBottom = yAt(y3 + 0.5);
+            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+              const px = x3 - slice.x;
+              if (prevFill[py][px]) {
+                if (py !== 0 && !prevFill[y3 - 1][px]) {
+                  ctx.moveTo((px + 0) * pitch, yTop);
+                  ctx.lineTo((px + 1) * pitch, yTop);
+                }
+                if (py !== prevFill.length - 1 && !prevFill[y3 + 1][px]) {
+                  ctx.moveTo((px + 0) * pitch, yBottom);
+                  ctx.lineTo((px + 1) * pitch, yBottom);
+                }
+                if (!prevFill[y3][px - 1]) {
+                  ctx.moveTo(px * pitch, yTop);
+                  ctx.lineTo(px * pitch, yBottom);
+                }
+                if (!prevFill[y3][px + 1]) {
+                  ctx.moveTo((px + 1) * pitch, yTop);
+                  ctx.lineTo((px + 1) * pitch, yBottom);
+                }
+              }
+            }
+          }
+          ctx.stroke();
+          ctx.closePath();
+          ctx.restore();
+        }
+      }
+    } else if (settings.style === "color") {
+      for (let si = 0; si < slices.length; si++) {
+        nextCellLocation();
+        ctx.translate(pageMargins.top, pageMargins.left);
+        const slice = slices[si];
+        for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+          for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+            const px = image.pixels[y3][x3];
+            if (px !== void 0) {
+              ctx.fillStyle = colorEntryToHex(px.target);
+              for (let i3 = 0; i3 < image.partList.length; i3++) {
+                if (image.partList[i3] === px) {
+                  ctx.fillText(symbolAlphabet[i3], (x3 - slice.x + 0.15) * pitch, (y3 - slice.y + 1) * pitch);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    doc.output("dataurlnewwindow", {filename: `${settings.filename}.pdf`});
+    function nextCellLocation() {
+      colCursor++;
+      if (colCursor === cols) {
+        colCursor = 0;
+        rowCursor++;
+        if (rowCursor === rows) {
+          doc.addPage();
+          rowCursor = 0;
+        }
+      }
+    }
+  }
+  function getLayout(printableWidth, printableHeight, cellWidth, cellHeight, cellCount, minumumMargin) {
+    const landscape = {
+      orientation: "landscape",
+      ...tryLayout(printableHeight, printableWidth)
+    };
+    const portrait = {
+      orientation: "portrait",
+      ...tryLayout(printableWidth, printableHeight)
+    };
+    if (portrait.rows * portrait.cols >= cellCount) {
+      if (landscape.rows * landscape.cols >= cellCount) {
+        return landscape.rows * landscape.cols < portrait.rows * portrait.cols ? landscape : portrait;
+      }
+      return portrait;
+    }
+    return landscape.rows * landscape.cols > portrait.rows * portrait.cols ? landscape : portrait;
+    function tryLayout(pageWidth, pageHeight) {
+      let rows = Math.floor((pageHeight + minumumMargin) / (cellHeight + minumumMargin));
+      let cols = Math.floor((pageWidth + minumumMargin) / (cellWidth + minumumMargin));
+      while (true) {
+        if (rows > cols) {
+          if (tryDecr(() => rows--))
+            continue;
+          if (tryDecr(() => cols--))
+            continue;
+        } else {
+          if (tryDecr(() => cols--))
+            continue;
+          if (tryDecr(() => rows--))
+            continue;
+        }
+        break;
+      }
+      return {rows, cols};
+      function tryDecr(f3) {
+        let or = rows, oc = cols;
+        f3();
+        if (rows * cols < cellCount) {
+          rows = or;
+          cols = oc;
+          return false;
+        }
+        return true;
+      }
+    }
+  }
+
+  // src/components/print-dialog.tsx
   function PrintDialog(props) {
     const updateProp = F(PropContext);
     return /* @__PURE__ */ a("div", {
@@ -2421,11 +2731,24 @@
       class: "cancel",
       onClick: () => updateProp("ui", "isPrintOpen", false)
     }, "Cancel"), /* @__PURE__ */ a("button", {
-      class: "print"
+      class: "print",
+      onClick: () => print()
     }, "Print\xA0", /* @__PURE__ */ a("img", {
       class: "pdf-logo",
       src: "./pdf-logo.png"
     }))));
+    function print() {
+      const settings = {
+        carveSize: void 0,
+        imageSize: props.settings.imageSize,
+        paperSize: props.settings.paperSize,
+        perspective: props.settings.perpsective,
+        pitch: getPitch(props.pitch),
+        style: props.settings.format,
+        filename: props.filename.replace(".pdf", "")
+      };
+      makePdf(props.image, settings);
+    }
   }
   var FormatGroup = makeRadioGroup(({image}) => ({
     title: "Format",
@@ -3058,7 +3381,9 @@
         }
       }), props.ui.isPrintOpen && image && /* @__PURE__ */ a(PrintDialog, {
         image,
-        settings: props.print
+        settings: props.print,
+        pitch: props.material.size,
+        filename: props.source.displayName
       })));
     }
     function ImageSettingsRow(props) {

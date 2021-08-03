@@ -1,16 +1,12 @@
+import { PrintDialogProps } from "./components/print-dialog";
 import { PrintOptions } from "./download-bar";
-import { MaterialSettings } from "./material-settings";
-import { PartListImage } from "./firaga";
+import { PartListImage } from "./image-utils";
 import { carve, colorEntryToHex, getPitch, hx, symbolAlphabet } from "./utils";
 
 declare const jspdf: typeof import("jspdf");
 
-function correctionToNumber(n: PrintOptions["correction"]) {
-    return +n;
-}
-
-export async function makePdf(image: PartListImage, planSettings: MaterialSettings, printOptions: PrintOptions) {
-    loadPdfAnd(() => makePdfWorker(image, planSettings, printOptions));
+export async function makePdf(image: PartListImage, settings: PrintSettings) {
+    loadPdfAnd(() => makePdfWorker(image, settings));
 }
 
 async function loadPdfAnd(func: () => void) {
@@ -73,11 +69,20 @@ Print this page at 100% scale and check it with a ruler`;
     });
 }
 
-function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, printOptions: PrintOptions) {
-    let pitch = getPitch(planSettings.size);
-    // Correction for bad printers
-    pitch = pitch * correctionToNumber(printOptions.correction);
-    const carveSize = printOptions.carveSize === "none" ? [image.width, image.height] : [50, 50] as const;
+export interface PrintSettings {
+    pitch: number;
+    carveSize: undefined | [number, number];
+    imageSize: "fit" | "actual";
+    paperSize: "a4" | "letter";
+    style: "step-by-step" | "legend" | "color";
+    perspective: "off" | "low" | "medium" | "high";
+    filename: string;
+}
+
+function makePdfWorker(image: PartListImage, settings: PrintSettings) {
+    const { pitch } = settings;
+
+    const carveSize = settings.carveSize === undefined ? [image.width, image.height] : [50, 50] as const;
 
     // A4: 210x297
     // Letter: 8.5x11
@@ -94,11 +99,11 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
     const minimumGridMargin = 2;
 
     const skewThickness = {
-        "none": 0,
+        "off": 0,
         "low": 3,
         "medium": 6,
         "high": 14
-    }[printOptions.skew];
+    }[settings.perspective];
 
     // Perspective correction
     const observerHeight = 17 * 25.4;
@@ -124,18 +129,14 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
     let orientation: "landscape" | "portrait" = "" as any;
     let paperWidth: number, paperHeight: number;
     let rows = 1, cols = 1;
-    if (printOptions.paperSize === "fit") {
-        paperWidth = cellSize.width;
-        paperHeight = cellSize.height;
-        orientation = cellSize.width > cellSize.height ? "landscape" : "portrait"
-    } else if (printOptions.paperSize === "letter") {
+    if (settings.paperSize === "letter") {
         paperWidth = 8.5 * 25.4;
         paperHeight = 11 * 25.4;
-    } else if (printOptions.paperSize === "A4") {
+    } else if (settings.paperSize === "a4") {
         paperWidth = 210;
         paperHeight = 297;
     } else {
-        throw new Error(printOptions.paperSize);
+        throw new Error(settings.paperSize);
     }
 
     const printableAreaSize = {
@@ -143,7 +144,7 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
         height: paperHeight - pageMargins.bottom - pageMargins.top
     };
 
-    if (printOptions.paperSize !== "fit") {
+    if (settings.imageSize !== "fit") {
         const layout = getLayout(printableAreaSize.width, printableAreaSize.height, gridSize.width, gridSize.height, image.partList.length, minimumGridMargin);
         rows = layout.rows;
         cols = layout.cols;
@@ -191,7 +192,7 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
     const verticalGridMargin = (finalHeight - (rows * cellSize.height)) / (rows + 1);
     ctx.translate(horizontalGridMargin, verticalGridMargin);
 
-    if (printOptions.style === "stepped") {
+    if (settings.style === "step-by-step") {
         // Print each color in order
         for (let i = 0; i < image.partList.length; i++) {
             // Print each slice
@@ -237,11 +238,7 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
                 ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
 
                 // Fill in the own pixels
-                if (printOptions.color === "color") {
-                    ctx.fillStyle = colorEntryToHex(image.partList[i].target);
-                } else {
-                    ctx.fillStyle = "black";
-                }
+                ctx.fillStyle = "black";
                 ctx.beginPath();
                 for (let y = slice.y; y < slice.y + slice.height; y++) {
                     const cy = yAt(y);
@@ -251,11 +248,8 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
                         }
                     }
                 }
-                if (printOptions.color === "bw-min") {
-                    ctx.stroke();
-                } else {
-                    ctx.fill();
-                }
+                // TODO: Here, implement inksaver
+                ctx.fill();
                 ctx.closePath();
 
                 // Prior-fill outlining
@@ -278,6 +272,7 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
                     prevFill.push(row);
                 }
 
+                // TODO: Refactor into own body...
                 for (let y = slice.y; y < slice.y + slice.height; y++) {
                     const py = y - slice.y;
                     const yTop = yAt(y - 0.5);
@@ -315,8 +310,8 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
                 ctx.restore();
             }
         }
-    } else if (printOptions.style === "single") {
-        // TODO: Apply perspective correction here
+    } else if (settings.style === "color") {
+        // TODO: Apply perspective correction here?
         for (let si = 0; si < slices.length; si++) {
             nextCellLocation();
             ctx.translate(pageMargins.top, pageMargins.left);
@@ -325,11 +320,7 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
                 for (let x = slice.x; x < slice.x + slice.width; x++) {
                     const px = image.pixels[y][x];
                     if (px !== undefined) {
-                        if (printOptions.color === "color") {
-                            ctx.fillStyle = colorEntryToHex(px.target);
-                        } else {
-                            ctx.fillStyle = "black";
-                        }
+                        ctx.fillStyle = colorEntryToHex(px.target);
                         for (let i = 0; i < image.partList.length; i++) {
                             if (image.partList[i] === px) {
                                 ctx.fillText(symbolAlphabet[i], (x - slice.x + 0.15) * pitch, (y - slice.y + 1) * pitch);
@@ -343,7 +334,7 @@ function makePdfWorker(image: PartListImage, planSettings: MaterialSettings, pri
 
     // Fixed in upstream jspdf but not published yet; remove eventually
     // @ts-expect-error
-    doc.output("dataurlnewwindow", { filename: "plan.pdf" });
+    doc.output("dataurlnewwindow", { filename: `${settings.filename}.pdf` });
 
     function nextCellLocation() {
         colCursor++
