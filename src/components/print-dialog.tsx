@@ -5,6 +5,27 @@ import { PartListImage, renderPartListImageToDatURL } from '../image-utils';
 import { AppProps, PrintProps } from '../types';
 import { PropContext } from './context';
 
+export function PrintDialog(props: PrintDialogProps) {
+    const updateProp = useContext(PropContext);
+    return <div class="print-dialog">
+        <h1 class="dialog-title">Print</h1>
+        <FormatGroup {...props} />
+        <PaperSizeGroup {...props} />
+        <PerspectiveGroup {...props} />
+        <ImageSizeGroup {...props} />
+        {/*
+        <div class="print-setting-group">
+            <h1>Misc.</h1>
+            <label><input type="checkbox" />Use less ink (Step by Step only)</label>
+        </div>
+        */}
+        <div class="final-row">
+            <button class="cancel" onClick={() => updateProp("ui", "isPrintOpen", false)}>Cancel</button>
+            <button class="print">Print&nbsp;<img class="pdf-logo" src="./pdf-logo.png" /></button>
+        </div>
+    </div>;
+}
+
 type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialogProps) => {
     title: string | JSX.Element;
     key: K;
@@ -15,6 +36,11 @@ type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialog
         description: string | JSX.Element;
     }>;
 }
+
+export type PrintDialogProps = {
+    image: PartListImage;
+    settings: PrintProps;
+};
 
 const FormatGroup = makeRadioGroup(({ image }) => ({
     title: "Format",
@@ -109,30 +135,6 @@ const ImageSizeGroup = makeRadioGroup(() => ({
         }
     ]
 }));
-
-export type PrintDialogProps = {
-    image: PartListImage;
-    settings: PrintProps;
-};
-
-export function PrintDialog(props: PrintDialogProps) {
-    const updateProp = useContext(PropContext);
-    return <div class="print-dialog">
-        <h1 class="dialog-title">Print</h1>
-        <FormatGroup {...props} />
-        <PaperSizeGroup {...props} />
-        <PerspectiveGroup {...props} />
-        <ImageSizeGroup {...props} />
-        <div class="print-setting-group">
-            <h1>Misc.</h1>
-            <label><input type="checkbox" />Use less ink (Step by Step only)</label>
-        </div>
-        <div class="final-row">
-            <button class="cancel" onClick={() => updateProp("ui", "isPrintOpen", false)}>Cancel</button>
-            <button class="print">Print&nbsp;<img class="pdf-logo" src="./pdf-logo.png" /></button>
-        </div>
-    </div>;
-}
 
 function StepByStepPreviewer(props: { image: PartListImage }) {
     const [frame, setFrame] = useState(0);

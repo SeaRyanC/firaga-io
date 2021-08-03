@@ -186,7 +186,7 @@
       ]
     },
     "src/components/print-dialog.tsx": {
-      "bytes": 7794,
+      "bytes": 7820,
       "imports": [
         {
           "path": "node_modules/preact/dist/preact.module.js",
@@ -206,12 +206,33 @@
         }
       ]
     },
-    "src/svg.css": {
+    "src/components/svg.css": {
       "bytes": 421,
       "imports": []
     },
+    "src/components/plan-display.tsx": {
+      "bytes": 9801,
+      "imports": [
+        {
+          "path": "node_modules/preact/dist/preact.module.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/preact/hooks/dist/hooks.module.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/utils.tsx",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/components/svg.css",
+          "kind": "require-call"
+        }
+      ]
+    },
     "src/app.tsx": {
-      "bytes": 28873,
+      "bytes": 18785,
       "imports": [
         {
           "path": "node_modules/preact/dist/preact.module.js",
@@ -250,8 +271,8 @@
           "kind": "import-statement"
         },
         {
-          "path": "src/svg.css",
-          "kind": "require-call"
+          "path": "src/components/plan-display.tsx",
+          "kind": "import-statement"
         }
       ]
     },
@@ -301,11 +322,11 @@
         "node_modules/color-convert/index.js": {
           "bytesInOutput": 1965
         },
-        "src/svg.css": {
-          "bytesInOutput": 584
+        "src/components/svg.css": {
+          "bytesInOutput": 595
         },
         "src/app.tsx": {
-          "bytesInOutput": 25064
+          "bytesInOutput": 16347
         },
         "node_modules/preact/hooks/dist/hooks.module.js": {
           "bytesInOutput": 3240
@@ -338,13 +359,16 @@
           "bytesInOutput": 53
         },
         "src/components/print-dialog.tsx": {
-          "bytesInOutput": 7338
+          "bytesInOutput": 7098
+        },
+        "src/components/plan-display.tsx": {
+          "bytesInOutput": 8486
         },
         "src/firaga.tsx": {
           "bytesInOutput": 238
         }
       },
-      "bytes": 124166
+      "bytes": 123755
     }
   }
 }

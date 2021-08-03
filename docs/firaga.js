@@ -1611,9 +1611,9 @@
     }
   });
 
-  // src/svg.css
+  // src/components/svg.css
   var require_svg = __commonJS({
-    "src/svg.css"(exports, module) {
+    "src/components/svg.css"(exports, module) {
       module.exports = "line.gridmajor {\r\n    stroke-width: 2px;\r\n    stroke: rgba(0, 0, 0, 0.5);\r\n}\r\n\r\nline.gridminor {\r\n    stroke-width: 1px;\r\n    stroke: rgba(0, 0, 0, 0.2);\r\n}\r\n\r\ntext {\r\n    font-family: 'Courier New', Courier, monospace;\r\n    font-weight: bold;\r\n    font-size: 31px;\r\n    fill: black;\r\n    pointer-events: none;\r\n}\r\n\r\nuse.dark text,\r\ntext.dark {\r\n    fill: white;\r\n}\r\n\r\nuse.light text,\r\ntext.light {\r\n    fill: black;\r\n}\r\n";
     }
   });
@@ -2401,6 +2401,32 @@
 
   // src/components/print-dialog.tsx
   init_preact_module();
+  function PrintDialog(props) {
+    const updateProp = F(PropContext);
+    return /* @__PURE__ */ a("div", {
+      class: "print-dialog"
+    }, /* @__PURE__ */ a("h1", {
+      class: "dialog-title"
+    }, "Print"), /* @__PURE__ */ a(FormatGroup, {
+      ...props
+    }), /* @__PURE__ */ a(PaperSizeGroup, {
+      ...props
+    }), /* @__PURE__ */ a(PerspectiveGroup, {
+      ...props
+    }), /* @__PURE__ */ a(ImageSizeGroup, {
+      ...props
+    }), /* @__PURE__ */ a("div", {
+      class: "final-row"
+    }, /* @__PURE__ */ a("button", {
+      class: "cancel",
+      onClick: () => updateProp("ui", "isPrintOpen", false)
+    }, "Cancel"), /* @__PURE__ */ a("button", {
+      class: "print"
+    }, "Print\xA0", /* @__PURE__ */ a("img", {
+      class: "pdf-logo",
+      src: "./pdf-logo.png"
+    }))));
+  }
   var FormatGroup = makeRadioGroup(({image}) => ({
     title: "Format",
     key: "format",
@@ -2513,36 +2539,6 @@
       }
     ]
   }));
-  function PrintDialog(props) {
-    const updateProp = F(PropContext);
-    return /* @__PURE__ */ a("div", {
-      class: "print-dialog"
-    }, /* @__PURE__ */ a("h1", {
-      class: "dialog-title"
-    }, "Print"), /* @__PURE__ */ a(FormatGroup, {
-      ...props
-    }), /* @__PURE__ */ a(PaperSizeGroup, {
-      ...props
-    }), /* @__PURE__ */ a(PerspectiveGroup, {
-      ...props
-    }), /* @__PURE__ */ a(ImageSizeGroup, {
-      ...props
-    }), /* @__PURE__ */ a("div", {
-      class: "print-setting-group"
-    }, /* @__PURE__ */ a("h1", null, "Misc."), /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
-      type: "checkbox"
-    }), "Use less ink (Step by Step only)")), /* @__PURE__ */ a("div", {
-      class: "final-row"
-    }, /* @__PURE__ */ a("button", {
-      class: "cancel",
-      onClick: () => updateProp("ui", "isPrintOpen", false)
-    }, "Cancel"), /* @__PURE__ */ a("button", {
-      class: "print"
-    }, "Print\xA0", /* @__PURE__ */ a("img", {
-      class: "pdf-logo",
-      src: "./pdf-logo.png"
-    }))));
-  }
   function StepByStepPreviewer(props) {
     const [frame, setFrame] = l2(0);
     const imgRef = s2();
@@ -2643,15 +2639,10 @@
     };
   }
 
-  // src/app.tsx
+  // src/components/plan-display.tsx
+  init_preact_module();
   var svgns = "http://www.w3.org/2000/svg";
-  var memoized = {
-    adjustImage: memoize(adjustImage),
-    palettizeImage: memoize(palettizeImage),
-    createPartListImage: memoize(createPartListImage)
-  };
   var svgCss = require_svg();
-  var galleryStorage = createGallery();
   var refObjs = {
     quarter: {
       url: "https://upload.wikimedia.org/wikipedia/commons/4/44/2014_ATB_Quarter_Obv.png",
@@ -2669,6 +2660,255 @@
       height: 53.98
     }
   };
+  function PlanSvg(props) {
+    const {
+      image,
+      displaySettings
+    } = props;
+    const {
+      planStyle
+    } = displaySettings;
+    const isBackgroundDark = displaySettings.background === "#000" || displaySettings.background === "#777";
+    return /* @__PURE__ */ a("svg", {
+      class: "plan",
+      xmlns: "http://www.w3.org/2000/svg",
+      viewBox: `-16 -16 ${(image.width + 1) * 32} ${(image.height + 1) * 32}`,
+      preserveAspectRatio: "xMidYMid meet"
+    }, /* @__PURE__ */ a("style", null, svgCss), /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("rect", {
+      id: "melted",
+      width: "32",
+      height: "32",
+      rx: "7",
+      ry: "7"
+    }), /* @__PURE__ */ a("rect", {
+      id: "square",
+      width: "32",
+      height: "32"
+    }), /* @__PURE__ */ a("rect", {
+      id: "circle",
+      width: "32",
+      height: "32",
+      rx: "16",
+      ry: "16"
+    }), /* @__PURE__ */ a("pattern", {
+      id: "wood",
+      patternUnits: "userSpaceOnUse",
+      width: "400",
+      height: "400"
+    }, /* @__PURE__ */ a("image", {
+      href: "https://upload.wikimedia.org/wikipedia/commons/5/50/Mahag%C3%B3ni_001.jpg",
+      x: "0",
+      y: "0",
+      width: "400",
+      height: "400"
+    }))), /* @__PURE__ */ a(BackgroundLayer, {
+      image,
+      bg: displaySettings.background
+    }), /* @__PURE__ */ a(ColorLayer, {
+      image
+    }), /* @__PURE__ */ a(GridLayer, {
+      image,
+      grid: displaySettings.grid
+    }), /* @__PURE__ */ a(TextLayer, {
+      image,
+      planStyle: props.displaySettings.planStyle,
+      isBackgroundDark
+    }), /* @__PURE__ */ a(RefObjLayer, {
+      pitch: props.pitch,
+      name: displaySettings.refobj
+    }));
+  }
+  function BackgroundLayer(props) {
+    return /* @__PURE__ */ a("rect", {
+      x: -16,
+      y: -16,
+      width: (props.image.width + 1) * 32,
+      height: (props.image.height + 1) * 32,
+      fill: props.bg
+    });
+  }
+  function TextLayer(props) {
+    const {image, planStyle, isBackgroundDark} = props;
+    const textLayer = s2(null);
+    y2(() => {
+      renderSpans();
+    }, [image, planStyle, isBackgroundDark]);
+    return /* @__PURE__ */ a("g", {
+      ref: textLayer
+    });
+    function renderSpans() {
+      clearChildren(textLayer.current);
+      const target = textLayer.current;
+      if (planStyle === "symbols") {
+        for (let y3 = 0; y3 < image.height; y3++) {
+          for (let x3 = 0; x3 < image.width; x3++) {
+            const px = image.pixels[y3][x3];
+            if (px === void 0)
+              continue;
+            const t3 = document.createElementNS(svgns, "text");
+            t3.innerHTML = px.symbol;
+            t3.setAttribute("x", (x3 + 0.5) * 32);
+            t3.setAttribute("y", (y3 + 0.8) * 32);
+            t3.setAttribute("text-anchor", "middle");
+            if (isBright(px.target)) {
+              t3.setAttribute("class", "bright");
+            } else {
+              t3.setAttribute("class", "dark");
+            }
+            target.appendChild(t3);
+          }
+        }
+      }
+      if (planStyle === "spans" || planStyle === "symbolspans") {
+        let addAt = function(px, runCount, endX, y3) {
+          if (planStyle === "spans") {
+            if (runCount < 2)
+              return;
+          } else {
+            if (px === void 0)
+              return;
+          }
+          const t3 = document.createElementNS(svgns, "text");
+          if (planStyle === "spans") {
+            t3.innerHTML = runCount.toString();
+          } else {
+            const sym = px?.symbol;
+            if (runCount === 1) {
+              t3.innerHTML = sym;
+            } else if (runCount === 2) {
+              t3.innerHTML = `${sym}`;
+            } else {
+              t3.innerHTML = `${sym}\xD7${runCount.toString()}`;
+            }
+          }
+          t3.setAttribute("x", ((endX - runCount / 2) * 32).toString());
+          t3.setAttribute("y", ((y3 + 0.8) * 32).toString());
+          t3.setAttribute("text-anchor", "middle");
+          if (px === void 0 ? !props.isBackgroundDark : isBright(px.target)) {
+            t3.setAttribute("class", "bright");
+          } else {
+            t3.setAttribute("class", "dark");
+          }
+          target.appendChild(t3);
+        };
+        for (let y3 = 0; y3 < image.height; y3++) {
+          let nowColor = void 0;
+          let runCount = 0;
+          for (let x3 = 0; x3 <= image.width; x3++) {
+            const px = image.pixels[y3][x3];
+            if (nowColor === px) {
+              runCount++;
+            } else {
+              if (runCount > 0) {
+                addAt(nowColor, runCount, x3, y3);
+              }
+              nowColor = px;
+              runCount = 1;
+            }
+            if (x3 === image.width)
+              break;
+          }
+        }
+      }
+    }
+  }
+  function GridLayer(props) {
+    const {image, grid} = props;
+    const gridLayer = s2(null);
+    y2(() => {
+      renderGrid();
+    }, [image, grid]);
+    return /* @__PURE__ */ a("g", {
+      ref: gridLayer
+    });
+    function renderGrid() {
+      clearChildren(gridLayer.current);
+      const target = gridLayer.current;
+      if (grid !== "none") {
+        const gridInterval = +grid;
+        for (let y3 = 0; y3 <= image.height; y3++) {
+          const line = document.createElementNS(svgns, "line");
+          line.classList.add("gridline");
+          line.classList.add(gridInterval < image.height && y3 % gridInterval === 0 ? "gridmajor" : "gridminor");
+          line.setAttribute("x1", -16);
+          line.setAttribute("x2", image.width * 32 + 16);
+          line.setAttribute("y1", y3 * 32);
+          line.setAttribute("y2", y3 * 32);
+          target.appendChild(line);
+        }
+        for (let x3 = 0; x3 <= image.width; x3++) {
+          const line = document.createElementNS(svgns, "line");
+          line.classList.add(gridInterval < image.width && x3 % gridInterval === 0 ? "gridmajor" : "gridminor");
+          line.setAttribute("x1", x3 * 32);
+          line.setAttribute("x2", x3 * 32);
+          line.setAttribute("y1", -16);
+          line.setAttribute("y2", image.height * 32 + 16);
+          target.appendChild(line);
+        }
+      }
+    }
+  }
+  function ColorLayer(props) {
+    const colorsLayer = s2(null);
+    const {image} = props;
+    y2(() => {
+      clearChildren(colorsLayer.current);
+      renderColors(colorsLayer.current);
+    }, [props.image]);
+    return /* @__PURE__ */ a("g", {
+      ref: colorsLayer
+    });
+    function renderColors(colorLayer) {
+      const {mark} = timer();
+      for (let i3 = 0; i3 < image.partList.length; i3++) {
+        const parts = [];
+        for (let y3 = 0; y3 < image.height; y3++) {
+          for (let x3 = 0; x3 < image.width; x3++) {
+            if (image.pixels[y3][x3] === image.partList[i3]) {
+              parts.push(`M ${x3 * 32} ${y3 * 32} l 32 0 l 0 32 l -32 0 l 0 -32 z`);
+            }
+          }
+        }
+        const r3 = document.createElementNS(svgns, "path");
+        r3.setAttribute("d", parts.join(" "));
+        r3.setAttribute("fill", colorEntryToHtml(image.partList[i3].target));
+        r3.setAttribute("stroke-width", "1px");
+        const title = document.createElementNS(svgns, "title");
+        title.innerHTML = `${image.partList[i3].target.code} - ${image.partList[i3].target.name}`;
+        r3.appendChild(title);
+        colorLayer.appendChild(r3);
+      }
+      mark("Render colors");
+    }
+  }
+  function RefObjLayer(props) {
+    if (props.name === "none") {
+      return /* @__PURE__ */ a("g", null);
+    }
+    const refObj = refObjs[props.name];
+    const factor = 32 / props.pitch;
+    return /* @__PURE__ */ a("g", null, /* @__PURE__ */ a("image", {
+      href: refObj.url,
+      width: refObj.width * factor,
+      height: refObj.height * factor,
+      opacity: 0.8,
+      x: 0,
+      y: 0
+    }));
+  }
+  function clearChildren(el) {
+    if (el) {
+      el.innerHTML = "";
+    }
+  }
+
+  // src/app.tsx
+  var memoized = {
+    adjustImage: memoize(adjustImage),
+    palettizeImage: memoize(palettizeImage),
+    createPartListImage: memoize(createPartListImage)
+  };
+  var galleryStorage = createGallery();
   var DefaultAppProps = {
     display: {
       background: "#777",
@@ -2862,234 +3102,6 @@
       }, /* @__PURE__ */ a("span", {
         class: "header"
       }, "Grid Size"), getRadioGroup(props, "material", "size", MaterialSettings.size)))));
-    }
-    function PlanSvg(props) {
-      const {
-        image,
-        displaySettings
-      } = props;
-      const {
-        planStyle
-      } = displaySettings;
-      const isBackgroundDark = displaySettings.background === "#000" || displaySettings.background === "#777";
-      return /* @__PURE__ */ a("svg", {
-        class: "plan",
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: `-16 -16 ${(image.width + 1) * 32} ${(image.height + 1) * 32}`,
-        preserveAspectRatio: "xMidYMid meet"
-      }, /* @__PURE__ */ a("style", null, svgCss), /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("rect", {
-        id: "melted",
-        width: "32",
-        height: "32",
-        rx: "7",
-        ry: "7"
-      }), /* @__PURE__ */ a("rect", {
-        id: "square",
-        width: "32",
-        height: "32"
-      }), /* @__PURE__ */ a("rect", {
-        id: "circle",
-        width: "32",
-        height: "32",
-        rx: "16",
-        ry: "16"
-      }), /* @__PURE__ */ a("pattern", {
-        id: "wood",
-        patternUnits: "userSpaceOnUse",
-        width: "400",
-        height: "400"
-      }, /* @__PURE__ */ a("image", {
-        href: "https://upload.wikimedia.org/wikipedia/commons/5/50/Mahag%C3%B3ni_001.jpg",
-        x: "0",
-        y: "0",
-        width: "400",
-        height: "400"
-      }))), /* @__PURE__ */ a("rect", {
-        width: "100%",
-        height: "100%",
-        fill: displaySettings.background
-      }), /* @__PURE__ */ a(ColorLayer, {
-        image
-      }), /* @__PURE__ */ a(GridLayer, {
-        image,
-        grid: displaySettings.grid
-      }), /* @__PURE__ */ a(TextLayer, {
-        image,
-        planStyle: props.displaySettings.planStyle,
-        isBackgroundDark
-      }), /* @__PURE__ */ a(RefObjLayer, {
-        pitch: props.pitch,
-        name: displaySettings.refobj
-      }));
-    }
-    function TextLayer(props) {
-      const {image, planStyle, isBackgroundDark} = props;
-      const textLayer = s2(null);
-      y2(() => {
-        renderSpans();
-      }, [image, planStyle, isBackgroundDark]);
-      return /* @__PURE__ */ a("g", {
-        ref: textLayer
-      });
-      function renderSpans() {
-        clearChildren(textLayer.current);
-        const target = textLayer.current;
-        if (planStyle === "symbols") {
-          for (let y3 = 0; y3 < image.height; y3++) {
-            for (let x3 = 0; x3 < image.width; x3++) {
-              const px = image.pixels[y3][x3];
-              if (px === void 0)
-                continue;
-              const t3 = document.createElementNS(svgns, "text");
-              t3.innerHTML = px.symbol;
-              t3.setAttribute("x", (x3 + 0.5) * 32);
-              t3.setAttribute("y", (y3 + 0.8) * 32);
-              t3.setAttribute("text-anchor", "middle");
-              if (isBright(px.target)) {
-                t3.setAttribute("class", "bright");
-              } else {
-                t3.setAttribute("class", "dark");
-              }
-              target.appendChild(t3);
-            }
-          }
-        }
-        if (planStyle === "spans" || planStyle === "symbolspans") {
-          let addAt = function(px, runCount, endX, y3) {
-            if (planStyle === "spans") {
-              if (runCount < 2)
-                return;
-            } else {
-              if (px === void 0)
-                return;
-            }
-            const t3 = document.createElementNS(svgns, "text");
-            if (planStyle === "spans") {
-              t3.innerHTML = runCount.toString();
-            } else {
-              const sym = px?.symbol;
-              if (runCount === 1) {
-                t3.innerHTML = sym;
-              } else if (runCount === 2) {
-                t3.innerHTML = `${sym}`;
-              } else {
-                t3.innerHTML = `${sym}\xD7${runCount.toString()}`;
-              }
-            }
-            t3.setAttribute("x", ((endX - runCount / 2) * 32).toString());
-            t3.setAttribute("y", ((y3 + 0.8) * 32).toString());
-            t3.setAttribute("text-anchor", "middle");
-            if (px === void 0 ? !props.isBackgroundDark : isBright(px.target)) {
-              t3.setAttribute("class", "bright");
-            } else {
-              t3.setAttribute("class", "dark");
-            }
-            target.appendChild(t3);
-          };
-          for (let y3 = 0; y3 < image.height; y3++) {
-            let nowColor = void 0;
-            let runCount = 0;
-            for (let x3 = 0; x3 <= image.width; x3++) {
-              const px = image.pixels[y3][x3];
-              if (nowColor === px) {
-                runCount++;
-              } else {
-                if (runCount > 0) {
-                  addAt(nowColor, runCount, x3, y3);
-                }
-                nowColor = px;
-                runCount = 1;
-              }
-              if (x3 === image.width)
-                break;
-            }
-          }
-        }
-      }
-    }
-    function GridLayer(props) {
-      const {image, grid} = props;
-      const gridLayer = s2(null);
-      y2(() => {
-        renderGrid();
-      }, [image, grid]);
-      return /* @__PURE__ */ a("g", {
-        ref: gridLayer
-      });
-      function renderGrid() {
-        clearChildren(gridLayer.current);
-        const target = gridLayer.current;
-        if (grid !== "none") {
-          const gridInterval = +grid;
-          for (let y3 = 0; y3 <= image.height; y3++) {
-            const line = document.createElementNS(svgns, "line");
-            line.classList.add("gridline");
-            line.classList.add(gridInterval < image.height && y3 % gridInterval === 0 ? "gridmajor" : "gridminor");
-            line.setAttribute("x1", -16);
-            line.setAttribute("x2", image.width * 32 + 16);
-            line.setAttribute("y1", y3 * 32);
-            line.setAttribute("y2", y3 * 32);
-            target.appendChild(line);
-          }
-          for (let x3 = 0; x3 <= image.width; x3++) {
-            const line = document.createElementNS(svgns, "line");
-            line.classList.add(gridInterval < image.width && x3 % gridInterval === 0 ? "gridmajor" : "gridminor");
-            line.setAttribute("x1", x3 * 32);
-            line.setAttribute("x2", x3 * 32);
-            line.setAttribute("y1", -16);
-            line.setAttribute("y2", image.height * 32 + 16);
-            target.appendChild(line);
-          }
-        }
-      }
-    }
-    function ColorLayer(props) {
-      const colorsLayer = s2(null);
-      const {image} = props;
-      y2(() => {
-        clearChildren(colorsLayer.current);
-        renderColors(colorsLayer.current);
-      }, [props.image]);
-      return /* @__PURE__ */ a("g", {
-        ref: colorsLayer
-      });
-      function renderColors(colorLayer) {
-        const {mark} = timer();
-        for (let i3 = 0; i3 < image.partList.length; i3++) {
-          const parts = [];
-          for (let y3 = 0; y3 < image.height; y3++) {
-            for (let x3 = 0; x3 < image.width; x3++) {
-              if (image.pixels[y3][x3] === image.partList[i3]) {
-                parts.push(`M ${x3 * 32} ${y3 * 32} l 32 0 l 0 32 l -32 0 l 0 -32 z`);
-              }
-            }
-          }
-          const r3 = document.createElementNS(svgns, "path");
-          r3.setAttribute("d", parts.join(" "));
-          r3.setAttribute("fill", colorEntryToHtml(image.partList[i3].target));
-          r3.setAttribute("stroke-width", "1px");
-          const title = document.createElementNS(svgns, "title");
-          title.innerHTML = `${image.partList[i3].target.code} - ${image.partList[i3].target.name}`;
-          r3.appendChild(title);
-          colorLayer.appendChild(r3);
-        }
-        mark("Render colors");
-      }
-    }
-    function RefObjLayer(props) {
-      if (props.name === "none") {
-        return /* @__PURE__ */ a("g", null);
-      }
-      const refObj = refObjs[props.name];
-      const factor = 32 / props.pitch;
-      return /* @__PURE__ */ a("g", null, /* @__PURE__ */ a("image", {
-        href: refObj.url,
-        width: refObj.width * factor,
-        height: refObj.height * factor,
-        opacity: 0.8,
-        x: 0,
-        y: 0
-      }));
     }
     function Legend({partList}) {
       return /* @__PURE__ */ a("table", {
@@ -3323,11 +3335,6 @@
       }
       return r3;
     };
-  }
-  function clearChildren(el) {
-    if (el) {
-      el.innerHTML = "";
-    }
   }
 
   // src/firaga.tsx
