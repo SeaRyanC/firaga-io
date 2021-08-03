@@ -1816,14 +1816,26 @@
   var preact2 = (init_preact_module(), preact_module_exports);
   var diff = require_lib();
   var symbolAlphabet = "ABCDEFGHJKLMNPQRSTVXZ\u03B1\u03B2\u0394\u03B8\u03BB\u03C0\u03A6\u03A8\u03A9abcdefghijklmnopqrstuvwxyz0123456789";
-  var pitchInfo = {
-    "artkal-mini": 2.82,
-    "perler-mini": 2.69,
-    perler: 5.1,
-    lego: 8
+  var GridFormats = {
+    "perler": {
+      size: [29, 29],
+      pitch: 139.75 / (29 - 1)
+    },
+    "artkal-mini": {
+      size: [50, 50],
+      pitch: 137.8 / (50 - 1)
+    },
+    "perler-mini": {
+      size: [56, 56],
+      pitch: 147.9 / (56 - 1)
+    },
+    "lego": {
+      size: [32, 32],
+      pitch: 8
+    }
   };
   function getPitch(size) {
-    return pitchInfo[size];
+    return GridFormats[size].pitch;
   }
   function colorEntryToHtml(c3) {
     return "rgb(" + c3.r + "," + c3.g + "," + c3.b + ")";

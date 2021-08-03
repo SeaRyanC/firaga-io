@@ -1,8 +1,6 @@
-import colorConvert = require('color-convert');
 import { loadColorData } from './color-data';
-import { ImageSettings } from './image-settings';
 import { makePalette, palettize } from './palettizer';
-import { InputColorsToObjectColors, MaterialProps, ObjectColor, PalettizedImage, RgbaImage } from './types';
+import { ImageProps, InputColorsToObjectColors, MaterialProps, ObjectColor, PalettizedImage, RgbaImage } from './types';
 import { symbolAlphabet, timer } from './utils';
 
 const colorData = loadColorData();
@@ -222,7 +220,7 @@ function colorAt(img: ImageData, x: number, y: number): number {
     );
 }
 
-export function adjustImage(imageData: ImageData, imageSettings: ImageSettings) {
+export function adjustImage(imageData: ImageData, imageSettings: ImageProps) {
     const { mark } = timer();
 
     mark("Image -> RGBA");

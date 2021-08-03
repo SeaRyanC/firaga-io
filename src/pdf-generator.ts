@@ -1,5 +1,3 @@
-import { PrintDialogProps } from "./components/print-dialog";
-import { PrintOptions } from "./download-bar";
 import { PartListImage } from "./image-utils";
 import { carve, colorEntryToHex, getPitch, hx, symbolAlphabet } from "./utils";
 
