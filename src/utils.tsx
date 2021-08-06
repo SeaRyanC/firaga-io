@@ -34,6 +34,10 @@ export function getPitch(size: AppProps["material"]["size"]) {
     return GridFormats[size].pitch;
 }
 
+export function getGridSize(size: AppProps["material"]["size"]) {
+    return GridFormats[size].size;
+}
+
 export type Rgb = { r: number, g: number, b: number };
 
 export function rgbToRGB(rgb: Rgb): diff.RGBColor {
@@ -92,7 +96,7 @@ export function radioGroup<K extends string, V extends Record<K, readonly (reado
     </>;
 }
 
-export function carve(width: number, height: number, xSize: number, ySize: number): { x: number, y: number, width: number, height: number }[] {
+export function carve(width: number, height: number, xSize: number, ySize: number): ReadonlyArray<{ x: number, y: number, width: number, height: number }> {
     const res = [];
     const xa = carveAxis(width, xSize);
     const ya = carveAxis(height, ySize);

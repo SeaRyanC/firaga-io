@@ -12,15 +12,18 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@types/pdfkit": "^0.11.2",
     "color-convert": "^2.0.1",
     "color-diff": "^1.2.0",
     "file-saver": "^2.0.5",
     "hsv-rgb": "^1.0.0",
     "jspdf": "^2.3.1",
+    "pdfkit": "^0.12.3",
     "preact": "^10.5.13",
     "rgb-hsv": "^1.0.0"
   },
   "devDependencies": {
+    "@types/blob-stream": "^0.1.30",
     "@types/color-convert": "^2.0.0",
     "@types/color-diff": "^1.2.0",
     "@types/file-saver": "^2.0.2",

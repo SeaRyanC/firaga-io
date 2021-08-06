@@ -85,7 +85,7 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
         if (planStyle === "symbols") {
             for (let y = 0; y < image.height; y++) {
                 for (let x = 0; x < image.width; x++) {
-                    const px = image.pixels[y][x];
+                    const px = image.partList[image.pixels[y][x]];
                     if (px === undefined) continue;
 
                     const t = document.createElementNS(svgns, "text");
@@ -109,7 +109,7 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
                 let nowColor = undefined;
                 let runCount = 0;
                 for (let x = 0; x <= image.width; x++) {
-                    const px = image.pixels[y][x];
+                    const px = image.partList[image.pixels[y][x]];
                     // Running labels
                     if (nowColor === px) {
                         runCount++;
@@ -217,7 +217,7 @@ function ColorLayer(props: { image: PartListImage }) {
             const parts: string[] = [];
             for (let y = 0; y < image.height; y++) {
                 for (let x = 0; x < image.width; x++) {
-                    if (image.pixels[y][x] === image.partList[i]) {
+                    if (image.pixels[y][x] === i) {
                         parts.push(`M ${x * 32} ${y * 32} l 32 0 l 0 32 l -32 0 l 0 -32 z`);
                     }
                 }

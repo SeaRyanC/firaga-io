@@ -62,7 +62,7 @@ export function applyImageAdjustments(image: ImageData, brightnessPct: number, c
 }
 
 export function descale(imageData: ImageData) {
-    const { mark }= timer();
+    const { mark } = timer();
     const { data, width, height } = imageData;
     for (const scaleChk of [8, 7, 6, 5, 4, 3, 2]) {
         for (let xOffset = 0; xOffset < scaleChk; xOffset++) {
@@ -291,25 +291,26 @@ export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialP
 }
 
 export type PartListImage = {
-    pixels: ReadonlyArray<ReadonlyArray<PartListEntry | undefined>>;
+    pixels: ReadonlyArray<ReadonlyArray<number>>;
     width: number;
     height: number;
     partList: PartList;
 }
 export function createPartListImage(palette: InputColorsToObjectColors, quantized: PalettizedImage): PartListImage {
     const partList = getPartList(palette);
-    const res: (PartListEntry | undefined)[][] = new Array(quantized.height);
-    const lookup = new Map<ObjectColor, PartListEntry>();
-    for (const e of palette) {
-        lookup.set(e.target, partList.filter(p => p.target === e.target)[0]);
+    const res: number[][] = new Array(quantized.height);
+    const lookup = new Map<ObjectColor, number>();
+    for (let i = 0; i < partList.length; i++) {
+        lookup.set(partList[i].target, i);
     }
     for (let y = 0; y < quantized.height; y++) {
         res[y] = new Array(quantized.width);
         for (let x = 0; x < quantized.width; x++) {
-            if (quantized.pixels[y][x] === undefined) {
-                res[y][x] = undefined;
+            const px = quantized.pixels[y][x];
+            if (px === undefined) {
+                res[y][x] = -1;
             } else {
-                res[y][x] = lookup.get(quantized.pixels[y][x]!);
+                res[y][x] = lookup.get(px)!;
             }
         }
     }
@@ -356,17 +357,18 @@ export function getImageStats(image: PartListImage) {
     }
 }
 
-export function renderPartListImageToDatURL(image: PartListImage, maxPartFrame = Infinity) {
+export function renderPartListImageToDataURL(image: PartListImage, maxPartFrame = Infinity) {
     const buffer = new Uint8ClampedArray(image.width * image.height * 4);
     const partList = image.partList.map(p => p.target);
     for (let x = 0; x < image.width; x++) {
         for (let y = 0; y < image.height; y++) {
             const c = (y * image.width + x) * 4;
             const px = image.pixels[y][x];
-            if (px && partList.indexOf(px.target) < maxPartFrame) {
-                buffer[c + 0] = px.target.r;
-                buffer[c + 1] = px.target.g;
-                buffer[c + 2] = px.target.b;
+            if (px !== -1 && px < maxPartFrame) {
+                const color = image.partList[px];
+                buffer[c + 0] = color.target.r;
+                buffer[c + 1] = color.target.g;
+                buffer[c + 2] = color.target.b;
                 buffer[c + 3] = 255;
             } else {
                 buffer[c + 3] = 0;

@@ -654,963 +654,6 @@
     }
   });
 
-  // node_modules/color-name/index.js
-  var require_color_name = __commonJS({
-    "node_modules/color-name/index.js"(exports, module) {
-      "use strict";
-      module.exports = {
-        "aliceblue": [240, 248, 255],
-        "antiquewhite": [250, 235, 215],
-        "aqua": [0, 255, 255],
-        "aquamarine": [127, 255, 212],
-        "azure": [240, 255, 255],
-        "beige": [245, 245, 220],
-        "bisque": [255, 228, 196],
-        "black": [0, 0, 0],
-        "blanchedalmond": [255, 235, 205],
-        "blue": [0, 0, 255],
-        "blueviolet": [138, 43, 226],
-        "brown": [165, 42, 42],
-        "burlywood": [222, 184, 135],
-        "cadetblue": [95, 158, 160],
-        "chartreuse": [127, 255, 0],
-        "chocolate": [210, 105, 30],
-        "coral": [255, 127, 80],
-        "cornflowerblue": [100, 149, 237],
-        "cornsilk": [255, 248, 220],
-        "crimson": [220, 20, 60],
-        "cyan": [0, 255, 255],
-        "darkblue": [0, 0, 139],
-        "darkcyan": [0, 139, 139],
-        "darkgoldenrod": [184, 134, 11],
-        "darkgray": [169, 169, 169],
-        "darkgreen": [0, 100, 0],
-        "darkgrey": [169, 169, 169],
-        "darkkhaki": [189, 183, 107],
-        "darkmagenta": [139, 0, 139],
-        "darkolivegreen": [85, 107, 47],
-        "darkorange": [255, 140, 0],
-        "darkorchid": [153, 50, 204],
-        "darkred": [139, 0, 0],
-        "darksalmon": [233, 150, 122],
-        "darkseagreen": [143, 188, 143],
-        "darkslateblue": [72, 61, 139],
-        "darkslategray": [47, 79, 79],
-        "darkslategrey": [47, 79, 79],
-        "darkturquoise": [0, 206, 209],
-        "darkviolet": [148, 0, 211],
-        "deeppink": [255, 20, 147],
-        "deepskyblue": [0, 191, 255],
-        "dimgray": [105, 105, 105],
-        "dimgrey": [105, 105, 105],
-        "dodgerblue": [30, 144, 255],
-        "firebrick": [178, 34, 34],
-        "floralwhite": [255, 250, 240],
-        "forestgreen": [34, 139, 34],
-        "fuchsia": [255, 0, 255],
-        "gainsboro": [220, 220, 220],
-        "ghostwhite": [248, 248, 255],
-        "gold": [255, 215, 0],
-        "goldenrod": [218, 165, 32],
-        "gray": [128, 128, 128],
-        "green": [0, 128, 0],
-        "greenyellow": [173, 255, 47],
-        "grey": [128, 128, 128],
-        "honeydew": [240, 255, 240],
-        "hotpink": [255, 105, 180],
-        "indianred": [205, 92, 92],
-        "indigo": [75, 0, 130],
-        "ivory": [255, 255, 240],
-        "khaki": [240, 230, 140],
-        "lavender": [230, 230, 250],
-        "lavenderblush": [255, 240, 245],
-        "lawngreen": [124, 252, 0],
-        "lemonchiffon": [255, 250, 205],
-        "lightblue": [173, 216, 230],
-        "lightcoral": [240, 128, 128],
-        "lightcyan": [224, 255, 255],
-        "lightgoldenrodyellow": [250, 250, 210],
-        "lightgray": [211, 211, 211],
-        "lightgreen": [144, 238, 144],
-        "lightgrey": [211, 211, 211],
-        "lightpink": [255, 182, 193],
-        "lightsalmon": [255, 160, 122],
-        "lightseagreen": [32, 178, 170],
-        "lightskyblue": [135, 206, 250],
-        "lightslategray": [119, 136, 153],
-        "lightslategrey": [119, 136, 153],
-        "lightsteelblue": [176, 196, 222],
-        "lightyellow": [255, 255, 224],
-        "lime": [0, 255, 0],
-        "limegreen": [50, 205, 50],
-        "linen": [250, 240, 230],
-        "magenta": [255, 0, 255],
-        "maroon": [128, 0, 0],
-        "mediumaquamarine": [102, 205, 170],
-        "mediumblue": [0, 0, 205],
-        "mediumorchid": [186, 85, 211],
-        "mediumpurple": [147, 112, 219],
-        "mediumseagreen": [60, 179, 113],
-        "mediumslateblue": [123, 104, 238],
-        "mediumspringgreen": [0, 250, 154],
-        "mediumturquoise": [72, 209, 204],
-        "mediumvioletred": [199, 21, 133],
-        "midnightblue": [25, 25, 112],
-        "mintcream": [245, 255, 250],
-        "mistyrose": [255, 228, 225],
-        "moccasin": [255, 228, 181],
-        "navajowhite": [255, 222, 173],
-        "navy": [0, 0, 128],
-        "oldlace": [253, 245, 230],
-        "olive": [128, 128, 0],
-        "olivedrab": [107, 142, 35],
-        "orange": [255, 165, 0],
-        "orangered": [255, 69, 0],
-        "orchid": [218, 112, 214],
-        "palegoldenrod": [238, 232, 170],
-        "palegreen": [152, 251, 152],
-        "paleturquoise": [175, 238, 238],
-        "palevioletred": [219, 112, 147],
-        "papayawhip": [255, 239, 213],
-        "peachpuff": [255, 218, 185],
-        "peru": [205, 133, 63],
-        "pink": [255, 192, 203],
-        "plum": [221, 160, 221],
-        "powderblue": [176, 224, 230],
-        "purple": [128, 0, 128],
-        "rebeccapurple": [102, 51, 153],
-        "red": [255, 0, 0],
-        "rosybrown": [188, 143, 143],
-        "royalblue": [65, 105, 225],
-        "saddlebrown": [139, 69, 19],
-        "salmon": [250, 128, 114],
-        "sandybrown": [244, 164, 96],
-        "seagreen": [46, 139, 87],
-        "seashell": [255, 245, 238],
-        "sienna": [160, 82, 45],
-        "silver": [192, 192, 192],
-        "skyblue": [135, 206, 235],
-        "slateblue": [106, 90, 205],
-        "slategray": [112, 128, 144],
-        "slategrey": [112, 128, 144],
-        "snow": [255, 250, 250],
-        "springgreen": [0, 255, 127],
-        "steelblue": [70, 130, 180],
-        "tan": [210, 180, 140],
-        "teal": [0, 128, 128],
-        "thistle": [216, 191, 216],
-        "tomato": [255, 99, 71],
-        "turquoise": [64, 224, 208],
-        "violet": [238, 130, 238],
-        "wheat": [245, 222, 179],
-        "white": [255, 255, 255],
-        "whitesmoke": [245, 245, 245],
-        "yellow": [255, 255, 0],
-        "yellowgreen": [154, 205, 50]
-      };
-    }
-  });
-
-  // node_modules/color-convert/conversions.js
-  var require_conversions = __commonJS({
-    "node_modules/color-convert/conversions.js"(exports, module) {
-      var cssKeywords = require_color_name();
-      var reverseKeywords = {};
-      for (const key of Object.keys(cssKeywords)) {
-        reverseKeywords[cssKeywords[key]] = key;
-      }
-      var convert = {
-        rgb: {channels: 3, labels: "rgb"},
-        hsl: {channels: 3, labels: "hsl"},
-        hsv: {channels: 3, labels: "hsv"},
-        hwb: {channels: 3, labels: "hwb"},
-        cmyk: {channels: 4, labels: "cmyk"},
-        xyz: {channels: 3, labels: "xyz"},
-        lab: {channels: 3, labels: "lab"},
-        lch: {channels: 3, labels: "lch"},
-        hex: {channels: 1, labels: ["hex"]},
-        keyword: {channels: 1, labels: ["keyword"]},
-        ansi16: {channels: 1, labels: ["ansi16"]},
-        ansi256: {channels: 1, labels: ["ansi256"]},
-        hcg: {channels: 3, labels: ["h", "c", "g"]},
-        apple: {channels: 3, labels: ["r16", "g16", "b16"]},
-        gray: {channels: 1, labels: ["gray"]}
-      };
-      module.exports = convert;
-      for (const model of Object.keys(convert)) {
-        if (!("channels" in convert[model])) {
-          throw new Error("missing channels property: " + model);
-        }
-        if (!("labels" in convert[model])) {
-          throw new Error("missing channel labels property: " + model);
-        }
-        if (convert[model].labels.length !== convert[model].channels) {
-          throw new Error("channel and label counts mismatch: " + model);
-        }
-        const {channels, labels} = convert[model];
-        delete convert[model].channels;
-        delete convert[model].labels;
-        Object.defineProperty(convert[model], "channels", {value: channels});
-        Object.defineProperty(convert[model], "labels", {value: labels});
-      }
-      convert.rgb.hsl = function(rgb) {
-        const r3 = rgb[0] / 255;
-        const g3 = rgb[1] / 255;
-        const b3 = rgb[2] / 255;
-        const min = Math.min(r3, g3, b3);
-        const max = Math.max(r3, g3, b3);
-        const delta = max - min;
-        let h3;
-        let s4;
-        if (max === min) {
-          h3 = 0;
-        } else if (r3 === max) {
-          h3 = (g3 - b3) / delta;
-        } else if (g3 === max) {
-          h3 = 2 + (b3 - r3) / delta;
-        } else if (b3 === max) {
-          h3 = 4 + (r3 - g3) / delta;
-        }
-        h3 = Math.min(h3 * 60, 360);
-        if (h3 < 0) {
-          h3 += 360;
-        }
-        const l3 = (min + max) / 2;
-        if (max === min) {
-          s4 = 0;
-        } else if (l3 <= 0.5) {
-          s4 = delta / (max + min);
-        } else {
-          s4 = delta / (2 - max - min);
-        }
-        return [h3, s4 * 100, l3 * 100];
-      };
-      convert.rgb.hsv = function(rgb) {
-        let rdif;
-        let gdif;
-        let bdif;
-        let h3;
-        let s4;
-        const r3 = rgb[0] / 255;
-        const g3 = rgb[1] / 255;
-        const b3 = rgb[2] / 255;
-        const v3 = Math.max(r3, g3, b3);
-        const diff3 = v3 - Math.min(r3, g3, b3);
-        const diffc = function(c3) {
-          return (v3 - c3) / 6 / diff3 + 1 / 2;
-        };
-        if (diff3 === 0) {
-          h3 = 0;
-          s4 = 0;
-        } else {
-          s4 = diff3 / v3;
-          rdif = diffc(r3);
-          gdif = diffc(g3);
-          bdif = diffc(b3);
-          if (r3 === v3) {
-            h3 = bdif - gdif;
-          } else if (g3 === v3) {
-            h3 = 1 / 3 + rdif - bdif;
-          } else if (b3 === v3) {
-            h3 = 2 / 3 + gdif - rdif;
-          }
-          if (h3 < 0) {
-            h3 += 1;
-          } else if (h3 > 1) {
-            h3 -= 1;
-          }
-        }
-        return [
-          h3 * 360,
-          s4 * 100,
-          v3 * 100
-        ];
-      };
-      convert.rgb.hwb = function(rgb) {
-        const r3 = rgb[0];
-        const g3 = rgb[1];
-        let b3 = rgb[2];
-        const h3 = convert.rgb.hsl(rgb)[0];
-        const w3 = 1 / 255 * Math.min(r3, Math.min(g3, b3));
-        b3 = 1 - 1 / 255 * Math.max(r3, Math.max(g3, b3));
-        return [h3, w3 * 100, b3 * 100];
-      };
-      convert.rgb.cmyk = function(rgb) {
-        const r3 = rgb[0] / 255;
-        const g3 = rgb[1] / 255;
-        const b3 = rgb[2] / 255;
-        const k3 = Math.min(1 - r3, 1 - g3, 1 - b3);
-        const c3 = (1 - r3 - k3) / (1 - k3) || 0;
-        const m3 = (1 - g3 - k3) / (1 - k3) || 0;
-        const y3 = (1 - b3 - k3) / (1 - k3) || 0;
-        return [c3 * 100, m3 * 100, y3 * 100, k3 * 100];
-      };
-      function comparativeDistance(x3, y3) {
-        return (x3[0] - y3[0]) ** 2 + (x3[1] - y3[1]) ** 2 + (x3[2] - y3[2]) ** 2;
-      }
-      convert.rgb.keyword = function(rgb) {
-        const reversed = reverseKeywords[rgb];
-        if (reversed) {
-          return reversed;
-        }
-        let currentClosestDistance = Infinity;
-        let currentClosestKeyword;
-        for (const keyword of Object.keys(cssKeywords)) {
-          const value = cssKeywords[keyword];
-          const distance = comparativeDistance(rgb, value);
-          if (distance < currentClosestDistance) {
-            currentClosestDistance = distance;
-            currentClosestKeyword = keyword;
-          }
-        }
-        return currentClosestKeyword;
-      };
-      convert.keyword.rgb = function(keyword) {
-        return cssKeywords[keyword];
-      };
-      convert.rgb.xyz = function(rgb) {
-        let r3 = rgb[0] / 255;
-        let g3 = rgb[1] / 255;
-        let b3 = rgb[2] / 255;
-        r3 = r3 > 0.04045 ? ((r3 + 0.055) / 1.055) ** 2.4 : r3 / 12.92;
-        g3 = g3 > 0.04045 ? ((g3 + 0.055) / 1.055) ** 2.4 : g3 / 12.92;
-        b3 = b3 > 0.04045 ? ((b3 + 0.055) / 1.055) ** 2.4 : b3 / 12.92;
-        const x3 = r3 * 0.4124 + g3 * 0.3576 + b3 * 0.1805;
-        const y3 = r3 * 0.2126 + g3 * 0.7152 + b3 * 0.0722;
-        const z2 = r3 * 0.0193 + g3 * 0.1192 + b3 * 0.9505;
-        return [x3 * 100, y3 * 100, z2 * 100];
-      };
-      convert.rgb.lab = function(rgb) {
-        const xyz = convert.rgb.xyz(rgb);
-        let x3 = xyz[0];
-        let y3 = xyz[1];
-        let z2 = xyz[2];
-        x3 /= 95.047;
-        y3 /= 100;
-        z2 /= 108.883;
-        x3 = x3 > 8856e-6 ? x3 ** (1 / 3) : 7.787 * x3 + 16 / 116;
-        y3 = y3 > 8856e-6 ? y3 ** (1 / 3) : 7.787 * y3 + 16 / 116;
-        z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
-        const l3 = 116 * y3 - 16;
-        const a3 = 500 * (x3 - y3);
-        const b3 = 200 * (y3 - z2);
-        return [l3, a3, b3];
-      };
-      convert.hsl.rgb = function(hsl) {
-        const h3 = hsl[0] / 360;
-        const s4 = hsl[1] / 100;
-        const l3 = hsl[2] / 100;
-        let t22;
-        let t3;
-        let val;
-        if (s4 === 0) {
-          val = l3 * 255;
-          return [val, val, val];
-        }
-        if (l3 < 0.5) {
-          t22 = l3 * (1 + s4);
-        } else {
-          t22 = l3 + s4 - l3 * s4;
-        }
-        const t1 = 2 * l3 - t22;
-        const rgb = [0, 0, 0];
-        for (let i3 = 0; i3 < 3; i3++) {
-          t3 = h3 + 1 / 3 * -(i3 - 1);
-          if (t3 < 0) {
-            t3++;
-          }
-          if (t3 > 1) {
-            t3--;
-          }
-          if (6 * t3 < 1) {
-            val = t1 + (t22 - t1) * 6 * t3;
-          } else if (2 * t3 < 1) {
-            val = t22;
-          } else if (3 * t3 < 2) {
-            val = t1 + (t22 - t1) * (2 / 3 - t3) * 6;
-          } else {
-            val = t1;
-          }
-          rgb[i3] = val * 255;
-        }
-        return rgb;
-      };
-      convert.hsl.hsv = function(hsl) {
-        const h3 = hsl[0];
-        let s4 = hsl[1] / 100;
-        let l3 = hsl[2] / 100;
-        let smin = s4;
-        const lmin = Math.max(l3, 0.01);
-        l3 *= 2;
-        s4 *= l3 <= 1 ? l3 : 2 - l3;
-        smin *= lmin <= 1 ? lmin : 2 - lmin;
-        const v3 = (l3 + s4) / 2;
-        const sv = l3 === 0 ? 2 * smin / (lmin + smin) : 2 * s4 / (l3 + s4);
-        return [h3, sv * 100, v3 * 100];
-      };
-      convert.hsv.rgb = function(hsv) {
-        const h3 = hsv[0] / 60;
-        const s4 = hsv[1] / 100;
-        let v3 = hsv[2] / 100;
-        const hi = Math.floor(h3) % 6;
-        const f3 = h3 - Math.floor(h3);
-        const p3 = 255 * v3 * (1 - s4);
-        const q2 = 255 * v3 * (1 - s4 * f3);
-        const t3 = 255 * v3 * (1 - s4 * (1 - f3));
-        v3 *= 255;
-        switch (hi) {
-          case 0:
-            return [v3, t3, p3];
-          case 1:
-            return [q2, v3, p3];
-          case 2:
-            return [p3, v3, t3];
-          case 3:
-            return [p3, q2, v3];
-          case 4:
-            return [t3, p3, v3];
-          case 5:
-            return [v3, p3, q2];
-        }
-      };
-      convert.hsv.hsl = function(hsv) {
-        const h3 = hsv[0];
-        const s4 = hsv[1] / 100;
-        const v3 = hsv[2] / 100;
-        const vmin = Math.max(v3, 0.01);
-        let sl;
-        let l3;
-        l3 = (2 - s4) * v3;
-        const lmin = (2 - s4) * vmin;
-        sl = s4 * vmin;
-        sl /= lmin <= 1 ? lmin : 2 - lmin;
-        sl = sl || 0;
-        l3 /= 2;
-        return [h3, sl * 100, l3 * 100];
-      };
-      convert.hwb.rgb = function(hwb) {
-        const h3 = hwb[0] / 360;
-        let wh = hwb[1] / 100;
-        let bl = hwb[2] / 100;
-        const ratio = wh + bl;
-        let f3;
-        if (ratio > 1) {
-          wh /= ratio;
-          bl /= ratio;
-        }
-        const i3 = Math.floor(6 * h3);
-        const v3 = 1 - bl;
-        f3 = 6 * h3 - i3;
-        if ((i3 & 1) !== 0) {
-          f3 = 1 - f3;
-        }
-        const n2 = wh + f3 * (v3 - wh);
-        let r3;
-        let g3;
-        let b3;
-        switch (i3) {
-          default:
-          case 6:
-          case 0:
-            r3 = v3;
-            g3 = n2;
-            b3 = wh;
-            break;
-          case 1:
-            r3 = n2;
-            g3 = v3;
-            b3 = wh;
-            break;
-          case 2:
-            r3 = wh;
-            g3 = v3;
-            b3 = n2;
-            break;
-          case 3:
-            r3 = wh;
-            g3 = n2;
-            b3 = v3;
-            break;
-          case 4:
-            r3 = n2;
-            g3 = wh;
-            b3 = v3;
-            break;
-          case 5:
-            r3 = v3;
-            g3 = wh;
-            b3 = n2;
-            break;
-        }
-        return [r3 * 255, g3 * 255, b3 * 255];
-      };
-      convert.cmyk.rgb = function(cmyk) {
-        const c3 = cmyk[0] / 100;
-        const m3 = cmyk[1] / 100;
-        const y3 = cmyk[2] / 100;
-        const k3 = cmyk[3] / 100;
-        const r3 = 1 - Math.min(1, c3 * (1 - k3) + k3);
-        const g3 = 1 - Math.min(1, m3 * (1 - k3) + k3);
-        const b3 = 1 - Math.min(1, y3 * (1 - k3) + k3);
-        return [r3 * 255, g3 * 255, b3 * 255];
-      };
-      convert.xyz.rgb = function(xyz) {
-        const x3 = xyz[0] / 100;
-        const y3 = xyz[1] / 100;
-        const z2 = xyz[2] / 100;
-        let r3;
-        let g3;
-        let b3;
-        r3 = x3 * 3.2406 + y3 * -1.5372 + z2 * -0.4986;
-        g3 = x3 * -0.9689 + y3 * 1.8758 + z2 * 0.0415;
-        b3 = x3 * 0.0557 + y3 * -0.204 + z2 * 1.057;
-        r3 = r3 > 31308e-7 ? 1.055 * r3 ** (1 / 2.4) - 0.055 : r3 * 12.92;
-        g3 = g3 > 31308e-7 ? 1.055 * g3 ** (1 / 2.4) - 0.055 : g3 * 12.92;
-        b3 = b3 > 31308e-7 ? 1.055 * b3 ** (1 / 2.4) - 0.055 : b3 * 12.92;
-        r3 = Math.min(Math.max(0, r3), 1);
-        g3 = Math.min(Math.max(0, g3), 1);
-        b3 = Math.min(Math.max(0, b3), 1);
-        return [r3 * 255, g3 * 255, b3 * 255];
-      };
-      convert.xyz.lab = function(xyz) {
-        let x3 = xyz[0];
-        let y3 = xyz[1];
-        let z2 = xyz[2];
-        x3 /= 95.047;
-        y3 /= 100;
-        z2 /= 108.883;
-        x3 = x3 > 8856e-6 ? x3 ** (1 / 3) : 7.787 * x3 + 16 / 116;
-        y3 = y3 > 8856e-6 ? y3 ** (1 / 3) : 7.787 * y3 + 16 / 116;
-        z2 = z2 > 8856e-6 ? z2 ** (1 / 3) : 7.787 * z2 + 16 / 116;
-        const l3 = 116 * y3 - 16;
-        const a3 = 500 * (x3 - y3);
-        const b3 = 200 * (y3 - z2);
-        return [l3, a3, b3];
-      };
-      convert.lab.xyz = function(lab) {
-        const l3 = lab[0];
-        const a3 = lab[1];
-        const b3 = lab[2];
-        let x3;
-        let y3;
-        let z2;
-        y3 = (l3 + 16) / 116;
-        x3 = a3 / 500 + y3;
-        z2 = y3 - b3 / 200;
-        const y22 = y3 ** 3;
-        const x22 = x3 ** 3;
-        const z22 = z2 ** 3;
-        y3 = y22 > 8856e-6 ? y22 : (y3 - 16 / 116) / 7.787;
-        x3 = x22 > 8856e-6 ? x22 : (x3 - 16 / 116) / 7.787;
-        z2 = z22 > 8856e-6 ? z22 : (z2 - 16 / 116) / 7.787;
-        x3 *= 95.047;
-        y3 *= 100;
-        z2 *= 108.883;
-        return [x3, y3, z2];
-      };
-      convert.lab.lch = function(lab) {
-        const l3 = lab[0];
-        const a3 = lab[1];
-        const b3 = lab[2];
-        let h3;
-        const hr = Math.atan2(b3, a3);
-        h3 = hr * 360 / 2 / Math.PI;
-        if (h3 < 0) {
-          h3 += 360;
-        }
-        const c3 = Math.sqrt(a3 * a3 + b3 * b3);
-        return [l3, c3, h3];
-      };
-      convert.lch.lab = function(lch) {
-        const l3 = lch[0];
-        const c3 = lch[1];
-        const h3 = lch[2];
-        const hr = h3 / 360 * 2 * Math.PI;
-        const a3 = c3 * Math.cos(hr);
-        const b3 = c3 * Math.sin(hr);
-        return [l3, a3, b3];
-      };
-      convert.rgb.ansi16 = function(args, saturation = null) {
-        const [r3, g3, b3] = args;
-        let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation;
-        value = Math.round(value / 50);
-        if (value === 0) {
-          return 30;
-        }
-        let ansi = 30 + (Math.round(b3 / 255) << 2 | Math.round(g3 / 255) << 1 | Math.round(r3 / 255));
-        if (value === 2) {
-          ansi += 60;
-        }
-        return ansi;
-      };
-      convert.hsv.ansi16 = function(args) {
-        return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
-      };
-      convert.rgb.ansi256 = function(args) {
-        const r3 = args[0];
-        const g3 = args[1];
-        const b3 = args[2];
-        if (r3 === g3 && g3 === b3) {
-          if (r3 < 8) {
-            return 16;
-          }
-          if (r3 > 248) {
-            return 231;
-          }
-          return Math.round((r3 - 8) / 247 * 24) + 232;
-        }
-        const ansi = 16 + 36 * Math.round(r3 / 255 * 5) + 6 * Math.round(g3 / 255 * 5) + Math.round(b3 / 255 * 5);
-        return ansi;
-      };
-      convert.ansi16.rgb = function(args) {
-        let color = args % 10;
-        if (color === 0 || color === 7) {
-          if (args > 50) {
-            color += 3.5;
-          }
-          color = color / 10.5 * 255;
-          return [color, color, color];
-        }
-        const mult = (~~(args > 50) + 1) * 0.5;
-        const r3 = (color & 1) * mult * 255;
-        const g3 = (color >> 1 & 1) * mult * 255;
-        const b3 = (color >> 2 & 1) * mult * 255;
-        return [r3, g3, b3];
-      };
-      convert.ansi256.rgb = function(args) {
-        if (args >= 232) {
-          const c3 = (args - 232) * 10 + 8;
-          return [c3, c3, c3];
-        }
-        args -= 16;
-        let rem;
-        const r3 = Math.floor(args / 36) / 5 * 255;
-        const g3 = Math.floor((rem = args % 36) / 6) / 5 * 255;
-        const b3 = rem % 6 / 5 * 255;
-        return [r3, g3, b3];
-      };
-      convert.rgb.hex = function(args) {
-        const integer = ((Math.round(args[0]) & 255) << 16) + ((Math.round(args[1]) & 255) << 8) + (Math.round(args[2]) & 255);
-        const string = integer.toString(16).toUpperCase();
-        return "000000".substring(string.length) + string;
-      };
-      convert.hex.rgb = function(args) {
-        const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
-        if (!match) {
-          return [0, 0, 0];
-        }
-        let colorString = match[0];
-        if (match[0].length === 3) {
-          colorString = colorString.split("").map((char) => {
-            return char + char;
-          }).join("");
-        }
-        const integer = parseInt(colorString, 16);
-        const r3 = integer >> 16 & 255;
-        const g3 = integer >> 8 & 255;
-        const b3 = integer & 255;
-        return [r3, g3, b3];
-      };
-      convert.rgb.hcg = function(rgb) {
-        const r3 = rgb[0] / 255;
-        const g3 = rgb[1] / 255;
-        const b3 = rgb[2] / 255;
-        const max = Math.max(Math.max(r3, g3), b3);
-        const min = Math.min(Math.min(r3, g3), b3);
-        const chroma = max - min;
-        let grayscale;
-        let hue;
-        if (chroma < 1) {
-          grayscale = min / (1 - chroma);
-        } else {
-          grayscale = 0;
-        }
-        if (chroma <= 0) {
-          hue = 0;
-        } else if (max === r3) {
-          hue = (g3 - b3) / chroma % 6;
-        } else if (max === g3) {
-          hue = 2 + (b3 - r3) / chroma;
-        } else {
-          hue = 4 + (r3 - g3) / chroma;
-        }
-        hue /= 6;
-        hue %= 1;
-        return [hue * 360, chroma * 100, grayscale * 100];
-      };
-      convert.hsl.hcg = function(hsl) {
-        const s4 = hsl[1] / 100;
-        const l3 = hsl[2] / 100;
-        const c3 = l3 < 0.5 ? 2 * s4 * l3 : 2 * s4 * (1 - l3);
-        let f3 = 0;
-        if (c3 < 1) {
-          f3 = (l3 - 0.5 * c3) / (1 - c3);
-        }
-        return [hsl[0], c3 * 100, f3 * 100];
-      };
-      convert.hsv.hcg = function(hsv) {
-        const s4 = hsv[1] / 100;
-        const v3 = hsv[2] / 100;
-        const c3 = s4 * v3;
-        let f3 = 0;
-        if (c3 < 1) {
-          f3 = (v3 - c3) / (1 - c3);
-        }
-        return [hsv[0], c3 * 100, f3 * 100];
-      };
-      convert.hcg.rgb = function(hcg) {
-        const h3 = hcg[0] / 360;
-        const c3 = hcg[1] / 100;
-        const g3 = hcg[2] / 100;
-        if (c3 === 0) {
-          return [g3 * 255, g3 * 255, g3 * 255];
-        }
-        const pure = [0, 0, 0];
-        const hi = h3 % 1 * 6;
-        const v3 = hi % 1;
-        const w3 = 1 - v3;
-        let mg = 0;
-        switch (Math.floor(hi)) {
-          case 0:
-            pure[0] = 1;
-            pure[1] = v3;
-            pure[2] = 0;
-            break;
-          case 1:
-            pure[0] = w3;
-            pure[1] = 1;
-            pure[2] = 0;
-            break;
-          case 2:
-            pure[0] = 0;
-            pure[1] = 1;
-            pure[2] = v3;
-            break;
-          case 3:
-            pure[0] = 0;
-            pure[1] = w3;
-            pure[2] = 1;
-            break;
-          case 4:
-            pure[0] = v3;
-            pure[1] = 0;
-            pure[2] = 1;
-            break;
-          default:
-            pure[0] = 1;
-            pure[1] = 0;
-            pure[2] = w3;
-        }
-        mg = (1 - c3) * g3;
-        return [
-          (c3 * pure[0] + mg) * 255,
-          (c3 * pure[1] + mg) * 255,
-          (c3 * pure[2] + mg) * 255
-        ];
-      };
-      convert.hcg.hsv = function(hcg) {
-        const c3 = hcg[1] / 100;
-        const g3 = hcg[2] / 100;
-        const v3 = c3 + g3 * (1 - c3);
-        let f3 = 0;
-        if (v3 > 0) {
-          f3 = c3 / v3;
-        }
-        return [hcg[0], f3 * 100, v3 * 100];
-      };
-      convert.hcg.hsl = function(hcg) {
-        const c3 = hcg[1] / 100;
-        const g3 = hcg[2] / 100;
-        const l3 = g3 * (1 - c3) + 0.5 * c3;
-        let s4 = 0;
-        if (l3 > 0 && l3 < 0.5) {
-          s4 = c3 / (2 * l3);
-        } else if (l3 >= 0.5 && l3 < 1) {
-          s4 = c3 / (2 * (1 - l3));
-        }
-        return [hcg[0], s4 * 100, l3 * 100];
-      };
-      convert.hcg.hwb = function(hcg) {
-        const c3 = hcg[1] / 100;
-        const g3 = hcg[2] / 100;
-        const v3 = c3 + g3 * (1 - c3);
-        return [hcg[0], (v3 - c3) * 100, (1 - v3) * 100];
-      };
-      convert.hwb.hcg = function(hwb) {
-        const w3 = hwb[1] / 100;
-        const b3 = hwb[2] / 100;
-        const v3 = 1 - b3;
-        const c3 = v3 - w3;
-        let g3 = 0;
-        if (c3 < 1) {
-          g3 = (v3 - c3) / (1 - c3);
-        }
-        return [hwb[0], c3 * 100, g3 * 100];
-      };
-      convert.apple.rgb = function(apple) {
-        return [apple[0] / 65535 * 255, apple[1] / 65535 * 255, apple[2] / 65535 * 255];
-      };
-      convert.rgb.apple = function(rgb) {
-        return [rgb[0] / 255 * 65535, rgb[1] / 255 * 65535, rgb[2] / 255 * 65535];
-      };
-      convert.gray.rgb = function(args) {
-        return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
-      };
-      convert.gray.hsl = function(args) {
-        return [0, 0, args[0]];
-      };
-      convert.gray.hsv = convert.gray.hsl;
-      convert.gray.hwb = function(gray) {
-        return [0, 100, gray[0]];
-      };
-      convert.gray.cmyk = function(gray) {
-        return [0, 0, 0, gray[0]];
-      };
-      convert.gray.lab = function(gray) {
-        return [gray[0], 0, 0];
-      };
-      convert.gray.hex = function(gray) {
-        const val = Math.round(gray[0] / 100 * 255) & 255;
-        const integer = (val << 16) + (val << 8) + val;
-        const string = integer.toString(16).toUpperCase();
-        return "000000".substring(string.length) + string;
-      };
-      convert.rgb.gray = function(rgb) {
-        const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
-        return [val / 255 * 100];
-      };
-    }
-  });
-
-  // node_modules/color-convert/route.js
-  var require_route = __commonJS({
-    "node_modules/color-convert/route.js"(exports, module) {
-      var conversions = require_conversions();
-      function buildGraph() {
-        const graph = {};
-        const models = Object.keys(conversions);
-        for (let len = models.length, i3 = 0; i3 < len; i3++) {
-          graph[models[i3]] = {
-            distance: -1,
-            parent: null
-          };
-        }
-        return graph;
-      }
-      function deriveBFS(fromModel) {
-        const graph = buildGraph();
-        const queue = [fromModel];
-        graph[fromModel].distance = 0;
-        while (queue.length) {
-          const current = queue.pop();
-          const adjacents = Object.keys(conversions[current]);
-          for (let len = adjacents.length, i3 = 0; i3 < len; i3++) {
-            const adjacent = adjacents[i3];
-            const node = graph[adjacent];
-            if (node.distance === -1) {
-              node.distance = graph[current].distance + 1;
-              node.parent = current;
-              queue.unshift(adjacent);
-            }
-          }
-        }
-        return graph;
-      }
-      function link(from, to) {
-        return function(args) {
-          return to(from(args));
-        };
-      }
-      function wrapConversion(toModel, graph) {
-        const path = [graph[toModel].parent, toModel];
-        let fn = conversions[graph[toModel].parent][toModel];
-        let cur = graph[toModel].parent;
-        while (graph[cur].parent) {
-          path.unshift(graph[cur].parent);
-          fn = link(conversions[graph[cur].parent][cur], fn);
-          cur = graph[cur].parent;
-        }
-        fn.conversion = path;
-        return fn;
-      }
-      module.exports = function(fromModel) {
-        const graph = deriveBFS(fromModel);
-        const conversion = {};
-        const models = Object.keys(graph);
-        for (let len = models.length, i3 = 0; i3 < len; i3++) {
-          const toModel = models[i3];
-          const node = graph[toModel];
-          if (node.parent === null) {
-            continue;
-          }
-          conversion[toModel] = wrapConversion(toModel, graph);
-        }
-        return conversion;
-      };
-    }
-  });
-
-  // node_modules/color-convert/index.js
-  var require_color_convert = __commonJS({
-    "node_modules/color-convert/index.js"(exports, module) {
-      var conversions = require_conversions();
-      var route = require_route();
-      var convert = {};
-      var models = Object.keys(conversions);
-      function wrapRaw(fn) {
-        const wrappedFn = function(...args) {
-          const arg0 = args[0];
-          if (arg0 === void 0 || arg0 === null) {
-            return arg0;
-          }
-          if (arg0.length > 1) {
-            args = arg0;
-          }
-          return fn(args);
-        };
-        if ("conversion" in fn) {
-          wrappedFn.conversion = fn.conversion;
-        }
-        return wrappedFn;
-      }
-      function wrapRounded(fn) {
-        const wrappedFn = function(...args) {
-          const arg0 = args[0];
-          if (arg0 === void 0 || arg0 === null) {
-            return arg0;
-          }
-          if (arg0.length > 1) {
-            args = arg0;
-          }
-          const result = fn(args);
-          if (typeof result === "object") {
-            for (let len = result.length, i3 = 0; i3 < len; i3++) {
-              result[i3] = Math.round(result[i3]);
-            }
-          }
-          return result;
-        };
-        if ("conversion" in fn) {
-          wrappedFn.conversion = fn.conversion;
-        }
-        return wrappedFn;
-      }
-      models.forEach((fromModel) => {
-        convert[fromModel] = {};
-        Object.defineProperty(convert[fromModel], "channels", {value: conversions[fromModel].channels});
-        Object.defineProperty(convert[fromModel], "labels", {value: conversions[fromModel].labels});
-        const routes = route(fromModel);
-        const routeModels = Object.keys(routes);
-        routeModels.forEach((toModel) => {
-          const fn = routes[toModel];
-          convert[fromModel][toModel] = wrapRounded(fn);
-          convert[fromModel][toModel].raw = wrapRaw(fn);
-        });
-      });
-      module.exports = convert;
-    }
-  });
-
   // src/components/svg.css
   var require_svg = __commonJS({
     "src/components/svg.css"(exports, module) {
@@ -1837,6 +880,9 @@
   function getPitch(size) {
     return GridFormats[size].pitch;
   }
+  function getGridSize(size) {
+    return GridFormats[size].size;
+  }
   function colorEntryToHtml(c3) {
     return "rgb(" + c3.r + "," + c3.g + "," + c3.b + ")";
   }
@@ -1999,7 +1045,6 @@
   };
 
   // src/image-utils.tsx
-  var colorConvert = require_color_convert();
   var colorData = loadColorData();
   var artkalStarterCodes = "CT1,C01,C88,C33,C34,C02,C51,C47,C23,C31,C32,C78,C22,C44,C07,C09,C05,C57,C50,C25,C26,C52,C27,C64,C10,C42,C48,C03,C04,C17,C12,C13,C14,C86,C15,C70,C39,C60,C79,C54,C81,C82,C68,C19,C38,C20,C37,C21".split(",");
   function imageDataToRgbaArray(imageData) {
@@ -2240,16 +1285,17 @@
     const partList = getPartList(palette);
     const res = new Array(quantized.height);
     const lookup = new Map();
-    for (const e3 of palette) {
-      lookup.set(e3.target, partList.filter((p3) => p3.target === e3.target)[0]);
+    for (let i3 = 0; i3 < partList.length; i3++) {
+      lookup.set(partList[i3].target, i3);
     }
     for (let y3 = 0; y3 < quantized.height; y3++) {
       res[y3] = new Array(quantized.width);
       for (let x3 = 0; x3 < quantized.width; x3++) {
-        if (quantized.pixels[y3][x3] === void 0) {
-          res[y3][x3] = void 0;
+        const px = quantized.pixels[y3][x3];
+        if (px === void 0) {
+          res[y3][x3] = -1;
         } else {
-          res[y3][x3] = lookup.get(quantized.pixels[y3][x3]);
+          res[y3][x3] = lookup.get(px);
         }
       }
     }
@@ -2281,17 +1327,18 @@
       pixels: image.partList.reduce((a3, b3) => a3 + b3.count, 0)
     };
   }
-  function renderPartListImageToDatURL(image, maxPartFrame = Infinity) {
+  function renderPartListImageToDataURL(image, maxPartFrame = Infinity) {
     const buffer = new Uint8ClampedArray(image.width * image.height * 4);
     const partList = image.partList.map((p3) => p3.target);
     for (let x3 = 0; x3 < image.width; x3++) {
       for (let y3 = 0; y3 < image.height; y3++) {
         const c3 = (y3 * image.width + x3) * 4;
         const px = image.pixels[y3][x3];
-        if (px && partList.indexOf(px.target) < maxPartFrame) {
-          buffer[c3 + 0] = px.target.r;
-          buffer[c3 + 1] = px.target.g;
-          buffer[c3 + 2] = px.target.b;
+        if (px !== -1 && px < maxPartFrame) {
+          const color = image.partList[px];
+          buffer[c3 + 0] = color.target.r;
+          buffer[c3 + 1] = color.target.g;
+          buffer[c3 + 2] = color.target.b;
           buffer[c3 + 3] = 255;
         } else {
           buffer[c3 + 3] = 0;
@@ -2458,304 +1505,401 @@
     const tagName = "pdf-script-tag";
     const scriptEl = document.getElementById(tagName);
     if (scriptEl === null) {
-      const tag = document.createElement("script");
-      tag.id = tagName;
-      tag.onload = () => {
+      const tag1 = document.createElement("script");
+      tag1.id = tagName;
+      tag1.onload = () => {
         func();
       };
-      tag.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js";
-      document.head.appendChild(tag);
+      tag1.src = "https://github.com/foliojs/pdfkit/releases/download/v0.12.1/pdfkit.standalone.js";
+      document.head.appendChild(tag1);
     } else {
       func();
     }
   }
   function makePdfWorker(image, settings) {
-    const {pitch} = settings;
-    const carveSize = settings.carveSize === void 0 ? [image.width, image.height] : [50, 50];
-    const pageMargins = {
-      left: 25.4 / 2,
-      right: 25.4 / 2,
-      bottom: 25.4 / 2,
-      top: 25.4 / 2
-    };
-    const minimumGridMargin = 2;
-    const observerOffset = {
-      "off": 0,
-      "low": 2 * 25.4,
-      "medium": 5 * 25.4,
-      "high": 8 * 25.4
-    }[settings.perspective];
-    const observerHeight = 17 * 25.4;
-    const skewThickness = settings.perspective === "off" ? 0 : 8;
-    const minTheta = Math.atan2(observerOffset, observerHeight);
-    const maxTheta = Math.atan2(observerOffset + carveSize[1] * pitch, observerHeight);
-    const minPerspectiveOffset = Math.tan(maxTheta) * skewThickness;
-    const maxPerspectiveOffset = Math.tan(minTheta) * skewThickness;
-    const netPerspectiveOffset = maxPerspectiveOffset - minPerspectiveOffset;
-    const textHeight = 4;
-    const gridSize = {
-      width: pitch * Math.min(image.width, carveSize[0]),
-      height: pitch * Math.min(image.height, carveSize[1]) + netPerspectiveOffset
-    };
-    const cellSize = {
-      width: gridSize.width,
-      height: gridSize.height + textHeight
-    };
-    let orientation = "";
-    let paperWidth, paperHeight;
-    let rows = 1, cols = 1;
-    if (settings.paperSize === "letter") {
-      paperWidth = 8.5 * 25.4;
-      paperHeight = 11 * 25.4;
-    } else if (settings.paperSize === "a4") {
-      paperWidth = 210;
-      paperHeight = 297;
-    } else {
-      throw new Error(settings.paperSize);
-    }
-    const printableAreaSize = {
-      width: paperWidth - pageMargins.left - pageMargins.right,
-      height: paperHeight - pageMargins.bottom - pageMargins.top
-    };
-    if (settings.imageSize !== "fit") {
-      const layout = getLayout(printableAreaSize.width, printableAreaSize.height, gridSize.width, gridSize.height, image.partList.length, minimumGridMargin);
-      rows = layout.rows;
-      cols = layout.cols;
-      orientation = layout.orientation;
-    }
-    const finalWidth = orientation === "landscape" ? printableAreaSize.height : printableAreaSize.width;
-    const finalHeight = orientation === "landscape" ? printableAreaSize.width : printableAreaSize.height;
-    const doc = new jspdf.jsPDF({
-      unit: "mm",
-      format: [paperWidth, paperHeight],
-      orientation
+    const pageMarginPts = inchesToPoints(1 / 3);
+    const doc = new PDFDocument({
+      size: settings.paperSize
     });
-    let rowCursor = 0, colCursor = -1;
-    const slices = carve(image.width, image.height, carveSize[0], carveSize[1]);
-    if (slices.length > 1) {
-      doc.setFont("Helvetica");
-      doc.setFontSize(12);
-      doc.setFillColor(0, 0, 0);
-      const sliceScale = 1 / 2;
-      for (let i3 = 0; i3 < slices.length; i3++) {
-        let x3 = pageMargins.left + slices[i3].x * sliceScale;
-        let y3 = pageMargins.top + slices[i3].y * sliceScale;
-        doc.rect(x3, y3, slices[i3].width * sliceScale, slices[i3].height * sliceScale);
-        doc.text(symbolAlphabet[i3], x3 + slices[i3].width / 2 * sliceScale, y3 + slices[i3].height / 2 * sliceScale, {baseline: "middle", align: "center"});
-      }
-      doc.addPage();
-    }
-    const ctx = doc.context2d;
-    const horizontalGridMargin = (finalWidth - cols * cellSize.width) / (cols + 1);
-    const verticalGridMargin = (finalHeight - rows * cellSize.height) / (rows + 1);
-    ctx.translate(horizontalGridMargin, verticalGridMargin);
-    if (settings.style === "step-by-step") {
-      for (let i3 = 0; i3 < image.partList.length; i3++) {
-        for (let si = 0; si < slices.length; si++) {
-          const slice = slices[si];
-          let realCount = 0;
-          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-              if (image.pixels[y3][x3] === image.partList[i3]) {
-                realCount++;
-              }
-            }
-          }
-          if (realCount === 0)
-            continue;
-          nextCellLocation();
-          const yAt = (rawY) => {
-            const adjY = rawY - slice.y;
-            const rowTheta = Math.atan2(observerOffset + adjY * pitch, observerHeight);
-            const ySkew = maxPerspectiveOffset - Math.tan(rowTheta) * skewThickness;
-            return (adjY + 0.5) * pitch + ySkew;
-          };
-          doc.setFont("Helvetica");
-          doc.setFontSize(12);
-          doc.setFillColor(0, 0, 0);
-          ctx.save();
-          ctx.translate(colCursor * (cellSize.width + horizontalGridMargin) + pageMargins.top, rowCursor * (cellSize.height + verticalGridMargin) + pageMargins.left);
-          printSteppedSlice({
-            ctx,
-            image,
-            yAt,
-            gridSize,
-            i: i3,
-            slice
-          });
-          ctx.restore();
-        }
+    const stream = doc.pipe(blobStream());
+    const paperWidthPts = doc.page.width;
+    const paperHeightPts = doc.page.height;
+    const printableWidthPts = paperWidthPts - pageMarginPts * 2;
+    const printableHeightPts = paperHeightPts - pageMarginPts * 2;
+    const cellHeaderHeightPts = doc.heightOfString("Testing");
+    let pitchPts;
+    if (settings.imageSize === "actual") {
+      pitchPts = mmToPoints(settings.pitch);
+    } else if (settings.imageSize === "legible") {
+      if (settings.breakStrategy === "grid") {
+        pitchPts = 0.99 * Math.min((printableWidthPts - cellHeaderHeightPts) / settings.carveSize[0], (printableHeightPts - cellHeaderHeightPts) / settings.carveSize[1]);
+      } else {
+        pitchPts = mmToPoints(4);
       }
     } else {
-      for (let si = 0; si < slices.length; si++) {
-        nextCellLocation();
-        ctx.translate(pageMargins.top, pageMargins.left);
-        doc.setFontSize(pitch * 3);
-        doc.setFillColor(0, 0, 0);
-        const slice = slices[si];
-        for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-          for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-            const px = image.pixels[y3][x3];
-            if (px !== void 0) {
-              if (settings.style === "color") {
-                ctx.fillStyle = colorEntryToHex(px.target);
-                for (let i3 = 0; i3 < image.partList.length; i3++) {
-                  if (image.partList[i3] === px) {
-                    ctx.fillRect((x3 - slice.x) * pitch, (y3 - slice.y + 1) * pitch, pitch, pitch);
-                  }
-                }
-              } else if (settings.style === "legend") {
-                for (let i3 = 0; i3 < image.partList.length; i3++) {
-                  if (image.partList[i3] === px) {
-                    ctx.fillText(symbolAlphabet[i3], (x3 - slice.x + 0.15) * pitch, (y3 - slice.y + 1) * pitch);
-                  }
-                }
-              }
-            }
+      if (image.width >= image.height) {
+        pitchPts = Math.min((printableWidthPts - cellHeaderHeightPts) / image.height, (printableHeightPts - cellHeaderHeightPts) / image.width);
+      } else {
+        pitchPts = Math.min((printableWidthPts - cellHeaderHeightPts) / image.width, (printableHeightPts - cellHeaderHeightPts) / image.height);
+      }
+    }
+    let carveSize;
+    if (settings.imageSize === "single-page") {
+      carveSize = [Infinity, Infinity];
+    } else if (settings.breakStrategy === "grid") {
+      carveSize = settings.carveSize;
+    } else {
+      carveSize = [Math.floor((printableWidthPts - cellHeaderHeightPts) / pitchPts), Math.floor((printableHeightPts - cellHeaderHeightPts) / pitchPts)];
+    }
+    const slices = generateImageSlices(image, carveSize);
+    const sliceWidth = Math.max.apply(Math.max, slices.map((s4) => s4.width));
+    const sliceHeight = Math.max.apply(Math.max, slices.map((s4) => s4.height));
+    const gridSizePts = {
+      width: pitchPts * sliceWidth,
+      height: pitchPts * sliceHeight
+    };
+    const textPlacement = gridSizePts.width * 1.2 > gridSizePts.height ? "top" : "side";
+    const imageCellSizePts = {
+      width: gridSizePts.width + (textPlacement === "side" ? cellHeaderHeightPts : 0),
+      height: gridSizePts.height + (textPlacement === "top" ? cellHeaderHeightPts : 0)
+    };
+    if (settings.debug) {
+      doc.rect(pageMarginPts, pageMarginPts, paperWidthPts - pageMarginPts * 2, paperHeightPts - pageMarginPts * 2);
+      doc.stroke("red");
+    }
+    if (settings.style === "step-by-step") {
+      const slicesToPrint = [];
+      for (const slice of slices) {
+        const doneMap = [];
+        for (let y3 = 0; y3 < slice.height; y3++) {
+          doneMap[y3] = [];
+          for (let x3 = 0; x3 < slice.width; x3++) {
+            doneMap[y3][x3] = false;
+          }
+        }
+        for (let i3 = 0; i3 < image.partList.length; i3++) {
+          if (isAnyPixel(slice, (p3) => p3 === image.partList[i3])) {
+            slicesToPrint.push({partIndex: i3, slice});
           }
         }
       }
-    }
-    doc.output("dataurlnewwindow", {filename: `${settings.filename}.pdf`});
-    function nextCellLocation() {
-      colCursor++;
-      if (colCursor === cols) {
-        colCursor = 0;
-        rowCursor++;
-        if (rowCursor === rows) {
-          doc.addPage();
-          rowCursor = 0;
+      const layout = getLayout(slicesToPrint.length, paperWidthPts, paperHeightPts, pageMarginPts, imageCellSizePts.width, imageCellSizePts.height);
+      for (const stp of slicesToPrint) {
+        const pos = layout.shift();
+        const done = pos.next(doc, stp.slice.width * pitchPts, stp.slice.height * pitchPts);
+        printSteppedSlice({
+          doc,
+          image,
+          partIndex: stp.partIndex,
+          slice: stp.slice,
+          pitch: pitchPts,
+          textPlacement,
+          cellHeaderHeightPts,
+          debug: settings.debug
+        });
+        done();
+      }
+    } else if (settings.style === "color") {
+      const layout = getLayout(slices.length, paperWidthPts, paperHeightPts, pageMarginPts, imageCellSizePts.width, imageCellSizePts.height);
+      for (const slice of slices) {
+        const pos = layout.shift();
+        const done = pos.next(doc, slice.width * pitchPts, slice.height * pitchPts);
+        if (settings.debug) {
+          doc.rect(0, 0, slice.width * pitchPts, slice.height * pitchPts);
+          doc.stroke("blue");
         }
+        for (let i3 = 0; i3 < image.partList.length; i3++) {
+          for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+            const cy = y3 - slice.y;
+            for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+              const cx = x3 - slice.x;
+              if (image.pixels[y3][x3] === i3) {
+                doc.rect(cx * pitchPts, cy * pitchPts, pitchPts, pitchPts);
+              }
+            }
+          }
+          const color = image.partList[i3].target;
+          doc.fill([color.R, color.G, color.B]);
+        }
+        done();
+      }
+    } else if (settings.style === "legend") {
+      const layout = getLayout(slices.length, paperWidthPts, paperHeightPts, pageMarginPts, imageCellSizePts.width, imageCellSizePts.height);
+      for (const slice of slices) {
+        const pos = layout.shift();
+        const done = pos.next(doc, slice.width * pitchPts, slice.height * pitchPts);
+        doc.fontSize(pitchPts);
+        doc.font("Courier");
+        for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+          const cy = y3 - slice.y;
+          for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+            const cx = x3 - slice.x;
+            const px = image.pixels[y3][x3];
+            if (px === -1)
+              continue;
+            doc.text(image.partList[px].symbol, (cx + 0.5) * pitchPts, (cy + 0.5) * pitchPts, {align: "center", baseline: "middle", height: pitchPts, width: pitchPts});
+          }
+        }
+        done();
       }
     }
+    stream.on("finish", () => {
+      window.open(stream.toBlobURL("application/pdf"), "_blank");
+    });
+    doc.end();
+  }
+  function generateImageSlices(image, size) {
+    const carves1 = carve(image.width, image.height, size[0], size[1]);
+    const carves2 = carve(image.width, image.height, size[1], size[0]);
+    const carves = carves1.length <= carves2.length ? carves1 : carves2;
+    return carves.map((c3) => ({
+      image,
+      width: c3.width,
+      height: c3.height,
+      x: c3.x,
+      y: c3.y,
+      forEach: makeForEach(image, c3.x, c3.y, c3.width, c3.height)
+    })).filter((slice) => isAnyPixel(slice, (p3) => !!p3));
+  }
+  function isAnyPixel(slice, test) {
+    for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+      for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
+        if (test(slice.image.partList[slice.image.pixels[y3][x3]]))
+          return true;
+      }
+    }
+    return false;
+  }
+  function makeForEach(image, x0, y0, width, height, test) {
+    return function(callback) {
+      for (let x3 = x0; x3 < x0 + width; x3++) {
+        for (let y3 = y0; y3 < y0 + height; y3++) {
+          const p3 = image.pixels[y3][x3];
+          const color = image.partList[p3];
+          if (color && (!test || test(color))) {
+            callback(x3 - x0, y3 - y0, color);
+          }
+        }
+      }
+    };
   }
   function printSteppedSlice(opts) {
     const {
       image,
-      i: i3,
-      gridSize,
+      partIndex,
+      doc,
       slice,
-      yAt,
-      ctx
+      pitch
     } = opts;
-    const pitch = gridSize.height / slice.height;
-    let text = `${image.partList[i3].target.code} (${image.partList[i3].target.name})`;
-    ctx.textBaseline = "bottom";
-    while (ctx.measureText(text).width / 2.8346456 * (72 / 96) >= gridSize.width) {
-      text = text.substr(0, text.length - 1);
+    const gridSizePts = {
+      width: slice.width * pitch,
+      height: slice.height * pitch
+    };
+    const text = `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`;
+    if (opts.textPlacement === "side") {
+      if (opts.debug) {
+        doc.rect(0, 0, gridSizePts.width + opts.cellHeaderHeightPts, gridSizePts.height);
+        doc.stroke("blue");
+      }
+      doc.translate(opts.cellHeaderHeightPts, 0);
+      doc.save();
+      doc.rotate(-90);
+      doc.translate(-gridSizePts.height, 0);
+      doc.text(text, 0, 0, {baseline: "bottom", align: "center", width: gridSizePts.height, ellipsis: true});
+      doc.restore();
+    } else {
+      if (opts.debug) {
+        doc.rect(0, 0, gridSizePts.width, gridSizePts.height + opts.cellHeaderHeightPts);
+        doc.stroke("blue");
+      }
+      doc.translate(0, opts.cellHeaderHeightPts);
+      doc.text(text, 0, 0, {baseline: "bottom", align: "center", width: gridSizePts.width, ellipsis: true});
     }
-    ctx.fillText(text, 0, 0);
-    ctx.lineWidth = 0.01;
-    ctx.strokeStyle = "grey";
-    ctx.strokeRect(0, 0, gridSize.width, gridSize.height);
-    ctx.fillStyle = "black";
-    ctx.beginPath();
+    doc.rect(0, 0, gridSizePts.width, gridSizePts.height);
+    doc.lineWidth(1);
+    doc.stroke("grey");
     traceOwnPixels();
-    ctx.fill();
-    ctx.closePath();
-    ctx.beginPath();
+    doc.fill("black");
     tracePriorPixels();
-    ctx.stroke();
-    ctx.closePath();
+    doc.lineWidth(1.3);
+    doc.stroke("grey");
     function traceOwnPixels() {
       for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-        const cy = yAt(y3);
+        const cyPts = (y3 - slice.y + 0.5) * pitch;
         for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-          if (image.pixels[y3][x3] === image.partList[i3]) {
-            ctx.arc((x3 - slice.x + 0.5) * pitch, cy, pitch / 2.5, 0, Math.PI * 2, false);
+          if (image.pixels[y3][x3] === partIndex) {
+            const cxPts = (x3 - slice.x + 0.5) * pitch;
+            doc.circle(cxPts, cyPts, pitch / 2.5);
           }
         }
       }
     }
     function tracePriorPixels() {
-      const prevFill = [];
+      const alreadyPlotted = new Map();
       for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-        const row = [];
-        for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-          let prev = false;
-          for (let j3 = 0; j3 < i3; j3++) {
-            if (image.pixels[y3][x3] === image.partList[j3]) {
-              prev = true;
-              break;
-            }
-          }
-          row.push(prev);
-        }
-        prevFill.push(row);
+        outline(slice.x, slice.x + slice.width, (x3) => isPrior(x3, y3), (x3) => plot(x3, y3));
       }
-      for (let y3 = slice.y; y3 < slice.y + slice.height; y3++) {
-        const py = y3 - slice.y;
-        const yTop = yAt(y3 - 0.5);
-        const yBottom = yAt(y3 + 0.5);
-        for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
-          const px = x3 - slice.x;
-          if (prevFill[py][px]) {
-            if (py !== 0 && !prevFill[y3 - 1][px]) {
-              ctx.moveTo((px + 0) * pitch, yTop);
-              ctx.lineTo((px + 1) * pitch, yTop);
-            }
-            if (py !== prevFill.length - 1 && !prevFill[y3 + 1][px]) {
-              ctx.moveTo((px + 0) * pitch, yBottom);
-              ctx.lineTo((px + 1) * pitch, yBottom);
-            }
-            if (!prevFill[y3][px - 1]) {
-              ctx.moveTo(px * pitch, yTop);
-              ctx.lineTo(px * pitch, yBottom);
-            }
-            if (!prevFill[y3][px + 1]) {
-              ctx.moveTo((px + 1) * pitch, yTop);
-              ctx.lineTo((px + 1) * pitch, yBottom);
-            }
+      for (let x3 = slice.x; x3 < slice.x + slice.width; x3++) {
+        outline(slice.y, slice.y + slice.height, (y3) => isPrior(x3, y3), (y3) => plot(x3, y3));
+      }
+      function plot(x3, y3) {
+        const s4 = x3 + "-" + y3;
+        if (alreadyPlotted.has(s4))
+          return;
+        alreadyPlotted.set(s4, true);
+        const cxPts = (x3 - slice.x) * pitch;
+        const cyPts = (y3 - slice.y) * pitch;
+        doc.moveTo(cxPts + pitch * 0.3, cyPts + pitch * 0.3);
+        doc.lineTo(cxPts + pitch * 0.7, cyPts + pitch * 0.7);
+        doc.moveTo(cxPts + pitch * 0.3, cyPts + pitch * 0.7);
+        doc.lineTo(cxPts + pitch * 0.7, cyPts + pitch * 0.3);
+      }
+      function isPrior(x3, y3) {
+        const px = image.pixels[y3][x3];
+        if (px < partIndex && px !== -1) {
+          return true;
+        }
+        return false;
+      }
+      function outline(startInclusive, endEnclusive, callback, plotter) {
+        let inside = false;
+        for (let i3 = startInclusive; i3 < endEnclusive; i3++) {
+          if (callback(i3)) {
+            if (!inside)
+              plotter(i3);
+            inside = true;
+          } else {
+            if (inside)
+              plotter(i3 - 1);
+            inside = false;
           }
         }
+        if (inside)
+          plotter(endEnclusive - 1);
       }
     }
   }
-  function getLayout(printableWidth, printableHeight, cellWidth, cellHeight, cellCount, minumumMargin) {
-    const landscape = {
-      orientation: "landscape",
-      ...tryLayout(printableHeight, printableWidth)
+  function getLayout(cellCount, pageWidthPts, pageHeightPts, pageMarginPts, cellWidthPts, cellHeightPts) {
+    const cellMarginPts = mmToPoints(9);
+    const result = [];
+    const printableWidthPts = pageWidthPts - pageMarginPts * 2;
+    const printableHeightPts = pageHeightPts - pageMarginPts * 2;
+    const densestUnrotatedLayout = {
+      maxCols: Math.floor((cellMarginPts + printableWidthPts) / (cellMarginPts + cellWidthPts)),
+      maxRows: Math.floor((cellMarginPts + printableHeightPts) / (cellMarginPts + cellHeightPts))
     };
-    const portrait = {
-      orientation: "portrait",
-      ...tryLayout(printableWidth, printableHeight)
+    const densestRotatedLayout = {
+      maxCols: Math.floor((cellMarginPts + printableWidthPts) / (cellMarginPts + cellHeightPts)),
+      maxRows: Math.floor((cellMarginPts + printableHeightPts) / (cellMarginPts + cellWidthPts))
     };
-    if (portrait.rows * portrait.cols >= cellCount) {
-      if (landscape.rows * landscape.cols >= cellCount) {
-        return landscape.rows * landscape.cols < portrait.rows * portrait.cols ? landscape : portrait;
-      }
-      return portrait;
+    const isRotated = densestRotatedLayout.maxRows * densestRotatedLayout.maxCols > densestUnrotatedLayout.maxRows * densestUnrotatedLayout.maxCols && densestUnrotatedLayout.maxRows * densestUnrotatedLayout.maxCols < cellCount;
+    const densestLayout = isRotated ? densestRotatedLayout : densestUnrotatedLayout;
+    if (densestLayout.maxRows * densestLayout.maxCols === 0) {
+      throw new Error("Can't do this layout");
     }
-    return landscape.rows * landscape.cols > portrait.rows * portrait.cols ? landscape : portrait;
-    function tryLayout(pageWidth, pageHeight) {
-      let rows = Math.floor((pageHeight + minumumMargin) / (cellHeight + minumumMargin));
-      let cols = Math.floor((pageWidth + minumumMargin) / (cellWidth + minumumMargin));
-      while (true) {
-        if (rows > cols) {
-          if (tryDecr(() => rows--))
-            continue;
-          if (tryDecr(() => cols--))
-            continue;
-        } else {
-          if (tryDecr(() => cols--))
-            continue;
-          if (tryDecr(() => rows--))
-            continue;
+    while (true) {
+      if (densestLayout.maxCols >= densestLayout.maxRows) {
+        if ((densestLayout.maxCols - 1) * densestLayout.maxRows >= cellCount) {
+          densestLayout.maxCols--;
+          continue;
         }
-        break;
+        if ((densestLayout.maxRows - 1) * densestLayout.maxCols >= cellCount) {
+          densestLayout.maxRows--;
+          continue;
+        }
+      } else {
+        if ((densestLayout.maxRows - 1) * densestLayout.maxCols >= cellCount) {
+          densestLayout.maxRows--;
+          continue;
+        }
+        if ((densestLayout.maxCols - 1) * densestLayout.maxRows >= cellCount) {
+          densestLayout.maxCols--;
+          continue;
+        }
       }
-      return {rows, cols};
-      function tryDecr(f3) {
-        let or = rows, oc = cols;
-        f3();
-        if (rows * cols < cellCount) {
-          rows = or;
-          cols = oc;
-          return false;
+      break;
+    }
+    const layoutXsize = isRotated ? cellHeightPts : cellWidthPts;
+    const layoutYsize = isRotated ? cellWidthPts : cellHeightPts;
+    const unallocatedX = pageWidthPts - pageMarginPts * 2 - densestLayout.maxCols * layoutXsize;
+    const unallocatedY = pageHeightPts - pageMarginPts * 2 - densestLayout.maxRows * layoutYsize;
+    const xJustification = unallocatedX / (densestLayout.maxCols + 1);
+    const yJustification = unallocatedY / (densestLayout.maxRows + 1);
+    const xInterval = layoutXsize + xJustification;
+    const yInterval = layoutYsize + yJustification;
+    console.log(JSON.stringify({
+      pageWidthPts,
+      pageHeightPts,
+      cellWidthPts,
+      cellHeightPts,
+      densestUnrotatedLayout,
+      densestRotatedLayout,
+      isRotated,
+      densestLayout,
+      unallocatedX,
+      unallocatedY,
+      xInterval,
+      yInterval,
+      xJustification,
+      yJustification
+    }, void 0, 2));
+    let firstPage = true;
+    while (true) {
+      let first = true;
+      if (isRotated) {
+        for (let x3 = densestLayout.maxCols - 1; x3 >= 0; x3--) {
+          for (let y3 = 0; y3 < densestLayout.maxRows; y3++) {
+            if (iter(x3, y3, first)) {
+              return result;
+            }
+            first = false;
+          }
         }
+      } else {
+        for (let y3 = 0; y3 < densestLayout.maxRows; y3++) {
+          for (let x3 = 0; x3 < densestLayout.maxCols; x3++) {
+            if (iter(x3, y3, first)) {
+              return result;
+            }
+            first = false;
+          }
+        }
+      }
+      firstPage = false;
+    }
+    function iter(x3, y3, first) {
+      const newPage = first && !firstPage;
+      addCell(newPage, pageMarginPts + xJustification + x3 * xInterval, pageMarginPts + yJustification + y3 * yInterval);
+      if (result.length === cellCount) {
         return true;
       }
     }
+    function addCell(newPage, translateX, translateY) {
+      result.push({
+        next(doc, actualWidthPts, actualHeightPts) {
+          if (newPage) {
+            doc.addPage();
+          }
+          const spareX = layoutXsize - (isRotated ? actualHeightPts : actualWidthPts);
+          const spareY = layoutYsize - (isRotated ? actualWidthPts : actualHeightPts);
+          doc.save();
+          doc.translate(translateX + spareX / 2, translateY + spareY / 2);
+          if (isRotated) {
+            doc.rotate(90);
+            doc.translate(0, -layoutXsize);
+          }
+          return () => {
+            doc.restore();
+          };
+        }
+      });
+    }
+  }
+  function inchesToPoints(inches) {
+    return inches * 72;
+  }
+  function mmToPoints(mm) {
+    return mm / 25.4 * 72;
   }
 
   // src/components/print-dialog.tsx
@@ -2769,9 +1913,9 @@
       ...props
     }), /* @__PURE__ */ a(PaperSizeGroup, {
       ...props
-    }), /* @__PURE__ */ a(PerspectiveGroup, {
-      ...props
     }), /* @__PURE__ */ a(ImageSizeGroup, {
+      ...props
+    }), /* @__PURE__ */ a(PageBreakingGroup, {
       ...props
     }), /* @__PURE__ */ a("div", {
       class: "final-row"
@@ -2787,13 +1931,14 @@
     }))));
     function print() {
       const settings = {
-        carveSize: void 0,
-        imageSize: props.settings.imageSize,
-        paperSize: props.settings.paperSize,
-        perspective: props.settings.perpsective,
-        pitch: getPitch(props.pitch),
         style: props.settings.format,
-        filename: props.filename.replace(".png", "")
+        paperSize: props.settings.paperSize,
+        breakStrategy: props.settings.breakStrategy,
+        imageSize: props.settings.imageSize,
+        carveSize: getGridSize(props.gridSize),
+        pitch: getPitch(props.gridSize),
+        filename: props.filename.replace(".png", ""),
+        debug: true
       };
       makePdf(props.image, settings);
     }
@@ -2850,63 +1995,55 @@
       }
     ]
   }));
-  var PerspectiveGroup = makeRadioGroup(() => ({
-    key: "perpsective",
-    title: "Perspective Correction",
-    values: [
-      {
-        title: "Off",
-        value: "off",
-        description: "Do not apply perspective correction",
-        icon: /* @__PURE__ */ a(PerspectiveArrow, {
-          amount: "off"
-        })
-      },
-      {
-        title: "Low",
-        value: "low",
-        description: "Slightly skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
-        icon: /* @__PURE__ */ a(PerspectiveArrow, {
-          amount: "low"
-        })
-      },
-      {
-        title: "Medium",
-        value: "medium",
-        description: "Skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
-        icon: /* @__PURE__ */ a(PerspectiveArrow, {
-          amount: "medium"
-        })
-      },
-      {
-        title: "High",
-        value: "high",
-        description: "Aggressively skews image so that the dots on the paper and the pegs on the pegboard line up when viewed from an angle other than directly overhead",
-        icon: /* @__PURE__ */ a(PerspectiveArrow, {
-          amount: "high"
-        })
-      }
-    ]
-  }));
   var ImageSizeGroup = makeRadioGroup(() => ({
     key: "imageSize",
     title: "Image Size",
     values: [
       {
-        title: "Fit to Page",
-        value: "fit",
+        title: "Page",
+        value: "single-page",
         description: "Scale the image to fit a single page",
         icon: /* @__PURE__ */ a("span", {
-          class: "stretch"
+          class: "size-stretch"
         }, "\u26F6")
       },
       {
-        title: "Actual Size",
+        title: "Actual",
         value: "actual",
         description: "Print at actual size. Multiple pages will be generated if necessary",
         icon: /* @__PURE__ */ a("span", {
-          class: "actual-size"
+          class: "size-actual"
         }, "1:1")
+      },
+      {
+        title: "Legible",
+        value: "legible",
+        description: "Print at a legible size. Multiple pages will be generated if necessary",
+        icon: /* @__PURE__ */ a("span", {
+          class: "size-legible"
+        }, "\u{1F441}")
+      }
+    ]
+  }));
+  var PageBreakingGroup = makeRadioGroup(() => ({
+    key: "breakStrategy",
+    title: "Page Breaking",
+    values: [
+      {
+        title: "Grid",
+        value: "grid",
+        description: "Split large images based on the pegboard grid size",
+        icon: /* @__PURE__ */ a("span", {
+          class: "break-grid"
+        }, "\u{1F533}")
+      },
+      {
+        title: "Page",
+        value: "page",
+        description: "Split large images based on the page size",
+        icon: /* @__PURE__ */ a("span", {
+          class: "break-paper"
+        }, "\u{1F4C4}")
       }
     ]
   }));
@@ -2928,12 +2065,12 @@
       setFrame((frame + 1) % (props.image.partList.length + 3));
     }
     function drawNextFrame() {
-      imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
+      imgRef.current.src = renderPartListImageToDataURL(props.image, frame);
     }
   }
   function ColorImagePreviewer(props) {
     return /* @__PURE__ */ a("img", {
-      src: renderPartListImageToDatURL(props.image)
+      src: renderPartListImageToDataURL(props.image)
     });
   }
   function SinglePlanPreviewer(props) {
@@ -2945,47 +2082,12 @@
     for (let y3 = Math.max(startY, 0); y3 < Math.min(props.image.height, startY + height); y3++) {
       let s4 = "";
       for (let x3 = Math.max(startX, 0); x3 < Math.min(props.image.width, startX + width); x3++) {
-        s4 = s4 + (props.image.pixels[y3][x3]?.symbol ?? " ");
+        const px = props.image.partList[props.image.pixels[y3][x3]];
+        s4 = s4 + (px?.symbol ?? " ");
       }
       lines.push(s4);
     }
     return /* @__PURE__ */ a("span", null, /* @__PURE__ */ a("pre", null, lines.join("\n")));
-  }
-  function PerspectiveArrow(props) {
-    const x1 = {
-      off: 25,
-      low: 20,
-      medium: 15,
-      high: 5
-    }[props.amount];
-    return /* @__PURE__ */ a("svg", {
-      width: "50",
-      height: "50"
-    }, /* @__PURE__ */ a("defs", null, /* @__PURE__ */ a("marker", {
-      id: "arrowhead",
-      markerWidth: "6",
-      markerHeight: "4",
-      refX: "0",
-      refY: "2",
-      orient: "auto"
-    }, /* @__PURE__ */ a("polygon", {
-      points: "0 0, 3 2, 0 4"
-    }))), /* @__PURE__ */ a("line", {
-      x1,
-      y1: "5",
-      x2: "25",
-      y2: "30",
-      stroke: "#000",
-      "stroke-width": "4",
-      "marker-end": "url(#arrowhead)"
-    }), /* @__PURE__ */ a("line", {
-      x1: "0",
-      y1: "50",
-      x2: "50",
-      y2: "50",
-      stroke: "#000",
-      "stroke-width": "4"
-    }));
   }
   function makeRadioGroup(factory) {
     return function(props) {
@@ -3113,7 +2215,7 @@
       if (planStyle === "symbols") {
         for (let y3 = 0; y3 < image.height; y3++) {
           for (let x3 = 0; x3 < image.width; x3++) {
-            const px = image.pixels[y3][x3];
+            const px = image.partList[image.pixels[y3][x3]];
             if (px === void 0)
               continue;
             const t3 = document.createElementNS(svgns, "text");
@@ -3166,7 +2268,7 @@
           let nowColor = void 0;
           let runCount = 0;
           for (let x3 = 0; x3 <= image.width; x3++) {
-            const px = image.pixels[y3][x3];
+            const px = image.partList[image.pixels[y3][x3]];
             if (nowColor === px) {
               runCount++;
             } else {
@@ -3235,7 +2337,7 @@
         const parts = [];
         for (let y3 = 0; y3 < image.height; y3++) {
           for (let x3 = 0; x3 < image.width; x3++) {
-            if (image.pixels[y3][x3] === image.partList[i3]) {
+            if (image.pixels[y3][x3] === i3) {
               parts.push(`M ${x3 * 32} ${y3 * 32} l 32 0 l 0 32 l -32 0 l 0 -32 z`);
             }
           }
@@ -3305,9 +2407,8 @@
     print: {
       paperSize: "letter",
       format: "step-by-step",
-      perpsective: "off",
       imageSize: "actual",
-      inkSaver: false
+      breakStrategy: "grid"
     },
     source: {
       displayName: galleryStorage.current[0][0],
@@ -3430,7 +2531,7 @@
       }), props.ui.isPrintOpen && image && /* @__PURE__ */ a(PrintDialog, {
         image,
         settings: props.print,
-        pitch: props.material.size,
+        gridSize: props.material.size,
         filename: props.source.displayName
       })));
     }

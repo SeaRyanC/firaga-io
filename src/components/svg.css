@@ -1,11 +1,13 @@
 line.gridmajor {
     stroke-width: 2px;
     stroke: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
 }
 
 line.gridminor {
     stroke-width: 1px;
     stroke: rgba(0, 0, 0, 0.2);
+    pointer-events: none;
 }
 
 text {

@@ -1,10 +1,10 @@
 import * as preact from 'preact';
 import { JSX } from 'preact';
 import { useContext, useEffect, useRef, useState } from 'preact/hooks';
-import { PartListImage, renderPartListImageToDatURL } from '../image-utils';
+import { PartListImage, renderPartListImageToDataURL } from '../image-utils';
 import { makePdf, PrintSettings } from '../pdf-generator';
 import { AppProps, PrintProps } from '../types';
-import { getPitch } from '../utils';
+import { getGridSize, getPitch } from '../utils';
 import { PropContext } from './context';
 
 export function PrintDialog(props: PrintDialogProps) {
@@ -13,8 +13,8 @@ export function PrintDialog(props: PrintDialogProps) {
         <h1 class="dialog-title">Print</h1>
         <FormatGroup {...props} />
         <PaperSizeGroup {...props} />
-        <PerspectiveGroup {...props} />
         <ImageSizeGroup {...props} />
+        <PageBreakingGroup {...props} />
         {/*
         <div class="print-setting-group">
             <h1>Misc.</h1>
@@ -29,13 +29,15 @@ export function PrintDialog(props: PrintDialogProps) {
 
     function print() {
         const settings: PrintSettings = {
-            carveSize: undefined,
-            imageSize: props.settings.imageSize,
-            paperSize: props.settings.paperSize,
-            perspective: props.settings.perpsective,
-            pitch: getPitch(props.pitch),
             style: props.settings.format,
-            filename: props.filename.replace(".png", "")
+            paperSize: props.settings.paperSize,
+            breakStrategy: props.settings.breakStrategy,
+            imageSize: props.settings.imageSize,
+            carveSize: getGridSize(props.gridSize),
+            pitch: getPitch(props.gridSize),
+            filename: props.filename.replace(".png", ""),
+            debug: true
+            // perspective: props.settings.perpsective,
         };
         makePdf(props.image, settings);
     }
@@ -55,7 +57,7 @@ type OptionGroupFactory<K extends keyof AppProps["print"]> = (props: PrintDialog
 export type PrintDialogProps = {
     image: PartListImage;
     settings: PrintProps;
-    pitch: AppProps["material"]["size"];
+    gridSize: AppProps["material"]["size"];
     filename: string;
 };
 
@@ -103,6 +105,7 @@ const PaperSizeGroup = makeRadioGroup(() => ({
     ]
 }));
 
+/*
 const PerspectiveGroup = makeRadioGroup(() => ({
     key: "perpsective",
     title: "Perspective Correction",
@@ -133,23 +136,49 @@ const PerspectiveGroup = makeRadioGroup(() => ({
         }
     ]
 }));
+*/
 
 const ImageSizeGroup = makeRadioGroup(() => ({
     key: "imageSize",
     title: "Image Size",
     values: [
         {
-            title: "Fit to Page",
-            value: "fit",
+            title: "Page",
+            value: "single-page",
             description: "Scale the image to fit a single page",
-            icon: <span class="stretch">⛶</span>
+            icon: <span class="size-stretch">⛶</span>
         },
         {
-            title: "Actual Size",
+            title: "Actual",
             value: "actual",
             description: "Print at actual size. Multiple pages will be generated if necessary",
-            icon: <span class="actual-size">1:1</span>
+            icon: <span class="size-actual">1:1</span>
+        },
+        {
+            title: "Legible",
+            value: "legible",
+            description: "Print at a legible size. Multiple pages will be generated if necessary",
+            icon: <span class="size-legible">👁</span>
         }
+    ]
+}));
+
+const PageBreakingGroup = makeRadioGroup(() => ({
+    key: "breakStrategy",
+    title: "Page Breaking",
+    values: [
+        {
+            title: "Grid",
+            value: "grid",
+            description: "Split large images based on the pegboard grid size",
+            icon: <span class="break-grid">🔳</span>
+        },
+        {
+            title: "Page",
+            value: "page",
+            description: "Split large images based on the page size",
+            icon: <span class="break-paper">📄</span>
+        },
     ]
 }));
 
@@ -172,12 +201,12 @@ function StepByStepPreviewer(props: { image: PartListImage }) {
     }
 
     function drawNextFrame() {
-        imgRef.current.src = renderPartListImageToDatURL(props.image, frame);
+        imgRef.current.src = renderPartListImageToDataURL(props.image, frame);
     }
 }
 
 function ColorImagePreviewer(props: { image: PartListImage }) {
-    return <img src={renderPartListImageToDatURL(props.image)} />;
+    return <img src={renderPartListImageToDataURL(props.image)} />;
 }
 
 function SinglePlanPreviewer(props: { image: PartListImage }) {
@@ -190,13 +219,15 @@ function SinglePlanPreviewer(props: { image: PartListImage }) {
     for (let y = Math.max(startY, 0); y < Math.min(props.image.height, startY + height); y++) {
         let s = '';
         for (let x = Math.max(startX, 0); x < Math.min(props.image.width, startX + width); x++) {
-            s = s + (props.image.pixels[y][x]?.symbol ?? ' ');
+            const px = props.image.partList[props.image.pixels[y][x]];
+            s = s + (px?.symbol ?? ' ');
         }
         lines.push(s);
     }
     return <span><pre>{lines.join('\n')}</pre></span>
 }
 
+/*
 function PerspectiveArrow(props: { amount: "off" | "low" | "medium" | "high" }) {
     const x1 = {
         off: 25,
@@ -215,6 +246,7 @@ function PerspectiveArrow(props: { amount: "off" | "low" | "medium" | "high" }) 
         <line x1="0" y1="50" x2="50" y2="50" stroke="#000" stroke-width="4" />
     </svg>
 }
+*/
 
 function makeRadioGroup<K extends keyof PrintProps>(factory: OptionGroupFactory<K>) {
     return function (props: PrintDialogProps) {

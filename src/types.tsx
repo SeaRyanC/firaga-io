@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import { PrintSettings } from './pdf-generator';
 import { RadioSettings } from "./utils";
 
 declare global {
@@ -48,11 +49,12 @@ export type ImageProps = RadioSettings<typeof ImageSettings> & {
 };
 
 export type PrintProps = {
-    format: "step-by-step" | "color" | "legend";
-    paperSize: "letter" | "a4";
-    perpsective: "off" | "low" | "medium" | "high";
-    imageSize: "fit" | "actual";
-    inkSaver: boolean;
+    format: PrintSettings["style"];
+    paperSize: PrintSettings["paperSize"];
+    imageSize: PrintSettings["imageSize"];
+    breakStrategy: PrintSettings["breakStrategy"];
+    // perpsective: "off" | "low" | "medium" | "high";
+    // inkSaver: boolean;
 }
 
 export type DisplayProps = RadioSettings<typeof DisplaySettings>;

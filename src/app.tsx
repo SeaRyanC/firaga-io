@@ -1,7 +1,7 @@
 import * as preact from 'preact';
 import { useRef, useEffect, useLayoutEffect } from 'preact/hooks';
 import { Gallery, GalleryProps } from './gallery';
-import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, imageDataToRgbaArray, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage, renderPartListImageToDatURL } from './image-utils';
+import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, imageDataToRgbaArray, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage, renderPartListImageToDataURL } from './image-utils';
 import { AppProps, DisplayProps, DisplaySettings, ImageProps, ImageSettings, MaterialProps, MaterialSettings } from "./types";
 import { colorEntryToHex, getPitch } from './utils';
 import { createGallery } from './user-gallery';
@@ -44,9 +44,8 @@ const DefaultAppProps: AppProps = {
     print: {
         paperSize: "letter",
         format: "step-by-step",
-        perpsective: "off",
         imageSize: "actual",
-        inkSaver: false
+        breakStrategy: "grid"
     },
     source: {
         displayName: galleryStorage.current[0][0],
@@ -151,7 +150,11 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         }}
                     />}
                 {props.ui.isPrintOpen && image &&
-                    <PrintDialog image={image} settings={props.print} pitch={props.material.size} filename={props.source.displayName} />}
+                    <PrintDialog
+                        image={image}
+                        settings={props.print}
+                        gridSize={props.material.size}
+                        filename={props.source.displayName} />}
             </PropContext.Provider>
         </div>;
     }

@@ -399,18 +399,22 @@ div.print-dialog img {
     object-fit: contain;
 }
 
-div.print-dialog span.actual-size, div.print-dialog span.stretch {
+div.print-dialog span.size-actual, div.print-dialog span.size-stretch, div.print-dialog span.size-legible {
     display: inline-block;
     height: 60px;
     width: 40px;
     border: solid grey 1px;
 }
 
-div.print-dialog span.stretch {
-    font-size: 45px;
+div.print-dialog span.size-stretch {
+    font-size: 41px;
 }
 
-div.print-dialog span.actual-size {
+div.print-dialog span.size-legible {
+    font-size: 30px;
+}
+
+div.print-dialog span.size-size {
     line-height: 200%;
 }
 
