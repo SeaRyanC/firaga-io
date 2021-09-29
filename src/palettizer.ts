@@ -1,4 +1,5 @@
 import diff  = require("color-diff");
+import { ColorEntry } from "./color-data";
 import { RgbaImage, InputColorsToObjectColors, PalettizedImage, ObjectColor, ColorAssignment, MaterialProps } from "./types";
 import { colorEntryToHex, Rgb } from "./utils";
 
@@ -24,7 +25,7 @@ export function palettize(rgbaArray: RgbaImage, palette: InputColorsToObjectColo
     };
 }
 
-export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly ObjectColor[] | undefined, settings: MaterialProps): ColorAssignment[] {
+export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly ColorEntry[] | undefined, settings: MaterialProps): ColorAssignment[] {
     const tempAssignments: ColorAssignment[] = [];
     const inputColors = [];
 
@@ -54,21 +55,20 @@ export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly Object
 
     const diff = colorDiff[settings.colorMatch];
     // Assign each in turn
-    for (const r of inputColors) {
+    for (const inColor of inputColors) {
         if (allowedColors === undefined) {
-            let R = r.color & 0xFF,
-                G = (r.color >> 8) & 0xFF,
-                B = (r.color >> 16) & 0xFF;
+            let r = inColor.color & 0xFF,
+                g = (inColor.color >> 8) & 0xFF,
+                b = (inColor.color >> 16) & 0xFF;
 
             tempAssignments.push({
-                color: r.color,
+                color: inColor.color,
                 target: {
-                    R, G, B,
-                    r: R, g: G, b: B,
-                    name: colorEntryToHex({ r: R, g: G, b: B }),
+                    r, g, b,
+                    name: colorEntryToHex({ r, g, b }),
                     code: ''
                 },
-                count: r.count
+                count: inColor.count
             });
         } else {
             let bestTarget = undefined;
@@ -78,7 +78,7 @@ export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly Object
                     if (tempAssignments.some(t => t.target === c)) continue;
                 }
 
-                const score = diff(r, c);
+                const score = diff(inColor, c);
                 if (score < bestScore) {
                     bestTarget = c;
                     bestScore = score;
@@ -87,9 +87,9 @@ export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly Object
             if (bestTarget === undefined) throw new Error("impossible");
 
             tempAssignments.push({
-                color: r.color,
+                color: inColor.color,
                 target: bestTarget,
-                count: r.count,
+                count: inColor.count,
             });
         }
     }

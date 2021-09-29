@@ -345,10 +345,10 @@
     }
   });
 
-  // data/colors.csv
-  var require_colors = __commonJS({
-    "data/colors.csv"(exports, module) {
-      module.exports = "R,G,B,Artkal Midi Soft,Artkal Mini Soft,Artkal Mini,Artkal Midi,Name\r\n255,255,255,R01,A01,C01,S01,White\r\n255,163,139,R02,A44,C44,S02,Burning Sand\r\n246,176,76,R03,A03,C03,S03,Tangerine\r\n255,103,31,R04,A17,C17,S04,Orange\r\n225,6,0,R05,A05,C05,S05,Tall Poppy\r\n236,134,208,R06,A49,C49,S06,Raspberry Pink\r\n155,155,155,R07,A33,C33,S07,Gray\r\n36,222,91,R08,,,S08,Emerald\r\n0,104,94,R09,,,S09,Dark Green\r\n65,182,230,R10,A19,C19,S10,Baby Blue\r\n79,159,179,,A99,C99,S100,Lagoon\r\n49,150,221,,A100,C100,S101,Electric Blue\r\n27,108,182,,A101,C101,S102,Pool Blue\r\n8,57,128,,A102,C102,S103,Caribbean Blue\r\n10,102,139,,A103,C103,S104,Deep Water\r\n8,91,110,,A104,C104,S105,Petrol Blue\r\n0,78,120,,A105,C105,S106,Wegdewood Blue\r\n0,85,116,,A106,C106,S107,Pond Blue\r\n204,190,128,,A107,C107,S108,Seashell Beige\r\n164,147,80,,A108,C108,S109,Beige\r\n0,51,153,R11,A21,C21,S11,Dark Blue\r\n158,136,60,,A109,C109,S110,Beach Beige\r\n118,108,43,,A110,C110,S111,Caffe Latt\xE9\r\n121,95,38,,A111,C111,S112,Oaktree Brown\r\n186,184,162,,A112,C112,S113,Khaki\r\n114,140,84,,A113,C113,S114,Light Greengray\r\n126,124,68,,A114,C114,S115,Mossy Green\r\n100,105,46,,A115,C115,S116,Earth Green\r\n78,88,44,,A116,C116,S117,Sage Green\r\n74,94,45,,A117,C117,S118,Pinetree Green\r\n113,196,182,,A118,C118,S119,Frosty Blue\r\n160,94,181,R12,A26,C26,S12,Pastel Lavender\r\n102,204,153,,A119,C119,S120,Polar Mint\r\n86,154,131,,A120,C120,S121,Celadon Green\r\n20,194,91,,A121,C121,S122,Eucalyptus\r\n24,168,24,,A122,C122,S123,Clover Field\r\n4,85,46,,A123,C123,S124,Pooltable Felt\r\n19,107,90,,A124,C124,S125,Snake Green\r\n5,70,65,,A125,C125,S126,Dark Eucalyptus\r\n217,182,214,,A126,C126,S127,Marsmallow Rose\r\n173,98,164,,A127,C127,S128,Light Grape\r\n230,140,163,,A128,C128,S129,Rosebud Pink\r\n0,0,0,R13,A02,C02,S13,Black\r\n222,84,121,,A129,C129,S130,Fuschia\r\n158,130,186,,A130,C130,S131,Candy Violet\r\n232,65,107,,A131,C131,S132,Flamingo\r\n183,56,143,,A132,C132,S133,Pink Plum\r\n88,31,126,,A133,C133,S134,Amethyst\r\n140,163,212,,A134,C134,S135,Moonlight Blue\r\n154,154,204,,A135,C135,S136,Summer Rain\r\n89,129,193,,A136,C136,S137,Azure Blue\r\n65,102,176,,A137,C137,S138,Cornflower Blue\r\n71,95,171,,A138,C138,S139,Forget Me Not\r\n250,224,83,R14,A42,C42,S14,Sandstorm\r\n55,69,147,,A139,C139,S140,Indigo\r\n61,86,165,,A140,C140,S141,Horizon Blue\r\n41,66,135,,A141,C141,S142,Cobalt\r\n37,38,138,,A142,C142,S143,Royal Blue\r\n26,47,111,,A143,C143,S144,Marine\r\n211,201,93,,A144,C144,S145,Pale Yellow Moss\r\n81,9,24,,A145,C145,S146,Bloodrose Red\r\n100,179,158,,A146,C146,S147,Spearmint\r\n99,67,56,,A147,C147,S148,Mocha\r\n237,211,158,,A148,C148,S149,Creme\r\n122,62,44,R15,A30,C30,S15,Redwood\r\n105,99,171,,A149,C149,S150,Iris Violet\r\n43,63,31,,A150,C150,S151,Forest Green\r\n151,145,197,,A151,C151,S152,Lilac\r\n184,189,224,,A152,C152,S153,Pale Lilac\r\n249,200,152,,A153,C153,S154,Sahara Sand\r\n195,144,105,,A154,C154,S155,Sunkissed Teint\r\n90,90,90,,A155,C155,S156,Steel Grey\r\n60,60,60,,A156,C156,S157,Iron Grey\r\n26,26,26,,A157,C157,S158,Pepper\r\n139,139,139,,A56,C56,S159,Oslo Gray\r\n92,71,56,R16,A32,C32,S16,Brown\r\n123,77,53,R17,A31,C31,S17,Light Brown\r\n204,153,102,R18,A23,C23,S18,Sand\r\n252,191,169,R19,A22,C22,S19,Bubble Gum\r\n36,158,107,R20,A14,C14,S20,Green\r\n135,216,57,R21,A13,C13,S21,Pastel Green\r\n51,0,114,R22,A27,C27,S22,Purple\r\n100,53,155,R23,,,S23,Royal Purple\r\n20,123,209,R24,A37,C37,S24,True Blue\r\n255,52,179,R25,A08,C08,S25,Hot Pink\r\n219,33,82,R26,A09,C09,S26,Magenta\r\n255,209,0,R27,A11,C11,S27,Yellow\r\n234,184,228,R28,,,S28,Lily Pink\r\n246,235,97,R29,A41,C41,S29,Pastel Yellow\r\n153,214,234,R30,A39,C39,S30,Shadow Green\r\n158,229,176,R31,A60,C60,S31,Sea Mist\r\n255,231,128,R32,A24,C24,S32,Beeswax\r\n197,180,227,R33,A50,C50,S33,Maverick\r\n186,12,47,R34,A06,C06,S34,Red\r\n247,206,215,R35,,,S35,Mona Lisa\r\n201,128,158,R36,A36,C36,S36,Old Pink\r\n113,216,191,R37,,,S37,Blue-Green\r\n171,37,86,R38,,,S38,Burgundy\r\n237,139,0,R39,A04,C04,S39,Yellow Orange\r\n241,167,220,R40,A07,C07,S40,Carnation Pink\r\n154,85,22,R41,,,S41,Metallic Gold\r\n125,124,121,R42,A35,C35,S42,Metallic Silver\r\n118,119,119,R43,A34,C34,S43,Dark Gray\r\n170,220,235,R44,A18,C18,S44,Sky Blue\r\n0,178,169,R45,A54,C54,S45,Medium Turquoise\r\n115,211,60,R46,A53,C53,S46,Bright Green\r\n180,126,0,R47,A28,C28,S47,Marigold\r\n255,199,44,R48,A48,C48,S48,Corn\r\n114,25,95,R49,,,S49,Mulberry Wood\r\n250,170,114,R50,,,S50,Mandy's Pink\r\n252,251,205,R51,A51,C51,S51,Spring Sun\r\n242,240,161,R52,A10,C10,S52,Picasso\r\n105,179,231,R53,A38,C38,S53,Turquoise\r\n0,144,218,R54,A20,C20,S54,Light Blue\r\n173,220,145,R57,A12,C12,S55,Pistachio\r\n255,106,19,R59,A16,C16,S56,Bright Carrot\r\n164,73,61,R63,A29,C29,S57,Buccaneer\r\n165,0,52,R64,A43,C43,S58,Paprika\r\n74,31,135,,A52,C52,S59,Butterfly Bush\r\n167,123,202,R66,A25,C25,S60,Lavender\r\n206,220,0,R68,A40,C40,S61,Key Lime Pie\r\n0,124,88,R69,A15,C15,S62,Green Tea\r\n88,87,53,R70,,,S63,Metallic Copper\r\n5,8,73,R55,A58,C58,S64,Black Rock\r\n243,234,93,R58,A46,C46,S65,Canary\r\n244,99,58,R60,,,S66,Blaze Orange\r\n243,207,179,R61,A47,C47,S67,Vanilla\r\n225,192,120,R71,,,S68,Tan\r\n40,40,40,R72,A69,C69,S69,Mine Shaft\r\n155,188,17,R89,A84,C84,S70,Dark Algae\r\n0,133,34,R73,A86,C86,S71,Jade Green\r\n89,213,216,R74,A79,C79,S72,Light Sea Blue\r\n72,169,197,R91,A81,C81,S73,Steel Blue\r\n0,174,214,R75,A82,C82,S74,Azure\r\n0,133,173,R92,A83,C83,S75,Dark Steel Blue\r\n0,174,199,R76,A80,C80,S76,Sea Blue\r\n239,239,239,R77,A87,C87,S77,Ghost While\r\n209,209,209,R78,A88,C88,S78,Ash Grey\r\n187,188,188,R79,A89,C89,S79,Light Gray\r\n153,155,48,R90,A85,C85,S80,Dark Olive\r\n205,178,119,R81,A74,C74,S81,Deer\r\n181,129,80,R82,A75,C75,S82,Clay\r\n184,97,37,R83,A73,C73,S83,Sienna\r\n170,87,97,R84,A77,C77,S84,Deep Chestnut\r\n92,19,27,R85,A78,C78,S85,Red Wine\r\n234,170,0,R86,A71,C71,S86,Goldenrod\r\n255,109,106,R87,A76,C76,S87,Coral Red\r\n218,24,132,,,,S88,Dark Pink\r\n77,77,77,R88,A90,C90,S89,Charcoal Gray\r\n255,197,110,R80,A72,C72,S90,Pastel Orange\r\n24,48,40,R93,A70,C70,S91,Brunswick Green\r\n222,185,71,,A91,C91,S92,Dandelion\r\n218,182,152,,A92,C92,S93,Pale Skin\r\n244,169,153,,A93,C93,S94,Warm Blush\r\n238,125,103,,A94,C94,S95,Salmon\r\n240,134,97,,A95,C95,S96,Apricot\r\n212,114,42,,A96,C96,S97,Papaya\r\n100,172,223,,A97,C97,S98,Himalaya Blue\r\n100,194,220,,A98,C98,S99,Waterfall\r\n93,219,93,R56,A45,C45,,Spring Green\r\n108,194,74,,A55,C55,,Confier\r\n188,4,35,R65,A57,C57,,Fresh Red\r\n83,26,35,R62,A59,C59,,Scarlett\r\n241,235,156,,A61,C61,,Feta\r\n252,63,63,,A62,C62,,Carnation\r\n234,190,219,,A63,C63,,Pink Pearl\r\n165,0,80,,A64,C64,,Rose\r\n239,129,46,,A65,C65,,Mango Tango\r\n252,108,133,,A66,C66,,Wild Watermelon\r\n177,78,181,,A67,C67,,Orchid\r\n105,194,238,,A68,C68,,Toothpaste Blue\r\n255,197,110,R67,,,,Yolk Yellow";
+  // data/color-data-new.csv
+  var require_color_data_new = __commonJS({
+    "data/color-data-new.csv"(exports, module) {
+      module.exports = "R,G,B,Name,Artkal Midi,Artkal Mini,Artkal Mini Starter,Artkal Midi Soft,Artkal Mini Soft,All Perler,Perler Multi Mix,Perler Mini Assorted,Perler Mini Bulk,EvoRetro\r\n255,255,255,White,S01,C01,C01,R01,A01,,,,,\r\n255,163,139,Burning Sand,S02,C44,C44,R02,A44,,,,,\r\n246,176,76,Tangerine,S03,C03,C03,R03,A03,,,,,\r\n255,103,31,Orange,S04,C17,C17,R04,A17,,,,,\r\n225,6,0,Tall Poppy,S05,C05,C05,R05,A05,,,,,\r\n236,134,208,Raspberry Pink,S06,C49,,R06,A49,,,,,\r\n155,155,155,Gray,S07,C33,C33,R07,A33,,,,,\r\n36,222,91,Emerald,S08,,,R08,,,,,,\r\n0,104,94,Dark Green,S09,,,R09,,,,,,\r\n65,182,230,Baby Blue,S10,C19,C19,R10,A19,,,,,\r\n79,159,179,Lagoon,S100,C99,,,A99,,,,,\r\n49,150,221,Electric Blue,S101,C100,,,A100,,,,,\r\n27,108,182,Pool Blue,S102,C101,,,A101,,,,,\r\n8,57,128,Caribbean Blue,S103,C102,,,A102,,,,,\r\n10,102,139,Deep Water,S104,C103,,,A103,,,,,\r\n8,91,110,Petrol Blue,S105,C104,,,A104,,,,,\r\n0,78,120,Wegdewood Blue,S106,C105,,,A105,,,,,\r\n0,85,116,Pond Blue,S107,C106,,,A106,,,,,\r\n204,190,128,Seashell Beige,S108,C107,,,A107,,,,,\r\n164,147,80,Beige,S109,C108,,,A108,,,,,\r\n0,51,153,Dark Blue,S11,C21,C21,R11,A21,,,,,\r\n158,136,60,Beach Beige,S110,C109,,,A109,,,,,\r\n118,108,43,Caffe Latt\xE9,S111,C110,,,A110,,,,,\r\n121,95,38,Oaktree Brown,S112,C111,,,A111,,,,,\r\n186,184,162,Khaki,S113,C112,,,A112,,,,,\r\n114,140,84,Light Greengray,S114,C113,,,A113,,,,,\r\n126,124,68,Mossy Green,S115,C114,,,A114,,,,,\r\n100,105,46,Earth Green,S116,C115,,,A115,,,,,\r\n78,88,44,Sage Green,S117,C116,,,A116,,,,,\r\n74,94,45,Pinetree Green,S118,C117,,,A117,,,,,\r\n113,196,182,Frosty Blue,S119,C118,,,A118,,,,,\r\n160,94,181,Pastel Lavender,S12,C26,C26,R12,A26,,,,,\r\n102,204,153,Polar Mint,S120,C119,,,A119,,,,,\r\n86,154,131,Celadon Green,S121,C120,,,A120,,,,,\r\n20,194,91,Eucalyptus,S122,C121,,,A121,,,,,\r\n24,168,24,Clover Field,S123,C122,,,A122,,,,,\r\n4,85,46,Pooltable Felt,S124,C123,,,A123,,,,,\r\n19,107,90,Snake Green,S125,C124,,,A124,,,,,\r\n5,70,65,Dark Eucalyptus,S126,C125,,,A125,,,,,\r\n217,182,214,Marsmallow Rose,S127,C126,,,A126,,,,,\r\n173,98,164,Light Grape,S128,C127,,,A127,,,,,\r\n230,140,163,Rosebud Pink,S129,C128,,,A128,,,,,\r\n0,0,0,Black,S13,C02,C02,R13,A02,,,,,\r\n222,84,121,Fuschia,S130,C129,,,A129,,,,,\r\n158,130,186,Candy Violet,S131,C130,,,A130,,,,,\r\n232,65,107,Flamingo,S132,C131,,,A131,,,,,\r\n183,56,143,Pink Plum,S133,C132,,,A132,,,,,\r\n88,31,126,Amethyst,S134,C133,,,A133,,,,,\r\n140,163,212,Moonlight Blue,S135,C134,,,A134,,,,,\r\n154,154,204,Summer Rain,S136,C135,,,A135,,,,,\r\n89,129,193,Azure Blue,S137,C136,,,A136,,,,,\r\n65,102,176,Cornflower Blue,S138,C137,,,A137,,,,,\r\n71,95,171,Forget Me Not,S139,C138,,,A138,,,,,\r\n250,224,83,Sandstorm,S14,C42,C42,R14,A42,,,,,\r\n55,69,147,Indigo,S140,C139,,,A139,,,,,\r\n61,86,165,Horizon Blue,S141,C140,,,A140,,,,,\r\n41,66,135,Cobalt,S142,C141,,,A141,,,,,\r\n37,38,138,Royal Blue,S143,C142,,,A142,,,,,\r\n26,47,111,Marine,S144,C143,,,A143,,,,,\r\n211,201,93,Pale Yellow Moss,S145,C144,,,A144,,,,,\r\n81,9,24,Bloodrose Red,S146,C145,,,A145,,,,,\r\n100,179,158,Spearmint,S147,C146,,,A146,,,,,\r\n99,67,56,Mocha,S148,C147,,,A147,,,,,\r\n237,211,158,Creme,S149,C148,,,A148,,,,,\r\n122,62,44,Redwood,S15,C30,,R15,A30,,,,,\r\n105,99,171,Iris Violet,S150,C149,,,A149,,,,,\r\n43,63,31,Forest Green,S151,C150,,,A150,,,,,\r\n151,145,197,Lilac,S152,C151,,,A151,,,,,\r\n184,189,224,Pale Lilac,S153,C152,,,A152,,,,,\r\n249,200,152,Sahara Sand,S154,C153,,,A153,,,,,\r\n195,144,105,Sunkissed Teint,S155,C154,,,A154,,,,,\r\n90,90,90,Steel Grey,S156,C155,,,A155,,,,,\r\n60,60,60,Iron Grey,S157,C156,,,A156,,,,,\r\n26,26,26,Pepper,S158,C157,,,A157,,,,,\r\n139,139,139,Oslo Gray,S159,C56,,,A56,,,,,\r\n92,71,56,Brown,S16,C32,C32,R16,A32,,,,,\r\n123,77,53,Light Brown,S17,C31,C31,R17,A31,,,,,\r\n204,153,102,Sand,S18,C23,C23,R18,A23,,,,,\r\n252,191,169,Bubble Gum,S19,C22,C22,R19,A22,,,,,\r\n36,158,107,Green,S20,C14,,R20,A14,,,,,\r\n135,216,57,Pastel Green,S21,C13,C13,R21,A13,,,,,\r\n51,0,114,Purple,S22,C27,C27,R22,A27,,,,,\r\n100,53,155,Royal Purple,S23,,,R23,,,,,,\r\n20,123,209,True Blue,S24,C37,C37,R24,A37,,,,,\r\n255,52,179,Hot Pink,S25,C08,,R25,A08,,,,,\r\n219,33,82,Magenta,S26,C09,C09,R26,A09,,,,,\r\n255,209,0,Yellow,S27,C11,,R27,A11,,,,,\r\n234,184,228,Lily Pink,S28,,,R28,,,,,,\r\n246,235,97,Pastel Yellow,S29,C41,,R29,A41,,,,,\r\n153,214,234,Shadow Green,S30,C39,C39,R30,A39,,,,,\r\n158,229,176,Sea Mist,S31,C60,C60,R31,A60,,,,,\r\n255,231,128,Beeswax,S32,C24,,R32,A24,,,,,\r\n197,180,227,Maverick,S33,C50,C50,R33,A50,,,,,\r\n186,12,47,Red,S34,C06,,R34,A06,,,,,\r\n247,206,215,Mona Lisa,S35,,,R35,,,,,,\r\n201,128,158,Old Pink,S36,C36,,R36,A36,,,,,\r\n113,216,191,Blue-Green,S37,,,R37,,,,,,\r\n171,37,86,Burgundy,S38,,,R38,,,,,,\r\n237,139,0,Yellow Orange,S39,C04,C04,R39,A04,,,,,\r\n241,167,220,Carnation Pink,S40,C07,C07,R40,A07,,,,,\r\n154,85,22,Metallic Gold,S41,,,R41,,,,,,\r\n125,124,121,Metallic Silver,S42,C35,,R42,A35,,,,,\r\n118,119,119,Dark Gray,S43,C34,C34,R43,A34,,,,,\r\n170,220,235,Sky Blue,S44,C18,,R44,A18,,,,,\r\n0,178,169,Medium Turquoise,S45,C54,C54,R45,A54,,,,,\r\n115,211,60,Bright Green,S46,C53,,R46,A53,,,,,\r\n180,126,0,Marigold,S47,C28,,R47,A28,,,,,\r\n255,199,44,Corn,S48,C48,C48,R48,A48,,,,,\r\n114,25,95,Mulberry Wood,S49,,,R49,,,,,,\r\n250,170,114,Mandy's Pink,S50,,,R50,,,,,,\r\n252,251,205,Spring Sun,S51,C51,C51,R51,A51,,,,,\r\n242,240,161,Picasso,S52,C10,C10,R52,A10,,,,,\r\n105,179,231,Turquoise,S53,C38,C38,R53,A38,,,,,\r\n0,144,218,Light Blue,S54,C20,C20,R54,A20,,,,,\r\n173,220,145,Pistachio,S55,C12,C12,R57,A12,,,,,\r\n255,106,19,Bright Carrot,S56,C16,,R59,A16,,,,,\r\n164,73,61,Buccaneer,S57,C29,,R63,A29,,,,,\r\n165,0,52,Paprika,S58,C43,,R64,A43,,,,,\r\n74,31,135,Butterfly Bush,S59,C52,C52,,A52,,,,,\r\n167,123,202,Lavender,S60,C25,C25,R66,A25,,,,,\r\n206,220,0,Key Lime Pie,S61,C40,,R68,A40,,,,,\r\n0,124,88,Green Tea,S62,C15,C15,R69,A15,,,,,\r\n88,87,53,Metallic Copper,S63,,,R70,,,,,,\r\n5,8,73,Black Rock,S64,C58,,R55,A58,,,,,\r\n243,234,93,Canary,S65,C46,,R58,A46,,,,,\r\n244,99,58,Blaze Orange,S66,,,R60,,,,,,\r\n243,207,179,Vanilla,S67,C47,C47,R61,A47,,,,,\r\n225,192,120,Tan,S68,,,R71,,,,,,\r\n40,40,40,Mine Shaft,S69,C69,,R72,A69,,,,,\r\n155,188,17,Dark Algae,S70,C84,,R89,A84,,,,,\r\n0,133,34,Jade Green,S71,C86,C86,R73,A86,,,,,\r\n89,213,216,Light Sea Blue,S72,C79,C79,R74,A79,,,,,\r\n72,169,197,Steel Blue,S73,C81,C81,R91,A81,,,,,\r\n0,174,214,Azure,S74,C82,C82,R75,A82,,,,,\r\n0,133,173,Dark Steel Blue,S75,C83,,R92,A83,,,,,\r\n0,174,199,Sea Blue,S76,C80,,R76,A80,,,,,\r\n239,239,239,Ghost While,S77,C87,,R77,A87,,,,,\r\n209,209,209,Ash Grey,S78,C88,C88,R78,A88,,,,,\r\n187,188,188,Light Gray,S79,C89,,R79,A89,,,,,\r\n153,155,48,Dark Olive,S80,C85,,R90,A85,,,,,\r\n205,178,119,Deer,S81,C74,,R81,A74,,,,,\r\n181,129,80,Clay,S82,C75,,R82,A75,,,,,\r\n184,97,37,Sienna,S83,C73,,R83,A73,,,,,\r\n170,87,97,Deep Chestnut,S84,C77,,R84,A77,,,,,\r\n92,19,27,Red Wine,S85,C78,C78,R85,A78,,,,,\r\n234,170,0,Goldenrod,S86,C71,,R86,A71,,,,,\r\n255,109,106,Coral Red,S87,C76,,R87,A76,,,,,\r\n218,24,132,Dark Pink,S88,,,,,,,,,\r\n77,77,77,Charcoal Gray,S89,C90,,R88,A90,,,,,\r\n255,197,110,Pastel Orange,S90,C72,,R80,A72,,,,,\r\n24,48,40,Brunswick Green,S91,C70,C70,R93,A70,,,,,\r\n222,185,71,Dandelion,S92,C91,,,A91,,,,,\r\n218,182,152,Pale Skin,S93,C92,,,A92,,,,,\r\n244,169,153,Warm Blush,S94,C93,,,A93,,,,,\r\n238,125,103,Salmon,S95,C94,,,A94,,,,,\r\n240,134,97,Apricot,S96,C95,,,A95,,,,,\r\n212,114,42,Papaya,S97,C96,,,A96,,,,,\r\n100,172,223,Himalaya Blue,S98,C97,,,A97,,,,,\r\n100,194,220,Waterfall,S99,C98,,,A98,,,,,\r\n93,219,93,Spring Green,,C45,,R56,A45,,,,,\r\n108,194,74,Confier,,C55,,,A55,,,,,\r\n188,4,35,Fresh Red,,C57,C57,R65,A57,,,,,\r\n83,26,35,Scarlett,,C59,,R62,A59,,,,,\r\n241,235,156,Feta,,C61,,,A61,,,,,\r\n252,63,63,Carnation,,C62,,,A62,,,,,\r\n234,190,219,Pink Pearl,,C63,,,A63,,,,,\r\n165,0,80,Rose,,C64,C64,,A64,,,,,\r\n239,129,46,Mango Tango,,C65,,,A65,,,,,\r\n252,108,133,Wild Watermelon,,C66,,,A66,,,,,\r\n177,78,181,Orchid,,C67,,,A67,,,,,\r\n105,194,238,Toothpaste Blue,,C68,C68,,A68,,,,,\r\n255,197,110,Yolk Yellow,,,,R67,,,,,,\r\n255,255,255,White,,,,,,1,1,,1,\r\n190,195,191,Light Gray,,,,,,1,,,1,\r\n150,152,156,Gray,,,,,,1,1,,1,\r\n147,161,159,Pewter,,,,,,1,,,,\r\n84,95,95,Charcoal,,,,,,1,,,,\r\n86,87,92,Dark Gray,,,,,,1,,,,\r\n0,0,0,Black,,,,,,1,1,,1,\r\n241,229,216,Toasted Marshmallow,,,,,,1,,,1,\r\n234,196,159,Sand,,,,,,1,,,1,\r\n215,176,135,Fawn,,,,,,1,,,,\r\n207,168,137,Tan,,,,,,1,1,,1,\r\n160,78,63,Rust,,,,,,1,,,,\r\n136,64,79,Cranapple,,,,,,1,,,,\r\n164,123,71,Light Brown,,,,,,1,1,,1,\r\n126,84,70,Gingerbread,,,,,,1,,,,\r\n108,82,77,Brown,,,,,,1,1,,1,\r\n237,231,186,Creme,,,,,,1,,,,\r\n250,238,141,Pastel Yellow,,,,,,1,,,,\r\n249,215,55,Yellow,,,,,,1,1,,1,\r\n255,182,78,Cheddar,,,,,,1,1,,,\r\n255,128,62,Orange,,,,,,1,,,1,\r\n225,154,82,Butterscotch,,,,,,1,1,,1,\r\n218,140,44,Honey,,,,,,1,,,,\r\n255,97,88,Hot Coral,,,,,,1,1,,,\r\n255,119,127,Salmon,,,,,,1,,,,\r\n255,158,141,Blush,,,,,,1,1,,,\r\n255,181,190,Flamingo,,,,,,1,,,,\r\n252,198,184,Peach,,,,,,1,,,1,\r\n245,192,213,Light Pink,,,,,,1,,,,\r\n225,109,157,Bubblegum,,,,,,1,,,1,\r\n230,87,148,Pink,,,,,,1,,,,\r\n243,70,118,Magenta,,,,,,1,,,,\r\n196,58,68,Red,,,,,,1,1,,1,\r\n173,51,69,Cherry,,,,,,1,,,,\r\n173,60,108,Raspberry,,,,,,1,1,,,\r\n178,95,170,Plum,,,,,,1,1,,,\r\n180,166,211,Lavender,,,,,,1,,,,\r\n149,130,187,Pastel Lavender,,,,,,1,1,,1,\r\n111,84,147,Purple,,,,,,1,1,,1,\r\n135,167,225,Blueberry Cr\xE8me,,,,,,1,,,,\r\n108,136,191,Periwinkle,,,,,,1,,,,\r\n180,217,223,Robin's Egg,,,,,,1,,,,\r\n99,169,214,Pastel Blue,,,,,,1,,,,\r\n39,138,203,Light Blue,,,,,,1,1,,1,\r\n0,102,179,Cobalt,,,,,,1,,,,\r\n43,48,124,Dark Blue,,,,,,1,1,,1,\r\n22,40,70,Midnight,,,,,,1,,,,\r\n176,232,213,Toothpaste,,,,,,1,1,,1,\r\n0,143,204,Turquoise,,,,,,1,1,,1,\r\n56,199,175,Light Green,,,,,,1,,,,\r\n0,150,138,Parrot Green,,,,,,1,1,,,\r\n115,213,148,Pastel Green,,,,,,1,1,,,\r\n119,202,74,Kiwi Lime,,,,,,1,1,,1,\r\n84,177,96,Bright Green,,,,,,1,,,1,\r\n0,150,84,Shamrock,,,,,,1,,,,\r\n16,131,85,Dark Green,,,,,,1,1,,1,\r\n203,215,53,Prickly Pear,,,,,,1,,,,\r\n60,97,79,Evergreen,,,,,,1,,,,\r\n216,0,1,Red,,,,,,,,,,1\r\n3,55,165,Royal Blue,,,,,,,,,,1\r\n180,180,180,Gray,,,,,,,,,,1\r\n253,137,0,Orange,,,,,,,,,,1\r\n3,90,47,Green,,,,,,,,,,1\r\n162,83,202,Purple,,,,,,,,,,1\r\n250,127,207,Pink,,,,,,,,,,1\r\n255,223,204,Nude,,,,,,,,,,1\r\n171,230,235,Sky Blue,,,,,,,,,,1\r\n255,225,3,Yellow,,,,,,,,,,1\r\n116,66,41,Brown,,,,,,,,,,1\r\n134,214,127,Light Green,,,,,,,,,,1\r\n0,0,0,Black,,,,,,,,,,1\r\n255,255,255,White,,,,,,,,,,1";
     }
   });
 
@@ -657,7 +657,7 @@
   // src/components/svg.css
   var require_svg = __commonJS({
     "src/components/svg.css"(exports, module) {
-      module.exports = "line.gridmajor {\r\n    stroke-width: 2px;\r\n    stroke: rgba(0, 0, 0, 0.5);\r\n}\r\n\r\nline.gridminor {\r\n    stroke-width: 1px;\r\n    stroke: rgba(0, 0, 0, 0.2);\r\n}\r\n\r\ntext {\r\n    font-family: 'Courier New', Courier, monospace;\r\n    font-weight: bold;\r\n    font-size: 31px;\r\n    fill: black;\r\n    pointer-events: none;\r\n}\r\n\r\nuse.dark text,\r\ntext.dark {\r\n    fill: white;\r\n}\r\n\r\nuse.light text,\r\ntext.light {\r\n    fill: black;\r\n}\r\n";
+      module.exports = "line.gridmajor {\r\n    stroke-width: 2px;\r\n    stroke: rgba(0, 0, 0, 0.5);\r\n    pointer-events: none;\r\n}\r\n\r\nline.gridminor {\r\n    stroke-width: 1px;\r\n    stroke: rgba(0, 0, 0, 0.2);\r\n    pointer-events: none;\r\n}\r\n\r\ntext {\r\n    font-family: 'Courier New', Courier, monospace;\r\n    font-weight: bold;\r\n    font-size: 31px;\r\n    fill: black;\r\n    pointer-events: none;\r\n}\r\n\r\nuse.dark text,\r\ntext.dark {\r\n    fill: white;\r\n}\r\n\r\nuse.light text,\r\ntext.light {\r\n    fill: black;\r\n}\r\n";
     }
   });
 
@@ -828,31 +828,36 @@
 
   // src/color-data.ts
   function loadColorData() {
-    const colorDataRaw = parseCsv(require_colors());
-    const rows = assertCsv(colorDataRaw, ["R", "G", "B", "Artkal Midi Soft", "Artkal Mini Soft", "Artkal Mini", "Artkal Midi", "Name"]);
-    const colorData2 = [];
-    for (const r3 of rows) {
-      for (let i3 = 3; i3 < r3.length - 1; i3++) {
-        if (r3[i3].length) {
-          colorData2.push({
-            name: r3[r3.length - 1],
-            code: r3[i3],
-            r: +r3[0],
-            R: +r3[0],
-            g: +r3[1],
-            G: +r3[1],
-            b: +r3[2],
-            B: +r3[2]
-          });
+    const colorDataRaw = parseCsv(require_color_data_new());
+    console.assert(colorDataRaw.headers[0] === "R", "R");
+    console.assert(colorDataRaw.headers[1] === "G", "G");
+    console.assert(colorDataRaw.headers[2] === "B", "B");
+    console.assert(colorDataRaw.headers[3] === "Name", "Name");
+    const sets = [];
+    for (let i3 = 4; i3 < colorDataRaw.headers.length; i3++) {
+      sets.push({
+        name: colorDataRaw.headers[i3],
+        colors: []
+      });
+    }
+    for (const r3 of colorDataRaw.rows) {
+      for (let i3 = 4; i3 < r3.length; i3++) {
+        const codeInThisSet = r3[i3];
+        if (codeInThisSet.length) {
+          const entry = {
+            r: parseInt(r3[0]),
+            g: parseInt(r3[1]),
+            b: parseInt(r3[2]),
+            name: r3[3]
+          };
+          if (codeInThisSet !== "1") {
+            entry.code = r3[i3];
+          }
+          sets[i3 - 4].colors.push(entry);
         }
       }
     }
-    return colorData2;
-  }
-  function assertCsv(c3, headers) {
-    if (JSON.stringify(headers) !== JSON.stringify(c3.headers))
-      throw new Error("Headers don't match");
-    return c3.rows;
+    return {sets};
   }
 
   // src/utils.tsx
@@ -915,12 +920,18 @@
     const xa = carveAxis(width, xSize);
     const ya = carveAxis(height, ySize);
     let cy = 0;
+    let row = 0;
     for (const y3 of ya) {
       let cx = 0;
+      let col = 0;
+      row++;
       for (const x3 of xa) {
+        col++;
         res.push({
           x: cx,
           y: cy,
+          row,
+          col,
           width: x3,
           height: y3
         });
@@ -945,6 +956,9 @@
     }
     res.push(remaining);
     return res;
+  }
+  function assertNever(n2, message) {
+    throw new Error(`Invalid ${n2} - ${message}`);
   }
 
   // src/palettizer.ts
@@ -993,22 +1007,19 @@
     }
     inputColors.sort((a3, b3) => b3.count - a3.count);
     const diff3 = colorDiff[settings.colorMatch];
-    for (const r3 of inputColors) {
+    for (const inColor of inputColors) {
       if (allowedColors === void 0) {
-        let R = r3.color & 255, G = r3.color >> 8 & 255, B = r3.color >> 16 & 255;
+        let r3 = inColor.color & 255, g3 = inColor.color >> 8 & 255, b3 = inColor.color >> 16 & 255;
         tempAssignments.push({
-          color: r3.color,
+          color: inColor.color,
           target: {
-            R,
-            G,
-            B,
-            r: R,
-            g: G,
-            b: B,
-            name: colorEntryToHex({r: R, g: G, b: B}),
+            r: r3,
+            g: g3,
+            b: b3,
+            name: colorEntryToHex({r: r3, g: g3, b: b3}),
             code: ""
           },
-          count: r3.count
+          count: inColor.count
         });
       } else {
         let bestTarget = void 0;
@@ -1018,7 +1029,7 @@
             if (tempAssignments.some((t3) => t3.target === c3))
               continue;
           }
-          const score = diff3(r3, c3);
+          const score = diff3(inColor, c3);
           if (score < bestScore) {
             bestTarget = c3;
             bestScore = score;
@@ -1027,9 +1038,9 @@
         if (bestTarget === void 0)
           throw new Error("impossible");
         tempAssignments.push({
-          color: r3.color,
+          color: inColor.color,
           target: bestTarget,
-          count: r3.count
+          count: inColor.count
         });
       }
     }
@@ -1046,7 +1057,6 @@
 
   // src/image-utils.tsx
   var colorData = loadColorData();
-  var artkalStarterCodes = "CT1,C01,C88,C33,C34,C02,C51,C47,C23,C31,C32,C78,C22,C44,C07,C09,C05,C57,C50,C25,C26,C52,C27,C64,C10,C42,C48,C03,C04,C17,C12,C13,C14,C86,C15,C70,C39,C60,C79,C54,C81,C82,C68,C19,C38,C20,C37,C21".split(",");
   function imageDataToRgbaArray(imageData) {
     const raw = [];
     for (let y3 = 0; y3 < imageData.height; y3++) {
@@ -1086,7 +1096,6 @@
       dstContext.scale(-1, 1);
       dstContext.translate(-image.width, 0);
     }
-    console.log(dstContext.filter);
     dstContext.drawImage(srcCanvas, 0, 0);
     return dstContext.getImageData(0, 0, image.width, image.height);
   }
@@ -1137,13 +1146,14 @@
     mark("Descale with no match");
     return imageData;
     function areSame(x0, y0, x1, y1) {
+      if (x0 >= imageData.width || y0 >= imageData.height)
+        return true;
       const c0 = (y0 * imageData.width + x0) * 4;
       const c1 = (y1 * imageData.width + x1) * 4;
       return data[c0] === data[c1] && data[c0 + 1] === data[c1 + 1] && data[c0 + 2] === data[c1 + 2] && data[c0 + 3] === data[c1 + 3];
     }
   }
   function applyTransparencyAndCrop(imageData, transparentValue) {
-    imageData = descale(imageData);
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
     for (let y3 = 0; y3 < imageData.height; y3++) {
@@ -1174,6 +1184,8 @@
     }
     return newImage;
     function isTransparent(n2) {
+      if (isNaN(transparentValue))
+        return false;
       if (transparentValue === 0) {
         return (n2 >> 24) * 255 === 0;
       }
@@ -1248,7 +1260,8 @@
         transparency = getCornerTransparency(imageData);
         break;
     }
-    const croppedImageData = applyTransparencyAndCrop(imageData, transparency);
+    const descaledImageData = imageSettings.descale ? descale(imageData) : imageData;
+    const croppedImageData = applyTransparencyAndCrop(descaledImageData, transparency);
     mark("Apply transparency & crop");
     const adjustedImageData = applyImageAdjustments(croppedImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100, imageSettings.flip, imageSettings.mirror);
     mark("Adjust image");
@@ -1259,17 +1272,25 @@
     let allowedColors;
     switch (materialSettings.palette) {
       case "artkal-all-mini":
-        allowedColors = colorData.filter((c3) => c3.code.startsWith("C"));
+        allowedColors = colorData.sets.filter((f3) => f3.name === "Artkal Mini")[0].colors;
         break;
       case "artkal-mini-starter":
-        allowedColors = colorData.filter((c3) => artkalStarterCodes.includes(c3.code));
+        allowedColors = colorData.sets.filter((f3) => f3.name === "Artkal Mini Starter")[0].colors;
+        break;
+      case "perler-all":
+        allowedColors = colorData.sets.filter((f3) => f3.name === "All Perler")[0].colors;
+        break;
+      case "perler-multimix":
+        allowedColors = colorData.sets.filter((f3) => f3.name === "Perler Multi Mix")[0].colors;
+        break;
+      case "evoretro":
+        allowedColors = colorData.sets.filter((f3) => f3.name === "EvoRetro")[0].colors;
         break;
       case "all":
         allowedColors = void 0;
         break;
       default:
-        allowedColors = colorData;
-        break;
+        assertNever(materialSettings.palette, "Unknown palette");
     }
     const palette = makePalette(rgbaArray, allowedColors, materialSettings);
     mark("Create palette");
@@ -1365,6 +1386,21 @@
         title: "Buy"
       }, "\u{1F6D2}"))],
       ["artkal-all-mini", "All Artkal Mini"],
+      ["perler-all", /* @__PURE__ */ a("span", null, "All Perler ", /* @__PURE__ */ a("a", {
+        href: "https://amzn.to/3kPFwL9",
+        target: "_blank",
+        title: "Buy"
+      }, "\u{1F6D2}"))],
+      ["perler-multimix", /* @__PURE__ */ a("span", null, "Perler Multi Mix ", /* @__PURE__ */ a("a", {
+        href: "https://amzn.to/2WjPiLU",
+        target: "_blank",
+        title: "Buy"
+      }, "\u{1F6D2}"))],
+      ["evoretro", /* @__PURE__ */ a("span", null, "Evoretro ", /* @__PURE__ */ a("a", {
+        href: "https://amzn.to/39Lp3kO",
+        target: "_blank",
+        title: "Buy"
+      }, "\u{1F6D2}"))],
       ["all", "All Colors"]
     ],
     size: [
@@ -1407,10 +1443,9 @@
       ["none", "None"]
     ],
     grid: [
-      ["56", "56"],
+      ["auto", "Auto"],
       ["50", "50"],
-      ["29", "29"],
-      ["28", "28"],
+      ["25", "25"],
       ["10", "10"],
       ["none", "None"]
     ],
@@ -1522,6 +1557,9 @@
       size: settings.paperSize
     });
     const stream = doc.pipe(blobStream());
+    if (settings.style === "legend") {
+      drawLegend(doc, image);
+    }
     const paperWidthPts = doc.page.width;
     const paperHeightPts = doc.page.height;
     const printableWidthPts = paperWidthPts - pageMarginPts * 2;
@@ -1584,6 +1622,7 @@
         }
       }
       const layout = getLayout(slicesToPrint.length, paperWidthPts, paperHeightPts, pageMarginPts, imageCellSizePts.width, imageCellSizePts.height);
+      const multipleSlices = slices.length > 1;
       for (const stp of slicesToPrint) {
         const pos = layout.shift();
         const done = pos.next(doc, stp.slice.width * pitchPts, stp.slice.height * pitchPts);
@@ -1595,6 +1634,7 @@
           pitch: pitchPts,
           textPlacement,
           cellHeaderHeightPts,
+          multipleSlices,
           debug: settings.debug
         });
         done();
@@ -1619,7 +1659,7 @@
             }
           }
           const color = image.partList[i3].target;
-          doc.fill([color.R, color.G, color.B]);
+          doc.fill([color.r, color.g, color.b]);
         }
         done();
       }
@@ -1637,7 +1677,7 @@
             const px = image.pixels[y3][x3];
             if (px === -1)
               continue;
-            doc.text(image.partList[px].symbol, (cx + 0.5) * pitchPts, (cy + 0.5) * pitchPts, {align: "center", baseline: "middle", height: pitchPts, width: pitchPts});
+            doc.text(image.partList[px].symbol, cx * pitchPts, cy * pitchPts, {align: "center", baseline: "middle", height: pitchPts, width: pitchPts});
           }
         }
         done();
@@ -1647,6 +1687,44 @@
       window.open(stream.toBlobURL("application/pdf"), "_blank");
     });
     doc.end();
+  }
+  function drawLegend(doc, image) {
+    doc.save();
+    doc.fontSize(16);
+    const symbolColumnWidth = 5 + Math.max.apply(Math, image.partList.map((p3) => doc.widthOfString(p3.symbol)));
+    const codeColumnWidth = 5 + Math.max.apply(Math, image.partList.map((p3) => doc.widthOfString(p3.target.code ?? "")));
+    const countColumnWidth = 5 + Math.max.apply(Math, image.partList.map((p3) => doc.widthOfString(p3.count.toLocaleString())));
+    const swatchColumnWidth = 32;
+    const nameColumnWidth = 5 + Math.max.apply(Math, image.partList.map((p3) => doc.widthOfString(p3.target.name)));
+    const lineMargin = 2;
+    const lineHeight = lineMargin * 2 + doc.heightOfString("I like you, person reading this code");
+    doc.translate(inchesToPoints(1), inchesToPoints(1));
+    let x3 = 0;
+    let y3 = 0;
+    for (let i3 = 0; i3 < image.partList.length; i3++) {
+      x3 = 0;
+      doc.text(image.partList[i3].symbol, x3, y3 + lineMargin, {width: symbolColumnWidth, height: lineHeight, align: "center"});
+      x3 += symbolColumnWidth;
+      doc.rect(x3, y3 + lineMargin, swatchColumnWidth - 5, lineHeight - lineMargin * 2);
+      doc.fill([image.partList[i3].target.r, image.partList[i3].target.g, image.partList[i3].target.b]);
+      doc.fillColor("black");
+      x3 += swatchColumnWidth;
+      doc.text(image.partList[i3].count.toLocaleString(), x3, y3 + lineMargin, {width: countColumnWidth - 5, align: "right"});
+      x3 += countColumnWidth;
+      const code = image.partList[i3].target.code;
+      if (code !== void 0) {
+        doc.text(code, x3, y3 + lineMargin, {width: codeColumnWidth});
+        x3 += codeColumnWidth;
+      }
+      doc.text(image.partList[i3].target.name, x3, y3 + lineMargin, {width: nameColumnWidth});
+      x3 += nameColumnWidth;
+      doc.moveTo(0, y3);
+      doc.lineTo(x3, y3);
+      doc.stroke("grey");
+      y3 += lineHeight;
+    }
+    doc.restore();
+    doc.addPage();
   }
   function generateImageSlices(image, size) {
     const carves1 = carve(image.width, image.height, size[0], size[1]);
@@ -1658,6 +1736,8 @@
       height: c3.height,
       x: c3.x,
       y: c3.y,
+      row: c3.row,
+      col: c3.col,
       forEach: makeForEach(image, c3.x, c3.y, c3.width, c3.height)
     })).filter((slice) => isAnyPixel(slice, (p3) => !!p3));
   }
@@ -1695,7 +1775,7 @@
       width: slice.width * pitch,
       height: slice.height * pitch
     };
-    const text = `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`;
+    const text = opts.multipleSlices ? `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name}) Row ${slice.row} Col ${slice.col}` : `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`;
     if (opts.textPlacement === "side") {
       if (opts.debug) {
         doc.rect(0, 0, gridSizePts.width + opts.cellHeaderHeightPts, gridSizePts.height);
@@ -1938,7 +2018,7 @@
         carveSize: getGridSize(props.gridSize),
         pitch: getPitch(props.gridSize),
         filename: props.filename.replace(".png", ""),
-        debug: true
+        debug: window.location.host.indexOf("localhost") === 0
       };
       makePdf(props.image, settings);
     }
@@ -2181,7 +2261,8 @@
       image
     }), /* @__PURE__ */ a(GridLayer, {
       image,
-      grid: displaySettings.grid
+      grid: displaySettings.grid,
+      boardSize: props.gridSize
     }), /* @__PURE__ */ a(TextLayer, {
       image,
       planStyle: props.displaySettings.planStyle,
@@ -2298,7 +2379,12 @@
       clearChildren(gridLayer.current);
       const target = gridLayer.current;
       if (grid !== "none") {
-        const gridInterval = +grid;
+        let gridInterval;
+        if (grid === "auto") {
+          gridInterval = getGridSize(props.boardSize)[0];
+        } else {
+          gridInterval = parseInt(grid);
+        }
         for (let y3 = 0; y3 <= image.height; y3++) {
           const line = document.createElementNS(svgns, "line");
           line.classList.add("gridline");
@@ -2385,7 +2471,7 @@
   var DefaultAppProps = {
     display: {
       background: "#777",
-      grid: "56",
+      grid: "auto",
       planStyle: "none",
       refobj: "none"
     },
@@ -2395,7 +2481,7 @@
       saturation: 0,
       flip: false,
       mirror: false,
-      repixelate: false,
+      descale: false,
       transparency: "auto"
     },
     material: {
@@ -2432,6 +2518,9 @@
       }), renderTarget);
       window.localStorage.setItem("props", JSON.stringify(_props, (name2, val) => name2.startsWith("_") ? void 0 : val));
     }
+    function toggleProp(parent, name) {
+      updateProp(parent, name, !_props[parent][name]);
+    }
     function acceptUserImage(displayName, uri) {
       galleryStorage.add(displayName, uri);
       selectImage(displayName, uri);
@@ -2463,9 +2552,31 @@
           }
         });
         window.addEventListener("keydown", (evt) => {
-          if (evt.key === "Escape") {
-            updateProp("ui", "isPrintOpen", false);
-            updateProp("ui", "isUploadOpen", false);
+          if (evt.ctrlKey) {
+            switch (evt.key) {
+              case "o":
+                toggleProp("ui", "isUploadOpen");
+                break;
+              case "p":
+                toggleProp("ui", "isPrintOpen");
+                break;
+              case "l":
+                toggleProp("ui", "showLegend");
+                break;
+              case "e":
+                toggleProp("ui", "showSettings");
+                break;
+              default:
+                return;
+            }
+            evt.preventDefault();
+          } else {
+            switch (evt.key) {
+              case "Escape":
+                updateProp("ui", "isPrintOpen", false);
+                updateProp("ui", "isUploadOpen", false);
+                break;
+            }
           }
         });
       }, []);
@@ -2483,25 +2594,40 @@
       }, /* @__PURE__ */ a("div", {
         class: "toolbar"
       }, /* @__PURE__ */ a("button", {
-        class: "toolbar-button",
-        title: "Upload",
-        onClick: () => updateProp("ui", "isUploadOpen", true)
-      }, "\u{1F4C2}"), /* @__PURE__ */ a("button", {
-        class: "toolbar-button",
-        title: "Settings",
-        onClick: () => updateProp("ui", "showSettings", !props.ui.showSettings)
-      }, "\u2699"), /* @__PURE__ */ a("button", {
-        class: "toolbar-button",
-        title: "Print...",
-        onClick: () => updateProp("ui", "isPrintOpen", true)
-      }, "\u{1F5A8}"), /* @__PURE__ */ a("button", {
-        class: "toolbar-button",
-        title: "Legend",
-        onClick: () => updateProp("ui", "showLegend", !props.ui.showLegend)
-      }, "\u{1F4C3}"), /* @__PURE__ */ a("button", {
-        class: "toolbar-button",
-        title: "Help"
-      }, "\u2753")), /* @__PURE__ */ a("div", {
+        class: `toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`,
+        onClick: () => toggleProp("ui", "isUploadOpen")
+      }, "Open"), /* @__PURE__ */ a("button", {
+        class: `toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`,
+        onClick: () => toggleProp("ui", "isPrintOpen")
+      }, "Print"), /* @__PURE__ */ a("span", {
+        class: "toolbar-divider"
+      }), /* @__PURE__ */ a("button", {
+        class: `toolbar-button ${props.ui.showSettings ? "on" : "off"} text`,
+        onClick: () => toggleProp("ui", "showSettings")
+      }, "Settings"), /* @__PURE__ */ a("button", {
+        class: `toolbar-button ${props.ui.showLegend ? "on" : "off"} text`,
+        onClick: () => toggleProp("ui", "showLegend")
+      }, "Legend"), /* @__PURE__ */ a("span", {
+        class: "toolbar-divider"
+      }), /* @__PURE__ */ a("a", {
+        class: `toolbar-button icon`,
+        title: "Help",
+        href: "https://github.com/SeaRyanC/firaga-io/help.md"
+      }, /* @__PURE__ */ a("img", {
+        src: "./icons/help.svg"
+      })), /* @__PURE__ */ a("a", {
+        class: `toolbar-button icon`,
+        title: "GitHub",
+        href: "https://github.com/SeaRyanC/firaga-io"
+      }, /* @__PURE__ */ a("img", {
+        src: "./icons/github.svg"
+      })), /* @__PURE__ */ a("a", {
+        class: `toolbar-button icon`,
+        title: "Twitter",
+        href: "https://twitter.com/firaga_io"
+      }, /* @__PURE__ */ a("img", {
+        src: "./icons/twitter.svg"
+      }))), /* @__PURE__ */ a("div", {
         class: "app-main"
       }, props.ui.showSettings && /* @__PURE__ */ a("div", {
         class: "settings"
@@ -2517,7 +2643,8 @@
       })), image ? /* @__PURE__ */ a(PlanSvg, {
         image,
         pitch,
-        displaySettings: props.display
+        displaySettings: props.display,
+        gridSize: props.material.size
       }) : /* @__PURE__ */ a("div", null, "Loading..."), props.ui.showLegend && image && /* @__PURE__ */ a(Legend, {
         partList: image.partList
       })), props.ui.isUploadOpen && /* @__PURE__ */ a(GalleryContainer, {
@@ -2538,9 +2665,7 @@
     function ImageSettingsRow(props) {
       return /* @__PURE__ */ a("div", {
         class: "settings-row"
-      }, /* @__PURE__ */ a("details", {
-        open: true
-      }, /* @__PURE__ */ a("summary", null, "Image Settings"), /* @__PURE__ */ a("div", {
+      }, /* @__PURE__ */ a("h1", null, "Image"), /* @__PURE__ */ a("div", {
         class: "options-row"
       }, /* @__PURE__ */ a("div", {
         class: "options-group"
@@ -2554,14 +2679,12 @@
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"
-      }, "Transforms"), getCheckbox(props, "image", "flip", "Flip"), getCheckbox(props, "image", "mirror", "Mirror")))));
+      }, "Transforms"), getCheckbox(props, "image", "flip", "Flip"), getCheckbox(props, "image", "mirror", "Mirror"), getCheckbox(props, "image", "descale", "Undo Upscaling"))));
     }
     function MaterialSettingsRow(props) {
       return /* @__PURE__ */ a("div", {
         class: "settings-row"
-      }, /* @__PURE__ */ a("details", {
-        open: true
-      }, /* @__PURE__ */ a("summary", null, "Material Settings"), /* @__PURE__ */ a("div", {
+      }, /* @__PURE__ */ a("h1", null, "Material"), /* @__PURE__ */ a("div", {
         class: "options-row"
       }, /* @__PURE__ */ a("div", {
         class: "options-group"
@@ -2575,7 +2698,7 @@
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"
-      }, "Grid Size"), getRadioGroup(props, "material", "size", MaterialSettings.size)))));
+      }, "Grid Size"), getRadioGroup(props, "material", "size", MaterialSettings.size))));
     }
     function Legend({partList}) {
       return /* @__PURE__ */ a("table", {
@@ -2637,9 +2760,7 @@
     function DisplaySettingsRow(props) {
       return /* @__PURE__ */ a("div", {
         class: "settings-row"
-      }, /* @__PURE__ */ a("details", {
-        open: true
-      }, /* @__PURE__ */ a("summary", null, "Plan Settings"), /* @__PURE__ */ a("div", {
+      }, /* @__PURE__ */ a("h1", null, "Plan"), /* @__PURE__ */ a("div", {
         class: "options-row"
       }, /* @__PURE__ */ a("div", {
         className: "options-group"
@@ -2657,7 +2778,7 @@
         className: "options-group"
       }, /* @__PURE__ */ a("span", {
         className: "header"
-      }, "Comparison"), getRadioGroup(props, "display", "refobj", DisplaySettings.refobj)))));
+      }, "Comparison"), getRadioGroup(props, "display", "refobj", DisplaySettings.refobj))));
     }
     function GalleryContainer(props) {
       const fileInputRef = s2();

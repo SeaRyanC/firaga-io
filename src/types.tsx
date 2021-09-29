@@ -1,4 +1,5 @@
 import * as preact from 'preact';
+import { ColorEntry } from './color-data';
 import { PrintSettings } from './pdf-generator';
 import { RadioSettings } from "./utils";
 
@@ -15,7 +16,7 @@ export type RgbaImage = {
 };
 
 export type PalettizedImage = {
-    pixels: (ObjectColor | undefined)[][];
+    pixels: (ColorEntry | undefined)[][];
     width: number;
     height: number;
 };
@@ -23,15 +24,14 @@ export type PalettizedImage = {
 export type InputColorsToObjectColors = ColorAssignment[];
 export type ColorAssignment = {
     color: number,
-    target: ObjectColor,
+    target: ColorEntry,
     count: number
 };
 
 export type ObjectColor = {
     name: string,
     code: string,
-    r: number, g: number, b: number,
-    R: number, G: number, B: number
+    r: number, g: number, b: number
 };
 
 export type MaterialProps = RadioSettings<typeof MaterialSettings> & {
@@ -45,7 +45,7 @@ export type ImageProps = RadioSettings<typeof ImageSettings> & {
 
     flip: boolean;
     mirror: boolean;
-    repixelate: boolean;
+    descale: boolean;
 };
 
 export type PrintProps = {
@@ -81,8 +81,9 @@ export const MaterialSettings = {
     palette: [
         ["artkal-mini-starter", <span>Artkal Mini Starter Set <a href="https://amzn.to/3wThLo8" target="_blank" title="Buy">🛒</a></span>],
         ["artkal-all-mini", "All Artkal Mini"],
-        // ["perler-all", "All Perler"],
-        // ["webcolors", "Web Colors"],
+        ["perler-all", <span>All Perler <a href="https://amzn.to/3kPFwL9" target="_blank" title="Buy">🛒</a></span>],
+        ["perler-multimix", <span>Perler Multi Mix <a href="https://amzn.to/2WjPiLU" target="_blank" title="Buy">🛒</a></span>],
+        ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
         ["all", "All Colors"]
     ],
     size: [
@@ -115,10 +116,9 @@ export const DisplaySettings = {
         ["none", "None"],
     ],
     grid: [
-        ["56", "56"],
+        ["auto", "Auto"],
         ["50", "50"],
-        ["29", "29"],
-        ["28", "28"],
+        ["25", "25"],
         ["10", "10"],
         ["none", "None"]
     ],

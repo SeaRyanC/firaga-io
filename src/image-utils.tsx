@@ -1,18 +1,9 @@
-import { loadColorData } from './color-data';
+import { ColorEntry, loadColorData } from './color-data';
 import { makePalette, palettize } from './palettizer';
 import { ImageProps, InputColorsToObjectColors, MaterialProps, ObjectColor, PalettizedImage, RgbaImage } from './types';
-import { symbolAlphabet, timer } from './utils';
+import { assertNever, ReadonlyToMutableArray, symbolAlphabet, timer } from './utils';
 
 const colorData = loadColorData();
-const artkalStarterCodes =
-    ("CT1,C01,C88,C33,C34,C02," +
-        "C51,C47,C23,C31,C32,C78," +
-        "C22,C44,C07,C09,C05,C57," +
-        "C50,C25,C26,C52,C27,C64," +
-        "C10,C42,C48,C03,C04,C17," +
-        "C12,C13,C14,C86,C15,C70," +
-        "C39,C60,C79,C54,C81,C82," +
-        "C68,C19,C38,C20,C37,C21").split(",");
 
 export function imageDataToRgbaArray(imageData: ImageData): RgbaImage {
     const raw = [];
@@ -56,7 +47,6 @@ export function applyImageAdjustments(image: ImageData, brightnessPct: number, c
         dstContext.scale(-1, 1);
         dstContext.translate(-image.width, 0);
     }
-    console.log(dstContext.filter);
     dstContext.drawImage(srcCanvas, 0, 0);
     return dstContext.getImageData(0, 0, image.width, image.height);
 }
@@ -106,6 +96,7 @@ export function descale(imageData: ImageData) {
     return imageData;
 
     function areSame(x0: number, y0: number, x1: number, y1: number) {
+        if ((x0 >= imageData.width) || (y0 >= imageData.height)) return true;
         const c0 = (y0 * imageData.width + x0) * 4;
         const c1 = (y1 * imageData.width + x1) * 4;
         return data[c0] === data[c1] &&
@@ -116,7 +107,6 @@ export function descale(imageData: ImageData) {
 }
 
 export function applyTransparencyAndCrop(imageData: ImageData, transparentValue: number): ImageData {
-    imageData = descale(imageData);
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
     for (let y = 0; y < imageData.height; y++) {
@@ -151,6 +141,8 @@ export function applyTransparencyAndCrop(imageData: ImageData, transparentValue:
     return newImage;
 
     function isTransparent(n: number) {
+        if (isNaN(transparentValue)) return false;
+
         if (transparentValue === 0) {
             return (n >> 24) * 0xFF === 0;
         }
@@ -245,7 +237,8 @@ export function adjustImage(imageData: ImageData, imageSettings: ImageProps) {
             break;
     }
 
-    const croppedImageData: ImageData = applyTransparencyAndCrop(imageData, transparency);
+    const descaledImageData = imageSettings.descale ? descale(imageData) : imageData;
+    const croppedImageData: ImageData = applyTransparencyAndCrop(descaledImageData, transparency);
     mark("Apply transparency & crop");
 
     const adjustedImageData = applyImageAdjustments(croppedImageData,
@@ -265,17 +258,25 @@ export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialP
     let allowedColors;
     switch (materialSettings.palette) {
         case "artkal-all-mini":
-            allowedColors = colorData.filter(c => c.code.startsWith("C"));
+            allowedColors = colorData.sets.filter(f => f.name === "Artkal Mini")[0].colors;
             break;
         case "artkal-mini-starter":
-            allowedColors = colorData.filter(c => artkalStarterCodes.includes(c.code));
+            allowedColors = colorData.sets.filter(f => f.name === "Artkal Mini Starter")[0].colors;
+            break;
+        case "perler-all":
+            allowedColors = colorData.sets.filter(f => f.name === "All Perler")[0].colors;
+            break;
+        case "perler-multimix":
+            allowedColors = colorData.sets.filter(f => f.name === "Perler Multi Mix")[0].colors;
+            break;
+        case "evoretro":
+            allowedColors = colorData.sets.filter(f => f.name === "EvoRetro")[0].colors;
             break;
         case "all":
             allowedColors = undefined;
             break;
         default:
-            allowedColors = colorData;
-            break;
+            assertNever(materialSettings.palette, "Unknown palette");
     }
     const palette = makePalette(rgbaArray, allowedColors, materialSettings);
     mark("Create palette");
@@ -299,7 +300,7 @@ export type PartListImage = {
 export function createPartListImage(palette: InputColorsToObjectColors, quantized: PalettizedImage): PartListImage {
     const partList = getPartList(palette);
     const res: number[][] = new Array(quantized.height);
-    const lookup = new Map<ObjectColor, number>();
+    const lookup = new Map<ColorEntry, number>();
     for (let i = 0; i < partList.length; i++) {
         lookup.set(partList[i].target, i);
     }
@@ -323,14 +324,14 @@ export function createPartListImage(palette: InputColorsToObjectColors, quantize
 }
 
 export type PartListEntry = {
-    target: ObjectColor,
+    target: ColorEntry,
     symbol: string,
     count: number
 };
 
 export type PartList = ReadonlyArray<PartListEntry>;
 export function getPartList(palette: InputColorsToObjectColors): PartList {
-    const res = [];
+    const res: ReadonlyToMutableArray<PartList> = [];
     for (const ent of palette) {
         const extant = res.filter(e => e.target === ent.target)[0];
         if (extant) {

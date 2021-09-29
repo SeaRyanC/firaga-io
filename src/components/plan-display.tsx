@@ -1,8 +1,8 @@
 import * as preact from 'preact';
 import { useEffect, useRef } from "preact/hooks";
 import { PartListEntry, PartListImage } from "../image-utils";
-import { AppProps, DisplayProps } from "../types";
-import { colorEntryToHtml, isBright, timer } from "../utils";
+import { AppProps, DisplayProps, MaterialProps } from "../types";
+import { colorEntryToHtml, getGridSize, isBright, timer } from "../utils";
 
 const svgns = "http://www.w3.org/2000/svg";
 declare const require: any;
@@ -29,7 +29,8 @@ const refObjs = {
 export function PlanSvg(props: {
     image: PartListImage,
     displaySettings: AppProps["display"],
-    pitch: number
+    pitch: number,
+    gridSize: MaterialProps["size"]
 }) {
     const {
         image,
@@ -59,7 +60,7 @@ export function PlanSvg(props: {
 
         <BackgroundLayer image={image} bg={displaySettings.background} />
         <ColorLayer image={image} />
-        <GridLayer image={image} grid={displaySettings.grid} />
+        <GridLayer image={image} grid={displaySettings.grid} boardSize={props.gridSize} />
         <TextLayer image={image} planStyle={props.displaySettings.planStyle} isBackgroundDark={isBackgroundDark} />
         <RefObjLayer pitch={props.pitch} name={displaySettings.refobj} />
     </svg>;
@@ -160,12 +161,13 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
     }
 }
 
-function GridLayer(props: { image: PartListImage, grid: DisplayProps["grid"] }) {
+function GridLayer(props: { image: PartListImage, grid: DisplayProps["grid"], boardSize: MaterialProps["size"] }) {
     const { image, grid } = props;
     const gridLayer = useRef<SVGGElement>(null!);
     useEffect(() => {
         renderGrid();
     }, [image, grid]);
+    // TODO: Use the same carving algorithm as the printer to display grid lines
     return <g ref={gridLayer} />;
 
     function renderGrid() {
@@ -174,7 +176,13 @@ function GridLayer(props: { image: PartListImage, grid: DisplayProps["grid"] }) 
         const target = gridLayer.current;
         // Grid lines
         if (grid !== "none") {
-            const gridInterval = +grid;
+            let gridInterval;
+            if (grid === "auto") {
+                // TODO: Support two-axis grid size?
+                gridInterval = getGridSize(props.boardSize)[0];
+            } else {
+                gridInterval = parseInt(grid);
+            }
             for (let y = 0; y <= image.height; y++) {
                 const line = document.createElementNS(svgns, "line");
                 line.classList.add("gridline");

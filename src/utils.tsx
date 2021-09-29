@@ -1,9 +1,12 @@
 import preact = require('preact');
 import diff = require('color-diff');
 import { AppProps, PalettizedImage, RgbaImage } from './types';
+import { ColorEntry } from './color-data';
 
 export const symbolAlphabet = "ABCDEFGHJKLMNPQRSTVXZαβΔθλπΦΨΩabcdefghijklmnopqrstuvwxyz0123456789";
 export const smallSymbolAlphabet = "○×★□";
+
+export type ReadonlyToMutableArray<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer U> ? U[] : never;
 
 /**
  * Pitch is the center-to-center distance between pegs (in mm). This is
@@ -96,17 +99,23 @@ export function radioGroup<K extends string, V extends Record<K, readonly (reado
     </>;
 }
 
-export function carve(width: number, height: number, xSize: number, ySize: number): ReadonlyArray<{ x: number, y: number, width: number, height: number }> {
+export function carve(width: number, height: number, xSize: number, ySize: number): ReadonlyArray<{ x: number, y: number, width: number, height: number, row: number, col: number }> {
     const res = [];
     const xa = carveAxis(width, xSize);
     const ya = carveAxis(height, ySize);
     let cy = 0;
+    let row = 0;
     for (const y of ya) {
         let cx = 0;
+        let col = 0;
+        row++;
         for (const x of xa) {
+            col++;
             res.push({
                 x: cx,
                 y: cy,
+                row,
+                col,
                 width: x,
                 height: y
             });
@@ -177,4 +186,15 @@ function renderPalettizedImageToCanvas(quantized: PalettizedImage, target: HTMLC
         }
     }
     ctx.putImageData(data, 0, 0);
+}
+
+export function assertNever(n: never, message: string) {
+    throw new Error(`Invalid ${n} - ${message}`);
+}
+
+export function nameOfColor(color: ColorEntry) {
+    if (color.code === undefined) {
+        return color.name;
+    }
+    return `${color.code} (${color.name})`;
 }

@@ -36,7 +36,7 @@ export function PrintDialog(props: PrintDialogProps) {
             carveSize: getGridSize(props.gridSize),
             pitch: getPitch(props.gridSize),
             filename: props.filename.replace(".png", ""),
-            debug: true
+            debug: window.location.host.indexOf("localhost") === 0
             // perspective: props.settings.perpsective,
         };
         makePdf(props.image, settings);

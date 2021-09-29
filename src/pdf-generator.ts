@@ -1,5 +1,5 @@
 import { PartListEntry, PartListImage } from "./image-utils";
-import { carve, colorEntryToHex, getPitch, hx, symbolAlphabet } from "./utils";
+import { carve, colorEntryToHex, getPitch, hx, nameOfColor, symbolAlphabet } from "./utils";
 
 declare const PDFDocument: typeof import("pdfkit");
 declare const blobStream: typeof import("blob-stream");
@@ -92,6 +92,10 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
     });
     const stream = doc.pipe(blobStream());
 
+    if (settings.style === "legend") {
+        drawLegend(doc, image);
+    }
+
     const paperWidthPts = doc.page.width;
     const paperHeightPts = doc.page.height;
 
@@ -182,6 +186,7 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
 
         const layout = getLayout(slicesToPrint.length, paperWidthPts, paperHeightPts, pageMarginPts, imageCellSizePts.width, imageCellSizePts.height);
 
+        const multipleSlices = slices.length > 1;
         for (const stp of slicesToPrint) {
             const pos = layout.shift()!;
             const done = pos.next(doc, stp.slice.width * pitchPts, stp.slice.height * pitchPts);
@@ -193,6 +198,7 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
                 pitch: pitchPts,
                 textPlacement,
                 cellHeaderHeightPts,
+                multipleSlices,
                 debug: settings.debug
             });
             done();
@@ -206,6 +212,7 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
                 doc.rect(0, 0, slice.width * pitchPts, slice.height * pitchPts);
                 doc.stroke("blue");
             }
+
             for (let i = 0; i < image.partList.length; i++) {
                 for (let y = slice.y; y < slice.y + slice.height; y++) {
                     const cy = y - slice.y;
@@ -217,7 +224,7 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
                     }
                 }
                 const color = image.partList[i].target;
-                doc.fill([color.R, color.G, color.B]);
+                doc.fill([color.r, color.g, color.b]);
             }
             done();
         }
@@ -234,7 +241,7 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
                     const cx = x - slice.x;
                     const px = image.pixels[y][x];
                     if (px === -1) continue;
-                    doc.text(image.partList[px].symbol, (cx + 0.5) * pitchPts, (cy + 0.5) * pitchPts, { align: "center", baseline: "middle", height: pitchPts, width: pitchPts });
+                    doc.text(image.partList[px].symbol, cx * pitchPts, cy * pitchPts, { align: "center", baseline: "middle", height: pitchPts, width: pitchPts });
                 }
             }
             done();
@@ -247,23 +254,79 @@ function makePdfWorker(image: PartListImage, settings: PrintSettings) {
     doc.end();
 }
 
+function drawLegend(doc: PDFKit.PDFDocument, image: PartListImage) {
+
+    doc.save();
+    doc.fontSize(16);
+    // Symbol, Color, Count, [Code], Name
+
+    const symbolColumnWidth = 5 + Math.max.apply(Math, image.partList.map(p => doc.widthOfString(p.symbol)));
+    const codeColumnWidth = 5 + Math.max.apply(Math, image.partList.map(p => doc.widthOfString(p.target.code ?? "")));
+    const countColumnWidth = 5 + Math.max.apply(Math, image.partList.map(p => doc.widthOfString(p.count.toLocaleString())));
+    const swatchColumnWidth = 32;
+    const nameColumnWidth = 5 + Math.max.apply(Math, image.partList.map(p => doc.widthOfString(p.target.name)));
+
+    const lineMargin = 2;
+    const lineHeight = lineMargin * 2 + doc.heightOfString("I like you, person reading this code");
+
+    doc.translate(inchesToPoints(1), inchesToPoints(1));
+    let x = 0;
+    let y = 0;
+    for (let i = 0; i < image.partList.length; i++) {
+        x = 0;
+
+        doc.text(image.partList[i].symbol, x, y + lineMargin, { width: symbolColumnWidth, height: lineHeight, align: "center" });
+        x += symbolColumnWidth;
+
+        doc.rect(x, y + lineMargin, swatchColumnWidth - 5, lineHeight - lineMargin * 2);
+        doc.fill([image.partList[i].target.r, image.partList[i].target.g, image.partList[i].target.b]);
+        doc.fillColor("black");
+        x += swatchColumnWidth;
+
+        doc.text(image.partList[i].count.toLocaleString(), x, y + lineMargin, { width: countColumnWidth - 5, align: "right" });
+        x += countColumnWidth;
+
+        const code = image.partList[i].target.code;
+        if (code !== undefined) {
+            doc.text(code, x, y + lineMargin, { width: codeColumnWidth });
+            x += codeColumnWidth;
+        }
+
+        doc.text(image.partList[i].target.name, x, y + lineMargin, { width: nameColumnWidth });
+        x += nameColumnWidth;
+
+        doc.moveTo(0, y);
+        doc.lineTo(x, y);
+        doc.stroke("grey");
+
+        y += lineHeight;
+    }
+
+    doc.restore();
+
+    doc.addPage();
+}
+
 type StepOptions = {
     image: PartListImage;
     partIndex: number;
-    slice: { x: number, y: number, width: number, height: number };
+    slice: { x: number, y: number, width: number, height: number, row: number, col: number };
     doc: PDFKit.PDFDocument;
     pitch: number;
     textPlacement: "side" | "top";
     cellHeaderHeightPts: number;
+    multipleSlices: boolean;
     debug: boolean;
 };
 
 type Slice = Readonly<{
-    image: PartListImage,
-    width: number,
-    height: number,
-    x: number,
-    y: number,
+    image: PartListImage;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+    row: number,
+    col: number;
 }>;
 
 type ImageSlice = Slice & {
@@ -280,6 +343,8 @@ function generateImageSlices(image: PartListImage, size: readonly [number, numbe
         height: c.height,
         x: c.x,
         y: c.y,
+        row: c.row,
+        col: c.col,
         forEach: makeForEach(image, c.x, c.y, c.width, c.height)
     })).filter(slice => isAnyPixel(slice, p => !!p));
 }
@@ -339,7 +404,9 @@ function printSteppedSlice(opts: StepOptions) {
     };
 
     // Print the header
-    const text = `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`;
+    const text = opts.multipleSlices ?
+         `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name}) Row ${slice.row} Col ${slice.col}`:
+         `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`
     if (opts.textPlacement === "side") {
         if (opts.debug) {
             doc.rect(0, 0, gridSizePts.width + opts.cellHeaderHeightPts, gridSizePts.height);

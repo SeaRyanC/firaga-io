@@ -20,7 +20,7 @@ const galleryStorage = createGallery();
 const DefaultAppProps: AppProps = {
     display: {
         background: "#777",
-        grid: "56",
+        grid: "auto",
         planStyle: "none",
         refobj: "none",
     },
@@ -31,7 +31,7 @@ const DefaultAppProps: AppProps = {
 
         flip: false,
         mirror: false,
-        repixelate: false,
+        descale: false,
 
         transparency: "auto",
     },
@@ -71,6 +71,11 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         window.localStorage.setItem("props", JSON.stringify(_props, (name, val) => name.startsWith("_") ? undefined : val));
     }
 
+    // TODO: Update signature to only accept boolean-valued props
+    function toggleProp<K extends keyof AppProps, T extends keyof AppProps[K]>(parent: K, name: T) {
+        updateProp(parent, name, !_props[parent][name] as any);
+    }
+
     function acceptUserImage(displayName: string, uri: string) {
         galleryStorage.add(displayName, uri);
         selectImage(displayName, uri);
@@ -87,6 +92,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
     function App(props: AppProps) {
         useLayoutEffect(() => {
+            // Install paste handler
             window.addEventListener("paste", function (evt) {
                 const e = evt as ClipboardEvent;
                 for (const item of e.clipboardData?.items ?? []) {
@@ -103,10 +109,34 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                 }
             });
 
+            // Install keyboard shortcuts
             window.addEventListener("keydown", evt => {
-                if (evt.key === "Escape") {
-                    updateProp("ui", "isPrintOpen", false);
-                    updateProp("ui", "isUploadOpen", false);
+                if (evt.ctrlKey) {
+                    switch (evt.key) {
+                        case "o":
+                            toggleProp("ui", "isUploadOpen");
+                            break;
+                        case "p":
+                            toggleProp("ui", "isPrintOpen");
+                            break;
+                        case "l":
+                            toggleProp("ui", "showLegend");
+                            break;
+                        case "e":
+                            toggleProp("ui", "showSettings");
+                            break;
+
+                        default:
+                            return;
+                    }
+                    evt.preventDefault();
+                } else {
+                    switch (evt.key) {
+                        case "Escape":
+                            updateProp("ui", "isPrintOpen", false);
+                            updateProp("ui", "isUploadOpen", false);
+                            break;
+                    }
                 }
             })
         }, []);
@@ -122,11 +152,15 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         return <div class="app-top">
             <PropContext.Provider value={updateProp}>
                 <div class="toolbar">
-                    <button class="toolbar-button" title="Upload" onClick={() => updateProp("ui", "isUploadOpen", true)}>📂</button>
-                    <button class="toolbar-button" title="Settings" onClick={() => updateProp("ui", "showSettings", !props.ui.showSettings)}>⚙</button>
-                    <button class="toolbar-button" title="Print..." onClick={() => updateProp("ui", "isPrintOpen", true)}>🖨</button>
-                    <button class="toolbar-button" title="Legend" onClick={() => updateProp("ui", "showLegend", !props.ui.showLegend)}>📃</button>
-                    <button class="toolbar-button" title="Help">❓</button>
+                    <button class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>Open</button>
+                    <button class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>Print</button>
+                    <span class="toolbar-divider" />
+                    <button class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>Settings</button>
+                    <button class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>Legend</button>
+                    <span class="toolbar-divider" />
+                    <a class={`toolbar-button icon`} title="Help" href="https://github.com/SeaRyanC/firaga-io/help.md"><img src="./icons/help.svg" /></a>
+                    <a class={`toolbar-button icon`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io"><img src="./icons/github.svg" /></a>
+                    <a class={`toolbar-button icon`} title="Twitter" href="https://twitter.com/firaga_io"><img src="./icons/twitter.svg" /></a>
                 </div>
                 <div class="app-main">
                     {props.ui.showSettings && <div class="settings">
@@ -136,7 +170,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
                         {!!image && <Stats img={image} pitch={getPitch(props.material.size)} />}
                     </div>}
-                    {image ? <PlanSvg image={image} pitch={pitch} displaySettings={props.display} /> : <div>Loading...</div>}
+                    {image ? <PlanSvg image={image} pitch={pitch} displaySettings={props.display} gridSize={props.material.size} /> : <div>Loading...</div>}
                     {props.ui.showLegend && image && <Legend partList={image.partList} />}
                 </div>
                 {props.ui.isUploadOpen &&
@@ -162,28 +196,27 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
     function ImageSettingsRow(props: ImageProps) {
         return (
             <div class="settings-row">
-                <details open>
-                    <summary>Image Settings</summary>
-                    <div class="options-row">
-                        <div class="options-group">
-                            <span class="header">Transparency</span>
-                            {getRadioGroup(props, "image", "transparency", ImageSettings.transparency)}
-                        </div>
-
-                        <div class="options-group">
-                            <span class="header">Color Adjust</span>
-                            {getSlider(props, "image", "brightness", "Brightness")}
-                            {getSlider(props, "image", "contrast", "Contrast")}
-                            {getSlider(props, "image", "saturation", "Saturation")}
-                        </div>
-
-                        <div class="options-group">
-                            <span class="header">Transforms</span>
-                            {getCheckbox(props, "image", "flip", "Flip")}
-                            {getCheckbox(props, "image", "mirror", "Mirror")}
-                        </div>
+                <h1>Image</h1>
+                <div class="options-row">
+                    <div class="options-group">
+                        <span class="header">Transparency</span>
+                        {getRadioGroup(props, "image", "transparency", ImageSettings.transparency)}
                     </div>
-                </details>
+
+                    <div class="options-group">
+                        <span class="header">Color Adjust</span>
+                        {getSlider(props, "image", "brightness", "Brightness")}
+                        {getSlider(props, "image", "contrast", "Contrast")}
+                        {getSlider(props, "image", "saturation", "Saturation")}
+                    </div>
+
+                    <div class="options-group">
+                        <span class="header">Transforms</span>
+                        {getCheckbox(props, "image", "flip", "Flip")}
+                        {getCheckbox(props, "image", "mirror", "Mirror")}
+                        {getCheckbox(props, "image", "descale", "Undo Upscaling")}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -191,26 +224,24 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
     function MaterialSettingsRow(props: MaterialProps) {
         return (
             <div class="settings-row">
-                <details open>
-                    <summary>Material Settings</summary>
-                    <div class="options-row">
-                        <div class="options-group">
-                            <span class="header">Color Matching</span>
-                            {getRadioGroup(props, "material", "colorMatch", MaterialSettings.colorMatch)}
-                            {getCheckbox(props, "material", "nodupes", "No Duplicates")}
-                        </div>
-
-                        <div class="options-group">
-                            <span class="header">Palette</span>
-                            {getRadioGroup(props, "material", "palette", MaterialSettings.palette)}
-                        </div>
-
-                        <div class="options-group">
-                            <span class="header">Grid Size</span>
-                            {getRadioGroup(props, "material", "size", MaterialSettings.size)}
-                        </div>
+                <h1>Material</h1>
+                <div class="options-row">
+                    <div class="options-group">
+                        <span class="header">Color Matching</span>
+                        {getRadioGroup(props, "material", "colorMatch", MaterialSettings.colorMatch)}
+                        {getCheckbox(props, "material", "nodupes", "No Duplicates")}
                     </div>
-                </details>
+
+                    <div class="options-group">
+                        <span class="header">Palette</span>
+                        {getRadioGroup(props, "material", "palette", MaterialSettings.palette)}
+                    </div>
+
+                    <div class="options-group">
+                        <span class="header">Grid Size</span>
+                        {getRadioGroup(props, "material", "size", MaterialSettings.size)}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -269,30 +300,28 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
     function DisplaySettingsRow(props: DisplayProps) {
         return <div class="settings-row">
-            <details open>
-                <summary>Plan Settings</summary>
-                <div class="options-row">
-                    <div className="options-group">
-                        <span className="header">Legend</span>
-                        {getRadioGroup(props, "display", "planStyle", DisplaySettings.planStyle)}
-                    </div>
-
-                    <div className="options-group">
-                        <span className="header">Grid</span>
-                        {getRadioGroup(props, "display", "grid", DisplaySettings.grid)}
-                    </div>
-
-                    <div className="options-group">
-                        <span className="header">Background</span>
-                        {getRadioGroup(props, "display", "background", DisplaySettings.background)}
-                    </div>
-
-                    <div className="options-group">
-                        <span className="header">Comparison</span>
-                        {getRadioGroup(props, "display", "refobj", DisplaySettings.refobj)}
-                    </div>
+            <h1>Plan</h1>
+            <div class="options-row">
+                <div className="options-group">
+                    <span className="header">Legend</span>
+                    {getRadioGroup(props, "display", "planStyle", DisplaySettings.planStyle)}
                 </div>
-            </details>
+
+                <div className="options-group">
+                    <span className="header">Grid</span>
+                    {getRadioGroup(props, "display", "grid", DisplaySettings.grid)}
+                </div>
+
+                <div className="options-group">
+                    <span className="header">Background</span>
+                    {getRadioGroup(props, "display", "background", DisplaySettings.background)}
+                </div>
+
+                <div className="options-group">
+                    <span className="header">Comparison</span>
+                    {getRadioGroup(props, "display", "refobj", DisplaySettings.refobj)}
+                </div>
+            </div>
         </div>;
     }
 
@@ -437,4 +466,3 @@ function memoize<F extends (...args: any) => any>(func: F & Function): F {
         return r;
     } as any as F;
 }
-

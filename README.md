@@ -65,8 +65,20 @@ You can overlay symbols over each pixel in the plan to aid in determining which 
 
 ### Grid
 
+# Identifying Your Pegboard
 
+What's the old pegboard you found? This is a list *transparent* pegboards I've found and how to identify them. "Mini" format pegboards are easily identified by their extremely tight peg spacing (mini beads are about the size of a grain of rice; regular beads are about the size of a raisin).
+
+ * **Artkal Mini** pegboards are ~137mm square, with 50 pegs per side. On the reverse side you'll see two concentric circles.
+ * **Perler Mini** pegboards are ~147mm square, with 56 pegs per side. On the reverse side you'll see a X pattern with a square in the middle
+ * **Perler Standard** pegboards are ~140m square, with 29 pegs per side. On the reverse side you'll see a X pattern with a square in the middle
 
 # Attributions
 
  * favicon by https://twemoji.twitter.com/ via https://favicon.io/emoji-favicons/abacus/
+ * Image Icons from The Noun Project
+   * ["Open" by yanuar rizki](https://thenounproject.com/search/?q=image&i=4129894)
+   * ["Settings" by Focus](https://thenounproject.com/search/?q=settings&i=943929)
+   * ["Print" by Rockicon](https://thenounproject.com/search/?q=print&i=1707522)
+   * ["Legend" by orche7](https://thenounproject.com/search/?q=legend&i=1267167)
+   * ["Help" alkhalifi_design](https://thenounproject.com/search/?q=help&i=4116027)
