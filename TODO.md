@@ -11,8 +11,8 @@
 
 ## One-off Features
 
-* Slice diagram in multi-slice printouts
 * Add indicator on Legend for hovered-over color cell
+* Make Legend clickable
 * `[?]` hover markers w/ documentation on all options
 * "Keep outline" transparency mode
 * "Edges only" transparency mode

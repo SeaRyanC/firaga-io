@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import { useEffect, useRef } from "preact/hooks";
 import { PartListEntry, PartListImage } from "../image-utils";
 import { AppProps, DisplayProps, MaterialProps } from "../types";
-import { colorEntryToHtml, getGridSize, isBright, timer } from "../utils";
+import { colorEntryToHtml, getGridSize, isBright, nameOfColor, timer } from "../utils";
 
 const svgns = "http://www.w3.org/2000/svg";
 declare const require: any;
@@ -235,7 +235,7 @@ function ColorLayer(props: { image: PartListImage }) {
             r.setAttribute("fill", colorEntryToHtml(image.partList[i].target));
             r.setAttribute("stroke-width", "1px");
             const title = document.createElementNS(svgns, "title");
-            title.innerHTML = `${image.partList[i].target.code} - ${image.partList[i].target.name}`;
+            title.innerHTML = nameOfColor(image.partList[i].target);
             r.appendChild(title);
             colorLayer.appendChild(r);
         }

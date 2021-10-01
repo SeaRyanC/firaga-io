@@ -405,8 +405,9 @@ function printSteppedSlice(opts: StepOptions) {
 
     // Print the header
     const text = opts.multipleSlices ?
-         `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name}) Row ${slice.row} Col ${slice.col}`:
-         `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`
+         `${nameOfColor(image.partList[partIndex].target)} Row ${slice.row} Col ${slice.col}`:
+         `${nameOfColor(image.partList[partIndex].target)}`
+
     if (opts.textPlacement === "side") {
         if (opts.debug) {
             doc.rect(0, 0, gridSizePts.width + opts.cellHeaderHeightPts, gridSizePts.height);
@@ -473,6 +474,7 @@ function printSteppedSlice(opts: StepOptions) {
 
             const cxPts = (x - slice.x) * pitch;
             const cyPts = (y - slice.y) * pitch;
+            // Draw an 'x'
             doc.moveTo(cxPts + pitch * 0.3, cyPts + pitch * 0.3);
             doc.lineTo(cxPts + pitch * 0.7, cyPts + pitch * 0.7);
             doc.moveTo(cxPts + pitch * 0.3, cyPts + pitch * 0.7);

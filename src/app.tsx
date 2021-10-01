@@ -3,7 +3,7 @@ import { useRef, useEffect, useLayoutEffect } from 'preact/hooks';
 import { Gallery, GalleryProps } from './gallery';
 import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, imageDataToRgbaArray, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage, renderPartListImageToDataURL } from './image-utils';
 import { AppProps, DisplayProps, DisplaySettings, ImageProps, ImageSettings, MaterialProps, MaterialSettings } from "./types";
-import { colorEntryToHex, getPitch } from './utils';
+import { colorEntryToHex, dollars, getPitch, timeAmount } from './utils';
 import { createGallery } from './user-gallery';
 import { PropContext } from './components/context';
 import { PrintDialog } from './components/print-dialog';
@@ -268,6 +268,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
     }
 
     function Stats({ img, pitch }: { img: PartListImage, pitch: number }) {
+        const pixelCount = getImageStats(img).pixels;
         return <table className="plan-stats">
             <thead>
                 <tr>
@@ -288,7 +289,13 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                     <td className="stat-value">{fmt(img.height * pitch / 25.4)}"</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Pixels</td><td colSpan={4} className="stat-value">{getImageStats(img).pixels}</td>
+                    <td className="stat-label">Pixels</td><td colSpan={4} className="stat-value">{pixelCount.toLocaleString()}</td>
+                </tr>
+                <tr>
+                    <td className="stat-label">Cost</td><td colSpan={4} className="stat-value">{dollars(pixelCount * 0.001)} - {dollars(pixelCount * 0.003)}</td>
+                </tr>
+                <tr>
+                    <td className="stat-label">Time to Build</td><td colSpan={4} className="stat-value">{timeAmount(pixelCount * 4)}</td>
                 </tr>
             </tbody>
         </table>;

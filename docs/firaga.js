@@ -960,6 +960,30 @@
   function assertNever(n2, message) {
     throw new Error(`Invalid ${n2} - ${message}`);
   }
+  function nameOfColor(color) {
+    if (color.code === void 0) {
+      return color.name;
+    }
+    return `${color.code} (${color.name})`;
+  }
+  function dollars(amt) {
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return formatter.format(amt);
+  }
+  function timeAmount(seconds) {
+    if (seconds < 60) {
+      return `${seconds} seconds`;
+    }
+    if (seconds < 60 * 60) {
+      return `${Math.floor(seconds / 60)} minutes`;
+    }
+    return `${Math.floor(seconds / (60 * 60))} hours`;
+  }
 
   // src/palettizer.ts
   var diff2 = require_lib();
@@ -1775,7 +1799,7 @@
       width: slice.width * pitch,
       height: slice.height * pitch
     };
-    const text = opts.multipleSlices ? `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name}) Row ${slice.row} Col ${slice.col}` : `${image.partList[partIndex].target.code} (${image.partList[partIndex].target.name})`;
+    const text = opts.multipleSlices ? `${nameOfColor(image.partList[partIndex].target)} Row ${slice.row} Col ${slice.col}` : `${nameOfColor(image.partList[partIndex].target)}`;
     if (opts.textPlacement === "side") {
       if (opts.debug) {
         doc.rect(0, 0, gridSizePts.width + opts.cellHeaderHeightPts, gridSizePts.height);
@@ -2433,7 +2457,7 @@
         r3.setAttribute("fill", colorEntryToHtml(image.partList[i3].target));
         r3.setAttribute("stroke-width", "1px");
         const title = document.createElementNS(svgns, "title");
-        title.innerHTML = `${image.partList[i3].target.code} - ${image.partList[i3].target.name}`;
+        title.innerHTML = nameOfColor(image.partList[i3].target);
         r3.appendChild(title);
         colorLayer.appendChild(r3);
       }
@@ -2726,6 +2750,7 @@
       })));
     }
     function Stats({img, pitch}) {
+      const pixelCount = getImageStats(img).pixels;
       return /* @__PURE__ */ a("table", {
         className: "plan-stats"
       }, /* @__PURE__ */ a("thead", null, /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("th", {
@@ -2752,7 +2777,17 @@
       }, "Pixels"), /* @__PURE__ */ a("td", {
         colSpan: 4,
         className: "stat-value"
-      }, getImageStats(img).pixels))));
+      }, pixelCount.toLocaleString())), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
+        className: "stat-label"
+      }, "Cost"), /* @__PURE__ */ a("td", {
+        colSpan: 4,
+        className: "stat-value"
+      }, dollars(pixelCount * 1e-3), " - ", dollars(pixelCount * 3e-3))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
+        className: "stat-label"
+      }, "Time to Build"), /* @__PURE__ */ a("td", {
+        colSpan: 4,
+        className: "stat-value"
+      }, timeAmount(pixelCount * 4)))));
       function fmt(n2) {
         return n2.toFixed(2);
       }

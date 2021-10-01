@@ -198,3 +198,23 @@ export function nameOfColor(color: ColorEntry) {
     }
     return `${color.code} (${color.name})`;
 }
+
+export function dollars(amt: number) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+    return formatter.format(amt);
+}
+
+export function timeAmount(seconds: number) {
+    if (seconds < 60) {
+        return `${seconds} seconds`;
+    }
+    if (seconds < 60 * 60) {
+        return `${Math.floor(seconds / 60)} minutes`
+    }
+    return `${Math.floor(seconds / (60 * 60))} hours`
+}

@@ -82,3 +82,19 @@ What's the old pegboard you found? This is a list *transparent* pegboards I've f
    * ["Print" by Rockicon](https://thenounproject.com/search/?q=print&i=1707522)
    * ["Legend" by orche7](https://thenounproject.com/search/?q=legend&i=1267167)
    * ["Help" alkhalifi_design](https://thenounproject.com/search/?q=help&i=4116027)
+
+# Misc Notes
+
+### Assembly Time Estimate
+
+Assembly time is calculated at a rate of 1 bead every 4 seconds, based on a rough measure of myself placing some standard-size beads on an overlay pattern. Mini format beads are likely quite a bit slower, perhaps double, depending on operator skill and image complexity.
+
+### Cost Estimate
+
+The material cost is estimated on a range from $0.001-$0.003 / bead.
+
+Actual costs in the wild as of 2021 vary considerably depending on what and how you're buying:
+ * At the very lowest end, buying Artkal Mini Beads in single-color packs of 50,000 (!!) is only $0.0006/ea, but these are impractically large quantities for all but the most common colors used by the most dedicated crafter
+ * In the middle, most methods of buying Mini beads average about $0.001-$0.0002/ea
+ * Bulk purchases of standard-size beads (including the popular Perler Mega Mix bucket) usually average about $0.002/ea
+ * Presorted name-brand trays of standard-size beads can go up to $0.003/ea
