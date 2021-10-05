@@ -326,14 +326,6 @@ div.gallery-delete:hover {
     opacity: 1;
 }
 
-div.about {
-    position: absolute;
-    bottom: 1em;
-    left: 0px;
-    right: 0px;
-    text-align: center;
-}
-
 div.dropbox {
     display: inline-block;
     text-align: center;

@@ -152,11 +152,11 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         return <div class="app-top">
             <PropContext.Provider value={updateProp}>
                 <div class="toolbar">
-                    <button class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>Open</button>
-                    <button class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>Print</button>
+                    <button class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>📂</button>
+                    <button class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>🖨️</button>
                     <span class="toolbar-divider" />
-                    <button class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>Settings</button>
-                    <button class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>Legend</button>
+                    <button class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️</button>
+                    <button class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑</button>
                     <span class="toolbar-divider" />
                     <a class={`toolbar-button icon`} title="Help" href="https://github.com/SeaRyanC/firaga-io/help.md"><img src="./icons/help.svg" /></a>
                     <a class={`toolbar-button icon`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io"><img src="./icons/github.svg" /></a>
@@ -375,11 +375,6 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
             <h2>Gallery</h2>
             <div class="gallery-list-container">
                 <Gallery {...props} />
-            </div>
-            <div class="about">
-                <a href="https://github.com/SeaRyanC/firaga-io"><img
-                    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="40"
-                    height="40" /></a>
             </div>
         </div>;
 

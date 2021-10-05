@@ -2620,18 +2620,18 @@
       }, /* @__PURE__ */ a("button", {
         class: `toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`,
         onClick: () => toggleProp("ui", "isUploadOpen")
-      }, "Open"), /* @__PURE__ */ a("button", {
+      }, "\u{1F4C2}"), /* @__PURE__ */ a("button", {
         class: `toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`,
         onClick: () => toggleProp("ui", "isPrintOpen")
-      }, "Print"), /* @__PURE__ */ a("span", {
+      }, "\u{1F5A8}\uFE0F"), /* @__PURE__ */ a("span", {
         class: "toolbar-divider"
       }), /* @__PURE__ */ a("button", {
         class: `toolbar-button ${props.ui.showSettings ? "on" : "off"} text`,
         onClick: () => toggleProp("ui", "showSettings")
-      }, "Settings"), /* @__PURE__ */ a("button", {
+      }, "\u2699\uFE0F"), /* @__PURE__ */ a("button", {
         class: `toolbar-button ${props.ui.showLegend ? "on" : "off"} text`,
         onClick: () => toggleProp("ui", "showLegend")
-      }, "Legend"), /* @__PURE__ */ a("span", {
+      }, "\u{1F511}"), /* @__PURE__ */ a("span", {
         class: "toolbar-divider"
       }), /* @__PURE__ */ a("a", {
         class: `toolbar-button icon`,
@@ -2863,15 +2863,7 @@
         class: "gallery-list-container"
       }, /* @__PURE__ */ a(Gallery, {
         ...props
-      })), /* @__PURE__ */ a("div", {
-        class: "about"
-      }, /* @__PURE__ */ a("a", {
-        href: "https://github.com/SeaRyanC/firaga-io"
-      }, /* @__PURE__ */ a("img", {
-        src: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        width: "40",
-        height: "40"
-      }))));
+      })));
       function fileInputChanged() {
         if (!fileInputRef.current)
           return;
