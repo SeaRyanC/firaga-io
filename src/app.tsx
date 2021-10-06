@@ -158,9 +158,9 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                     <button class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️</button>
                     <button class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑</button>
                     <span class="toolbar-divider" />
-                    <a class={`toolbar-button icon`} title="Help" href="https://github.com/SeaRyanC/firaga-io/help.md"><img src="./icons/help.svg" /></a>
-                    <a class={`toolbar-button icon`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io"><img src="./icons/github.svg" /></a>
-                    <a class={`toolbar-button icon`} title="Twitter" href="https://twitter.com/firaga_io"><img src="./icons/twitter.svg" /></a>
+                    <a class={`toolbar-button off`} title="Help" href="https://github.com/SeaRyanC/firaga-io/help.md">❔</a>
+                    <a class={`toolbar-button off`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io">👨‍💻</a>
+                    <a class={`toolbar-button off`} title="Twitter" href="https://twitter.com/firaga_io">💬</a>
                 </div>
                 <div class="app-main">
                     {props.ui.showSettings && <div class="settings">
@@ -277,31 +277,31 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
             </thead>
             <tbody>
                 <tr>
-                    <td className="stat-label">Width</td>
-                    <td className="stat-value">{img.width.toLocaleString()}px</td>
-                    <td className="stat-value">{fmt(img.width * pitch)}mm</td>
-                    <td className="stat-value">{fmt(img.width * pitch / 25.4)}"</td>
+                    <td className="stat-label">Size (px)</td>
+                    <td className="stat-value">{img.width.toLocaleString()}×{img.height.toLocaleString()}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Height</td>
-                    <td className="stat-value">{img.height.toLocaleString()}px</td>
-                    <td className="stat-value">{fmt(img.height * pitch)}mm</td>
-                    <td className="stat-value">{fmt(img.height * pitch / 25.4)}"</td>
+                    <td className="stat-label">Size (in)</td>
+                    <td className="stat-value">{fmt(img.width * pitch / 25.4)}×{fmt(img.height * pitch / 25.4)}</td>
+                </tr>
+                <tr>
+                    <td className="stat-label">Size (cm)</td>
+                    <td className="stat-value">{fmt(img.width * pitch / 10)}×{fmt(img.height * pitch / 10)}</td>
                 </tr>
                 <tr>
                     <td className="stat-label">Pixels</td><td colSpan={4} className="stat-value">{pixelCount.toLocaleString()}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Cost</td><td colSpan={4} className="stat-value">{dollars(pixelCount * 0.001)} - {dollars(pixelCount * 0.003)}</td>
+                    <td className="stat-label">Cost</td><td colSpan={4} className="stat-value">{dollars(pixelCount * 0.002)}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Time to Build</td><td colSpan={4} className="stat-value">{timeAmount(pixelCount * 4)}</td>
+                    <td className="stat-label">Time</td><td colSpan={4} className="stat-value">{timeAmount(pixelCount * 4)}</td>
                 </tr>
             </tbody>
         </table>;
 
         function fmt(n: number) {
-            return n.toFixed(2);
+            return n.toFixed(1);
         }
     }
 
@@ -403,7 +403,10 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
     }
 
     function getSlider<S extends keyof AppProps, K extends keyof AppProps[S]>(props: AppProps[S] & Record<K, number>, parentKey: S, key: K, label: string) {
-        return <label><input type="range" onChange={changed} min="-10" max="10" step="1" value={props[key]} />{label}</label>
+        return <div class="slider-caption">
+            <input type="range" onChange={changed} min="-10" max="10" step="1" value={props[key]} />
+            <span>{label}</span>
+        </div>;
 
         function changed(e: any) {
             updateProp(parentKey, key, e.target.value);

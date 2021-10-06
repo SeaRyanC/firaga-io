@@ -1404,7 +1404,7 @@
   init_preact_module();
   var MaterialSettings = {
     palette: [
-      ["artkal-mini-starter", /* @__PURE__ */ a("span", null, "Artkal Mini Starter Set ", /* @__PURE__ */ a("a", {
+      ["artkal-mini-starter", /* @__PURE__ */ a("span", null, "Artkal Mini Starter ", /* @__PURE__ */ a("a", {
         href: "https://amzn.to/3wThLo8",
         target: "_blank",
         title: "Buy"
@@ -2634,24 +2634,18 @@
       }, "\u{1F511}"), /* @__PURE__ */ a("span", {
         class: "toolbar-divider"
       }), /* @__PURE__ */ a("a", {
-        class: `toolbar-button icon`,
+        class: `toolbar-button off`,
         title: "Help",
         href: "https://github.com/SeaRyanC/firaga-io/help.md"
-      }, /* @__PURE__ */ a("img", {
-        src: "./icons/help.svg"
-      })), /* @__PURE__ */ a("a", {
-        class: `toolbar-button icon`,
+      }, "\u2754"), /* @__PURE__ */ a("a", {
+        class: `toolbar-button off`,
         title: "GitHub",
         href: "https://github.com/SeaRyanC/firaga-io"
-      }, /* @__PURE__ */ a("img", {
-        src: "./icons/github.svg"
-      })), /* @__PURE__ */ a("a", {
-        class: `toolbar-button icon`,
+      }, "\u{1F468}\u200D\u{1F4BB}"), /* @__PURE__ */ a("a", {
+        class: `toolbar-button off`,
         title: "Twitter",
         href: "https://twitter.com/firaga_io"
-      }, /* @__PURE__ */ a("img", {
-        src: "./icons/twitter.svg"
-      }))), /* @__PURE__ */ a("div", {
+      }, "\u{1F4AC}")), /* @__PURE__ */ a("div", {
         class: "app-main"
       }, props.ui.showSettings && /* @__PURE__ */ a("div", {
         class: "settings"
@@ -2758,21 +2752,17 @@
         className: "top-header"
       }, "Statistics"))), /* @__PURE__ */ a("tbody", null, /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
         className: "stat-label"
-      }, "Width"), /* @__PURE__ */ a("td", {
+      }, "Size (px)"), /* @__PURE__ */ a("td", {
         className: "stat-value"
-      }, img.width.toLocaleString(), "px"), /* @__PURE__ */ a("td", {
-        className: "stat-value"
-      }, fmt(img.width * pitch), "mm"), /* @__PURE__ */ a("td", {
-        className: "stat-value"
-      }, fmt(img.width * pitch / 25.4), '"')), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
+      }, img.width.toLocaleString(), "\xD7", img.height.toLocaleString())), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
         className: "stat-label"
-      }, "Height"), /* @__PURE__ */ a("td", {
+      }, "Size (in)"), /* @__PURE__ */ a("td", {
         className: "stat-value"
-      }, img.height.toLocaleString(), "px"), /* @__PURE__ */ a("td", {
+      }, fmt(img.width * pitch / 25.4), "\xD7", fmt(img.height * pitch / 25.4))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
+        className: "stat-label"
+      }, "Size (cm)"), /* @__PURE__ */ a("td", {
         className: "stat-value"
-      }, fmt(img.height * pitch), "mm"), /* @__PURE__ */ a("td", {
-        className: "stat-value"
-      }, fmt(img.height * pitch / 25.4), '"')), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
+      }, fmt(img.width * pitch / 10), "\xD7", fmt(img.height * pitch / 10))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
         className: "stat-label"
       }, "Pixels"), /* @__PURE__ */ a("td", {
         colSpan: 4,
@@ -2782,14 +2772,14 @@
       }, "Cost"), /* @__PURE__ */ a("td", {
         colSpan: 4,
         className: "stat-value"
-      }, dollars(pixelCount * 1e-3), " - ", dollars(pixelCount * 3e-3))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
+      }, dollars(pixelCount * 2e-3))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
         className: "stat-label"
-      }, "Time to Build"), /* @__PURE__ */ a("td", {
+      }, "Time"), /* @__PURE__ */ a("td", {
         colSpan: 4,
         className: "stat-value"
       }, timeAmount(pixelCount * 4)))));
       function fmt(n2) {
-        return n2.toFixed(2);
+        return n2.toFixed(1);
       }
     }
     function DisplaySettingsRow(props) {
@@ -2890,14 +2880,16 @@
       }), label);
     }
     function getSlider(props, parentKey, key, label) {
-      return /* @__PURE__ */ a("label", null, /* @__PURE__ */ a("input", {
+      return /* @__PURE__ */ a("div", {
+        class: "slider-caption"
+      }, /* @__PURE__ */ a("input", {
         type: "range",
         onChange: changed,
         min: "-10",
         max: "10",
         step: "1",
         value: props[key]
-      }), label);
+      }), /* @__PURE__ */ a("span", null, label));
       function changed(e3) {
         updateProp(parentKey, key, e3.target.value);
       }

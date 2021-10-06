@@ -79,7 +79,7 @@ export type AppProps = {
 
 export const MaterialSettings = {
     palette: [
-        ["artkal-mini-starter", <span>Artkal Mini Starter Set <a href="https://amzn.to/3wThLo8" target="_blank" title="Buy">🛒</a></span>],
+        ["artkal-mini-starter", <span>Artkal Mini Starter <a href="https://amzn.to/3wThLo8" target="_blank" title="Buy">🛒</a></span>],
         ["artkal-all-mini", "All Artkal Mini"],
         ["perler-all", <span>All Perler <a href="https://amzn.to/3kPFwL9" target="_blank" title="Buy">🛒</a></span>],
         ["perler-multimix", <span>Perler Multi Mix <a href="https://amzn.to/2WjPiLU" target="_blank" title="Buy">🛒</a></span>],
