@@ -657,7 +657,7 @@
   // src/components/svg.css
   var require_svg = __commonJS({
     "src/components/svg.css"(exports, module) {
-      module.exports = "line.gridmajor {\r\n    stroke-width: 2px;\r\n    stroke: rgba(0, 0, 0, 0.5);\r\n    pointer-events: none;\r\n}\r\n\r\nline.gridminor {\r\n    stroke-width: 1px;\r\n    stroke: rgba(0, 0, 0, 0.2);\r\n    pointer-events: none;\r\n}\r\n\r\ntext {\r\n    font-family: 'Courier New', Courier, monospace;\r\n    font-weight: bold;\r\n    font-size: 31px;\r\n    fill: black;\r\n    pointer-events: none;\r\n}\r\n\r\nuse.dark text,\r\ntext.dark {\r\n    fill: white;\r\n}\r\n\r\nuse.light text,\r\ntext.light {\r\n    fill: black;\r\n}\r\n";
+      module.exports = "line.gridmajor {\r\n    stroke-width: 2px;\r\n    stroke: rgba(0, 0, 0, 0.5);\r\n    filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, .3));\r\n    pointer-events: none;\r\n}\r\n\r\nline.gridminor {\r\n    stroke-width: 1px;\r\n    stroke: rgba(0, 0, 0, 0.2);\r\n    pointer-events: none;\r\n}\r\n\r\ntext {\r\n    font-family: 'Courier New', Courier, monospace;\r\n    font-weight: bold;\r\n    font-size: 31px;\r\n    fill: black;\r\n    pointer-events: none;\r\n}\r\n\r\nuse.dark text,\r\ntext.dark {\r\n    fill: white;\r\n}\r\n\r\nuse.light text,\r\ntext.light {\r\n    fill: black;\r\n}\r\n";
     }
   });
 
@@ -2011,9 +2011,9 @@
     const updateProp = F(PropContext);
     return /* @__PURE__ */ a("div", {
       class: "print-dialog"
-    }, /* @__PURE__ */ a("h1", {
-      class: "dialog-title"
-    }, "Print"), /* @__PURE__ */ a(FormatGroup, {
+    }, /* @__PURE__ */ a("div", {
+      class: "print-options"
+    }, /* @__PURE__ */ a(FormatGroup, {
       ...props
     }), /* @__PURE__ */ a(PaperSizeGroup, {
       ...props
@@ -2021,8 +2021,8 @@
       ...props
     }), /* @__PURE__ */ a(PageBreakingGroup, {
       ...props
-    }), /* @__PURE__ */ a("div", {
-      class: "final-row"
+    })), /* @__PURE__ */ a("div", {
+      class: "print-buttons"
     }, /* @__PURE__ */ a("button", {
       class: "cancel",
       onClick: () => updateProp("ui", "isPrintOpen", false)
@@ -2053,8 +2053,8 @@
     values: [
       {
         value: "step-by-step",
-        title: "Step by Step",
-        description: "Print one monochrome grid per color",
+        title: "Single Color",
+        description: "Print one black-and-white grid per color. Best for laser printers or when colors are difficult to tell apart.",
         icon: /* @__PURE__ */ a(StepByStepPreviewer, {
           image
         })
@@ -2062,7 +2062,7 @@
       {
         value: "color",
         title: "Color Image",
-        description: "Print a single color image",
+        description: "Print a single color image. Best for color printers and images with fewer colors.",
         icon: /* @__PURE__ */ a(ColorImagePreviewer, {
           image
         })

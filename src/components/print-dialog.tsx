@@ -10,18 +10,13 @@ import { PropContext } from './context';
 export function PrintDialog(props: PrintDialogProps) {
     const updateProp = useContext(PropContext);
     return <div class="print-dialog">
-        <h1 class="dialog-title">Print</h1>
-        <FormatGroup {...props} />
-        <PaperSizeGroup {...props} />
-        <ImageSizeGroup {...props} />
-        <PageBreakingGroup {...props} />
-        {/*
-        <div class="print-setting-group">
-            <h1>Misc.</h1>
-            <label><input type="checkbox" />Use less ink (Step by Step only)</label>
+        <div class="print-options">
+            <FormatGroup {...props} />
+            <PaperSizeGroup {...props} />
+            <ImageSizeGroup {...props} />
+            <PageBreakingGroup {...props} />
         </div>
-        */}
-        <div class="final-row">
+        <div class="print-buttons">
             <button class="cancel" onClick={() => updateProp("ui", "isPrintOpen", false)}>Cancel</button>
             <button class="print" onClick={() => print()}>Print&nbsp;<img class="pdf-logo" src="./pdf-logo.png" /></button>
         </div>
@@ -67,14 +62,14 @@ const FormatGroup = makeRadioGroup(({ image }) => ({
     values: [
         {
             value: "step-by-step",
-            title: "Step by Step",
-            description: "Print one monochrome grid per color",
+            title: "Single Color",
+            description: "Print one black-and-white grid per color. Best for laser printers or when colors are difficult to tell apart.",
             icon: <StepByStepPreviewer image={image} />,
         },
         {
             value: "color",
             title: "Color Image",
-            description: "Print a single color image",
+            description: "Print a single color image. Best for color printers and images with fewer colors.",
             icon: <ColorImagePreviewer image={image} />,
         },
         {

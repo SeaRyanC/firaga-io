@@ -199,7 +199,7 @@ div.settings {
     position: relative;
     text-align: left;
 
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 div.settings-row {
@@ -357,32 +357,44 @@ div.print-dialog {
     animation: 0.2s ease-out 0s 1 printDialogAppear;
 
     position: absolute;
-    max-width: 95%;
-    width: fit-content;
     left: 0; 
     right: 0; 
     margin-left: auto; 
     margin-right: auto;
     top: 10%;
+    width: fit-content;
+    max-width: 95%;
     height: auto;
     max-height: 85%;
     overflow-y: auto;
+
     z-index: 100;
+
     background: white;
     border: solid black 3px;
     box-shadow: 0px 0px 24px black;
     padding: 1em;
+}
 
+div.print-dialog div.print-options {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
-div.print-dialog h1.dialog-title {
-    flex: 0 0 100%;
+@media (orientation: portrait) {
+    div.print-dialog div.print-options {
+        flex-direction: column;
+    }
 }
 
-div.print-dialog div.print-setting-group {
+@media (orientation: landscape) {
+    div.print-dialog div.print-options {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+div.print-dialog div.print-options div.print-setting-group {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -493,15 +505,16 @@ div.print-dialog span.size-size {
     line-height: 200%;
 }
 
-div.print-dialog div.final-row {
+div.print-dialog div.print-buttons {
     display: flex;
-    flex-direction: row-reverse;
-    flex: 0 0 100%;
+    flex-direction: row;
+    justify-content: center;
     align-items: stretch;
     height: 50px;
+    width: 100%;
 }
 
-div.print-dialog div.final-row button {
+div.print-dialog div.print-buttons button {
     display: inline;
     font-size: 110%;
     padding: 0.4em;
