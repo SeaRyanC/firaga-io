@@ -1477,6 +1477,7 @@
       ["#777", "Grey"],
       ["#000", "Black"],
       ["#FFF", "White"],
+      ["url(#checkPattern)", "Checker"],
       ["transparent", "Transparent"],
       ["url(#wood)", "Wood"]
     ],
@@ -2278,6 +2279,41 @@
       y: "0",
       width: "400",
       height: "400"
+    })), /* @__PURE__ */ a("filter", {
+      id: "blurFilter"
+    }, /* @__PURE__ */ a("feGaussianBlur", {
+      in: "SourceGraphic",
+      stdDeviation: "4"
+    })), /* @__PURE__ */ a("pattern", {
+      id: "checkPattern",
+      viewBox: "0 0 32 32",
+      width: "32",
+      height: "32",
+      patternUnits: "userSpaceOnUse"
+    }, /* @__PURE__ */ a("rect", {
+      x: "0",
+      y: "0",
+      width: "16",
+      height: "16",
+      fill: "#DDDDDD"
+    }), /* @__PURE__ */ a("rect", {
+      x: "0",
+      y: "16",
+      width: "16",
+      height: "16",
+      fill: "#999999"
+    }), /* @__PURE__ */ a("rect", {
+      x: "16",
+      y: "0",
+      width: "16",
+      height: "16",
+      fill: "#999999"
+    }), /* @__PURE__ */ a("rect", {
+      x: "16",
+      y: "16",
+      width: "16",
+      height: "16",
+      fill: "#DDDDDD"
     }))), /* @__PURE__ */ a(BackgroundLayer, {
       image,
       bg: displaySettings.background
@@ -2302,7 +2338,8 @@
       y: -16,
       width: (props.image.width + 1) * 32,
       height: (props.image.height + 1) * 32,
-      fill: props.bg
+      fill: props.bg,
+      filter: props.bg === "url(#checkPattern)" ? "url(#blurFilter)" : ""
     });
   }
   function TextLayer(props) {

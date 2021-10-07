@@ -56,6 +56,15 @@ export function PlanSvg(props: {
                 <image href="https://upload.wikimedia.org/wikipedia/commons/5/50/Mahag%C3%B3ni_001.jpg"
                     x="0" y="0" width="400" height="400" />
             </pattern>
+            <filter id="blurFilter">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+            </filter>
+            <pattern id="checkPattern" viewBox="0 0 32 32" width="32" height="32" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="16" height="16" fill="#DDDDDD" />
+                <rect x="0" y="16" width="16" height="16" fill="#999999" />
+                <rect x="16" y="0" width="16" height="16" fill="#999999" />
+                <rect x="16" y="16" width="16" height="16" fill="#DDDDDD" />
+            </pattern>
         </defs>
 
         <BackgroundLayer image={image} bg={displaySettings.background} />
@@ -67,7 +76,12 @@ export function PlanSvg(props: {
 }
 
 function BackgroundLayer(props: { image: PartListImage, bg: DisplayProps["background"] }) {
-    return <rect x={-16} y={-16} width={(props.image.width + 1) * 32} height={(props.image.height + 1) * 32} fill={props.bg} />;
+    return <rect
+        x={-16} y={-16}
+        width={(props.image.width + 1) * 32}
+        height={(props.image.height + 1) * 32}
+        fill={props.bg}
+        filter={props.bg === "url(#checkPattern)" ? "url(#blurFilter)" : ""} />;
 }
 
 function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planStyle"], isBackgroundDark: boolean }) {

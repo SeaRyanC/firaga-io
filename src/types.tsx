@@ -126,6 +126,7 @@ export const DisplaySettings = {
         ["#777", "Grey"],
         ["#000", "Black"],
         ["#FFF", "White"],
+        ["url(#checkPattern)", "Checker"],
         ["transparent", "Transparent"],
         ["url(#wood)", "Wood"]
     ],

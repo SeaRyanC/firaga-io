@@ -1,7 +1,6 @@
 ## Big Works
 
 * Introductory screen
-* Make Mobile less of a disaster
 * Unify the print paradigms with the view paradigms
 * Improve keyboard navigation (specifically space/enter on focused elements)
 
