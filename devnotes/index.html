@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>3D Viewer</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script>-->
+    <script type="module" defer>
+        import * as THREE from "https://cdn.skypack.dev/three@v0.131.3";
+        import { STLLoader } from "https://cdn.skypack.dev/three@v0.131.3/examples/jsm/loaders/STLLoader.js";
+
+        const start = Date.now();
+        let worldTime = 0;
+        const loader = new STLLoader();
+        const pitch = 5.16;
+        const img = document.getElementById("img");
+        const imageData = getImageData(img);
+
+        const world = [];
+        world.push(setup());
+        loader.load('./bead.stl', function (beadGeom) {
+            // Count up the colors
+            let counts = new Map();
+            for (let x = 0; x < imageData.width; x++) {
+                for (let y = 0; y < imageData.height; y++) {
+                    const c = (imageData.width * y + x) * 4;
+                    if (imageData.data[c + 3] === 0) continue;
+                    const cc = (imageData.data[c + 0] << 16) |
+                        (imageData.data[c + 1] << 8) |
+                        (imageData.data[c + 2]);
+                    if (counts.has(cc)) {
+                        counts.set(cc, counts.get(cc) + 1);
+                    } else {
+                        counts.set(cc, 1);
+                    }
+                }
+            }
+
+            const entries = [...counts.entries()];
+            entries.sort((a, b) => b[1] - a[1]);
+            for (const e of entries) {
+                const theseBeads = beads(e[0], beadGeom);
+                const plane = colorPlane(e[0], theseBeads.duration);
+                world.push(plane);
+                world.push(theseBeads);
+            }
+        });
+
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1500);
+        const centerX = 144 / 2;
+        camera.position.set(centerX, -centerX, 25.4 * 14);
+        const cameraTarget = new THREE.Vector3(centerX, centerX, 0);
+        camera.lookAt(cameraTarget);
+
+        // renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.outputEncoding = THREE.sRGBEncoding;
+
+        renderer.shadowMap.enabled = true;
+
+        container.appendChild(renderer.domElement);
+
+        window.addEventListener('resize', onWindowResize);
+
+        animate();
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() - start;
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x111111);
+            let offset = 0;
+            for (const w of world) {
+                if (isNaN(w.duration)) throw new Error();
+                w.apply(scene, time - offset);
+                offset += w.duration;
+            }
+            renderer.render(scene, camera);
+        }
+
+        function beads(targetColor, beadGeom) {
+            const objs = [];
+
+            for (let y = 0; y < imageData.height; y++) {
+                for (let x = 0; x < imageData.width; x++) {
+                    const c = (imageData.width * y + x) * 4;
+                    if (imageData.data[c + 3] === 0) continue;
+                    const color = (imageData.data[c + 0] << 16) |
+                        (imageData.data[c + 1] << 8) |
+                        (imageData.data[c + 2]);
+                    if (color !== targetColor) continue;
+
+                    const material = new THREE.MeshPhongMaterial({ color, specular: 0x111111, shininess: 200 });
+                    const mesh = new THREE.Mesh(beadGeom, material);
+
+                    mesh.position.set(x * pitch, (img.height - y - 1) * pitch, 0);
+
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+
+                    objs.push(mesh);
+                }
+            }
+
+            const fallOffsetFactor = 7;
+            const fallDuration = 700;
+            const totalDuration = fallDuration + objs.length * fallOffsetFactor;
+            const startHeight = 200;
+
+            return {
+                duration: totalDuration,
+                apply(scene, timer) {
+                    if (timer < 0) return;
+                    let i = 0;
+                    for (const o of objs) {
+                        let myTimer = timer - i * fallOffsetFactor;
+                        myTimer = Math.min(myTimer, fallDuration);
+                        const height = startHeight * (1 - (myTimer / fallDuration));
+                        o.position.setZ(Math.max(0, height));
+                        scene.add(o);
+                        i++;
+                    }
+                }
+            }
+        }
+
+        function colorPlane(targetColor, duration) {
+            const underlayCanvas = document.createElement("canvas");
+            /** @type {CanvasRenderingContext2D} */
+            const ctx = underlayCanvas.getContext("2d");
+            const textureFactor = 16;
+            underlayCanvas.width = img.width * textureFactor;
+            underlayCanvas.height = img.height * textureFactor;
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, underlayCanvas.width * textureFactor, underlayCanvas.height * textureFactor);
+            ctx.fillStyle = "black";
+
+            for (let y = 0; y < imageData.height; y++) {
+                for (let x = 0; x < imageData.width; x++) {
+                    const c = (imageData.width * y + x) * 4;
+                    if (imageData.data[c + 3] === 0) continue;
+                    const color = (imageData.data[c + 0] << 16) |
+                        (imageData.data[c + 1] << 8) |
+                        (imageData.data[c + 2]);
+                    if (color !== targetColor) continue;
+                    ctx.fillRect(x * textureFactor, y * textureFactor, textureFactor, textureFactor);
+                }
+            }
+
+            const underlayMat = new THREE.CanvasTexture(underlayCanvas);
+            const geom = new THREE.PlaneGeometry(144, 144);
+            geom.frustrumCulled = false;
+            const underlay = new THREE.Mesh(
+                geom,
+                new THREE.MeshBasicMaterial({ map: underlayMat })
+            );
+            underlay.position.setX(70);
+            underlay.position.setY(70);
+            underlay.frustrumCulled = false;
+
+            const slideInDuration = 450;
+            return {
+                duration: slideInDuration + 250,
+                apply(scene, timer) {
+                    if (timer < slideInDuration) {
+                        underlay.position.setX(70 + (1 - (timer / slideInDuration)) * 120);
+                    } else if (timer < slideInDuration + duration) {
+                        underlay.position.setX(70);
+                    } else {
+                        underlay.position.setX(70 - (timer - (slideInDuration + duration)) / 3);
+                    }
+
+                    if (timer > 0) {
+                        scene.add(underlay);
+                    }
+                }
+            };
+        }
+
+        function setup() {
+            const objs = [];
+
+            // Lighting
+            addShadowedLight(0, 0, 1, 0xffffff, 1.35);
+            // addShadowedLight(0, 0, - 1, 0xffaa00, 1);
+            // objs.push(new THREE.HemisphereLight(0x443333, 0x111122));
+
+            // Ground
+            const plane = new THREE.Mesh(
+                new THREE.PlaneGeometry(4000, 4000),
+                new THREE.MeshPhongMaterial({ color: 0x333333, specular: 0x101010 })
+            );
+            plane.receiveShadow = true;
+            objs.push(plane);
+
+            // Pegboard
+            const boardMaterial = new THREE.MeshPhongMaterial({ color: 0x777777, specular: 0x111111, shininess: 200, opacity: 0.5, transparent: true });
+            loader.load('./board.stl', function (geometry) {
+                const mesh = new THREE.Mesh(geometry, boardMaterial);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                mesh.scale.multiply(new THREE.Vector3(img.width / 29, img.height / 29, 1));
+                objs.push(mesh);
+            });
+
+            loader.load('./peg.stl', function (geometry) {
+                for (let x = 0; x < imageData.width; x++) {
+                    for (let y = 0; y < imageData.height; y++) {
+                        const mesh = new THREE.Mesh(geometry, boardMaterial);
+                        mesh.position.set(x * pitch, y * pitch, 0);
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
+                        objs.push(mesh);
+                    }
+                }
+            });
+
+            return {
+                duration: 500,
+                apply(scene) {
+                    for (const o of objs) {
+                        scene.add(o);
+                    }
+                }
+            }
+
+            function addShadowedLight(x, y, z, color, intensity) {
+                const directionalLight = new THREE.DirectionalLight(color, intensity);
+                directionalLight.position.set(x, y, z);
+
+                directionalLight.castShadow = true;
+
+                const d = 1;
+                directionalLight.shadow.camera.left = - d;
+                directionalLight.shadow.camera.right = d;
+                directionalLight.shadow.camera.top = d;
+                directionalLight.shadow.camera.bottom = - d;
+
+                directionalLight.shadow.camera.near = 1;
+                directionalLight.shadow.camera.far = 4;
+
+                directionalLight.shadow.bias = -0.002;
+
+                objs.push(directionalLight);
+            }
+        }
+
+        function getImageData(img) {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            const imageData = ctx.getImageData(0, 0, img.width, img.height);
+            return imageData;
+        }
+    </script>
+</head>
+
+<body>
+    <img src="./mario-cape.png" id="img" style="display: none">
+</body>
+
+</html>

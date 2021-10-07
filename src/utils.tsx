@@ -1,29 +1,44 @@
 import preact = require('preact');
 import diff = require('color-diff');
-import { PalettizedImage, RgbaImage } from './types';
-import { PlanSettings } from './plan-settings';
+import { AppProps, PalettizedImage, RgbaImage } from './types';
+import { ColorEntry } from './color-data';
 
 export const symbolAlphabet = "ABCDEFGHJKLMNPQRSTVXZαβΔθλπΦΨΩabcdefghijklmnopqrstuvwxyz0123456789";
 export const smallSymbolAlphabet = "○×★□";
 
+export type ReadonlyToMutableArray<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<infer U> ? U[] : never;
+
 /**
  * Pitch is the center-to-center distance between pegs (in mm). This is
  * slightly larger than the actual bead diameter, so needs to be measured
- * manually and is specific to each manufacturer's pegboard.
+ * manually and is specific to each manufacturer's pegboard rather than the bead itself
  */
- export const pitchInfo = {
-    // Measured from 50 pegs @ 138mm
-    "artkal-mini": 2.82,
-    // Measured from 56 pegs @ 147.8mm
-    "perler-mini": 2.69,
-    // TODO: Best guess; need actual
-    perler: 5.1,
+export const GridFormats = {
+    "perler": {
+        size: [29, 29],
+        pitch: 139.75 / (29 - 1)
+    },
+    "artkal-mini": {
+        size: [50, 50],
+        pitch: 137.8 / (50 - 1)
+    },
+    "perler-mini": {
+        size: [56, 56],
+        pitch: 147.9 / (56 - 1)
+    },
     // https://orionrobots.co.uk/wiki/lego_specifications.html
-    lego: 8
-};
+    "lego": {
+        size: [32, 32],
+        pitch: 8
+    }
+} as const;
 
-export function getPitch(size: PlanSettings["size"]) {
-    return pitchInfo[size];
+export function getPitch(size: AppProps["material"]["size"]) {
+    return GridFormats[size].pitch;
+}
+
+export function getGridSize(size: AppProps["material"]["size"]) {
+    return GridFormats[size].size;
 }
 
 export type Rgb = { r: number, g: number, b: number };
@@ -66,7 +81,7 @@ export function timer() {
 
     function mark(event: string) {
         const n = Date.now();
-        // console.log(`PERF: '${event}' finished in ${n - last}ms`);
+        console.log(`PERF: '${event}' finished in ${n - last}ms`);
         last = n;
     }
 }
@@ -78,23 +93,29 @@ export function radioGroup<K extends string, V extends Record<K, readonly (reado
     const v = values[name];
     return <>
         {...v.map(([value, caption]) => {
-            return <label key={value}><input type="radio" onChange={changed} name={name} value={value} defaultChecked={value === defaultValue} />{caption}</label>;
+            return <label key={value}><input type="radio" onChange={changed} name={name} value={value} checked={value === defaultValue} />{caption}</label>;
         }
         )}
     </>;
 }
 
-export function carve(width: number, height: number, xSize: number, ySize: number): { x: number, y: number, width: number, height: number }[] {
+export function carve(width: number, height: number, xSize: number, ySize: number): ReadonlyArray<{ x: number, y: number, width: number, height: number, row: number, col: number }> {
     const res = [];
     const xa = carveAxis(width, xSize);
     const ya = carveAxis(height, ySize);
     let cy = 0;
+    let row = 0;
     for (const y of ya) {
         let cx = 0;
+        let col = 0;
+        row++;
         for (const x of xa) {
+            col++;
             res.push({
                 x: cx,
                 y: cy,
+                row,
+                col,
                 width: x,
                 height: y
             });
@@ -165,4 +186,35 @@ function renderPalettizedImageToCanvas(quantized: PalettizedImage, target: HTMLC
         }
     }
     ctx.putImageData(data, 0, 0);
+}
+
+export function assertNever(n: never, message: string) {
+    throw new Error(`Invalid ${n} - ${message}`);
+}
+
+export function nameOfColor(color: ColorEntry) {
+    if (color.code === undefined) {
+        return color.name;
+    }
+    return `${color.code} (${color.name})`;
+}
+
+export function dollars(amt: number) {
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+    return formatter.format(amt);
+}
+
+export function timeAmount(seconds: number) {
+    if (seconds < 60) {
+        return `${seconds} seconds`;
+    }
+    if (seconds < 60 * 60) {
+        return `${Math.floor(seconds / 60)} minutes`
+    }
+    return `${Math.floor(seconds / (60 * 60))} hours`
 }

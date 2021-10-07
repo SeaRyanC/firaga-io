@@ -1,6 +1,6 @@
 import diff  = require("color-diff");
-import { PlanSettings } from "./plan-settings";
-import { RgbaImage, InputColorsToObjectColors, PalettizedImage, ObjectColor, ColorAssignment } from "./types";
+import { ColorEntry } from "./color-data";
+import { RgbaImage, InputColorsToObjectColors, PalettizedImage, ObjectColor, ColorAssignment, MaterialProps } from "./types";
 import { colorEntryToHex, Rgb } from "./utils";
 
 export function palettize(rgbaArray: RgbaImage, palette: InputColorsToObjectColors): PalettizedImage {
@@ -25,7 +25,7 @@ export function palettize(rgbaArray: RgbaImage, palette: InputColorsToObjectColo
     };
 }
 
-export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly ObjectColor[] | undefined, settings: PlanSettings): ColorAssignment[] {
+export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly ColorEntry[] | undefined, settings: MaterialProps): ColorAssignment[] {
     const tempAssignments: ColorAssignment[] = [];
     const inputColors = [];
 
@@ -53,23 +53,22 @@ export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly Object
     // Sort by most-common colors
     inputColors.sort((a, b) => b.count - a.count);
 
-    const diff = colorDiff[settings.colormatch];
+    const diff = colorDiff[settings.colorMatch];
     // Assign each in turn
-    for (const r of inputColors) {
+    for (const inColor of inputColors) {
         if (allowedColors === undefined) {
-            let R = r.color & 0xFF,
-                G = (r.color >> 8) & 0xFF,
-                B = (r.color >> 16) & 0xFF;
+            let r = inColor.color & 0xFF,
+                g = (inColor.color >> 8) & 0xFF,
+                b = (inColor.color >> 16) & 0xFF;
 
             tempAssignments.push({
-                color: r.color,
+                color: inColor.color,
                 target: {
-                    R, G, B,
-                    r: R, g: G, b: B,
-                    name: colorEntryToHex({ r: R, g: G, b: B }),
+                    r, g, b,
+                    name: colorEntryToHex({ r, g, b }),
                     code: ''
                 },
-                count: r.count
+                count: inColor.count
             });
         } else {
             let bestTarget = undefined;
@@ -79,7 +78,7 @@ export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly Object
                     if (tempAssignments.some(t => t.target === c)) continue;
                 }
 
-                const score = diff(r, c);
+                const score = diff(inColor, c);
                 if (score < bestScore) {
                     bestTarget = c;
                     bestScore = score;
@@ -88,9 +87,9 @@ export function makePalette(rgbaArray: RgbaImage, allowedColors: readonly Object
             if (bestTarget === undefined) throw new Error("impossible");
 
             tempAssignments.push({
-                color: r.color,
+                color: inColor.color,
                 target: bestTarget,
-                count: r.count,
+                count: inColor.count,
             });
         }
     }
@@ -102,7 +101,7 @@ export const colorDiff = {
     rgb: (lhs: Rgb, rhs: Rgb) => {
         return Math.pow(lhs.r - rhs.r, 2) * 3 + Math.pow(lhs.g - rhs.g, 2) * 4 + Math.pow(lhs.b - rhs.b, 2) * 2;
     },
-    "CIEDE2000": (lhs: Rgb, rhs: Rgb) => {
+    "ciede2000": (lhs: Rgb, rhs: Rgb) => {
         return diff.diff(diff.rgb_to_lab({ R: lhs.r, G: lhs.g, B: lhs.b }), diff.rgb_to_lab({ R: rhs.r, G: rhs.g, B: rhs.b }));
     }
 };

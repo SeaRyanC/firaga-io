@@ -1,20 +1,22 @@
 import preact = require('preact');
 
-type GalleryProps = {
-    load: (name: string) => void,
-    gallery: string[],
-    requestDelete: (index: number) => void
-}
-export function Gallery({ load, gallery, requestDelete}: GalleryProps) {
-    const cells = gallery.map((name, index) => {
+export type GalleryProps = {
+    load: (name: string, uri: string) => void,
+    gallery: readonly (readonly [string, string])[],
+    requestDelete: (uri: string) => void
+};
+
+export function Gallery(props: GalleryProps) {
+    const storage = props.gallery;
+    const cells = storage.map(([name, uri], index) => {
         return <GalleryCell
-            key={name + '.' + index}
-            src={`${name}`}
-            onClick={() => load(name)}
-            onDeleteClick={() => requestDelete(index)}
+            key={name + '.' + uri}
+            alt={`${name}`}
+            src={`${uri}`}
+            onClick={() => props.load(name, uri)}
+            onDeleteClick={() => props.requestDelete(uri)}
         />;
     });
-    cells.reverse();
     return (
         <div className="gallery-list">
             {cells}
@@ -24,12 +26,17 @@ export function Gallery({ load, gallery, requestDelete}: GalleryProps) {
 
 function GalleryCell(props: {
     src: string,
+    alt: string,
     onClick: () => void,
     onDeleteClick: () => void
 }) {
-    return <div className="gallery-entry" onClick={props.onClick}><img src={props.src} /><div className="gallery-delete" onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        props.onDeleteClick();
-    }}>❌</div></div>;
+    return <div className="gallery-entry"
+        title={props.alt}
+        onClick={props.onClick}>
+            <img src={props.src} />
+            <div className="gallery-delete" onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                props.onDeleteClick();
+            }}>❌</div></div>;
 }
