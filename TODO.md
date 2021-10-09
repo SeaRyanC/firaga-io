@@ -3,10 +3,12 @@
 * Introductory screen
 * Unify the print paradigms with the view paradigms
 * Improve keyboard navigation (specifically space/enter on focused elements)
+* Add cropping tool
 
 ## Bug Fixes / Tweaks
 
-* Right-edge length indicators in span mode
+* Hide code column for codeless palettes
+* Make color printout legend table look less janky
 
 ## One-off Features
 
@@ -16,6 +18,7 @@
 * "Keep outline" transparency mode
 * "Edges only" transparency mode
 * Add grid options to print
+* LEGO color codes
 
 ## Infrastructure
 

@@ -8,6 +8,7 @@ import { createGallery } from './user-gallery';
 import { PropContext } from './components/context';
 import { PrintDialog } from './components/print-dialog';
 import { PlanSvg } from './components/plan-display';
+import { WelcomeScreen } from './components/welcome-screen';
 
 const memoized = {
     adjustImage: memoize(adjustImage),
@@ -55,6 +56,7 @@ const DefaultAppProps: AppProps = {
     ui: {
         isUploadOpen: false,
         isPrintOpen: false,
+        isWelcomeOpen: true,
         showLegend: true,
         showSettings: true
     }
@@ -151,6 +153,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
         return <div class="app-top">
             <PropContext.Provider value={updateProp}>
+                {props.ui.isWelcomeOpen && <WelcomeScreen />}
                 <div class="toolbar">
                     <button class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>📂</button>
                     <button class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>🖨️</button>
@@ -158,7 +161,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                     <button class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️</button>
                     <button class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑</button>
                     <span class="toolbar-divider" />
-                    <a class={`toolbar-button off`} title="Help" href="https://github.com/SeaRyanC/firaga-io/help.md">❔</a>
+                    <button class={`toolbar-button ${props.ui.isWelcomeOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isWelcomeOpen")}>❔</button>
                     <a class={`toolbar-button off`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io">👨‍💻</a>
                     <a class={`toolbar-button off`} title="Twitter" href="https://twitter.com/firaga_io">💬</a>
                 </div>

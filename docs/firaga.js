@@ -2410,6 +2410,10 @@
           let nowColor = void 0;
           let runCount = 0;
           for (let x3 = 0; x3 <= image.width; x3++) {
+            if (x3 === image.width) {
+              addAt(nowColor, runCount, x3, y3);
+              break;
+            }
             const px = image.partList[image.pixels[y3][x3]];
             if (nowColor === px) {
               runCount++;
@@ -2420,8 +2424,6 @@
               nowColor = px;
               runCount = 1;
             }
-            if (x3 === image.width)
-              break;
           }
         }
       }
@@ -2522,6 +2524,24 @@
     }
   }
 
+  // src/components/welcome-screen.tsx
+  init_preact_module();
+  function WelcomeScreen() {
+    const updateProp = F(PropContext);
+    return /* @__PURE__ */ a("div", {
+      class: "welcome-screen"
+    }, /* @__PURE__ */ a("h1", null, "Welcome to firaga.io!"), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " is an online tool to help you plan and create real-world pixel art crafts using materials like Perler beads, LEGO, or just regular old paint."), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " comes preconfigured with color palettes corresponding to many popular crafting products, and uses an advanced color-matching formula to produce the most accurate results."), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " also makes high-quality ", /* @__PURE__ */ a("b", null, "printable plans"), " for both color and black-and-white printers. Placing one of these plans under a transparent pegboard makes for quick and easy crafting."), /* @__PURE__ */ a("p", null, "For more info, read ", /* @__PURE__ */ a("a", {
+      href: ""
+    }, "the documentation"), ", or talk to us on ", /* @__PURE__ */ a("a", {
+      href: "https://twitter.com/firaga_io"
+    }, "Twitter"), " or ", /* @__PURE__ */ a("a", {
+      href: "https://github.com/SeaRyanC/firaga-io"
+    }, "GitHub"), ". Happy crafting!"), /* @__PURE__ */ a("button", {
+      class: "cancel",
+      onClick: () => updateProp("ui", "isWelcomeOpen", false)
+    }, "Let's go!"));
+  }
+
   // src/app.tsx
   var memoized = {
     adjustImage: memoize(adjustImage),
@@ -2565,6 +2585,7 @@
     ui: {
       isUploadOpen: false,
       isPrintOpen: false,
+      isWelcomeOpen: true,
       showLegend: true,
       showSettings: true
     }
@@ -2652,7 +2673,7 @@
         class: "app-top"
       }, /* @__PURE__ */ a(PropContext.Provider, {
         value: updateProp
-      }, /* @__PURE__ */ a("div", {
+      }, props.ui.isWelcomeOpen && /* @__PURE__ */ a(WelcomeScreen, null), /* @__PURE__ */ a("div", {
         class: "toolbar"
       }, /* @__PURE__ */ a("button", {
         class: `toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`,
@@ -2670,10 +2691,9 @@
         onClick: () => toggleProp("ui", "showLegend")
       }, "\u{1F511}"), /* @__PURE__ */ a("span", {
         class: "toolbar-divider"
-      }), /* @__PURE__ */ a("a", {
-        class: `toolbar-button off`,
-        title: "Help",
-        href: "https://github.com/SeaRyanC/firaga-io/help.md"
+      }), /* @__PURE__ */ a("button", {
+        class: `toolbar-button ${props.ui.isWelcomeOpen ? "on" : "off"} text`,
+        onClick: () => toggleProp("ui", "isWelcomeOpen")
       }, "\u2754"), /* @__PURE__ */ a("a", {
         class: `toolbar-button off`,
         title: "GitHub",

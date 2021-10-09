@@ -124,6 +124,10 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
                 let nowColor = undefined;
                 let runCount = 0;
                 for (let x = 0; x <= image.width; x++) {
+                    if (x === image.width) {
+                        addAt(nowColor, runCount, x, y);
+                        break;
+                    }
                     const px = image.partList[image.pixels[y][x]];
                     // Running labels
                     if (nowColor === px) {
@@ -135,8 +139,6 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
                         nowColor = px;
                         runCount = 1;
                     }
-
-                    if (x === image.width) break;
                 }
             }
 

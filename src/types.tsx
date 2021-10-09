@@ -70,6 +70,7 @@ export type AppProps = {
         _decoded: ImageData | undefined;
     };
     ui: {
+        isWelcomeOpen: boolean;
         isUploadOpen: boolean;
         isPrintOpen: boolean;
         showLegend: boolean;
