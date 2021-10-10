@@ -439,7 +439,8 @@ export function dither(image: RgbaImage, allowedColor: ColorEntry[]): Palettized
                 let bestError = Infinity;
                 let bestColor: ColorEntry = undefined as never;
                 for (const c of allowedColor) {
-                    const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
+                    // const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
+                    const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
                     if (e < bestError) {
                         bestColor = c;
                         bestError = e;
