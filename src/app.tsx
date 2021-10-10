@@ -147,8 +147,8 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         const imageData = props.source._decoded;
         const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
         const processedRgbaArray = adjustedImageData && imageDataToRgbaArray(adjustedImageData);
-        const { palette, quantized } = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
-        const image = (palette && quantized) ? memoized.createPartListImage(palette, quantized) : undefined;
+        const { quantized } = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
+        const image = quantized ? memoized.createPartListImage(quantized) : undefined;
         const pitch = getPitch(props.material.size);
 
         return <div class="app-top">

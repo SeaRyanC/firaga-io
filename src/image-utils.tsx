@@ -1,5 +1,5 @@
 import { ColorEntry, loadColorData } from './color-data';
-import { makePalette, palettize } from './palettizer';
+import { colorDiff, makePalette as makeFixedPalette, palettize, surveyColors } from './palettizer';
 import { ImageProps, InputColorsToObjectColors, MaterialProps, ObjectColor, PalettizedImage, RgbaImage } from './types';
 import { assertNever, ReadonlyToMutableArray, symbolAlphabet, timer } from './utils';
 
@@ -241,7 +241,12 @@ export function adjustImage(imageData: ImageData, imageSettings: ImageProps) {
     const croppedImageData: ImageData = applyTransparencyAndCrop(descaledImageData, transparency);
     mark("Apply transparency & crop");
 
-    const adjustedImageData = applyImageAdjustments(croppedImageData,
+    // Rescale to max resolution
+    const originalSize = [croppedImageData.width, croppedImageData.height] as const;
+    const downsize = maxDimension(originalSize, 640);
+    const rescaledImageData = downsize === originalSize ? croppedImageData : resizeImage(croppedImageData, downsize);
+
+    const adjustedImageData = applyImageAdjustments(rescaledImageData,
         (imageSettings.brightness * 10) + 100,
         (imageSettings.contrast * 10) + 100,
         (imageSettings.saturation * 10) + 100,
@@ -250,6 +255,12 @@ export function adjustImage(imageData: ImageData, imageSettings: ImageProps) {
     mark("Adjust image");
 
     return adjustedImageData;
+}
+
+export function maxDimension(size: readonly [number, number], max: number): readonly [number, number] {
+    if (size[0] <= max && size[1] <= max) return size;
+    const scale = Math.max(size[0] / max, size[1] / max);
+    return [Math.round(size[0] / scale), Math.round(size[1] / scale)];
 }
 
 export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialProps) {
@@ -278,14 +289,21 @@ export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialP
         default:
             assertNever(materialSettings.palette, "Unknown palette");
     }
-    const palette = makePalette(rgbaArray, allowedColors, materialSettings);
-    mark("Create palette");
 
-    const quantized = palettize(rgbaArray, palette);
-    mark("Apply palette");
+    const survey = surveyColors(rgbaArray);
+    // TODO: Use a dithering algorithm when the input color count is too high
+    let quantized;
+    if (survey.length > 256 && allowedColors !== undefined) {
+        quantized = dither(rgbaArray, allowedColors);
+    } else {
+        const palette = makeFixedPalette(survey, allowedColors, materialSettings);
+        mark("Create palette");
+        quantized = palettize(rgbaArray, palette);
+        mark("Apply palette");
+    }
 
     return ({
-        palette,
+        /*palette,*/
         rgbaArray,
         quantized
     });
@@ -297,8 +315,8 @@ export type PartListImage = {
     height: number;
     partList: PartList;
 }
-export function createPartListImage(palette: InputColorsToObjectColors, quantized: PalettizedImage): PartListImage {
-    const partList = getPartList(palette);
+export function createPartListImage(quantized: PalettizedImage): PartListImage {
+    const partList = getPartList(quantized);
     const res: number[][] = new Array(quantized.height);
     const lookup = new Map<ColorEntry, number>();
     for (let i = 0; i < partList.length; i++) {
@@ -330,15 +348,23 @@ export type PartListEntry = {
 };
 
 export type PartList = ReadonlyArray<PartListEntry>;
-export function getPartList(palette: InputColorsToObjectColors): PartList {
-    const res: ReadonlyToMutableArray<PartList> = [];
-    for (const ent of palette) {
-        const extant = res.filter(e => e.target === ent.target)[0];
-        if (extant) {
-            extant.count += ent.count;
-        } else {
-            res.push({ count: ent.count, target: ent.target, symbol: "#" });
+export function getPartList(quantized: PalettizedImage): PartList {
+    const lookup = new Map<ColorEntry, PartListEntry>();
+    for (let y = 0; y < quantized.height; y++) {
+        for (let x = 0; x < quantized.width; x++) {
+            const c = quantized.pixels[y][x];
+            if (c === undefined) continue;
+            const entry = lookup.get(c);
+            if (entry === undefined) {
+                lookup.set(c, { count: 1, target: c, symbol: "#" });
+            } else {
+                entry.count++;
+            }
         }
+    }
+    const res: ReadonlyToMutableArray<PartList> = [];
+    for (const entry of lookup.entries()) {
+        res.push(entry[1]);
     }
 
     res.sort((a, b) => b.count - a.count);
@@ -384,4 +410,64 @@ export function renderPartListImageToDataURL(image: PartListImage, maxPartFrame 
     data.data.set(buffer);
     ctx.putImageData(data, 0, 0);
     return canvas.toDataURL();
+}
+
+function resizeImage(imageData: ImageData, downsize: readonly [number, number]): ImageData {
+    const cv = document.createElement("canvas");
+    [cv.width, cv.height] = downsize;
+    const context = cv.getContext("2d")!;
+    context.scale(imageData.width / downsize[0], imageData.height / downsize[1]);
+    context.putImageData(imageData, 0, 0);
+    return context.getImageData(0, 0, downsize[0], downsize[1]);
+}
+
+// https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
+export function dither(image: RgbaImage, allowedColor: ColorEntry[]): PalettizedImage {
+    // Make a fresh copy for each channel since we'll be futzing around anyway
+    const chR = image.pixels.map(line => line.map(e => e & 0xFF));
+    const chG = image.pixels.map(line => line.map(e => (e >> 8) & 0xFF));
+    const chB = image.pixels.map(line => line.map(e => (e >> 16) & 0xFF));
+
+    const out = [];
+    for (let y = 0; y < image.height; y++) {
+        const line = [];
+        for (let x = 0; x < image.width; x++) {
+            if (image.pixels[y][x] === -1) {
+                // Transparent, skip
+                line.push(undefined);
+            } else {
+                let bestError = Infinity;
+                let bestColor: ColorEntry = undefined as never;
+                for (const c of allowedColor) {
+                    const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
+                    if (e < bestError) {
+                        bestColor = c;
+                        bestError = e;
+                    }
+                }
+                line.push(bestColor);
+                const er = bestColor.r - chR[y][x],
+                    eg = bestColor.g - chG[y][x],
+                    eb = bestColor.b - chB[y][x];
+                applyError(x + 1, y, er, eg, eb, 7 / 16);
+                applyError(x - 1, y + 1, er, eg, eb, 3 / 16);
+                applyError(x, y + 1, er, eg, eb, 5 / 16);
+                applyError(x + 1, y + 1, er, eg, eb, 1 / 16);
+            }
+        }
+        out.push(line);
+    }
+    return {
+        pixels: out,
+        width: image.width,
+        height: image.height
+    };
+
+    function applyError(x: number, y: number, r: number, g: number, b: number, f: number) {
+        if (x < 0 || x >= image.width) return;
+        if (y < 0 || y >= image.height) return;
+        chR[y][x] -= r * f;
+        chG[y][x] -= g * f;
+        chB[y][x] -= b * f;
+    }
 }

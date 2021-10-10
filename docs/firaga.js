@@ -989,14 +989,17 @@
   var diff2 = require_lib();
   function palettize(rgbaArray, palette) {
     const pixels = [];
+    const colorLookup = new Map();
+    for (const p3 of palette) {
+      colorLookup.set(p3.color, p3.target);
+    }
     for (let y3 = 0; y3 < rgbaArray.height; y3++) {
       const row = [];
       for (let x3 = 0; x3 < rgbaArray.width; x3++) {
         if (rgbaArray.pixels[y3][x3] === -1) {
           row.push(void 0);
         } else {
-          const paletteEntry = palette.filter((p3) => p3.color === rgbaArray.pixels[y3][x3])[0];
-          row.push(paletteEntry.target);
+          row.push(colorLookup.get(rgbaArray.pixels[y3][x3]));
         }
       }
       pixels.push(row);
@@ -1007,33 +1010,41 @@
       height: rgbaArray.height
     };
   }
-  function makePalette(rgbaArray, allowedColors, settings) {
-    const tempAssignments = [];
+  function surveyColors(rgbaArray) {
+    const perf = timer();
     const inputColors = [];
+    const colorToColor = new Map();
     for (let y3 = 0; y3 < rgbaArray.height; y3++) {
       for (let x3 = 0; x3 < rgbaArray.width; x3++) {
         const color = rgbaArray.pixels[y3][x3];
         if (color === -1)
           continue;
-        const extant = inputColors.filter((r3) => r3.color === color)[0];
-        if (extant) {
-          extant.count++;
+        if (colorToColor.has(color)) {
+          colorToColor.get(color).count++;
         } else {
-          inputColors.push({
+          const entry = {
             color,
             count: 1,
             r: color & 255,
             g: color >> 8 & 255,
             b: color >> 16 & 255
-          });
+          };
+          inputColors.push(entry);
+          colorToColor.set(color, entry);
         }
       }
     }
+    perf.mark(`Palette: Survey colors (${inputColors.length}) and counts`);
+    return inputColors;
+  }
+  function makePalette(inputColors, allowedColors, settings) {
+    const perf = timer();
+    const tempAssignments = [];
     inputColors.sort((a3, b3) => b3.count - a3.count);
     const diff3 = colorDiff[settings.colorMatch];
     for (const inColor of inputColors) {
       if (allowedColors === void 0) {
-        let r3 = inColor.color & 255, g3 = inColor.color >> 8 & 255, b3 = inColor.color >> 16 & 255;
+        const {r: r3, g: g3, b: b3} = inColor;
         tempAssignments.push({
           color: inColor.color,
           target: {
@@ -1068,16 +1079,26 @@
         });
       }
     }
+    perf.mark("Palette: Assign color entries");
     return tempAssignments;
   }
   var colorDiff = {
     rgb: (lhs, rhs) => {
       return Math.pow(lhs.r - rhs.r, 2) * 3 + Math.pow(lhs.g - rhs.g, 2) * 4 + Math.pow(lhs.b - rhs.b, 2) * 2;
     },
+    rgb2: (r3, g3, b3, rhs) => {
+      return Math.pow(r3 - rhs.r, 2) * 3 + Math.pow(g3 - rhs.g, 2) * 4 + Math.pow(b3 - rhs.b, 2) * 2;
+    },
     "ciede2000": (lhs, rhs) => {
-      return diff2.diff(diff2.rgb_to_lab({R: lhs.r, G: lhs.g, B: lhs.b}), diff2.rgb_to_lab({R: rhs.r, G: rhs.g, B: rhs.b}));
+      return diff2.diff(rgbToLabCached(lhs), rgbToLabCached(rhs));
     }
   };
+  function rgbToLabCached(rgb) {
+    if ("_lab" in rgb) {
+      return rgb["_lab"];
+    }
+    return rgb["_lab"] = diff2.rgb_to_lab({R: rgb.r, G: rgb.g, B: rgb.b});
+  }
 
   // src/image-utils.tsx
   var colorData = loadColorData();
@@ -1287,9 +1308,18 @@
     const descaledImageData = imageSettings.descale ? descale(imageData) : imageData;
     const croppedImageData = applyTransparencyAndCrop(descaledImageData, transparency);
     mark("Apply transparency & crop");
-    const adjustedImageData = applyImageAdjustments(croppedImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100, imageSettings.flip, imageSettings.mirror);
+    const originalSize = [croppedImageData.width, croppedImageData.height];
+    const downsize = maxDimension(originalSize, 640);
+    const rescaledImageData = downsize === originalSize ? croppedImageData : resizeImage(croppedImageData, downsize);
+    const adjustedImageData = applyImageAdjustments(rescaledImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100, imageSettings.flip, imageSettings.mirror);
     mark("Adjust image");
     return adjustedImageData;
+  }
+  function maxDimension(size, max) {
+    if (size[0] <= max && size[1] <= max)
+      return size;
+    const scale = Math.max(size[0] / max, size[1] / max);
+    return [Math.round(size[0] / scale), Math.round(size[1] / scale)];
   }
   function palettizeImage(rgbaArray, materialSettings) {
     const {mark} = timer();
@@ -1316,18 +1346,23 @@
       default:
         assertNever(materialSettings.palette, "Unknown palette");
     }
-    const palette = makePalette(rgbaArray, allowedColors, materialSettings);
-    mark("Create palette");
-    const quantized = palettize(rgbaArray, palette);
-    mark("Apply palette");
+    const survey = surveyColors(rgbaArray);
+    let quantized;
+    if (survey.length > 256 && allowedColors !== void 0) {
+      quantized = dither(rgbaArray, allowedColors);
+    } else {
+      const palette = makePalette(survey, allowedColors, materialSettings);
+      mark("Create palette");
+      quantized = palettize(rgbaArray, palette);
+      mark("Apply palette");
+    }
     return {
-      palette,
       rgbaArray,
       quantized
     };
   }
-  function createPartListImage(palette, quantized) {
-    const partList = getPartList(palette);
+  function createPartListImage(quantized) {
+    const partList = getPartList(quantized);
     const res = new Array(quantized.height);
     const lookup = new Map();
     for (let i3 = 0; i3 < partList.length; i3++) {
@@ -1351,15 +1386,24 @@
       partList
     };
   }
-  function getPartList(palette) {
-    const res = [];
-    for (const ent of palette) {
-      const extant = res.filter((e3) => e3.target === ent.target)[0];
-      if (extant) {
-        extant.count += ent.count;
-      } else {
-        res.push({count: ent.count, target: ent.target, symbol: "#"});
+  function getPartList(quantized) {
+    const lookup = new Map();
+    for (let y3 = 0; y3 < quantized.height; y3++) {
+      for (let x3 = 0; x3 < quantized.width; x3++) {
+        const c3 = quantized.pixels[y3][x3];
+        if (c3 === void 0)
+          continue;
+        const entry = lookup.get(c3);
+        if (entry === void 0) {
+          lookup.set(c3, {count: 1, target: c3, symbol: "#"});
+        } else {
+          entry.count++;
+        }
       }
+    }
+    const res = [];
+    for (const entry of lookup.entries()) {
+      res.push(entry[1]);
     }
     res.sort((a3, b3) => b3.count - a3.count);
     for (let i3 = 0; i3 < res.length; i3++) {
@@ -1398,6 +1442,59 @@
     data.data.set(buffer);
     ctx.putImageData(data, 0, 0);
     return canvas.toDataURL();
+  }
+  function resizeImage(imageData, downsize) {
+    const cv = document.createElement("canvas");
+    [cv.width, cv.height] = downsize;
+    const context = cv.getContext("2d");
+    context.scale(imageData.width / downsize[0], imageData.height / downsize[1]);
+    context.putImageData(imageData, 0, 0);
+    return context.getImageData(0, 0, downsize[0], downsize[1]);
+  }
+  function dither(image, allowedColor) {
+    const chR = image.pixels.map((line) => line.map((e3) => e3 & 255));
+    const chG = image.pixels.map((line) => line.map((e3) => e3 >> 8 & 255));
+    const chB = image.pixels.map((line) => line.map((e3) => e3 >> 16 & 255));
+    const out = [];
+    for (let y3 = 0; y3 < image.height; y3++) {
+      const line = [];
+      for (let x3 = 0; x3 < image.width; x3++) {
+        if (image.pixels[y3][x3] === -1) {
+          line.push(void 0);
+        } else {
+          let bestError = Infinity;
+          let bestColor = void 0;
+          for (const c3 of allowedColor) {
+            const e3 = colorDiff.rgb2(chR[y3][x3], chG[y3][x3], chB[y3][x3], c3);
+            if (e3 < bestError) {
+              bestColor = c3;
+              bestError = e3;
+            }
+          }
+          line.push(bestColor);
+          const er = bestColor.r - chR[y3][x3], eg = bestColor.g - chG[y3][x3], eb = bestColor.b - chB[y3][x3];
+          applyError(x3 + 1, y3, er, eg, eb, 7 / 16);
+          applyError(x3 - 1, y3 + 1, er, eg, eb, 3 / 16);
+          applyError(x3, y3 + 1, er, eg, eb, 5 / 16);
+          applyError(x3 + 1, y3 + 1, er, eg, eb, 1 / 16);
+        }
+      }
+      out.push(line);
+    }
+    return {
+      pixels: out,
+      width: image.width,
+      height: image.height
+    };
+    function applyError(x3, y3, r3, g3, b3, f3) {
+      if (x3 < 0 || x3 >= image.width)
+        return;
+      if (y3 < 0 || y3 >= image.height)
+        return;
+      chR[y3][x3] -= r3 * f3;
+      chG[y3][x3] -= g3 * f3;
+      chB[y3][x3] -= b3 * f3;
+    }
   }
 
   // src/types.tsx
@@ -2666,8 +2763,8 @@
       const imageData = props.source._decoded;
       const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
       const processedRgbaArray = adjustedImageData && imageDataToRgbaArray(adjustedImageData);
-      const {palette, quantized} = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
-      const image = palette && quantized ? memoized.createPartListImage(palette, quantized) : void 0;
+      const {quantized} = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
+      const image = quantized ? memoized.createPartListImage(quantized) : void 0;
       const pitch = getPitch(props.material.size);
       return /* @__PURE__ */ a("div", {
         class: "app-top"
