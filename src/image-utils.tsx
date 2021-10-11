@@ -439,8 +439,10 @@ export function dither(image: RgbaImage, allowedColor: ColorEntry[]): Palettized
                 let bestError = Infinity;
                 let bestColor: ColorEntry = undefined as never;
                 for (const c of allowedColor) {
-                    // const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
-                    const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
+                    // TODO: Use the selected diff algorithm here;
+                    // add a less-allocating codepath for ciede2000
+                    const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
+                    // const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
                     if (e < bestError) {
                         bestColor = c;
                         bestError = e;
@@ -450,9 +452,9 @@ export function dither(image: RgbaImage, allowedColor: ColorEntry[]): Palettized
                 const er = bestColor.r - chR[y][x],
                     eg = bestColor.g - chG[y][x],
                     eb = bestColor.b - chB[y][x];
-                applyError(x + 1, y, er, eg, eb, 7 / 16);
+                applyError(x + 1, y + 0, er, eg, eb, 7 / 16);
                 applyError(x - 1, y + 1, er, eg, eb, 3 / 16);
-                applyError(x, y + 1, er, eg, eb, 5 / 16);
+                applyError( x+ 0, y + 1, er, eg, eb, 5 / 16);
                 applyError(x + 1, y + 1, er, eg, eb, 1 / 16);
             }
         }

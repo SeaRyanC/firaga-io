@@ -1473,9 +1473,9 @@
           }
           line.push(bestColor);
           const er = bestColor.r - chR[y3][x3], eg = bestColor.g - chG[y3][x3], eb = bestColor.b - chB[y3][x3];
-          applyError(x3 + 1, y3, er, eg, eb, 7 / 16);
+          applyError(x3 + 1, y3 + 0, er, eg, eb, 7 / 16);
           applyError(x3 - 1, y3 + 1, er, eg, eb, 3 / 16);
-          applyError(x3, y3 + 1, er, eg, eb, 5 / 16);
+          applyError(x3 + 0, y3 + 1, er, eg, eb, 5 / 16);
           applyError(x3 + 1, y3 + 1, er, eg, eb, 1 / 16);
         }
       }
