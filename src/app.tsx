@@ -13,7 +13,8 @@ import { WelcomeScreen } from './components/welcome-screen';
 const memoized = {
     adjustImage: memoize(adjustImage),
     palettizeImage: memoize(palettizeImage),
-    createPartListImage: memoize(createPartListImage)
+    createPartListImage: memoize(createPartListImage),
+    imageDataToRgbaArray: memoize(imageDataToRgbaArray)
 };
 
 const galleryStorage = createGallery();
@@ -67,10 +68,12 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
     selectImage(_props.source.displayName, _props.source.uri);
 
-    function updateProp<K extends keyof AppProps, T extends keyof AppProps[K]>(parent: K, name: T, value: AppProps[K][T]) {
+    function updateProp<K extends keyof AppProps, T extends keyof AppProps[K]>(parent: K, name: T, value: AppProps[K][T], skipRender = false) {
         _props = { ..._props, [parent]: { ..._props[parent], [name]: value } };
-        preact.render(<App {..._props} />, renderTarget);
-        window.localStorage.setItem("props", JSON.stringify(_props, (name, val) => name.startsWith("_") ? undefined : val));
+        if (!skipRender) {
+            preact.render(<App {..._props} />, renderTarget);
+            window.localStorage.setItem("props", JSON.stringify(_props, (name, val) => name.startsWith("_") ? undefined : val));
+        }
     }
 
     // TODO: Update signature to only accept boolean-valued props
@@ -85,9 +88,9 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
     function selectImage(displayName: string, uri: string) {
         getImageDataFromName(uri, data => {
-            updateProp("source", "uri", uri);
-            updateProp("source", "displayName", displayName);
-            updateProp("source", "_decoded", data);
+            updateProp("source", "uri", uri, true);
+            updateProp("source", "displayName", displayName, true);
+            updateProp("source", "_decoded", data, true);
             updateProp("ui", "isUploadOpen", false);
         });
     }
@@ -146,7 +149,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         const none: Record<string, undefined> = {};
         const imageData = props.source._decoded;
         const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
-        const processedRgbaArray = adjustedImageData && imageDataToRgbaArray(adjustedImageData);
+        const processedRgbaArray = adjustedImageData && memoized.imageDataToRgbaArray(adjustedImageData);
         const { quantized } = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
         const image = quantized ? memoized.createPartListImage(quantized) : undefined;
         const pitch = getPitch(props.material.size);

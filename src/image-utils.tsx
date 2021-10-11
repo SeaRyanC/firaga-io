@@ -243,7 +243,8 @@ export function adjustImage(imageData: ImageData, imageSettings: ImageProps) {
 
     // Rescale to max resolution
     const originalSize = [croppedImageData.width, croppedImageData.height] as const;
-    const downsize = maxDimension(originalSize, 640);
+    const maxSize = isTrueColorImage(croppedImageData, 256) ? 96 : 480;
+    const downsize = maxDimension(originalSize, maxSize);
     const rescaledImageData = downsize === originalSize ? croppedImageData : resizeImage(croppedImageData, downsize);
 
     const adjustedImageData = applyImageAdjustments(rescaledImageData,
@@ -293,7 +294,7 @@ export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialP
     const survey = surveyColors(rgbaArray);
     // TODO: Use a dithering algorithm when the input color count is too high
     let quantized;
-    if (survey.length > 256 && allowedColors !== undefined) {
+    if ((true || survey.length > 256) && allowedColors !== undefined) {
         quantized = dither(rgbaArray, allowedColors);
     } else {
         const palette = makeFixedPalette(survey, allowedColors, materialSettings);
@@ -423,48 +424,68 @@ function resizeImage(imageData: ImageData, downsize: readonly [number, number]):
 
 // https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
 export function dither(image: RgbaImage, allowedColor: ColorEntry[]): PalettizedImage {
+    const perf = timer();
     // Make a fresh copy for each channel since we'll be futzing around anyway
     const chR = image.pixels.map(line => line.map(e => e & 0xFF));
     const chG = image.pixels.map(line => line.map(e => (e >> 8) & 0xFF));
     const chB = image.pixels.map(line => line.map(e => (e >> 16) & 0xFF));
+    perf.mark("Create channel arrays");
 
-    const out = [];
+    const pixels: (ColorEntry | undefined)[][] = new Array(image.height);
     for (let y = 0; y < image.height; y++) {
-        const line = [];
-        for (let x = 0; x < image.width; x++) {
-            if (image.pixels[y][x] === -1) {
-                // Transparent, skip
-                line.push(undefined);
-            } else {
-                let bestError = Infinity;
-                let bestColor: ColorEntry = undefined as never;
-                for (const c of allowedColor) {
-                    // TODO: Use the selected diff algorithm here;
-                    // add a less-allocating codepath for ciede2000
-                    const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
-                    // const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
-                    if (e < bestError) {
-                        bestColor = c;
-                        bestError = e;
-                    }
-                }
-                line.push(bestColor);
-                const er = bestColor.r - chR[y][x],
-                    eg = bestColor.g - chG[y][x],
-                    eb = bestColor.b - chB[y][x];
-                applyError(x + 1, y + 0, er, eg, eb, 7 / 16);
-                applyError(x - 1, y + 1, er, eg, eb, 3 / 16);
-                applyError( x+ 0, y + 1, er, eg, eb, 5 / 16);
-                applyError(x + 1, y + 1, er, eg, eb, 1 / 16);
+        pixels[y] = new Array(image.width);
+        if (y % 2 === 0) {
+            for (let x = 0; x < image.width; x++) {
+                quantize(x, y, true);
+            }
+        } else {
+            for (let x = image.width - 1; x >= 0; x--) {
+                quantize(x, y, false);
             }
         }
-        out.push(line);
     }
+    perf.mark("Dither");
+    console.trace();
     return {
-        pixels: out,
+        pixels,
         width: image.width,
         height: image.height
     };
+
+    function quantize(x: number, y: number, rightScanning: boolean) {
+        if (image.pixels[y][x] === -1) {
+            // Transparent, skip
+            pixels[y][x] = undefined;
+        } else {
+            let bestError = Infinity;
+            let bestColor: ColorEntry = undefined as never;
+            for (const c of allowedColor) {
+                // TODO: Use the selected diff algorithm here;
+                // add a less-allocating codepath for ciede2000
+                // const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
+                const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
+                if (e < bestError) {
+                    bestColor = c;
+                    bestError = e;
+                }
+            }
+            pixels[y][x] = bestColor;
+            const er = bestColor.r - chR[y][x],
+                eg = bestColor.g - chG[y][x],
+                eb = bestColor.b - chB[y][x];
+            if (rightScanning) {
+                applyError(x + 1, y + 0, er, eg, eb, 7 / 16);
+                applyError(x - 1, y + 1, er, eg, eb, 3 / 16);
+                applyError(x + 0, y + 1, er, eg, eb, 5 / 16);
+                applyError(x + 1, y + 1, er, eg, eb, 1 / 16);
+            } else {
+                applyError(x - 1, y + 0, er, eg, eb, 7 / 16);
+                applyError(x + 1, y + 1, er, eg, eb, 3 / 16);
+                applyError(x + 0, y + 1, er, eg, eb, 5 / 16);
+                applyError(x - 1, y + 1, er, eg, eb, 1 / 16);
+            }
+        }
+    }
 
     function applyError(x: number, y: number, r: number, g: number, b: number, f: number) {
         if (x < 0 || x >= image.width) return;
@@ -473,4 +494,21 @@ export function dither(image: RgbaImage, allowedColor: ColorEntry[]): Palettized
         chG[y][x] -= g * f;
         chB[y][x] -= b * f;
     }
+}
+
+export function isTrueColorImage(img: ImageData, threshold: number) {
+    const set = new Set<number>();
+    let c = 0;
+    for (let y = 0; y < img.height; y++) {
+        for (let x = 0; x < img.width; x++) {
+            set.add(
+                (img.data[c + 0] << 0) |
+                (img.data[c + 1] << 8) |
+                (img.data[c + 2] << 16) |
+                (img.data[c + 3] << 24));
+            c += 4;
+        }
+        if (set.size > threshold) return true;
+    }
+    return false;
 }

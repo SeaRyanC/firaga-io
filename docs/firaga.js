@@ -1309,7 +1309,8 @@
     const croppedImageData = applyTransparencyAndCrop(descaledImageData, transparency);
     mark("Apply transparency & crop");
     const originalSize = [croppedImageData.width, croppedImageData.height];
-    const downsize = maxDimension(originalSize, 640);
+    const maxSize = isTrueColorImage(croppedImageData, 256) ? 96 : 480;
+    const downsize = maxDimension(originalSize, maxSize);
     const rescaledImageData = downsize === originalSize ? croppedImageData : resizeImage(croppedImageData, downsize);
     const adjustedImageData = applyImageAdjustments(rescaledImageData, imageSettings.brightness * 10 + 100, imageSettings.contrast * 10 + 100, imageSettings.saturation * 10 + 100, imageSettings.flip, imageSettings.mirror);
     mark("Adjust image");
@@ -1348,7 +1349,7 @@
     }
     const survey = surveyColors(rgbaArray);
     let quantized;
-    if (survey.length > 256 && allowedColors !== void 0) {
+    if (allowedColors !== void 0) {
       quantized = dither(rgbaArray, allowedColors);
     } else {
       const palette = makePalette(survey, allowedColors, materialSettings);
@@ -1452,40 +1453,59 @@
     return context.getImageData(0, 0, downsize[0], downsize[1]);
   }
   function dither(image, allowedColor) {
+    const perf = timer();
     const chR = image.pixels.map((line) => line.map((e3) => e3 & 255));
     const chG = image.pixels.map((line) => line.map((e3) => e3 >> 8 & 255));
     const chB = image.pixels.map((line) => line.map((e3) => e3 >> 16 & 255));
-    const out = [];
+    perf.mark("Create channel arrays");
+    const pixels = new Array(image.height);
     for (let y3 = 0; y3 < image.height; y3++) {
-      const line = [];
-      for (let x3 = 0; x3 < image.width; x3++) {
-        if (image.pixels[y3][x3] === -1) {
-          line.push(void 0);
-        } else {
-          let bestError = Infinity;
-          let bestColor = void 0;
-          for (const c3 of allowedColor) {
-            const e3 = colorDiff.rgb2(chR[y3][x3], chG[y3][x3], chB[y3][x3], c3);
-            if (e3 < bestError) {
-              bestColor = c3;
-              bestError = e3;
-            }
+      pixels[y3] = new Array(image.width);
+      if (y3 % 2 === 0) {
+        for (let x3 = 0; x3 < image.width; x3++) {
+          quantize(x3, y3, true);
+        }
+      } else {
+        for (let x3 = image.width - 1; x3 >= 0; x3--) {
+          quantize(x3, y3, false);
+        }
+      }
+    }
+    perf.mark("Dither");
+    console.trace();
+    return {
+      pixels,
+      width: image.width,
+      height: image.height
+    };
+    function quantize(x3, y3, rightScanning) {
+      if (image.pixels[y3][x3] === -1) {
+        pixels[y3][x3] = void 0;
+      } else {
+        let bestError = Infinity;
+        let bestColor = void 0;
+        for (const c3 of allowedColor) {
+          const e3 = colorDiff.ciede2000({r: chR[y3][x3], g: chG[y3][x3], b: chB[y3][x3]}, c3);
+          if (e3 < bestError) {
+            bestColor = c3;
+            bestError = e3;
           }
-          line.push(bestColor);
-          const er = bestColor.r - chR[y3][x3], eg = bestColor.g - chG[y3][x3], eb = bestColor.b - chB[y3][x3];
+        }
+        pixels[y3][x3] = bestColor;
+        const er = bestColor.r - chR[y3][x3], eg = bestColor.g - chG[y3][x3], eb = bestColor.b - chB[y3][x3];
+        if (rightScanning) {
           applyError(x3 + 1, y3 + 0, er, eg, eb, 7 / 16);
           applyError(x3 - 1, y3 + 1, er, eg, eb, 3 / 16);
           applyError(x3 + 0, y3 + 1, er, eg, eb, 5 / 16);
           applyError(x3 + 1, y3 + 1, er, eg, eb, 1 / 16);
+        } else {
+          applyError(x3 - 1, y3 + 0, er, eg, eb, 7 / 16);
+          applyError(x3 + 1, y3 + 1, er, eg, eb, 3 / 16);
+          applyError(x3 + 0, y3 + 1, er, eg, eb, 5 / 16);
+          applyError(x3 - 1, y3 + 1, er, eg, eb, 1 / 16);
         }
       }
-      out.push(line);
     }
-    return {
-      pixels: out,
-      width: image.width,
-      height: image.height
-    };
     function applyError(x3, y3, r3, g3, b3, f3) {
       if (x3 < 0 || x3 >= image.width)
         return;
@@ -1495,6 +1515,19 @@
       chG[y3][x3] -= g3 * f3;
       chB[y3][x3] -= b3 * f3;
     }
+  }
+  function isTrueColorImage(img, threshold) {
+    const set = new Set();
+    let c3 = 0;
+    for (let y3 = 0; y3 < img.height; y3++) {
+      for (let x3 = 0; x3 < img.width; x3++) {
+        set.add(img.data[c3 + 0] << 0 | img.data[c3 + 1] << 8 | img.data[c3 + 2] << 16 | img.data[c3 + 3] << 24);
+        c3 += 4;
+      }
+      if (set.size > threshold)
+        return true;
+    }
+    return false;
   }
 
   // src/types.tsx
@@ -2643,7 +2676,8 @@
   var memoized = {
     adjustImage: memoize(adjustImage),
     palettizeImage: memoize(palettizeImage),
-    createPartListImage: memoize(createPartListImage)
+    createPartListImage: memoize(createPartListImage),
+    imageDataToRgbaArray: memoize(imageDataToRgbaArray)
   };
   var galleryStorage = createGallery();
   var DefaultAppProps = {
@@ -2690,12 +2724,14 @@
   function createApp(initProps = DefaultAppProps, renderTarget) {
     let _props = initProps;
     selectImage(_props.source.displayName, _props.source.uri);
-    function updateProp(parent, name, value) {
+    function updateProp(parent, name, value, skipRender = false) {
       _props = {..._props, [parent]: {..._props[parent], [name]: value}};
-      N(/* @__PURE__ */ a(App, {
-        ..._props
-      }), renderTarget);
-      window.localStorage.setItem("props", JSON.stringify(_props, (name2, val) => name2.startsWith("_") ? void 0 : val));
+      if (!skipRender) {
+        N(/* @__PURE__ */ a(App, {
+          ..._props
+        }), renderTarget);
+        window.localStorage.setItem("props", JSON.stringify(_props, (name2, val) => name2.startsWith("_") ? void 0 : val));
+      }
     }
     function toggleProp(parent, name) {
       updateProp(parent, name, !_props[parent][name]);
@@ -2706,9 +2742,9 @@
     }
     function selectImage(displayName, uri) {
       getImageDataFromName(uri, (data) => {
-        updateProp("source", "uri", uri);
-        updateProp("source", "displayName", displayName);
-        updateProp("source", "_decoded", data);
+        updateProp("source", "uri", uri, true);
+        updateProp("source", "displayName", displayName, true);
+        updateProp("source", "_decoded", data, true);
         updateProp("ui", "isUploadOpen", false);
       });
     }
@@ -2762,7 +2798,7 @@
       const none = {};
       const imageData = props.source._decoded;
       const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
-      const processedRgbaArray = adjustedImageData && imageDataToRgbaArray(adjustedImageData);
+      const processedRgbaArray = adjustedImageData && memoized.imageDataToRgbaArray(adjustedImageData);
       const {quantized} = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
       const image = quantized ? memoized.createPartListImage(quantized) : void 0;
       const pitch = getPitch(props.material.size);
