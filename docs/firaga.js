@@ -860,6 +860,48 @@
     return {sets};
   }
 
+  // src/ictcp.ts
+  var m1 = 2610 / 16384;
+  function PQ(L2, M2, S2) {
+    return [PQf(L2), PQf(M2), PQf(S2)];
+  }
+  function PQf(n2) {
+    let num = 3424 / 4096 + 2413 / 128 * Math.pow(n2 / 1e4, m1);
+    let denom = 1 + 2392 / 128 * Math.pow(n2 / 1e4, m1);
+    return Math.pow((3424 / 4096 + 2413 / 128 * Math.pow(n2 / 1e4, m1)) / (1 + 2392 / 128 * Math.pow(n2 / 1e4, m1)), 2523 / 32);
+  }
+  function rgbToXyz(r3, g3, b3) {
+    r3 = sRGBtoLinearRGB(r3 / 255);
+    g3 = sRGBtoLinearRGB(g3 / 255);
+    b3 = sRGBtoLinearRGB(b3 / 255);
+    const X = 0.4124 * r3 + 0.3576 * g3 + 0.1805 * b3;
+    const Y = 0.2126 * r3 + 0.7152 * g3 + 0.0722 * b3;
+    const Z = 0.0193 * r3 + 0.1192 * g3 + 0.9505 * b3;
+    return [X, Y, Z];
+  }
+  function xyzToXYZa(xyz) {
+    return xyz.map((n2) => Math.max(n2 * 203, 0));
+  }
+  function sRGBtoLinearRGB(color) {
+    if (color <= 0.04045) {
+      return color / 12.92;
+    }
+    return Math.pow((color + 0.055) / 1.055, 2.4);
+  }
+  function rgbToICtCp(arg) {
+    const xyz = rgbToXyz(arg.r, arg.g, arg.b);
+    const xyza = xyzToXYZa(xyz);
+    const [R, G, B] = xyza;
+    const L2 = 0.3592 * R + 0.6976 * G - 0.0358 * B;
+    const M2 = -0.1922 * R + 1.1004 * G + 0.0755 * B;
+    const S2 = 7e-3 * R + 0.0749 * G + 0.8434 * B;
+    const [Lp, Mp, Sp] = PQ(L2, M2, S2);
+    const I2 = 0.5 * Lp + 0.5 * Mp;
+    const Ct = (6610 * Lp - 13613 * Mp + 7003 * Sp) / 4096;
+    const Cp = (17933 * Lp - 17390 * Mp - 543 * Sp) / 4096;
+    return [I2, Ct, Cp];
+  }
+
   // src/utils.tsx
   var preact2 = (init_preact_module(), preact_module_exports);
   var diff = require_lib();
@@ -1091,6 +1133,11 @@
     },
     "ciede2000": (lhs, rhs) => {
       return diff2.diff(rgbToLabCached(lhs), rgbToLabCached(rhs));
+    },
+    "ictcp": (lhs, rhs) => {
+      const a3 = rgbToICtCp(lhs), b3 = rgbToICtCp(rhs);
+      const di = a3[0] - b3[0], dct = a3[1] - b3[1], dcp = a3[2] - b3[2];
+      return di * di + 0.25 * dct * dct + dcp * dcp;
     }
   };
   function rgbToLabCached(rgb) {
@@ -1585,6 +1632,7 @@
     ],
     colorMatch: [
       ["ciede2000", "CIEDE2000"],
+      ["ictcp", "ICtCp"],
       ["rgb", "RGB"]
     ]
   };

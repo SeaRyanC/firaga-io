@@ -95,6 +95,7 @@ export const MaterialSettings = {
     ],
     colorMatch: [
         ["ciede2000", "CIEDE2000"],
+        ["ictcp", "ICtCp"],
         ["rgb", "RGB"]
     ]
 } as const;

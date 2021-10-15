@@ -1,5 +1,6 @@
 import diff  = require("color-diff");
 import { ColorEntry } from "./color-data";
+import { rgbToICtCp } from "./ictcp";
 import { RgbaImage, InputColorsToObjectColors, PalettizedImage, ObjectColor, ColorAssignment, MaterialProps } from "./types";
 import { colorEntryToHex, Rgb, timer } from "./utils";
 
@@ -123,6 +124,11 @@ export const colorDiff = {
     },
     "ciede2000": (lhs: Rgb, rhs: Rgb) => {
         return diff.diff(rgbToLabCached(lhs), rgbToLabCached(rhs));
+    },
+    "ictcp": (lhs: Rgb, rhs: Rgb) => {
+        const a = rgbToICtCp(lhs), b = rgbToICtCp(rhs);
+        const di = a[0] - b[0], dct = a[1] - b[1], dcp = a[2] - b[2];
+        return di * di + 0.25 * dct * dct + dcp * dcp;        
     }
 };
 
