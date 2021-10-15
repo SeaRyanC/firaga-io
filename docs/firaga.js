@@ -1500,14 +1500,18 @@
     return canvas.toDataURL();
   }
   function resizeImage(imageData, downsize) {
-    const cv = document.createElement("canvas");
-    [cv.width, cv.height] = downsize;
-    const context = cv.getContext("2d");
-    context.scale(imageData.width / downsize[0], imageData.height / downsize[1]);
-    context.putImageData(imageData, 0, 0);
+    const src = document.createElement("canvas");
+    src.width = imageData.width;
+    src.height = imageData.height;
+    src.getContext("2d").putImageData(imageData, 0, 0);
+    const dst = document.createElement("canvas");
+    [dst.width, dst.height] = downsize;
+    const context = dst.getContext("2d");
+    context.scale(downsize[0] / imageData.width, downsize[1] / imageData.height);
+    context.drawImage(src, 0, 0);
     return context.getImageData(0, 0, downsize[0], downsize[1]);
   }
-  function dither(image, allowedColor) {
+  function dither(image, allowedColors) {
     const perf = timer();
     const chR = image.pixels.map((line) => line.map((e3) => e3 & 255));
     const chG = image.pixels.map((line) => line.map((e3) => e3 >> 8 & 255));
@@ -1539,8 +1543,8 @@
       } else {
         let bestError = Infinity;
         let bestColor = void 0;
-        for (const c3 of allowedColor) {
-          const e3 = colorDiff.ciede2000({r: chR[y3][x3], g: chG[y3][x3], b: chB[y3][x3]}, c3);
+        for (const c3 of allowedColors) {
+          const e3 = colorDiff.rgb2(chR[y3][x3], chG[y3][x3], chB[y3][x3], c3);
           if (e3 < bestError) {
             bestColor = c3;
             bestError = e3;

@@ -424,16 +424,20 @@ export function renderPartListImageToDataURL(image: PartListImage, maxPartFrame 
 }
 
 function resizeImage(imageData: ImageData, downsize: readonly [number, number]): ImageData {
-    const cv = document.createElement("canvas");
-    [cv.width, cv.height] = downsize;
-    const context = cv.getContext("2d")!;
-    context.scale(imageData.width / downsize[0], imageData.height / downsize[1]);
-    context.putImageData(imageData, 0, 0);
+    const src = document.createElement("canvas");
+    src.width = imageData.width;
+    src.height = imageData.height;
+    src.getContext("2d")!.putImageData(imageData, 0 ,0);
+    const dst = document.createElement("canvas");
+    [dst.width, dst.height] = downsize;
+    const context = dst.getContext("2d")!;
+    context.scale(downsize[0] / imageData.width, downsize[1] / imageData.height);
+    context.drawImage(src, 0, 0);
     return context.getImageData(0, 0, downsize[0], downsize[1]);
 }
 
 // https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
-export function dither(image: RgbaImage, allowedColor: ColorEntry[]): PalettizedImage {
+export function dither(image: RgbaImage, allowedColors: ColorEntry[]): PalettizedImage {
     const perf = timer();
     // Make a fresh copy for each channel since we'll be futzing around anyway
     const chR = image.pixels.map(line => line.map(e => e & 0xFF));
@@ -469,11 +473,12 @@ export function dither(image: RgbaImage, allowedColor: ColorEntry[]): Palettized
         } else {
             let bestError = Infinity;
             let bestColor: ColorEntry = undefined as never;
-            for (const c of allowedColor) {
+            for (const c of allowedColors) {
                 // TODO: Use the selected diff algorithm here;
                 // add a less-allocating codepath for ciede2000
-                // const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
-                const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
+                const e = colorDiff.rgb2(chR[y][x], chG[y][x], chB[y][x], c);
+                // const e = colorDiff.ciede2000({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
+                // const e = colorDiff.ictcp({ r: chR[y][x], g: chG[y][x], b: chB[y][x] }, c);
                 if (e < bestError) {
                     bestColor = c;
                     bestError = e;
