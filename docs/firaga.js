@@ -1322,7 +1322,7 @@
     const scale = Math.max(size[0] / max, size[1] / max);
     return [Math.round(size[0] / scale), Math.round(size[1] / scale)];
   }
-  function palettizeImage(rgbaArray, materialSettings) {
+  function palettizeImage(rgbaArray, materialSettings, imageProps) {
     const {mark} = timer();
     let allowedColors;
     switch (materialSettings.palette) {
@@ -1348,8 +1348,16 @@
         assertNever(materialSettings.palette, "Unknown palette");
     }
     const survey = surveyColors(rgbaArray);
+    let doDither;
+    if (allowedColors === void 0) {
+      doDither = false;
+    } else if (imageProps.dithering === "auto") {
+      doDither = survey.length > 256;
+    } else {
+      doDither = imageProps.dithering === "on";
+    }
     let quantized;
-    if (allowedColors !== void 0) {
+    if (doDither) {
       quantized = dither(rgbaArray, allowedColors);
     } else {
       const palette = makePalette(survey, allowedColors, materialSettings);
@@ -1587,6 +1595,11 @@
       ["magenta", "Magenta"],
       ["corners", "Corners"],
       ["none", "None"]
+    ],
+    dithering: [
+      ["auto", "Auto"],
+      ["on", "On"],
+      ["off", "Off"]
     ]
   };
   var DisplaySettings = {
@@ -2694,6 +2707,7 @@
       flip: false,
       mirror: false,
       descale: false,
+      dithering: "auto",
       transparency: "auto"
     },
     material: {
@@ -2799,7 +2813,7 @@
       const imageData = props.source._decoded;
       const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
       const processedRgbaArray = adjustedImageData && memoized.imageDataToRgbaArray(adjustedImageData);
-      const {quantized} = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
+      const {quantized} = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material, props.image) : none;
       const image = quantized ? memoized.createPartListImage(quantized) : void 0;
       const pitch = getPitch(props.material.size);
       return /* @__PURE__ */ a("div", {
@@ -2884,6 +2898,10 @@
       }, /* @__PURE__ */ a("span", {
         class: "header"
       }, "Color Adjust"), getSlider(props, "image", "brightness", "Brightness"), getSlider(props, "image", "contrast", "Contrast"), getSlider(props, "image", "saturation", "Saturation")), /* @__PURE__ */ a("div", {
+        class: "options-group"
+      }, /* @__PURE__ */ a("span", {
+        class: "header"
+      }, "Dithering"), getRadioGroup(props, "image", "dithering", ImageSettings.dithering)), /* @__PURE__ */ a("div", {
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"

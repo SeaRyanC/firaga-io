@@ -107,6 +107,11 @@ export const ImageSettings = {
         ["corners", "Corners"],
         ["none", "None"]
     ],
+    dithering: [
+        ["auto", "Auto"],
+        ["on", "On"],
+        ["off", "Off"]
+    ]
 } as const;
 
 export const DisplaySettings = {

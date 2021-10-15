@@ -73,6 +73,7 @@ export function descale(imageData: ImageData) {
                     }
                     if (!match) break;
                 }
+                
                 if (match) {
                     const newData = new ImageData(Math.floor(width / scaleChk), Math.floor(height / scaleChk));
                     let c = 0;
@@ -264,7 +265,7 @@ export function maxDimension(size: readonly [number, number], max: number): read
     return [Math.round(size[0] / scale), Math.round(size[1] / scale)];
 }
 
-export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialProps) {
+export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialProps, imageProps: ImageProps) {
     const { mark } = timer();
 
     let allowedColors;
@@ -292,10 +293,19 @@ export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialP
     }
 
     const survey = surveyColors(rgbaArray);
-    // TODO: Use a dithering algorithm when the input color count is too high
+    let doDither;
+    if (allowedColors === undefined) {
+        doDither = false;
+    } else if (imageProps.dithering === "auto") {
+        doDither = survey.length > 256;
+    } else {
+        doDither = imageProps.dithering === "on";
+    }
+
     let quantized;
-    if ((true || survey.length > 256) && allowedColors !== undefined) {
-        quantized = dither(rgbaArray, allowedColors);
+    if (doDither) {
+        // TODO: writing allowedColors! here triggers a compiler bug
+        quantized = dither(rgbaArray, allowedColors as ColorEntry[]);
     } else {
         const palette = makeFixedPalette(survey, allowedColors, materialSettings);
         mark("Create palette");

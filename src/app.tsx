@@ -35,6 +35,8 @@ const DefaultAppProps: AppProps = {
         mirror: false,
         descale: false,
 
+        dithering: "auto",
+
         transparency: "auto",
     },
     material: {
@@ -150,7 +152,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         const imageData = props.source._decoded;
         const adjustedImageData = imageData && memoized.adjustImage(imageData, props.image);
         const processedRgbaArray = adjustedImageData && memoized.imageDataToRgbaArray(adjustedImageData);
-        const { quantized } = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material) : none;
+        const { quantized } = processedRgbaArray ? memoized.palettizeImage(processedRgbaArray, props.material, props.image) : none;
         const image = quantized ? memoized.createPartListImage(quantized) : undefined;
         const pitch = getPitch(props.material.size);
 
@@ -214,6 +216,11 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         {getSlider(props, "image", "brightness", "Brightness")}
                         {getSlider(props, "image", "contrast", "Contrast")}
                         {getSlider(props, "image", "saturation", "Saturation")}
+                    </div>
+
+                    <div class="options-group">
+                        <span class="header">Dithering</span>
+                        {getRadioGroup(props, "image", "dithering", ImageSettings.dithering)}
                     </div>
 
                     <div class="options-group">
