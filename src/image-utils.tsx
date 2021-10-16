@@ -73,7 +73,7 @@ export function descale(imageData: ImageData) {
                     }
                     if (!match) break;
                 }
-                
+
                 if (match) {
                     const newData = new ImageData(Math.floor(width / scaleChk), Math.floor(height / scaleChk));
                     let c = 0;
@@ -107,20 +107,51 @@ export function descale(imageData: ImageData) {
     }
 }
 
-export function applyTransparencyAndCrop(imageData: ImageData, transparentValue: number): ImageData {
+export function applyTransparencyAndCrop(imageData: ImageData, transparentValue: number, keepOutline: boolean): ImageData {
+    const keepArray = new Array(imageData.width * imageData.height);
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
-    for (let y = 0; y < imageData.height; y++) {
-        for (let x = 0; x < imageData.width; x++) {
-            if (!isTransparent(colorAt(imageData, x, y))) {
-                minX = Math.min(minX, x);
-                maxX = Math.max(maxX, x);
-                minY = Math.min(minY, y);
-                maxY = Math.max(maxY, y);
+
+    if (isNaN(transparentValue)) {
+        // No transparency, keep everything
+        minX = minY = 0;
+        maxX = imageData.width - 1;
+        maxY = imageData.height - 1;
+        keepArray.fill(true, 0, keepArray.length);
+    } else {
+        // Measure the bounds
+        keepArray.fill(false, 0, keepArray.length);
+
+        for (let y = 0; y < imageData.height; y++) {
+            for (let x = 0; x < imageData.width; x++) {
+                const keep = !isTransparent(colorAt(imageData, x, y));
+                if (keep) {
+                    minX = Math.min(minX, x);
+                    maxX = Math.max(maxX, x);
+                    minY = Math.min(minY, y);
+                    maxY = Math.max(maxY, y);
+                    keepArray[y * imageData.width + x] = true;
+                    if (keepOutline) {
+                        // Keep orthogonally-adjacent pixels
+                        if (x !== 0) keepArray[y * imageData.width + (x - 1)] = true;
+                        if (y !== 0) keepArray[(y - 1) * imageData.width + x] = true;
+                        if (x !== imageData.width - 1) keepArray[y * imageData.width + (x + 1)] = true;
+                        if (y !== imageData.height - 1) keepArray[(y + 1) * imageData.width + x] = true;
+                    }
+                }
             }
+        }
+
+        // Adjust for outlining
+        if (keepOutline) {
+            if (minX !== 0) minX--;
+            if (minY !== 0) minY--;
+            if (maxX !== imageData.width - 1) maxX++;
+            if (maxY !== imageData.height - 1) maxY++;
         }
     }
 
+    debugger;
     const newImage = new ImageData(maxX - minX + 1, maxY - minY + 1);
     // Zero out the whole thing
     for (let y = 0; y < newImage.height; y++)
@@ -131,7 +162,7 @@ export function applyTransparencyAndCrop(imageData: ImageData, transparentValue:
         for (let x = minX; x <= maxX; x++) {
             const color = colorAt(imageData, x, y);
             const c = ((y - minY) * newImage.width + (x - minX)) * 4;
-            if (!isTransparent(color)) {
+            if (keepArray[y * imageData.width + x]) {
                 newImage.data[c + 0] = (color >> 0) & 0xFF;
                 newImage.data[c + 1] = (color >> 8) & 0xFF;
                 newImage.data[c + 2] = (color >> 16) & 0xFF;
@@ -142,11 +173,15 @@ export function applyTransparencyAndCrop(imageData: ImageData, transparentValue:
     return newImage;
 
     function isTransparent(n: number) {
+        // No transparency
         if (isNaN(transparentValue)) return false;
 
+        // Alpha channel
         if (transparentValue === 0) {
             return (n >> 24) * 0xFF === 0;
         }
+
+        // Mask to non-alpha and check equality
         return (n & 0xFFFFFF) === (transparentValue & 0xFFFFFF);
     }
 }
@@ -239,7 +274,7 @@ export function adjustImage(imageData: ImageData, imageSettings: ImageProps) {
     }
 
     const descaledImageData = imageSettings.descale ? descale(imageData) : imageData;
-    const croppedImageData: ImageData = applyTransparencyAndCrop(descaledImageData, transparency);
+    const croppedImageData: ImageData = applyTransparencyAndCrop(descaledImageData, transparency, imageSettings.keepOutline);
     mark("Apply transparency & crop");
 
     // Rescale to max resolution
@@ -427,7 +462,7 @@ function resizeImage(imageData: ImageData, downsize: readonly [number, number]):
     const src = document.createElement("canvas");
     src.width = imageData.width;
     src.height = imageData.height;
-    src.getContext("2d")!.putImageData(imageData, 0 ,0);
+    src.getContext("2d")!.putImageData(imageData, 0, 0);
     const dst = document.createElement("canvas");
     [dst.width, dst.height] = downsize;
     const context = dst.getContext("2d")!;

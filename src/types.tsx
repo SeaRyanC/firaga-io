@@ -46,6 +46,8 @@ export type ImageProps = RadioSettings<typeof ImageSettings> & {
     flip: boolean;
     mirror: boolean;
     descale: boolean;
+
+    keepOutline: boolean;
 };
 
 export type PrintProps = {

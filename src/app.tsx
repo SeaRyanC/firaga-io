@@ -38,6 +38,7 @@ const DefaultAppProps: AppProps = {
         dithering: "auto",
 
         transparency: "auto",
+        keepOutline: false
     },
     material: {
         colorMatch: "ciede2000",
@@ -209,6 +210,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                     <div class="options-group">
                         <span class="header">Transparency</span>
                         {getRadioGroup(props, "image", "transparency", ImageSettings.transparency)}
+                        {getCheckbox(props, "image", "keepOutline", "Keep Outline")}
                     </div>
 
                     <div class="options-group">
@@ -260,55 +262,57 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
     }
 
     function Legend({ partList }: { partList: PartList }) {
-        return <table className="part-list">
-            <thead>
-                <tr>
-                    <th colSpan={5} className="top-header">Legend</th>
-                </tr>
-            </thead>
-            <tbody>
-                {partList.map(ent => {
-                    return <tr key={ent.symbol + ent.count + ent.target.name}>
-                        <td className="legend-symbol">{ent.symbol}</td>
-                        <td className="part-count">{ent.count.toLocaleString()}</td>
-                        <td className="color-code">{ent.target.code}</td>
-                        <td className="color-swatch" style={{ color: colorEntryToHex(ent.target) }}>⬤</td>
-                        <td className="color-name"><span className="colorName">{ent.target.name}</span></td>
+        return <div class="part-list-container">
+            <table class="part-list">
+                <thead>
+                    <tr>
+                        <th colSpan={5} class="top-header">Legend</th>
                     </tr>
-                })}
-            </tbody>
-        </table>;
+                </thead>
+                <tbody>
+                    {partList.map(ent => {
+                        return <tr key={ent.symbol + ent.count + ent.target.name}>
+                            <td class="legend-symbol">{ent.symbol}</td>
+                            <td class="part-count">{ent.count.toLocaleString()}</td>
+                            <td class="color-code">{ent.target.code}</td>
+                            <td class="color-swatch" style={{ color: colorEntryToHex(ent.target) }}>⬤</td>
+                            <td class="color-name"><span class="colorName">{ent.target.name}</span></td>
+                        </tr>
+                    })}
+                </tbody>
+            </table>
+        </div>;
     }
 
     function Stats({ img, pitch }: { img: PartListImage, pitch: number }) {
         const pixelCount = getImageStats(img).pixels;
-        return <table className="plan-stats">
+        return <table class="plan-stats">
             <thead>
                 <tr>
-                    <th colSpan={4} className="top-header">Statistics</th>
+                    <th colSpan={4} class="top-header">Statistics</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td className="stat-label">Size (px)</td>
-                    <td className="stat-value">{img.width.toLocaleString()}×{img.height.toLocaleString()}</td>
+                    <td class="stat-label">Size (px)</td>
+                    <td class="stat-value">{img.width.toLocaleString()}×{img.height.toLocaleString()}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Size (in)</td>
-                    <td className="stat-value">{fmt(img.width * pitch / 25.4)}×{fmt(img.height * pitch / 25.4)}</td>
+                    <td class="stat-label">Size (in)</td>
+                    <td class="stat-value">{fmt(img.width * pitch / 25.4)}×{fmt(img.height * pitch / 25.4)}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Size (cm)</td>
-                    <td className="stat-value">{fmt(img.width * pitch / 10)}×{fmt(img.height * pitch / 10)}</td>
+                    <td class="stat-label">Size (cm)</td>
+                    <td class="stat-value">{fmt(img.width * pitch / 10)}×{fmt(img.height * pitch / 10)}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Pixels</td><td colSpan={4} className="stat-value">{pixelCount.toLocaleString()}</td>
+                    <td class="stat-label">Pixels</td><td colSpan={4} class="stat-value">{pixelCount.toLocaleString()}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Cost</td><td colSpan={4} className="stat-value">{dollars(pixelCount * 0.002)}</td>
+                    <td class="stat-label">Cost</td><td colSpan={4} class="stat-value">{dollars(pixelCount * 0.002)}</td>
                 </tr>
                 <tr>
-                    <td className="stat-label">Time</td><td colSpan={4} className="stat-value">{timeAmount(pixelCount * 4)}</td>
+                    <td class="stat-label">Time</td><td colSpan={4} class="stat-value">{timeAmount(pixelCount * 4)}</td>
                 </tr>
             </tbody>
         </table>;
@@ -322,23 +326,23 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         return <div class="settings-row">
             <h1>Plan</h1>
             <div class="options-row">
-                <div className="options-group">
-                    <span className="header">Legend</span>
+                <div class="options-group">
+                    <span class="header">Legend</span>
                     {getRadioGroup(props, "display", "planStyle", DisplaySettings.planStyle)}
                 </div>
 
-                <div className="options-group">
-                    <span className="header">Grid</span>
+                <div class="options-group">
+                    <span class="header">Grid</span>
                     {getRadioGroup(props, "display", "grid", DisplaySettings.grid)}
                 </div>
 
-                <div className="options-group">
-                    <span className="header">Background</span>
+                <div class="options-group">
+                    <span class="header">Background</span>
                     {getRadioGroup(props, "display", "background", DisplaySettings.background)}
                 </div>
 
-                <div className="options-group">
-                    <span className="header">Comparison</span>
+                <div class="options-group">
+                    <span class="header">Comparison</span>
                     {getRadioGroup(props, "display", "refobj", DisplaySettings.refobj)}
                 </div>
             </div>

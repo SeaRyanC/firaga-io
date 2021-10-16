@@ -66,6 +66,10 @@ export function surveyColors(rgbaArray: RgbaImage): ColorSurvey {
 export function makePalette(inputColors: ColorSurvey, allowedColors: readonly ColorEntry[] | undefined, settings: MaterialProps): ColorAssignment[] {
     const perf = timer();
 
+    // Override noDuplicates if there are more input colors than target colors
+    // TODO: This should bubble up a warning
+    const noDuplicates = settings.nodupes && (!allowedColors || (inputColors.length < allowedColors.length));
+
     const tempAssignments: ColorAssignment[] = [];
     // Sort by most-common colors
     inputColors.sort((a, b) => b.count - a.count);
@@ -90,7 +94,7 @@ export function makePalette(inputColors: ColorSurvey, allowedColors: readonly Co
             let bestScore = Infinity;
             // TODO: This is too slow
             for (const c of allowedColors) {
-                if (settings.nodupes) {
+                if (noDuplicates) {
                     if (tempAssignments.some(t => t.target === c)) continue;
                 }
 

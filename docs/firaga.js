@@ -1081,6 +1081,7 @@
   }
   function makePalette(inputColors, allowedColors, settings) {
     const perf = timer();
+    const noDuplicates = settings.nodupes && (!allowedColors || inputColors.length < allowedColors.length);
     const tempAssignments = [];
     inputColors.sort((a3, b3) => b3.count - a3.count);
     const diff3 = colorDiff[settings.colorMatch];
@@ -1102,7 +1103,7 @@
         let bestTarget = void 0;
         let bestScore = Infinity;
         for (const c3 of allowedColors) {
-          if (settings.nodupes) {
+          if (noDuplicates) {
             if (tempAssignments.some((t3) => t3.target === c3))
               continue;
           }
@@ -1245,19 +1246,51 @@
       return data[c0] === data[c1] && data[c0 + 1] === data[c1 + 1] && data[c0 + 2] === data[c1 + 2] && data[c0 + 3] === data[c1 + 3];
     }
   }
-  function applyTransparencyAndCrop(imageData, transparentValue) {
+  function applyTransparencyAndCrop(imageData, transparentValue, keepOutline) {
+    const keepArray = new Array(imageData.width * imageData.height);
     let minY = Infinity, maxY = -Infinity;
     let minX = Infinity, maxX = -Infinity;
-    for (let y3 = 0; y3 < imageData.height; y3++) {
-      for (let x3 = 0; x3 < imageData.width; x3++) {
-        if (!isTransparent(colorAt(imageData, x3, y3))) {
-          minX = Math.min(minX, x3);
-          maxX = Math.max(maxX, x3);
-          minY = Math.min(minY, y3);
-          maxY = Math.max(maxY, y3);
+    if (isNaN(transparentValue)) {
+      minX = minY = 0;
+      maxX = imageData.width - 1;
+      maxY = imageData.height - 1;
+      keepArray.fill(true, 0, keepArray.length);
+    } else {
+      keepArray.fill(false, 0, keepArray.length);
+      for (let y3 = 0; y3 < imageData.height; y3++) {
+        for (let x3 = 0; x3 < imageData.width; x3++) {
+          const keep = !isTransparent(colorAt(imageData, x3, y3));
+          if (keep) {
+            minX = Math.min(minX, x3);
+            maxX = Math.max(maxX, x3);
+            minY = Math.min(minY, y3);
+            maxY = Math.max(maxY, y3);
+            keepArray[y3 * imageData.width + x3] = true;
+            if (keepOutline) {
+              if (x3 !== 0)
+                keepArray[y3 * imageData.width + (x3 - 1)] = true;
+              if (y3 !== 0)
+                keepArray[(y3 - 1) * imageData.width + x3] = true;
+              if (x3 !== imageData.width - 1)
+                keepArray[y3 * imageData.width + (x3 + 1)] = true;
+              if (y3 !== imageData.height - 1)
+                keepArray[(y3 + 1) * imageData.width + x3] = true;
+            }
+          }
         }
       }
+      if (keepOutline) {
+        if (minX !== 0)
+          minX--;
+        if (minY !== 0)
+          minY--;
+        if (maxX !== imageData.width - 1)
+          maxX++;
+        if (maxY !== imageData.height - 1)
+          maxY++;
+      }
     }
+    debugger;
     const newImage = new ImageData(maxX - minX + 1, maxY - minY + 1);
     for (let y3 = 0; y3 < newImage.height; y3++)
       for (let x3 = 0; x3 < newImage.width; x3++)
@@ -1266,7 +1299,7 @@
       for (let x3 = minX; x3 <= maxX; x3++) {
         const color = colorAt(imageData, x3, y3);
         const c3 = ((y3 - minY) * newImage.width + (x3 - minX)) * 4;
-        if (!isTransparent(color)) {
+        if (keepArray[y3 * imageData.width + x3]) {
           newImage.data[c3 + 0] = color >> 0 & 255;
           newImage.data[c3 + 1] = color >> 8 & 255;
           newImage.data[c3 + 2] = color >> 16 & 255;
@@ -1353,7 +1386,7 @@
         break;
     }
     const descaledImageData = imageSettings.descale ? descale(imageData) : imageData;
-    const croppedImageData = applyTransparencyAndCrop(descaledImageData, transparency);
+    const croppedImageData = applyTransparencyAndCrop(descaledImageData, transparency, imageSettings.keepOutline);
     mark("Apply transparency & crop");
     const originalSize = [croppedImageData.width, croppedImageData.height];
     const maxSize = isTrueColorImage(croppedImageData, 256) ? 96 : 480;
@@ -2760,7 +2793,8 @@
       mirror: false,
       descale: false,
       dithering: "auto",
-      transparency: "auto"
+      transparency: "auto",
+      keepOutline: false
     },
     material: {
       colorMatch: "ciede2000",
@@ -2945,7 +2979,7 @@
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"
-      }, "Transparency"), getRadioGroup(props, "image", "transparency", ImageSettings.transparency)), /* @__PURE__ */ a("div", {
+      }, "Transparency"), getRadioGroup(props, "image", "transparency", ImageSettings.transparency), getCheckbox(props, "image", "keepOutline", "Keep Outline")), /* @__PURE__ */ a("div", {
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"
@@ -2979,64 +3013,66 @@
       }, "Grid Size"), getRadioGroup(props, "material", "size", MaterialSettings.size))));
     }
     function Legend({partList}) {
-      return /* @__PURE__ */ a("table", {
-        className: "part-list"
+      return /* @__PURE__ */ a("div", {
+        class: "part-list-container"
+      }, /* @__PURE__ */ a("table", {
+        class: "part-list"
       }, /* @__PURE__ */ a("thead", null, /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("th", {
         colSpan: 5,
-        className: "top-header"
+        class: "top-header"
       }, "Legend"))), /* @__PURE__ */ a("tbody", null, partList.map((ent) => {
         return /* @__PURE__ */ a("tr", {
           key: ent.symbol + ent.count + ent.target.name
         }, /* @__PURE__ */ a("td", {
-          className: "legend-symbol"
+          class: "legend-symbol"
         }, ent.symbol), /* @__PURE__ */ a("td", {
-          className: "part-count"
+          class: "part-count"
         }, ent.count.toLocaleString()), /* @__PURE__ */ a("td", {
-          className: "color-code"
+          class: "color-code"
         }, ent.target.code), /* @__PURE__ */ a("td", {
-          className: "color-swatch",
+          class: "color-swatch",
           style: {color: colorEntryToHex(ent.target)}
         }, "\u2B24"), /* @__PURE__ */ a("td", {
-          className: "color-name"
+          class: "color-name"
         }, /* @__PURE__ */ a("span", {
-          className: "colorName"
+          class: "colorName"
         }, ent.target.name)));
-      })));
+      }))));
     }
     function Stats({img, pitch}) {
       const pixelCount = getImageStats(img).pixels;
       return /* @__PURE__ */ a("table", {
-        className: "plan-stats"
+        class: "plan-stats"
       }, /* @__PURE__ */ a("thead", null, /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("th", {
         colSpan: 4,
-        className: "top-header"
+        class: "top-header"
       }, "Statistics"))), /* @__PURE__ */ a("tbody", null, /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
-        className: "stat-label"
+        class: "stat-label"
       }, "Size (px)"), /* @__PURE__ */ a("td", {
-        className: "stat-value"
+        class: "stat-value"
       }, img.width.toLocaleString(), "\xD7", img.height.toLocaleString())), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
-        className: "stat-label"
+        class: "stat-label"
       }, "Size (in)"), /* @__PURE__ */ a("td", {
-        className: "stat-value"
+        class: "stat-value"
       }, fmt(img.width * pitch / 25.4), "\xD7", fmt(img.height * pitch / 25.4))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
-        className: "stat-label"
+        class: "stat-label"
       }, "Size (cm)"), /* @__PURE__ */ a("td", {
-        className: "stat-value"
+        class: "stat-value"
       }, fmt(img.width * pitch / 10), "\xD7", fmt(img.height * pitch / 10))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
-        className: "stat-label"
+        class: "stat-label"
       }, "Pixels"), /* @__PURE__ */ a("td", {
         colSpan: 4,
-        className: "stat-value"
+        class: "stat-value"
       }, pixelCount.toLocaleString())), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
-        className: "stat-label"
+        class: "stat-label"
       }, "Cost"), /* @__PURE__ */ a("td", {
         colSpan: 4,
-        className: "stat-value"
+        class: "stat-value"
       }, dollars(pixelCount * 2e-3))), /* @__PURE__ */ a("tr", null, /* @__PURE__ */ a("td", {
-        className: "stat-label"
+        class: "stat-label"
       }, "Time"), /* @__PURE__ */ a("td", {
         colSpan: 4,
-        className: "stat-value"
+        class: "stat-value"
       }, timeAmount(pixelCount * 4)))));
       function fmt(n2) {
         return n2.toFixed(1);
@@ -3048,21 +3084,21 @@
       }, /* @__PURE__ */ a("h1", null, "Plan"), /* @__PURE__ */ a("div", {
         class: "options-row"
       }, /* @__PURE__ */ a("div", {
-        className: "options-group"
+        class: "options-group"
       }, /* @__PURE__ */ a("span", {
-        className: "header"
+        class: "header"
       }, "Legend"), getRadioGroup(props, "display", "planStyle", DisplaySettings.planStyle)), /* @__PURE__ */ a("div", {
-        className: "options-group"
+        class: "options-group"
       }, /* @__PURE__ */ a("span", {
-        className: "header"
+        class: "header"
       }, "Grid"), getRadioGroup(props, "display", "grid", DisplaySettings.grid)), /* @__PURE__ */ a("div", {
-        className: "options-group"
+        class: "options-group"
       }, /* @__PURE__ */ a("span", {
-        className: "header"
+        class: "header"
       }, "Background"), getRadioGroup(props, "display", "background", DisplaySettings.background)), /* @__PURE__ */ a("div", {
-        className: "options-group"
+        class: "options-group"
       }, /* @__PURE__ */ a("span", {
-        className: "header"
+        class: "header"
       }, "Comparison"), getRadioGroup(props, "display", "refobj", DisplaySettings.refobj))));
     }
     function GalleryContainer(props) {
