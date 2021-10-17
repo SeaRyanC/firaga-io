@@ -91,7 +91,7 @@ export const MaterialSettings = {
     ],
     size: [
         ["artkal-mini", <span>Artkal Mini <a href="https://amzn.to/3eNjvcm" target="_blank" title="Buy">🛒</a></span>],
-        ["perler-mini", <span>Perler Mini<a href="https://amzn.to/2WcXJIH" target="_blank" title="Buy">🛒</a></span>],
+        ["perler-mini", <span>Perler Mini <a href="https://amzn.to/2WcXJIH" target="_blank" title="Buy">🛒</a></span>],
         ["perler", <span>Perler <a href="https://amzn.to/36U2tov" target="_blank" title="Buy">🛒</a></span>],
         ["lego", "LEGO ™"]
     ],
