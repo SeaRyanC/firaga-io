@@ -73,6 +73,8 @@ div.toolbar {
     margin-bottom: 8px;
     box-shadow: 2px 2px 4px #23001E;
     text-decoration: none;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .toolbar-button.icon {
