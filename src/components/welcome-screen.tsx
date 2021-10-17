@@ -15,7 +15,8 @@ export function WelcomeScreen() {
 
         {/* segmented rainbow here */}
 
-        <p><b>firaga</b> also makes high-quality <b>printable plans</b> for both color and black-and-white printers. Placing one of these plans under a transparent pegboard makes for quick and easy crafting.</p>
+        <p><b>firaga</b> also makes high-quality, actual-size <b>printable plans</b> for both color and black-and-white printers. Placing one of these plans under a transparent pegboard makes for quick and easy crafting.</p>
+        <img src="demo.jpg" class="welcome-pic" />
 
         {/* photo autocaurosel here */}
 

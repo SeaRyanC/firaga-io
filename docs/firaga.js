@@ -1100,6 +1100,24 @@
           count: inColor.count
         });
       } else {
+        let targetColor = inColor;
+        if (settings.matchBlackAndWhite && (inColor.r === inColor.g && inColor.g === inColor.b)) {
+          let rgb;
+          if (inColor.r > 208) {
+            rgb = 255 - (255 - inColor.r) * 0.5;
+          } else if (inColor.r < 48) {
+            rgb = inColor.r * 0.5;
+          } else {
+            rgb = inColor.r;
+          }
+          targetColor = {
+            ...inColor,
+            r: rgb,
+            b: rgb,
+            g: rgb
+          };
+        }
+        console.log(`Find match for ${JSON.stringify(targetColor)}`);
         let bestTarget = void 0;
         let bestScore = Infinity;
         for (const c3 of allowedColors) {
@@ -1107,7 +1125,8 @@
             if (tempAssignments.some((t3) => t3.target === c3))
               continue;
           }
-          const score = diff3(inColor, c3);
+          const score = diff3(targetColor, c3);
+          console.log(`Score of ${c3.name} => ${score}`);
           if (score < bestScore) {
             bestTarget = c3;
             bestScore = score;
@@ -1137,8 +1156,8 @@
     },
     "ictcp": (lhs, rhs) => {
       const a3 = rgbToICtCp(lhs), b3 = rgbToICtCp(rhs);
-      const di = a3[0] - b3[0], dct = a3[1] - b3[1], dcp = a3[2] - b3[2];
-      return di * di + 0.25 * dct * dct + dcp * dcp;
+      const di = a3[0] - b3[0], dct = (a3[1] - b3[1]) / 2, dcp = a3[2] - b3[2];
+      return di * di + dct * dct + dcp * dcp;
     }
   };
   function rgbToLabCached(rgb) {
@@ -2756,7 +2775,10 @@
     const updateProp = F(PropContext);
     return /* @__PURE__ */ a("div", {
       class: "welcome-screen"
-    }, /* @__PURE__ */ a("h1", null, "Welcome to firaga.io!"), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " is an online tool to help you plan and create real-world pixel art crafts using materials like Perler beads, LEGO, or just regular old paint."), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " comes preconfigured with color palettes corresponding to many popular crafting products, and uses an advanced color-matching formula to produce the most accurate results."), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " also makes high-quality ", /* @__PURE__ */ a("b", null, "printable plans"), " for both color and black-and-white printers. Placing one of these plans under a transparent pegboard makes for quick and easy crafting."), /* @__PURE__ */ a("p", null, "For more info, read ", /* @__PURE__ */ a("a", {
+    }, /* @__PURE__ */ a("h1", null, "Welcome to firaga.io!"), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " is an online tool to help you plan and create real-world pixel art crafts using materials like Perler beads, LEGO, or just regular old paint."), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " comes preconfigured with color palettes corresponding to many popular crafting products, and uses an advanced color-matching formula to produce the most accurate results."), /* @__PURE__ */ a("p", null, /* @__PURE__ */ a("b", null, "firaga"), " also makes high-quality, actual-size ", /* @__PURE__ */ a("b", null, "printable plans"), " for both color and black-and-white printers. Placing one of these plans under a transparent pegboard makes for quick and easy crafting."), /* @__PURE__ */ a("img", {
+      src: "demo.jpg",
+      class: "welcome-pic"
+    }), /* @__PURE__ */ a("p", null, "For more info, read ", /* @__PURE__ */ a("a", {
       href: ""
     }, "the documentation"), ", or talk to us on ", /* @__PURE__ */ a("a", {
       href: "https://twitter.com/firaga_io"
@@ -2798,7 +2820,8 @@
       colorMatch: "ictcp",
       nodupes: false,
       palette: "perler-multimix",
-      size: "perler"
+      size: "perler",
+      matchBlackAndWhite: true
     },
     print: {
       paperSize: "letter",
@@ -2966,6 +2989,11 @@
         settings: props.print,
         gridSize: props.material.size,
         filename: props.source.displayName
+      })), /* @__PURE__ */ a("datalist", {
+        id: "image-ticks"
+      }, /* @__PURE__ */ a("option", {
+        value: "0",
+        label: "0"
       })));
     }
     function ImageSettingsRow(props) {
@@ -3000,7 +3028,7 @@
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"
-      }, "Color Matching"), getRadioGroup(props, "material", "colorMatch", MaterialSettings.colorMatch), getCheckbox(props, "material", "nodupes", "No Duplicates")), /* @__PURE__ */ a("div", {
+      }, "Color Matching"), getRadioGroup(props, "material", "colorMatch", MaterialSettings.colorMatch), getCheckbox(props, "material", "nodupes", "No Duplicates"), getCheckbox(props, "material", "matchBlackAndWhite", "Improve Black/White")), /* @__PURE__ */ a("div", {
         class: "options-group"
       }, /* @__PURE__ */ a("span", {
         class: "header"
@@ -3178,6 +3206,8 @@
         class: "slider-caption"
       }, /* @__PURE__ */ a("input", {
         type: "range",
+        list: "image-ticks",
+        class: "slider",
         onChange: changed,
         min: "-10",
         max: "10",

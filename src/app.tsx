@@ -45,6 +45,7 @@ const DefaultAppProps: AppProps = {
         nodupes: false,
         palette: "perler-multimix",
         size: "perler",
+        matchBlackAndWhite: true
     },
     print: {
         paperSize: "letter",
@@ -199,6 +200,9 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         gridSize={props.material.size}
                         filename={props.source.displayName} />}
             </PropContext.Provider>
+            <datalist id="image-ticks">
+                <option value="0" label="0" />
+            </datalist>
         </div>;
     }
 
@@ -245,6 +249,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                         <span class="header">Color Matching</span>
                         {getRadioGroup(props, "material", "colorMatch", MaterialSettings.colorMatch)}
                         {getCheckbox(props, "material", "nodupes", "No Duplicates")}
+                        {getCheckbox(props, "material", "matchBlackAndWhite", "Improve Black/White")}
                     </div>
 
                     <div class="options-group">
@@ -421,7 +426,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
 
     function getSlider<S extends keyof AppProps, K extends keyof AppProps[S]>(props: AppProps[S] & Record<K, number>, parentKey: S, key: K, label: string) {
         return <div class="slider-caption">
-            <input type="range" onChange={changed} min="-10" max="10" step="1" value={props[key]} />
+            <input type="range" list="image-ticks" class="slider" onChange={changed} min="-10" max="10" step="1" value={props[key]} />
             <span>{label}</span>
         </div>;
 

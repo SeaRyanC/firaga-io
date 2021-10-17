@@ -36,6 +36,7 @@ export type ObjectColor = {
 
 export type MaterialProps = RadioSettings<typeof MaterialSettings> & {
     nodupes: boolean;
+    matchBlackAndWhite: boolean;
 };
 
 export type ImageProps = RadioSettings<typeof ImageSettings> & {

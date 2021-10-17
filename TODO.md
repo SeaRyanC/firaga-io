@@ -6,7 +6,7 @@
 
 ## Bug Fixes / Tweaks
 
-* Hide code column for codeless palettes
+* Hide code column in legend for codeless palettes
 * Make color printout legend table look less janky
 * "Go" button in welcome screen needs better styling
 * Close 'X' on all side panels
@@ -14,7 +14,8 @@
 * Center "Statistics" table
 * Resize images at least a little bit (1024x?) during initial upload
 * Make 'X' in gallery work
-
+* More details than "1 hour"; improve time est. algo to account for color shifts
+* Use cm/m in stats panel
 
 ## One-off Features
 
@@ -23,6 +24,7 @@
 * `[?]` hover markers w/ documentation on all options
 * Add grid options to print
 * LEGO color codes
+* Add a status bar
 
 ## Infrastructure
 

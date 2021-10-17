@@ -90,6 +90,30 @@ export function makePalette(inputColors: ColorSurvey, allowedColors: readonly Co
                 count: inColor.count
             });
         } else {
+            // Many sprites in the wild have very high "black" values, e.g.
+            // the Gannon sample image's lowest value is #282828. This leads to the color matching
+            // algorithms picking weird non-desaturated values or "deep greys" (e.g. Artkal's Pepper)
+            // instead of just going with good ol' black. Sprites also sometimes miss true white,
+            // again Gannon's top color is #F8F8F8. Mechanically adjust these toward their poles
+            // when they're "close enough" and fully desaturated
+            let targetColor = inColor;
+            if (settings.matchBlackAndWhite && (inColor.r === inColor.g && inColor.g === inColor.b)) {
+                let rgb;
+                if (inColor.r > 0xD0) {
+                    rgb = 255 - (255 - inColor.r) * 0.5;
+                } else if (inColor.r < 0x30) {
+                    rgb = inColor.r * 0.5;
+                } else {
+                    rgb = inColor.r;
+                }
+                targetColor = {
+                    ...inColor,
+                    r: rgb,
+                    b: rgb,
+                    g: rgb                    
+                };
+            }
+            console.log(`Find match for ${JSON.stringify(targetColor)}`);
             let bestTarget = undefined;
             let bestScore = Infinity;
             // TODO: This is too slow
@@ -98,7 +122,8 @@ export function makePalette(inputColors: ColorSurvey, allowedColors: readonly Co
                     if (tempAssignments.some(t => t.target === c)) continue;
                 }
 
-                const score = diff(inColor, c);
+                const score = diff(targetColor, c);
+                console.log(`Score of ${c.name} => ${score}`);
                 if (score < bestScore) {
                     bestTarget = c;
                     bestScore = score;
@@ -131,8 +156,8 @@ export const colorDiff = {
     },
     "ictcp": (lhs: Rgb, rhs: Rgb) => {
         const a = rgbToICtCp(lhs), b = rgbToICtCp(rhs);
-        const di = a[0] - b[0], dct = a[1] - b[1], dcp = a[2] - b[2];
-        return di * di + 0.25 * dct * dct + dcp * dcp;        
+        const di = a[0] - b[0], dct = (a[1] - b[1]) / 2, dcp = a[2] - b[2];
+        return di * di + dct * dct + dcp * dcp;
     }
 };
 

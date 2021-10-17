@@ -20,6 +20,8 @@ it is and it makes me sad */
 
 a, a:visited {
     color: #000099;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 body.loading * {
@@ -127,6 +129,17 @@ div.welcome-screen {
     border-radius: 12px;
     box-shadow: 0px 0px 24px black;
     padding: 1em;
+}
+
+div.welcome-screen img.welcome-pic {
+    max-width: 80%;
+    max-height: 23em;
+}
+
+div.welcome-screen button {
+    width: 9em;
+    height: 3em;
+    border-radius: 18px;
 }
 
 @media (orientation: landscape) {
