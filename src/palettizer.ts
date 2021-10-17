@@ -113,7 +113,7 @@ export function makePalette(inputColors: ColorSurvey, allowedColors: readonly Co
                     g: rgb                    
                 };
             }
-            console.log(`Find match for ${JSON.stringify(targetColor)}`);
+            // console.log(`Find match for ${JSON.stringify(targetColor)}`);
             let bestTarget = undefined;
             let bestScore = Infinity;
             // TODO: This is too slow
@@ -123,7 +123,7 @@ export function makePalette(inputColors: ColorSurvey, allowedColors: readonly Co
                 }
 
                 const score = diff(targetColor, c);
-                console.log(`Score of ${c.name} => ${score}`);
+                // console.log(`Score of ${c.name} => ${score}`);
                 if (score < bestScore) {
                     bestTarget = c;
                     bestScore = score;

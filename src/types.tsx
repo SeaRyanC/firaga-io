@@ -87,7 +87,7 @@ export const MaterialSettings = {
         ["artkal-all-mini", "All Artkal Mini"],
         ["perler-all", <span>All Perler <a href="https://amzn.to/3kPFwL9" target="_blank" title="Buy">🛒</a></span>],
         ["perler-multimix", <span>Perler Multi Mix <a href="https://amzn.to/2WjPiLU" target="_blank" title="Buy">🛒</a></span>],
-        ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
+        // ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
         ["all", "All Colors"]
     ],
     size: [

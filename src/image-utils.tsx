@@ -75,19 +75,19 @@ export function descale(imageData: ImageData) {
                 }
 
                 if (match) {
-                    const newData = new ImageData(Math.floor(width / scaleChk), Math.floor(height / scaleChk));
+                    const newData = new ImageData(Math.floor((width - xOffset) / scaleChk), Math.floor((height - yOffset) / scaleChk));
                     let c = 0;
-                    for (let y = yOffset; y < height; y += scaleChk) {
-                        for (let x = xOffset; x < width; x += scaleChk) {
-                            const c0 = (y * width + x) * 4;
-                            newData.data[c] = data[c0];
-                            newData.data[c + 1] = data[c0 + 1];
-                            newData.data[c + 2] = data[c0 + 2];
-                            newData.data[c + 3] = data[c0 + 3];
-                            c += 4;
+                    for (let y = 0; y < newData.height; y++) {
+                        for (let x = 0; x < newData.width; x++) {
+                            const src = (((y * scaleChk) + yOffset) * width + (x * scaleChk) + xOffset) * 4;
+                            const dst = (y * newData.width + x) * 4;
+                            newData.data[dst] = data[src];
+                            newData.data[dst + 1] = data[src + 1];
+                            newData.data[dst + 2] = data[src + 2];
+                            newData.data[dst + 3] = data[src + 3];
                         }
                     }
-                    mark(`Descale with match ${scaleChk} ${xOffset} ${yOffset}`)
+                    mark(`Descale with match ${width}x${height} (${scaleChk} ${xOffset} ${yOffset}) -> ${newData.width}x${newData.height}`)
                     return newData;
                 }
             }
