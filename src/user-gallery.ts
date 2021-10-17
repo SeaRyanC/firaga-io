@@ -1,5 +1,5 @@
 const defaultGallery: [string, string][] = [
-    ["Squirtle", "squirtle"],
+    ["Eevee", "eevee"],
     ["Mario 3", "mario-3"],
     ["Megaman X", "megaman_x"],
     ["Earthbound", "earthbound"],
@@ -12,17 +12,15 @@ const defaultGallery: [string, string][] = [
     ["Link (NES)", "link-nes"],
     ["Pac-man Ghost", "ghost"],
     ["Link (SNES)", "link"],
-    ["Eevee", "eevee"],
     ["Mario (NES)", "mario-1"],
     ["Gannon", "gannon"],
     ["Ken", "ken"],
     ["Shyguy", "shyguy"],
+    ["Squirtle", "squirtle"],
     ["Brachiosaur", "brachiosaur"],
     ["Sonic", "sonic"],
     ["Piranha Plant", "smw-plant"],
 ];
-
-const s = defaultGallery.map(s => `./gallery/${s}.png`).reverse();
 
 const keyname = "user-gallery";
 export type GalleryStorage = ReturnType<typeof createGallery>;

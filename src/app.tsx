@@ -21,7 +21,7 @@ const galleryStorage = createGallery();
 
 const DefaultAppProps: AppProps = {
     display: {
-        background: "#777",
+        background: "url(#checkPattern)",
         grid: "auto",
         planStyle: "none",
         refobj: "none",
@@ -33,7 +33,7 @@ const DefaultAppProps: AppProps = {
 
         flip: false,
         mirror: false,
-        descale: false,
+        descale: true,
 
         dithering: "auto",
 
@@ -41,10 +41,10 @@ const DefaultAppProps: AppProps = {
         keepOutline: false
     },
     material: {
-        colorMatch: "ciede2000",
+        colorMatch: "ictcp",
         nodupes: false,
-        palette: "artkal-mini-starter",
-        size: "artkal-mini",
+        palette: "perler-multimix",
+        size: "perler",
     },
     print: {
         paperSize: "letter",
@@ -61,8 +61,8 @@ const DefaultAppProps: AppProps = {
         isUploadOpen: false,
         isPrintOpen: false,
         isWelcomeOpen: true,
-        showLegend: true,
-        showSettings: true
+        showLegend: false,
+        showSettings: false
     }
 } as const;
 

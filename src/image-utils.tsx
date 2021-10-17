@@ -151,7 +151,6 @@ export function applyTransparencyAndCrop(imageData: ImageData, transparentValue:
         }
     }
 
-    debugger;
     const newImage = new ImageData(maxX - minX + 1, maxY - minY + 1);
     // Zero out the whole thing
     for (let y = 0; y < newImage.height; y++)

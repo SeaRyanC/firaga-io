@@ -1,6 +1,5 @@
 ## Big Works
 
-* Introductory screen
 * Unify the print paradigms with the view paradigms
 * Improve keyboard navigation (specifically space/enter on focused elements)
 * Add cropping tool
@@ -15,8 +14,6 @@
 * Add indicator on Legend for hovered-over color cell
 * Make Legend clickable
 * `[?]` hover markers w/ documentation on all options
-* "Keep outline" transparency mode
-* "Edges only" transparency mode
 * Add grid options to print
 * LEGO color codes
 
