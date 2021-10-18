@@ -2,5 +2,5 @@ remote_theme: pages-themes/slate@v0.2.0
 include: help.md
 plugins:
 - jekyll-remote-theme
-title: firago.io
-description: How to use https://firaga.io
+title: firago.io Help
+description: How to use firaga.io for the best results!
