@@ -36,7 +36,7 @@ const DefaultAppProps: AppProps = {
         paperSize: "letter",
         format: "step-by-step",
         imageSize: "actual",
-        breakStrategy: "grid"
+        breakStrategy: "page"
     },
     source: {
         displayName: galleryStorage.current[0][0],
@@ -54,9 +54,18 @@ const DefaultAppProps: AppProps = {
 
 window.addEventListener("DOMContentLoaded", function () {
     const s = window.localStorage.getItem("props");
-    let props = undefined;
-    if (s !== null) {
+    let props;
+    if (s === null) {
+        props = DefaultAppProps;
+    } else {
         props = JSON.parse(s);
     }
-    createApp(props, galleryStorage, document.body);
+    try {
+        createApp(props, galleryStorage, document.body);
+    } catch (e) {
+        window.localStorage.clear();
+        console.error(e);
+        props = DefaultAppProps;
+        createApp(props, galleryStorage, document.body);
+    }
 });

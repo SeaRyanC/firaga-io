@@ -14,6 +14,7 @@ html, body {
 /* Can someone please remove this without
 breaking anything? I don't understand what
 it is and it makes me sad */
+
 * {
     box-sizing: border-box;
 }
@@ -37,7 +38,6 @@ div.app-top {
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: hidden;
-
     display: flex;
     flex-direction: column;
 }
@@ -48,7 +48,6 @@ div.app-main {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
-
     min-height: 0;
     min-width: 0;
 }
@@ -85,6 +84,7 @@ div.toolbar {
     width: 40px;
     height: 40px;
 }
+
 a.toolbar-button img {
     padding: 4px;
 }
@@ -113,9 +113,9 @@ h1 {
 
 div.welcome-screen {
     position: absolute;
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
+    left: 0;
+    right: 0;
+    margin-left: auto;
     margin-right: auto;
     top: 10%;
     width: fit-content;
@@ -123,9 +123,7 @@ div.welcome-screen {
     height: auto;
     max-height: 85%;
     overflow-y: auto;
-
     z-index: 200;
-
     background: white;
     border: solid black 3px;
     border-radius: 12px;
@@ -185,11 +183,13 @@ div.options-group span.header {
 div.slider-caption {
     display: flex;
 }
+
 @media (orientation: landscape) {
     div.slider-caption {
         flex-direction: row;
     }
 }
+
 @media (orientation: portrait) {
     div.slider-caption {
         flex-direction: column;
@@ -217,15 +217,19 @@ table.part-list {
     background: white;
     border-collapse: collapse;
 }
+
 table.part-list td {
     border: solid #AAA 1px;
 }
+
 table.part-list th {
     font-size: 120%;
 }
+
 table.part-list td.color-swatch {
     padding: 3px;
 }
+
 table.part-list td.color-name {
     text-align: left;
     padding-left: 0.2em;
@@ -242,11 +246,9 @@ svg.plan {
 
 div.settings {
     animation: 0.3s ease-out 0s 1 slideInFromLeft;
-    
     background: white;
     position: relative;
     text-align: left;
-
     display: flex;
     flex-direction: column;
 }
@@ -270,17 +272,13 @@ div.settings-list {
 div.close-button {
     font-size: 17px;
     position: absolute;
-    width: 1.3em;
-    height: 1.3em;
     text-align: center;
-    line-height: 1.3em;
-    border-radius: 0.65em;
-    border: solid rgba(0, 0, 0, 0.3) 2px;
+    text-shadow: #777 0px 0px 3px;
 }
 
 div.settings div.close-button {
     right: 4px;
-    top: 4px;
+    top: 0px;
 }
 
 div.settings-row {
@@ -355,13 +353,11 @@ td .colorName {
 
 div.gallery {
     animation: 0.3s ease-out 0s 1 slideInFromRight;
-
     text-align: center;
     overflow: hidden;
     max-width: 480px;
     background: white;
     border-left: solid black 3px;
-
     position: absolute;
     right: 0px;
     top: 0px;
@@ -378,7 +374,7 @@ div.gallery-list {
     flex-direction: row;
     flex-wrap: wrap;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
     justify-content: space-evenly;
     padding-left: 1em;
     padding-right: 1em;
@@ -420,8 +416,10 @@ div.gallery-entry:nth-child(4n+3) img {
     background: #0392cf
 }
 
-div.gallery-delete {
-    opacity: 0;
+@media(hover: hover) {
+    div.gallery-delete {
+        opacity: 0;
+    }
 }
 
 div.gallery-delete:hover {
@@ -441,11 +439,10 @@ div.dropbox {
 
 div.print-dialog {
     animation: 0.2s ease-out 0s 1 printDialogAppear;
-
     position: absolute;
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
+    left: 0;
+    right: 0;
+    margin-left: auto;
     margin-right: auto;
     top: 10%;
     width: fit-content;
@@ -453,9 +450,7 @@ div.print-dialog {
     height: auto;
     max-height: 85%;
     overflow-y: auto;
-
     z-index: 100;
-
     background: white;
     border: solid black 3px;
     box-shadow: 0px 0px 24px black;
@@ -484,12 +479,10 @@ div.print-dialog div.print-options div.print-setting-group {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     margin-left: 1em;
     margin-bottom: 1em;
     padding: 0.3em;
     border-radius: 15px;
-
     box-shadow: 0px 0px 10px 0px rgba(0, 16, 48, 0.4);
 }
 
@@ -499,7 +492,6 @@ div.print-dialog div.print-setting-group span.description {
     word-wrap: break-word;
     text-align: justify;
 }
-
 
 div.print-dialog div.print-setting-group-options {
     display: flex;
@@ -562,7 +554,7 @@ div.print-dialog span.a4-icon {
     border: solid black 1px;
 }
 
-div.print-dialog input:checked + div.option {
+div.print-dialog input:checked+div.option {
     background-color: #ADF;
 }
 
@@ -611,9 +603,11 @@ div.print-dialog div.print-buttons button {
 div.print-dialog button.print {
     order: 0;
 }
+
 div.print-dialog button.cancel {
     order: 1;
 }
+
 div.print-dialog img.pdf-logo {
     width: 32px;
     height: 32px;

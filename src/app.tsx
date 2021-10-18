@@ -145,6 +145,7 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                         }}
                         requestDelete={(uri) => {
                             galleryStorage.remove(uri);
+                            preact.render(<App {..._props} />, renderTarget);
                         }}
                     />}
                 {props.ui.isPrintOpen && image &&
@@ -171,12 +172,15 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                         {getCheckbox(props, "image", "keepOutline", "Keep Outline")}
                     </div>
 
-                    <div class="options-group">
-                        <span class="header">Color Adjust</span>
-                        {getSlider(props, "image", "brightness", "Brightness")}
-                        {getSlider(props, "image", "contrast", "Contrast")}
-                        {getSlider(props, "image", "saturation", "Saturation")}
-                    </div>
+                    {   // All current Safari implementations do not support the Canvas2d.filter property yet
+                        (navigator.vendor !== "Apple Computer, Inc.") &&
+                        <div class="options-group">
+                            <span class="header">Color Adjust</span>
+                            {getSlider(props, "image", "brightness", "Brightness")}
+                            {getSlider(props, "image", "contrast", "Contrast")}
+                            {getSlider(props, "image", "saturation", "Saturation")}
+                        </div>
+                    }
 
                     <div class="options-group">
                         <span class="header">Dithering</span>

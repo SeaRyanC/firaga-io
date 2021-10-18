@@ -56,8 +56,6 @@ export type PrintProps = {
     paperSize: PrintSettings["paperSize"];
     imageSize: PrintSettings["imageSize"];
     breakStrategy: PrintSettings["breakStrategy"];
-    // perpsective: "off" | "low" | "medium" | "high";
-    // inkSaver: boolean;
 }
 
 export type DisplayProps = RadioSettings<typeof DisplaySettings>;
