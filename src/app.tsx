@@ -112,13 +112,13 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
             <PropContext.Provider value={updateProp}>
                 {props.ui.isWelcomeOpen && <WelcomeScreen />}
                 <div class="toolbar">
-                    <button class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>📂</button>
-                    <button class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>🖨️</button>
+                    <button title="Open..." class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>📂</button>
+                    <button title="Print..." class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>🖨️</button>
                     <span class="toolbar-divider" />
-                    <button class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️</button>
-                    <button class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑</button>
+                    <button title="Settings" class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️</button>
+                    <button title="Legend" class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑</button>
                     <span class="toolbar-divider" />
-                    <button class={`toolbar-button ${props.ui.isWelcomeOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isWelcomeOpen")}>❔</button>
+                    <button title="Help" class={`toolbar-button ${props.ui.isWelcomeOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isWelcomeOpen")}>❔</button>
                     <a class={`toolbar-button off`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io">👨‍💻</a>
                     <a class={`toolbar-button off`} title="Twitter" href="https://twitter.com/firaga_io">💬</a>
                 </div>

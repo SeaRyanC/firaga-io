@@ -274,6 +274,7 @@ div.close-button {
     position: absolute;
     text-align: center;
     text-shadow: #777 0px 0px 3px;
+    cursor: default;
 }
 
 div.settings div.close-button {
