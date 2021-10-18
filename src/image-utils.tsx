@@ -316,9 +316,11 @@ export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialP
         case "perler-multimix":
             allowedColors = colorData.sets.filter(f => f.name === "Perler Multi Mix")[0].colors;
             break;
+            /*
         case "evoretro":
             allowedColors = colorData.sets.filter(f => f.name === "EvoRetro")[0].colors;
             break;
+            */
         case "all":
             allowedColors = undefined;
             break;

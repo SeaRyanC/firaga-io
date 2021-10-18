@@ -6,9 +6,11 @@
 
 ## Bug Fixes / Tweaks
 
+* Fix documentation link
 * Hide code column in legend for codeless palettes
 * Make color printout legend table look less janky
 * "Go" button in welcome screen needs better styling
+* Make welcome screen page-by-page
 * Close 'X' on all side panels
 * Use ft-inches when size is v.large
 * Center "Statistics" table
@@ -16,6 +18,9 @@
 * Make 'X' in gallery work
 * More details than "1 hour"; improve time est. algo to account for color shifts
 * Use cm/m in stats panel
+* Scrollbar in upload panel
+* Fix "1 hours" in stats panel
+* Mobile/desktop-aware initial props
 
 ## One-off Features
 
@@ -24,7 +29,7 @@
 * `[?]` hover markers w/ documentation on all options
 * Add grid options to print
 * LEGO color codes
-* Add a status bar
+* Add a status bar and propagate warnings/credits
 
 ## Infrastructure
 
@@ -32,6 +37,9 @@
 * CLI pdf generator
 * Use io-ts to define props and reject-to-default on startup
 * Lint (missing semicolons, other shenanigans)
+* Photograph-based color inventorying
+* Color test palette printout
+
 
  ----
 

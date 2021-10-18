@@ -20,7 +20,7 @@ export function WelcomeScreen() {
 
         {/* photo autocaurosel here */}
 
-        <p>For more info, read <a href="">the documentation</a>, or talk to us on <a href="https://twitter.com/firaga_io">Twitter</a> or <a href="https://github.com/SeaRyanC/firaga-io">GitHub</a>. Happy crafting!</p>
+        <p>For more info, read <a href="https://firaga.io/help">the documentation</a>, or talk to us on <a href="https://twitter.com/firaga_io">Twitter</a> or <a href="https://github.com/SeaRyanC/firaga-io">GitHub</a>. Happy crafting!</p>
 
         <button class="cancel" onClick={() => updateProp("ui", "isWelcomeOpen", false)}>Let's go!</button>
     </div>;

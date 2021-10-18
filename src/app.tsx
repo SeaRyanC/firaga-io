@@ -4,7 +4,7 @@ import { Gallery, GalleryProps } from './gallery';
 import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, imageDataToRgbaArray, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage, renderPartListImageToDataURL } from './image-utils';
 import { AppProps, DisplayProps, DisplaySettings, ImageProps, ImageSettings, MaterialProps, MaterialSettings } from "./types";
 import { colorEntryToHex, dollars, getPitch, timeAmount } from './utils';
-import { createGallery } from './user-gallery';
+import { GalleryStorage } from './user-gallery';
 import { PropContext } from './components/context';
 import { PrintDialog } from './components/print-dialog';
 import { PlanSvg } from './components/plan-display';
@@ -17,57 +17,7 @@ const memoized = {
     imageDataToRgbaArray: memoize(imageDataToRgbaArray)
 };
 
-const galleryStorage = createGallery();
-
-const DefaultAppProps: AppProps = {
-    display: {
-        background: "url(#checkPattern)",
-        grid: "auto",
-        planStyle: "none",
-        refobj: "none",
-    },
-    image: {
-        brightness: 0,
-        contrast: 0,
-        saturation: 0,
-
-        flip: false,
-        mirror: false,
-        descale: true,
-
-        dithering: "auto",
-
-        transparency: "auto",
-        keepOutline: false
-    },
-    material: {
-        colorMatch: "ictcp",
-        nodupes: false,
-        palette: "perler-multimix",
-        size: "perler",
-        matchBlackAndWhite: true
-    },
-    print: {
-        paperSize: "letter",
-        format: "step-by-step",
-        imageSize: "actual",
-        breakStrategy: "grid"
-    },
-    source: {
-        displayName: galleryStorage.current[0][0],
-        uri: galleryStorage.current[0][1],
-        _decoded: undefined as undefined | ImageData
-    },
-    ui: {
-        isUploadOpen: false,
-        isPrintOpen: false,
-        isWelcomeOpen: true,
-        showLegend: false,
-        showSettings: false
-    }
-} as const;
-
-export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: HTMLElement) {
+export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, renderTarget: HTMLElement) {
     let _props = initProps;
 
     selectImage(_props.source.displayName, _props.source.uri);
@@ -174,14 +124,18 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                 </div>
                 <div class="app-main">
                     {props.ui.showSettings && <div class="settings">
-                        <MaterialSettingsRow {...props.material} />
-                        <ImageSettingsRow {...props.image} />
-                        <DisplaySettingsRow {...props.display} />
-
-                        {!!image && <Stats img={image} pitch={getPitch(props.material.size)} />}
+                        <div class="settings-header">
+                            Settings
+                            <div class="close-button" onClick={() => updateProp("ui", "showSettings", false)}>✖</div>
+                        </div>
+                        <div class="settings-list">
+                            <MaterialSettingsRow {...props.material} />
+                            <ImageSettingsRow {...props.image} />
+                            <DisplaySettingsRow {...props.display} />
+                        </div>
                     </div>}
                     {image ? <PlanSvg image={image} pitch={pitch} displaySettings={props.display} gridSize={props.material.size} /> : <div>Loading...</div>}
-                    {props.ui.showLegend && image && <Legend partList={image.partList} />}
+                    {props.ui.showLegend && image && <Legend partList={image.partList} image={image} pitch={getPitch(props.material.size)} />}
                 </div>
                 {props.ui.isUploadOpen &&
                     <GalleryContainer
@@ -266,7 +220,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         );
     }
 
-    function Legend({ partList }: { partList: PartList }) {
+    function Legend({ partList, image, pitch }: { partList: PartList, image: PartListImage, pitch: number }) {
         return <div class="part-list-container">
             <table class="part-list">
                 <thead>
@@ -286,11 +240,13 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
                     })}
                 </tbody>
             </table>
+
+            <Stats image={image} pitch={pitch} />
         </div>;
     }
 
-    function Stats({ img, pitch }: { img: PartListImage, pitch: number }) {
-        const pixelCount = getImageStats(img).pixels;
+    function Stats({ image, pitch }: { image: PartListImage, pitch: number }) {
+        const pixelCount = getImageStats(image).pixels;
         return <table class="plan-stats">
             <thead>
                 <tr>
@@ -300,15 +256,15 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
             <tbody>
                 <tr>
                     <td class="stat-label">Size (px)</td>
-                    <td class="stat-value">{img.width.toLocaleString()}×{img.height.toLocaleString()}</td>
+                    <td class="stat-value">{image.width.toLocaleString()}×{image.height.toLocaleString()}</td>
                 </tr>
                 <tr>
                     <td class="stat-label">Size (in)</td>
-                    <td class="stat-value">{fmt(img.width * pitch / 25.4)}×{fmt(img.height * pitch / 25.4)}</td>
+                    <td class="stat-value">{fmt(image.width * pitch / 25.4)}×{fmt(image.height * pitch / 25.4)}</td>
                 </tr>
                 <tr>
                     <td class="stat-label">Size (cm)</td>
-                    <td class="stat-value">{fmt(img.width * pitch / 10)}×{fmt(img.height * pitch / 10)}</td>
+                    <td class="stat-value">{fmt(image.width * pitch / 10)}×{fmt(image.height * pitch / 10)}</td>
                 </tr>
                 <tr>
                     <td class="stat-label">Pixels</td><td colSpan={4} class="stat-value">{pixelCount.toLocaleString()}</td>
@@ -384,6 +340,7 @@ export function createApp(initProps: AppProps = DefaultAppProps, renderTarget: H
         }, []);
 
         return <div class="gallery">
+            <div class="close-button" onClick={() => updateProp("ui", "isUploadOpen", false)}>✖</div>
             <h2>Pick Image</h2>
             <div ref={dropBoxRef} class="dropbox"><label for="upload-image-button" style="display: inline"
                 class="download-button-label">Upload</label>
