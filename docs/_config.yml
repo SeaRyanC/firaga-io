@@ -1,2 +1,4 @@
-theme: jekyll-theme-minimal
+remote_theme: pages-themes/slate@v0.2.0
 include: help.md
+plugins:
+- jekyll-remote-theme
