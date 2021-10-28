@@ -6,6 +6,15 @@
 
 ## Bug Fixes / Tweaks
 
+* Counted cross-stitch densities (14/in, 30/in)
+* Counted cross-stitch copy
+* Include spacing counts on transparent gaps
+* Tooltip on ellipsized color names in legend
+* Figure out grid alignment story; unify print/svg
+* Pixel sizes in gallery tooltips
+* DMC color codes
+* Dismiss welcome screen on exterior tap
+* Guided entry tour
 * Hide code column in legend for codeless palettes
 * Make color printout legend table look less janky
 * Make welcome screen page-by-page
