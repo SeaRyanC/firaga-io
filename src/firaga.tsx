@@ -8,6 +8,7 @@ const DefaultAppProps: AppProps = {
     display: {
         background: "url(#checkPattern)",
         grid: "auto",
+        nudgeGrid: true,
         planStyle: "none",
         refobj: "none",
     },
@@ -48,7 +49,8 @@ const DefaultAppProps: AppProps = {
         isPrintOpen: false,
         isWelcomeOpen: true,
         showLegend: false,
-        showSettings: false
+        showSettings: false,
+        tourStage: undefined
     }
 } as const;
 

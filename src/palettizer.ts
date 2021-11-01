@@ -101,8 +101,8 @@ export function makePalette(inputColors: ColorSurvey, allowedColors: readonly Co
                 let rgb;
                 if (inColor.r > 0xD0) {
                     rgb = 255 - (255 - inColor.r) * 0.5;
-                } else if (inColor.r < 0x30) {
-                    rgb = inColor.r * 0.5;
+                } else if (inColor.r < 0x29) {
+                    rgb = inColor.r * 0.3;
                 } else {
                     rgb = inColor.r;
                 }

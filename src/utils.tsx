@@ -2,6 +2,7 @@ import preact = require('preact');
 import diff = require('color-diff');
 import { AppProps, PalettizedImage, RgbaImage } from './types';
 import { ColorEntry } from './color-data';
+import { PartListImage } from './image-utils';
 
 export const symbolAlphabet = "ABCDEFGHJKLMNPQRSTVXZαβΔθλπΦΨΩabcdefghijklmnopqrstuvwxyz0123456789";
 export const smallSymbolAlphabet = "○×★□";
@@ -26,10 +27,26 @@ export const GridFormats = {
         size: [56, 56],
         pitch: 147.9 / (56 - 1)
     },
+    "16 ct": {
+        size: [16, 16],
+        pitch: 25.4 / 16
+    },
+    "30 ct": {
+        size: [30, 30],
+        pitch: 25.4 / 30
+    },
     // https://orionrobots.co.uk/wiki/lego_specifications.html
     "lego": {
         size: [32, 32],
         pitch: 8
+    },
+    "funzbo": {
+        size: [29, 29],
+        pitch: 139.1 / (29 - 1)
+    },
+    "evoretro": {
+        size: [29, 29],
+        pitch: 139.3 / (29 - 1)
     }
 } as const;
 
@@ -97,6 +114,77 @@ export function radioGroup<K extends string, V extends Record<K, readonly (reado
         }
         )}
     </>;
+}
+
+export type Carving = {
+    // The x offset into the original image
+    x: number;
+    // The y offset into the original image
+    y: number;
+    // The actual required width of this carve
+    width: number;
+    // The actual required height of this carve
+    height: number;
+    // The row number (1-based) of this carve
+    row: number;
+    // The column number (1-based) of this carve
+    col: number;
+};
+
+export function carveImageFast(image: PalettizedImage | PartListImage, carveSize: number): { xOffset: number, yOffset: number } {
+    // Compute the row occupancy matrix. This matrix extends "left" beyond the left
+    // edge of the image by one grid size
+    const rowOccupancyMatrix: boolean[][] = [];
+    for (let y = 0; y < image.height; y++) {
+        rowOccupancyMatrix[y] = [];
+        let counter = 0;
+        for (let x = image.width - 1; x >= -carveSize; x--) {
+            const px = image.pixels[y][x];
+            if (x < 0 || (px === undefined || px === -1)) {
+                if (counter > 0) counter--;
+            } else {
+                counter = carveSize;
+            }
+            rowOccupancyMatrix[y][x + carveSize] = counter !== 0;
+        }
+    }
+    // Compute the occupancy matrix. This matrix extends "above" the top
+    // and left edges of the image
+    // NOTE: THIS MATRIX IS IN X-Y ORDER, DON'T BE FOOLED
+    const occupancyMatrix: boolean[][] = [];
+    for (let x = 0; x < image.width + carveSize; x++) {
+        occupancyMatrix[x] = [];
+        let counter = 0;
+        for (let y = image.height - 1; y >= -carveSize; y--) {
+            if (y >= 0 && rowOccupancyMatrix[y][x]) {
+                counter = carveSize;
+            } else {
+                if (counter > 0) counter--;
+            }
+            occupancyMatrix[x][y + carveSize] = counter > 0;
+        }
+    }
+
+    let xOffset = 0;
+    let yOffset = 0;
+    let bestCount = Infinity;
+    for (let y = 0; y < carveSize; y++) {
+        for (let x = 0; x < carveSize; x++) {
+            let occCount = 0;
+            for (let oy = y; oy < image.height + carveSize; oy += carveSize) {
+                for (let ox = x; ox < image.width + carveSize; ox += carveSize) {
+                    if (occupancyMatrix[ox][oy]) occCount++;
+                }
+            }
+            if (occCount < bestCount) {
+                xOffset = x;
+                yOffset = y;
+                bestCount = occCount;
+            }
+        }
+    }
+
+    return { xOffset, yOffset };
 }
 
 export function carve(width: number, height: number, xSize: number, ySize: number): ReadonlyArray<{ x: number, y: number, width: number, height: number, row: number, col: number }> {
@@ -209,12 +297,23 @@ export function dollars(amt: number) {
     return formatter.format(amt);
 }
 
+export function feetInches(mm: number) {
+    const inches = mm / 25.4;
+    if (inches < 12) {
+        return `${inches.toFixed(1)}″`;
+    }
+    // "thin space" (8201) between components
+    return `${Math.floor(inches / 12)}′${String.fromCharCode(8201)}${Math.round(inches % 12)}″`;
+}
+
 export function timeAmount(seconds: number) {
-    if (seconds < 60) {
-        return `${seconds} seconds`;
+    const minutes = Math.ceil(seconds / 60);
+    if (minutes < 1) {
+        return `1 minute`;
+    } else if (minutes < 60) {
+        return `${minutes} minutes`;
+    } else if (minutes < 120) {
+        return `${Math.floor(minutes / 60)}:${Math.floor(minutes % 60)}`;
     }
-    if (seconds < 60 * 60) {
-        return `${Math.floor(seconds / 60)} minutes`
-    }
-    return `${Math.floor(seconds / (60 * 60))} hours`
+    return `${Math.ceil(minutes / 60)} hours`;
 }

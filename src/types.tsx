@@ -56,9 +56,11 @@ export type PrintProps = {
     paperSize: PrintSettings["paperSize"];
     imageSize: PrintSettings["imageSize"];
     breakStrategy: PrintSettings["breakStrategy"];
-}
+};
 
-export type DisplayProps = RadioSettings<typeof DisplaySettings>;
+export type DisplayProps = RadioSettings<typeof DisplaySettings> & {
+    nudgeGrid: boolean;
+};
 
 export type AppProps = {
     material: MaterialProps;
@@ -76,6 +78,7 @@ export type AppProps = {
         isPrintOpen: boolean;
         showLegend: boolean;
         showSettings: boolean;
+        tourStage: undefined | number;
     };
 };
 
@@ -85,13 +88,18 @@ export const MaterialSettings = {
         ["artkal-all-mini", "All Artkal Mini"],
         ["perler-all", <span>All Perler <a href="https://amzn.to/3kPFwL9" target="_blank" title="Buy">🛒</a></span>],
         ["perler-multimix", <span>Perler Multi Mix <a href="https://amzn.to/2WjPiLU" target="_blank" title="Buy">🛒</a></span>],
-        // ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
+        ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
+        ["funzbo", <span>Funzbo <a href="https://amzn.to/3GDH7N3" target="_blank" title="Buy">🛒</a></span>],
         ["all", "All Colors"]
     ],
     size: [
         ["artkal-mini", <span>Artkal Mini <a href="https://amzn.to/3eNjvcm" target="_blank" title="Buy">🛒</a></span>],
         ["perler-mini", <span>Perler Mini <a href="https://amzn.to/2WcXJIH" target="_blank" title="Buy">🛒</a></span>],
         ["perler", <span>Perler <a href="https://amzn.to/36U2tov" target="_blank" title="Buy">🛒</a></span>],
+        ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
+        ["funzbo", <span>Funzbo <a href="https://amzn.to/3GDH7N3" target="_blank" title="Buy">🛒</a></span>],
+        ["16 ct", <span title="16 threads per inch (cross-stitch)">16 ct</span>],
+        ["30 ct", <span title="30 threads per inch (cross-stitch)">30 ct</span>],
         ["lego", "LEGO ™"]
     ],
     colorMatch: [

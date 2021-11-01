@@ -1,38 +1,30 @@
-## Big Works
+## TODO (Features)
 
 * Unify the print paradigms with the view paradigms
 * Improve keyboard navigation (specifically space/enter on focused elements)
 * Add cropping tool
-
-## Bug Fixes / Tweaks
-
-* Counted cross-stitch densities (14/in, 30/in)
+* Faster color matching with large palettes
 * Counted cross-stitch copy
-* Include spacing counts on transparent gaps
-* Tooltip on ellipsized color names in legend
-* Figure out grid alignment story; unify print/svg
+* Unify print/svg grid breaks
 * Pixel sizes in gallery tooltips
 * DMC color codes
+* LEGO color codes
+* EVORETRO color codes
 * Dismiss welcome screen on exterior tap
 * Guided entry tour
-* Hide code column in legend for codeless palettes
 * Make color printout legend table look less janky
 * Make welcome screen page-by-page
-* Use ft-inches when size is v.large
 * Resize images at least a little bit (1024x?) during initial upload
-* More details than "1 hour"; improve time est. algo to account for color shifts
-* Use cm/m in stats panel
-* Fix "1 hours" in stats panel
 * Mobile/desktop-aware initial props
-
-## One-off Features
-
+* Fix crash "Can't do this layout" when printing grids too big for a page
 * Add indicator on Legend for hovered-over color cell
 * Make Legend clickable
-* `[?]` hover markers w/ documentation on all options
+* `[?]` hover markers w/ documentation categories on all options
 * Add grid options to print
-* LEGO color codes
 * Add a status bar and propagate warnings/credits
+* "Icons" mode inspired by CCS charts
+
+## TODO (Bugs)
 
 ## Infrastructure
 
@@ -40,12 +32,16 @@
 * CLI pdf generator
 * Use io-ts to define props and reject-to-default on startup
 * Lint (missing semicolons, other shenanigans)
-* Photograph-based color inventorying
 * Color test palette printout
+* Grid test printout
+* Separate build folders for prod / dev
+* Upload color picker tool to a repo
 
  ----
 
-# Please Help
+# Help Wanted
+
+These are things that are out of my experience zone:
 
  * Better UI colors overall
  * Improved "wood" background (how?)

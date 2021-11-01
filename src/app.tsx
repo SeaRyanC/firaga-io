@@ -1,9 +1,9 @@
 import * as preact from 'preact';
 import { useRef, useEffect, useLayoutEffect } from 'preact/hooks';
 import { Gallery, GalleryProps } from './gallery';
-import { adjustImage, createPartListImage, getImageData, getImageData as getImageDataFromImage, getImageStats, imageDataToRgbaArray, ImageStats, palettizeImage, PartList, PartListEntry, PartListImage, renderPartListImageToDataURL } from './image-utils';
+import { adjustImage, createPartListImage, getImageData, getImageStats, imageDataToRgbaArray,palettizeImage, PartList, PartListImage } from './image-utils';
 import { AppProps, DisplayProps, DisplaySettings, ImageProps, ImageSettings, MaterialProps, MaterialSettings } from "./types";
-import { colorEntryToHex, dollars, getPitch, timeAmount } from './utils';
+import { colorEntryToHex, dollars, feetInches, getPitch, timeAmount } from './utils';
 import { GalleryStorage } from './user-gallery';
 import { PropContext } from './components/context';
 import { PrintDialog } from './components/print-dialog';
@@ -112,15 +112,15 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
             <PropContext.Provider value={updateProp}>
                 {props.ui.isWelcomeOpen && <WelcomeScreen />}
                 <div class="toolbar">
-                    <button title="Open..." class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>📂</button>
-                    <button title="Print..." class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>🖨️</button>
+                    <button title="Open..." class={`toolbar-button ${props.ui.isUploadOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isUploadOpen")}>📂<span class="extended-label">Open</span></button>
+                    <button title="Print..." class={`toolbar-button ${props.ui.isPrintOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isPrintOpen")}>🖨️<span class="extended-label">Print</span></button>
                     <span class="toolbar-divider" />
-                    <button title="Settings" class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️</button>
-                    <button title="Legend" class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑</button>
+                    <button title="Settings" class={`toolbar-button ${props.ui.showSettings ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showSettings")}>⚙️<span class="extended-label">Settings</span></button>
+                    <button title="Legend" class={`toolbar-button ${props.ui.showLegend ? "on" : "off"} text`} onClick={() => toggleProp("ui", "showLegend")}>🔑<span class="extended-label">Legend</span></button>
                     <span class="toolbar-divider" />
-                    <button title="Help" class={`toolbar-button ${props.ui.isWelcomeOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isWelcomeOpen")}>❔</button>
-                    <a class={`toolbar-button off`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io">👨‍💻</a>
-                    <a class={`toolbar-button off`} title="Twitter" href="https://twitter.com/firaga_io">💬</a>
+                    <button title="Help" class={`toolbar-button ${props.ui.isWelcomeOpen ? "on" : "off"} text`} onClick={() => toggleProp("ui", "isWelcomeOpen")}>❔<span class="extended-label">Help</span></button>
+                    <a class={`toolbar-button off`} title="GitHub" href="https://github.com/SeaRyanC/firaga-io">👨‍💻<span class="extended-label">Code</span></a>
+                    <a class={`toolbar-button off`} title="Twitter" href="https://twitter.com/firaga_io">💬<span class="extended-label">Twitter</span></a>
                 </div>
                 <div class="app-main">
                     {props.ui.showSettings && <div class="settings">
@@ -216,7 +216,7 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                     </div>
 
                     <div class="options-group">
-                        <span class="header">Grid Size</span>
+                        <span class="header">Size</span>
                         {getRadioGroup(props, "material", "size", MaterialSettings.size)}
                     </div>
                 </div>
@@ -237,7 +237,7 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                         return <tr key={ent.symbol + ent.count + ent.target.name}>
                             <td class="legend-symbol">{ent.symbol}</td>
                             <td class="part-count">{ent.count.toLocaleString()}</td>
-                            <td class="color-code">{ent.target.code}</td>
+                            {ent.target.code && <td class="color-code">{ent.target.code}</td>}
                             <td class="color-swatch" style={{ color: colorEntryToHex(ent.target) }}>⬤</td>
                             <td class="color-name"><span class="colorName">{ent.target.name}</span></td>
                         </tr>
@@ -259,22 +259,20 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
             </thead>
             <tbody>
                 <tr>
-                    <td class="stat-label">Size (px)</td>
-                    <td class="stat-value">{image.width.toLocaleString()}×{image.height.toLocaleString()}</td>
+                    <td class="stat-label" rowSpan={3}>Size</td>
+                    <td class="stat-value">{image.width.toLocaleString()}×{image.height.toLocaleString()}px</td>
                 </tr>
                 <tr>
-                    <td class="stat-label">Size (in)</td>
-                    <td class="stat-value">{fmt(image.width * pitch / 25.4)}×{fmt(image.height * pitch / 25.4)}</td>
+                    <td class="stat-value">{feetInches(image.width * pitch)}×{feetInches(image.height * pitch)}</td>
                 </tr>
                 <tr>
-                    <td class="stat-label">Size (cm)</td>
-                    <td class="stat-value">{fmt(image.width * pitch / 10)}×{fmt(image.height * pitch / 10)}</td>
+                    <td class="stat-value">{fmt(image.width * pitch / 10)}×{fmt(image.height * pitch / 10)}cm</td>
                 </tr>
                 <tr>
                     <td class="stat-label">Pixels</td><td colSpan={4} class="stat-value">{pixelCount.toLocaleString()}</td>
                 </tr>
                 <tr>
-                    <td class="stat-label">Cost</td><td colSpan={4} class="stat-value">{dollars(pixelCount * 0.002)}</td>
+                    <td class="stat-label">Cost (USD)</td><td colSpan={4} class="stat-value">{dollars(pixelCount * 0.002)}</td>
                 </tr>
                 <tr>
                     <td class="stat-label">Time</td><td colSpan={4} class="stat-value">{timeAmount(pixelCount * 4)}</td>
@@ -299,6 +297,7 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                 <div class="options-group">
                     <span class="header">Grid</span>
                     {getRadioGroup(props, "display", "grid", DisplaySettings.grid)}
+                    {getCheckbox(props, "display", "nudgeGrid", "Nudge Grid")}
                 </div>
 
                 <div class="options-group">

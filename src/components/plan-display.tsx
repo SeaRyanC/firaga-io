@@ -2,7 +2,7 @@ import * as preact from 'preact';
 import { useEffect, useRef } from "preact/hooks";
 import { PartListEntry, PartListImage } from "../image-utils";
 import { AppProps, DisplayProps, MaterialProps } from "../types";
-import { colorEntryToHtml, getGridSize, isBright, nameOfColor, timer } from "../utils";
+import { carveImageFast, colorEntryToHtml, getGridSize, isBright, nameOfColor, timer } from "../utils";
 
 const svgns = "http://www.w3.org/2000/svg";
 declare const require: any;
@@ -69,7 +69,7 @@ export function PlanSvg(props: {
 
         <BackgroundLayer image={image} bg={displaySettings.background} />
         <ColorLayer image={image} />
-        <GridLayer image={image} grid={displaySettings.grid} boardSize={props.gridSize} />
+        <GridLayer image={image} grid={displaySettings.grid} boardSize={props.gridSize} nudgeGrid={displaySettings.nudgeGrid} />
         <TextLayer image={image} planStyle={props.displaySettings.planStyle} isBackgroundDark={isBackgroundDark} />
         <RefObjLayer pitch={props.pitch} name={displaySettings.refobj} />
     </svg>;
@@ -146,7 +146,7 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
                 if (planStyle === "spans") {
                     if (runCount < 2) return;
                 } else {
-                    if (px === undefined) return;
+                    if (px === undefined && runCount < 3) return;
                 }
 
                 const t = document.createElementNS(svgns, "text");
@@ -154,7 +154,9 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
                     t.innerHTML = runCount.toString();
                 } else {
                     const sym = px?.symbol;
-                    if (runCount === 1) {
+                    if (sym === undefined) {
+                        t.innerHTML = runCount.toString();
+                    } else if (runCount === 1) {
                         t.innerHTML = sym!;
                     } else if (runCount === 2) {
                         t.innerHTML = `${sym}`;
@@ -177,13 +179,13 @@ function TextLayer(props: { image: PartListImage, planStyle: DisplayProps["planS
     }
 }
 
-function GridLayer(props: { image: PartListImage, grid: DisplayProps["grid"], boardSize: MaterialProps["size"] }) {
-    const { image, grid } = props;
+function GridLayer(props: { image: PartListImage, grid: DisplayProps["grid"], boardSize: MaterialProps["size"], nudgeGrid: boolean }) {
+    const { image, grid, nudgeGrid } = props;
     const gridLayer = useRef<SVGGElement>(null!);
     useEffect(() => {
         renderGrid();
-    }, [image, grid]);
-    // TODO: Use the same carving algorithm as the printer to display grid lines
+    }, [image, grid, nudgeGrid]);
+
     return <g ref={gridLayer} />;
 
     function renderGrid() {
@@ -199,19 +201,23 @@ function GridLayer(props: { image: PartListImage, grid: DisplayProps["grid"], bo
             } else {
                 gridInterval = parseInt(grid);
             }
+
+            const gridOffset = props.nudgeGrid ? carveImageFast(image, gridInterval) : { xOffset: 0, yOffset: 0 };
+
             for (let y = 0; y <= image.height; y++) {
                 const line = document.createElementNS(svgns, "line");
                 line.classList.add("gridline");
-                line.classList.add(gridInterval < image.height && y % gridInterval === 0 ? "gridmajor" : "gridminor");
+                line.classList.add(gridInterval < image.height && y % gridInterval === gridOffset.yOffset ? "gridmajor" : "gridminor");
                 line.setAttribute("x1", -16);
                 line.setAttribute("x2", image.width * 32 + 16);
                 line.setAttribute("y1", y * 32);
                 line.setAttribute("y2", y * 32);
                 target.appendChild(line);
             }
+
             for (let x = 0; x <= image.width; x++) {
                 const line = document.createElementNS(svgns, "line");
-                line.classList.add(gridInterval < image.width && x % gridInterval === 0 ? "gridmajor" : "gridminor");
+                line.classList.add(gridInterval < image.width && x % gridInterval === gridOffset.xOffset ? "gridmajor" : "gridminor");
                 line.setAttribute("x1", x * 32);
                 line.setAttribute("x2", x * 32);
                 line.setAttribute("y1", -16);
