@@ -1,7 +1,8 @@
 
 # Release Notes
 
- * vNext
+ * November 1, 2021
+   * Added Funzbo and EvoRetro color and grid sizes
    * Added 16 and 30-per-inch densities for cross-stitch scenarios
    * Blank areas are now counted out in "spans" mode
    * Removed blank column from legend table when palette has no codes

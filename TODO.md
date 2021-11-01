@@ -1,22 +1,21 @@
 ## TODO (Features)
 
 * Unify the print paradigms with the view paradigms
+* Unify print/svg grid breaks
 * Improve keyboard navigation (specifically space/enter on focused elements)
 * Add cropping tool
 * Faster color matching with large palettes
 * Counted cross-stitch copy
-* Unify print/svg grid breaks
 * Pixel sizes in gallery tooltips
 * DMC color codes
 * LEGO color codes
-* EVORETRO color codes
+* Faster color matching with octree
 * Dismiss welcome screen on exterior tap
 * Guided entry tour
 * Make color printout legend table look less janky
 * Make welcome screen page-by-page
 * Resize images at least a little bit (1024x?) during initial upload
 * Mobile/desktop-aware initial props
-* Fix crash "Can't do this layout" when printing grids too big for a page
 * Add indicator on Legend for hovered-over color cell
 * Make Legend clickable
 * `[?]` hover markers w/ documentation categories on all options
@@ -25,6 +24,8 @@
 * "Icons" mode inspired by CCS charts
 
 ## TODO (Bugs)
+
+* Fix crash "Can't do this layout" when printing grids too big for a page
 
 ## Infrastructure
 
