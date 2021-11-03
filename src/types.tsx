@@ -79,6 +79,7 @@ export type AppProps = {
         showLegend: boolean;
         showSettings: boolean;
         tourStage: undefined | number;
+        helpTopic: string | undefined;
     };
 };
 

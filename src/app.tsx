@@ -154,6 +154,9 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                         settings={props.print}
                         gridSize={props.material.size}
                         filename={props.source.displayName} />}
+                {props.ui.helpTopic &&
+                    <HelpDialog
+                        topic={props.ui.helpTopic} />}
             </PropContext.Provider>
             <datalist id="image-ticks">
                 <option value="0" label="0" />
