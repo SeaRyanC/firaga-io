@@ -50,7 +50,8 @@ const DefaultAppProps: AppProps = {
         isWelcomeOpen: true,
         showLegend: false,
         showSettings: false,
-        tourStage: undefined
+        tourStage: undefined,
+        helpTopic: undefined
     }
 } as const;
 

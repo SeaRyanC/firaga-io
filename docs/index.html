@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head lang="en">
     <meta property="og:title" content="firaga.io - pixel art crafts done easily">
     <meta property="og:description" content="Easily plan, chart, and craft pixel-based art like Perler beads, LEGO, and Cross Stitch">
     <meta property="og:image" content="https://firaga.io/thumbnail.png">
@@ -13,17 +13,25 @@
 
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="description" content="Easily plan and build pixel art crafts with Perler Beads, LEGO, Cross Stitch, or anything else!">
     <title>firaga.io - bead sprites done fast and easy</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='firaga.js'></script>
+    <script>
+        if (window.location.search === "?reset") {
+            window.localStorage.clear();
+            window.location.href = window.location.href.split('?')[0];
+        }
+    </script>
 </head>
 <body class="loading">
     <div id="app-root" class="app-main">
+        <div class="loading-screen">
+            <img class="loading-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADSSURBVDhPhZPBGcIwCIWjp4zjCB3JY0fw6EgdwXFyizwERCD1/z7aJuW9EJq20UZvmbmIxEXuCieNMXjw7L/eu9wJ03mDqULlCAabvO+fedaqQRJTljx8OSiiyZVHERUj2cVGU7EqVDAfdLlRIMGQlRJkgEpeFOiJVcClrUQncAXl/v9UgAXRh7IHSIh7BZjzjQTWg7tMxm9fobmowAwUd1hKNBcmagDsmGo/8HL17LBzwEapmQUuhzX1QSK82ZmxbkHJnzQgWzBdNADlb+twmtbeXvli9XKv+e4AAAAASUVORK5CYII=">
+            Loading...
+        </div>
     </div>
     <script src="https://github.com/devongovett/blob-stream/releases/download/v0.1.3/blob-stream.js" defer></script>
-    <script>
-        setTimeout(() => document.body.className="", 1000);
-    </script>
+    <script src='firaga.js'></script>
 </body>
 </html>

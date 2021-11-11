@@ -83,22 +83,26 @@ export type AppProps = {
     };
 };
 
+const BuyLink = ({code}: { code: string }) => {
+    return <a href={"https://amzn.to/" + code} rel="noreferrer" target="_blank" title="Buy">🛒</a>
+};
+
 export const MaterialSettings = {
     palette: [
-        ["artkal-mini-starter", <span>Artkal Mini Starter <a href="https://amzn.to/3wThLo8" target="_blank" title="Buy">🛒</a></span>],
+        ["artkal-mini-starter", <span>Artkal Mini Starter <BuyLink code="3wThLo8"/></span>],
         ["artkal-all-mini", "All Artkal Mini"],
-        ["perler-all", <span>All Perler <a href="https://amzn.to/3kPFwL9" target="_blank" title="Buy">🛒</a></span>],
-        ["perler-multimix", <span>Perler Multi Mix <a href="https://amzn.to/2WjPiLU" target="_blank" title="Buy">🛒</a></span>],
-        ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
-        ["funzbo", <span>Funzbo <a href="https://amzn.to/3GDH7N3" target="_blank" title="Buy">🛒</a></span>],
+        ["perler-all", <span>All Perler <BuyLink code="3kPFwL9"/></span>],
+        ["perler-multimix", <span>Perler Multi Mix <BuyLink code="2WjPiLU"/></span>],
+        ["evoretro", <span>Evoretro <BuyLink code="39Lp3kO" /></span>],
+        ["funzbo", <span>Funzbo <BuyLink code="3GDH7N3" /></span>],
         ["all", "All Colors"]
     ],
     size: [
-        ["artkal-mini", <span>Artkal Mini <a href="https://amzn.to/3eNjvcm" target="_blank" title="Buy">🛒</a></span>],
-        ["perler-mini", <span>Perler Mini <a href="https://amzn.to/2WcXJIH" target="_blank" title="Buy">🛒</a></span>],
-        ["perler", <span>Perler <a href="https://amzn.to/36U2tov" target="_blank" title="Buy">🛒</a></span>],
-        ["evoretro", <span>Evoretro <a href="https://amzn.to/39Lp3kO" target="_blank" title="Buy">🛒</a></span>],
-        ["funzbo", <span>Funzbo <a href="https://amzn.to/3GDH7N3" target="_blank" title="Buy">🛒</a></span>],
+        ["artkal-mini", <span>Artkal Mini<BuyLink code="3eNjvcm" /></span>],
+        ["perler-mini", <span>Perler Mini<BuyLink code="2WcXJIH" /></span>],
+        ["perler", <span>Perler<BuyLink code="36U2tov" /></span>],
+        ["evoretro", <span>Evoretro<BuyLink code="39Lp3kO" /></span>],
+        ["funzbo", <span>Funzbo<BuyLink code="3GDH7N3" /></span>],
         ["16 ct", <span title="16 threads per inch (cross-stitch)">16 ct</span>],
         ["30 ct", <span title="30 threads per inch (cross-stitch)">30 ct</span>],
         ["lego", "LEGO ™"]

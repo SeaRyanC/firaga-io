@@ -27,6 +27,7 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
         if (!skipRender) {
             preact.render(<App {..._props} />, renderTarget);
             window.localStorage.setItem("props", JSON.stringify(_props, (name, val) => name.startsWith("_") ? undefined : val));
+            setTimeout(() => document.body.className="", 1000);
         }
     }
 
@@ -154,9 +155,9 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                         settings={props.print}
                         gridSize={props.material.size}
                         filename={props.source.displayName} />}
-                {props.ui.helpTopic &&
+                {/*props.ui.helpTopic &&
                     <HelpDialog
-                        topic={props.ui.helpTopic} />}
+                topic={props.ui.helpTopic} />*/}
             </PropContext.Provider>
             <datalist id="image-ticks">
                 <option value="0" label="0" />

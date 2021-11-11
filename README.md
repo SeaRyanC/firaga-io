@@ -1,6 +1,11 @@
 
 # Release Notes
 
+ * November 11, 2021
+   * Added loading screen
+   * You can now navigate to https://firaga.io?reset to clear all local data in case of bugs or just to get a fresh start
+   * Fixed miscellaneous Lighthouse-reported issues
+   * Improved help docs with more examples
  * November 1, 2021
    * Added Funzbo and EvoRetro color and grid sizes
    * Added 16 and 30-per-inch densities for cross-stitch scenarios

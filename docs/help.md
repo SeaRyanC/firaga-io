@@ -1,30 +1,56 @@
 # What Is This?
 
-firaga makes building bead sprites quick and easy.
+firaga is a tool to help you plan and build pixel-based arts and crafts. firaga understands common crafting materials and palettes like Perler beads, DMC cross stitch thread, and LEGO building blocks.
+
+Once you've adjusted the image to your liking, try printing an actual-size guide, or use the "Symbols & Spans" mode for an easy-to-follow on-screen chart.
+
+Note: this is not for *drawing* pixel-based art. For that, you can try tools like [pixilart](https://www.pixilart.com/) or [lospec](https://lospec.com/pixel-editor/).
 
 # Settings
 
-## Material Settings
+## Material
 
-Material settings controls what sort of pegboard and beads you'll be using.
+Material settings controls what sort of colors and grid you'll be using.
 
 ### Color Matching
 
-Unless *Palette* is set to *All Colors*, firaga uses a color-matching algorithm to select a set of bead colors that best matches the input image. You can tweak the algorithm's settings as follows.
+Unless *Palette* is set to *All Colors*, firaga uses a color-matching algorithm to select a set of bead colors that best matches the input image.
 
- * **[CIEDE2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000)** is a perceptual color matching algorithm that generates ideal results for most images
- * **RGB** uses a naive sum-of-squares calculation on a per-color-channel basis. For some combination of input images and available palettes, this can generate better results.
+There are three available color matching algorithms. It's hard to predict which will work best in any given image, so try switching this around if you don't like the results.
+
+ * **[ICtCp](https://en.wikipedia.org/wiki/ICtCp)** is a perceptual color matching algorithm based on technology developed for televisions. It's a good all-around choice and does particularly well on flesh tones.
+ * **[CIEDE2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000)** is another perceptual color matcher that generates good results for most images.
+ * **RGB** uses a naive sum-of-squares calculation on a per-color-channel basis. For some combinations of input images and available palettes, this can generate better results.
+
+There are also two additional options:
  * The **No Duplicates** setting forces the algorithm to choose a different output bead for every different image color, if possible. This can be beneficial when, for example, it's more important to establish a color gradient for shading purposes than to have exact color accuracy. The built-in "Kirby" image, when using a smaller set of available bead colors, is a situation where you'd probably want to check this box.
+ * **Improve Black/White** enhances the contrast of unsaturated colors. This makes it more likely that things we'd consider "black" get assigned to the true black color of our crafting palettes.
 
 ### Palette
 
-Self-explanatory; select the beads you'll be using to construct your artwork.
+Choose the palette based on the crafting materials you intend to use, or "All Colors" to keep the original image's colors as-is.
 
 ### Grid Size
 
-When computing artwork size or printing "actual size" templates, firaga needs to know the exact model of pegboard you're using. Critically, **you must select this based on the pegboard, not the bead** -- while Perler and Artkal beads are interchangeable, they use slightly different spacings between pegboard pegs.
+firaga can generate "actual size" printouts, which are especially helpful for putting underneath transparent fuse bead pegboards.
 
-If you're unsure which pegboard you have, the shopping links take you to Amazon product pages where you can figure out which model you have.
+#### For Fuse Beads
+
+firaga supports Artkal Mini, Perler Mini, Evoretro, and Funzbo pegboard sizes. **You must select this based on the pegboard, not the bead** -- while Perler and Artkal beads are interchangeable, they use slightly different spacings between pegboard pegs. If your printout is slightly off, verify your pegboard size and try again. If you're unsure which pegboard you have, the shopping links take you to Amazon product pages where you can figure out which model you have.
+
+When this size is selected, the "Auto" Grid option will show a major grid corresponding to the size of each pegboard.
+
+#### For Cross-Stitch
+
+Select **16 ct** or **30 ct** for 16 threads per inch or 30 threads per inch, respectively.
+
+When this size is selected, the "Auto" Grid option will show a major grid corresponding to one inch.
+
+#### LEGO
+
+The **LEGO** corresponds to a stud-facing view of a LEGO brick.
+
+Note: LEGO bricks seen from the side do not form squares, and firaga doesn't directly support non-square imaging.
 
 ## Image Settings
 
@@ -38,9 +64,27 @@ Assuming you've already cleaned up a sprite by putting it on a uniform backgroun
  * **Corners**: Use the corner pixels of the image to infer the background color
  * **None**: Do not drop any pixels
 
+The **Keep Outline** will keep a single-pixel border of background around the image. This is most useful for sprites on a black background which would normally be outlined in black:
+
+![Transparency Example](./transparency.png)
+
+"White Mage" shown with None, Auto, Auto + Keep Outline settings.
+
 ### Color Adjust
 
-You can tweak the image before the paletting algorithm runs.
+You can tweak the image before the paletting algorithm runs. This option is not available in certain Apple devices due to a lack of support for CSS filters in Canvas contexts.
+
+### Dithering
+
+**[Dithering](https://en.wikipedia.org/wiki/Dither)** is a process for reducing the number of colors in an image while reducing banding artifacts. This is useful for photographic inputs.
+
+ * **Auto**: Dither when there are more than 256 colors in the source image
+ * **On**: Always dither
+ * **Off**: Don't dither
+
+![Dithering Example](./transparency.png)
+
+Photographic image showing dithering off and on, using limited "Evoretro" palette.
 
 ### Transforms
 
@@ -48,7 +92,6 @@ You can apply various transforms to the image. This is useful if you want to use
 
  * **Flip**: Reverse the image about the Y-axis
  * **Mirror**: Reverse the image about the X-axis
- * **Rotate**: Rotate 90 degrees clockwise
  * **Undo Upscaling**: Automatically undo any pixel-perfect 2x, 3x, or 4x scaling
 
 ## Plan Settings
@@ -66,6 +109,14 @@ You can overlay symbols over each pixel in the plan to aid in determining which 
 
 ### Grid
 
+You can select a grid overlay. The **Auto** option will size the grid based on the **Material -> Size** setting.
+
+**Nudge Grid** adjusts the origin point of the major gridlines so that the smallest number of major grid areas are occupied.
+
+### Reference Object
+
+To help visualize the size of a completed object, you can select an everyday object to overlay on the plan.
+
 # Identifying Your Pegboard
 
 What's the old pegboard you found? This is a list *transparent* pegboards I've found and how to identify them. "Mini" format pegboards are easily identified by their extremely tight peg spacing (mini beads are about the size of a grain of rice; regular beads are about the size of a raisin).
@@ -77,14 +128,8 @@ What's the old pegboard you found? This is a list *transparent* pegboards I've f
 # Attributions
 
  * favicon by https://twemoji.twitter.com/ via https://favicon.io/emoji-favicons/abacus/
- * Image Icons from The Noun Project
-   * ["Open" by yanuar rizki](https://thenounproject.com/search/?q=image&i=4129894)
-   * ["Settings" by Focus](https://thenounproject.com/search/?q=settings&i=943929)
-   * ["Print" by Rockicon](https://thenounproject.com/search/?q=print&i=1707522)
-   * ["Legend" by orche7](https://thenounproject.com/search/?q=legend&i=1267167)
-   * ["Help" alkhalifi_design](https://thenounproject.com/search/?q=help&i=4116027)
 
-# Misc Notes
+# Other Notes
 
 ### Assembly Time Estimate
 
