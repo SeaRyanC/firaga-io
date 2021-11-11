@@ -97,9 +97,11 @@ export function timer() {
     return { mark };
 
     function mark(event: string) {
-        const n = Date.now();
-        console.log(`PERF: '${event}' finished in ${n - last}ms`);
-        last = n;
+        if (window.location.hostname === "localhost" || window.location.search === "?dev") {
+            const n = Date.now();
+            console.log(`PERF: '${event}' finished in ${n - last}ms`);
+            last = n;
+        }
     }
 }
 
