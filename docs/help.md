@@ -82,7 +82,7 @@ You can tweak the image before the paletting algorithm runs. This option is not 
  * **On**: Always dither
  * **Off**: Don't dither
 
-![Dithering Example](./transparency.png)
+![Dithering Example](./dithering.png)
 
 Photographic image showing dithering off and on, using limited "Evoretro" palette.
 
