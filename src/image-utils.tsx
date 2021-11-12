@@ -299,11 +299,19 @@ export function maxDimension(size: readonly [number, number], max: number): read
     return [Math.round(size[0] / scale), Math.round(size[1] / scale)];
 }
 
+
+
 export function palettizeImage(rgbaArray: RgbaImage, materialSettings: MaterialProps, imageProps: ImageProps) {
     const { mark } = timer();
 
     let allowedColors;
     switch (materialSettings.palette) {
+        case "dmc":
+            allowedColors = colorData.sets.filter(f => f.name === "dmc")[0].colors;
+            break;
+        case "lego":
+            allowedColors = colorData.sets.filter(f => f.name === "lego")[0].colors;
+            break;
         case "artkal-all-mini":
             allowedColors = colorData.sets.filter(f => f.name === "Artkal Mini")[0].colors;
             break;

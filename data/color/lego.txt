@@ -1,0 +1,44 @@
+FFFFFF.1.White
+DDDEDD.2.Grey
+D9BB7B.5.Brick Yellow
+D67240.18.Nougat
+FF0000.21.Bright Red
+0000FF.23.Bright Blue
+FFFF00.24.Bright Yellow
+000000.26.Black
+009900.28.Dark Green
+00CC00.37.Bright Green
+A83D15.38.Dark Orange
+478CC6.102.Medium Blue
+FF6600.106.Bright Orange
+059D9E.107.Bright Bluish Green
+95B90B.119.Bright Yellowish-Green
+990066.124.Bright Reddish Violet
+5E748C.135.Sand Blue
+8D7452.138.Sand Yellow
+002541.140.Earth Blue
+003300.141.Earth Green
+5F8265.151.Sand Green
+80081B.154.Dark Red
+F49B00.191.Flame Yellowish Orange
+5B1C0C.192.Reddish Brown
+9C9291.194.Medium Stone Grey
+4C5156.199.Dark Stone Grey
+E4E4DA.208.Light Stone Grey
+87C0EA.212.Light Royal Blue
+DE378B.221.Bright Purple
+EE9DC3.222.Light Purple
+FFFF99.226.Cool Yellow
+2C1577.268.Dark Purple
+F5C189.283.Light Nougat
+300F06.308.Dark Brown
+AA7D55.312.Medium Nougat
+469BC3.321.Dark Azure
+68C3E2.322.Medium Azure
+D3F2EA.323.Aqua
+A06EB9.324.Medium Lavender
+CDA4DE.325.Lavender
+F5F3D7.329.White Glow
+E2F99A.326.Spring Yellowish Green
+77774E.330.Olive Green
+96B93B.331.Medium-Yellowish Green

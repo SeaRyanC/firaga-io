@@ -91,10 +91,12 @@ export const MaterialSettings = {
     palette: [
         ["artkal-mini-starter", <span>Artkal Mini Starter <BuyLink code="3wThLo8"/></span>],
         ["artkal-all-mini", "All Artkal Mini"],
-        ["perler-all", <span>All Perler <BuyLink code="3kPFwL9"/></span>],
         ["perler-multimix", <span>Perler Multi Mix <BuyLink code="2WjPiLU"/></span>],
+        ["perler-all", <span>All Perler <BuyLink code="3kPFwL9"/></span>],
         ["evoretro", <span>Evoretro <BuyLink code="39Lp3kO" /></span>],
         ["funzbo", <span>Funzbo <BuyLink code="3GDH7N3" /></span>],
+        ["lego", <span>LEGO <BuyLink code="3omMszN" /></span>],
+        ["dmc", <span>DMC <BuyLink code="3D4PRtf" /></span>],
         ["all", "All Colors"]
     ],
     size: [

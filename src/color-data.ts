@@ -19,6 +19,43 @@ export type ColorSet = {
     colors: ColorEntry[];
 }
 
+function parseColorFile(name: string, s: string): ColorSet {
+    const res: ColorSet = {
+        name,
+        colors: []
+    };
+    // matches e.g.
+    // FF0000.R00.Red
+    const rgx1 = /^(\S\S)(\S\S)(\S\S)\.([^.]+)\.(.*)$/gm;
+    let m;
+    while (m = rgx1.exec(s)) {
+        res.colors.push({
+            r: parseInt(m[1], 16),
+            g: parseInt(m[2], 16),
+            b: parseInt(m[3], 16),
+            code: m[4],
+            name: m[5]
+        });
+    }
+    if (res.colors.length) {
+        return res;
+    }
+
+    // matches e.g.
+    // 000000Black
+    const rgx2 = /^(\S\S)(\S\S)(\S\S)(.*)$/gm;
+    while (m = rgx2.exec(s)) {
+        res.colors.push({
+            r: parseInt(m[1], 16),
+            g: parseInt(m[2], 16),
+            b: parseInt(m[3], 16),
+            name: m[4]
+        });
+    }
+    
+    return res;
+}
+
 export function loadColorData(): ColorData {
     const colorDataRaw = parseCsv(require("../data/color-data-new.csv"));
     console.assert(colorDataRaw.headers[0] === "R", "R");
@@ -52,5 +89,7 @@ export function loadColorData(): ColorData {
         }
     }
 
+    sets.push(parseColorFile("dmc", require("../data/color/dmc.txt")));
+    sets.push(parseColorFile("lego", require("../data/color/lego.txt")));
     return { sets };
 }

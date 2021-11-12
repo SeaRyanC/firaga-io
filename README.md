@@ -6,6 +6,9 @@
    * You can now navigate to https://firaga.io?reset to clear all local data in case of bugs or just to get a fresh start
    * Fixed miscellaneous Lighthouse-reported issues
    * Improved help docs with more examples
+   * LEGO and DMC color codes
+   * Remove more "bead sprite" copy from intro texts
+   
  * November 1, 2021
    * Added Funzbo and EvoRetro color and grid sizes
    * Added 16 and 30-per-inch densities for cross-stitch scenarios

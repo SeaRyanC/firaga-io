@@ -5,10 +5,7 @@
 * Improve keyboard navigation (specifically space/enter on focused elements)
 * Add cropping tool
 * Faster color matching with large palettes
-* Counted cross-stitch copy
 * Pixel sizes in gallery tooltips
-* DMC color codes
-* LEGO color codes
 * Faster color matching with octree
 * Dismiss welcome screen on exterior tap
 * Guided entry tour
