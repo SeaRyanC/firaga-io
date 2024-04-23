@@ -41,6 +41,7 @@ export function createGallery() {
         current = [[name, uri], ...current];
 
         window.setTimeout(save, 250);
+        window.clarity?.("event", "add-user-image");
     }
 
     function remove(uri: string) {

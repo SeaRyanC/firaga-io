@@ -34,6 +34,8 @@ export function PrintDialog(props: PrintDialogProps) {
             debug: window.location.host.indexOf("localhost") === 0
             // perspective: props.settings.perpsective,
         };
+
+        window.clarity?.("event", "print");
         makePdf(props.image, settings);
     }
 }

@@ -74,15 +74,19 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                 if (evt.ctrlKey) {
                     switch (evt.key) {
                         case "o":
+                            window.clarity?.("event", "toggle-upload");
                             toggleProp("ui", "isUploadOpen");
                             break;
                         case "p":
+                            window.clarity?.("event", "toggle-print");
                             toggleProp("ui", "isPrintOpen");
                             break;
                         case "l":
+                            window.clarity?.("event", "toggle-legend");
                             toggleProp("ui", "showLegend");
                             break;
                         case "e":
+                            window.clarity?.("event", "toggle-settings");
                             toggleProp("ui", "showSettings");
                             break;
 
@@ -155,9 +159,6 @@ export function createApp(initProps: AppProps, galleryStorage: GalleryStorage, r
                         settings={props.print}
                         gridSize={props.material.size}
                         filename={props.source.displayName} />}
-                {/*props.ui.helpTopic &&
-                    <HelpDialog
-                topic={props.ui.helpTopic} />*/}
             </PropContext.Provider>
             <datalist id="image-ticks">
                 <option value="0" label="0" />

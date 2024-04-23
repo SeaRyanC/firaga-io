@@ -7,6 +7,10 @@ declare global {
     export interface Element {
         setAttribute(name: string, value: number): void;
     }
+
+    export interface Window {
+        clarity?(...args: any[]): void;
+    }
 }
 
 export type RgbaImage = {
