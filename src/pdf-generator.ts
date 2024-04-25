@@ -310,7 +310,7 @@ function drawLegend(doc: PDFKit.PDFDocument, image: PartListImage) {
 type StepOptions = {
     image: PartListImage;
     partIndex: number;
-    slice: { x: number, y: number, width: number, height: number, row: number, col: number };
+    slice: Readonly<{ x: number, y: number, width: number, height: number, row: number, col: number }>;
     doc: PDFKit.PDFDocument;
     pitch: number;
     textPlacement: "side" | "top";
